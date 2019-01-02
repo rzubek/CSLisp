@@ -1,0 +1,75 @@
+VM STATE
+
+code    array of instructions
+fn		reference to the closure that contains these instructions
+pc      program counter; index to the code array
+env     list of environments (map variables to values)
+stack   stack of heterogeneous values (numbers, strings, environments, closures, etc)
+nargs   argument count, used when calling functions
+
+
+
+OPCODES
+
+Internally, opcodes are not raw bytes - they're structs that hold a type, and arguments
+in a form that's already processed (e.g. lists are lists, and not serialized byte arrays).
+These are mostly from Norvig:
+
+LABEL   n       label for jumps, only gets used during compilation
+CONST   x       push x onto the stack
+LVAR    i, j    push a local variable's value onto stack (ith frame, jth variable in that frame)
+LSET    i, j    store top-of-stack in a local variable (ith frame, jth variable in that frame)
+GVAR    name    push a global variable's value onto stack
+GSET    name    store top-of-stack in a global variable
+POP             pop the stack, discarding the value
+TJUMP   label   pop stack, and if the top value is true, go to label
+FJUMP   label   pop stack, and if the top value is false, go to label
+JUMP    label   go to label, don't touch the stack
+ARGS    n       make a new env frame, move n values from stack into it, push on the env stack
+ARGSDOT n       same as ARGS, but supports varargs
+DUPE            duplicates (pushes a second reference to) the topmost entry on the stack
+CALLJ   n       go to the function on top of the stack (don't save return point); n is arg count
+SAVE            save a return address on the stack
+RETURN          go to return address on the stack (by convention, second from top; ret val is at top) 
+FN      fn      create a closure from argument and current environment, push onto the stack
+PRIM    name    performs a function call right off the stack, and stores return val back on stack
+
+
+
+INTEROP CONVENTIONS
+
+We adopt the Scheme notion of true/false values being different from nil, 
+which is used mainly as a list terminator. This maps cleanly to C# semantics.
+
+C# FORM		CSLISP FORM
+null		nil
+true		#t
+false		#f
+
+
+
+IMPLEMENTATION STEPS DONE
+
++ Cons, Symbol, Package
++ S-Exp Parser
++ Trivial compile (atoms / quotes / begin only)
++ Environments, SET!, global variable lookup
++ Symbol packages
++ IF statements, jumps
++ Function compilation, local variable lookup
++ Tail-recursive functions
++ Function definitions, LAMBDA
++ Function calls
++ Primitive functions
++ Two-pass assembler, removing label names
++ Macros
++ Trivial assemble / optimize / execute loop
++ Optimize primitive lookup with dictionary
+
+IMPLEMENTATION TODO
+
+- Example REPL
+- Easier FFI / custom primitives
+- .NET interop via reflection (with safety checks?!)
+- Peephole optimizer
+- Tracing / debugging tools, ideally
