@@ -23,7 +23,7 @@ namespace CSLisp.Core
         public Val Execute (Closure fn, params Val[] args) {
             State st = new State(fn, args);
 
-            _logger?.Invoke(string.Format("Executing closure '{0}'", fn.name));
+            _logger?.Invoke("Executing: ", fn.name);
 
             while (!st.done) {
                 if (st.pc >= st.code.Count) {
@@ -31,9 +31,12 @@ namespace CSLisp.Core
                 }
 
                 // fetch instruction
-                Instruction instr = st.code[st.pc];
-                _logger?.Invoke(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc, Instruction.PrintInstruction(instr)));
-                st.pc++;
+                Instruction instr = st.code[st.pc++];
+
+                if (_logger != null) {
+                    _logger("                                 " + State.PrintStack(st));
+                    _logger(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, Instruction.PrintInstruction(instr)));
+                }
 
                 // and now a big old switch statement. not handler functions - this is much faster.
 
@@ -43,19 +46,19 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.CONST: {
-                            st.stack.Push(instr.first);
+                            st.Push(instr.first);
                         }
                         break;
 
                     case Opcode.LVAR: {
                             VarPos pos = new VarPos(instr.first, instr.second);
                             Val value = Environment.GetValueAt(pos, st.env);
-                            st.stack.Push(value);
+                            st.Push(value);
                         }
                         break;
 
                     case Opcode.LSET: {
-                            Val val = st.stack.Peek();
+                            Val val = st.Peek();
                             VarPos pos = new VarPos(instr.first, instr.second);
                             Environment.SetValueAt(pos, val, st.env);
                         }
@@ -64,23 +67,23 @@ namespace CSLisp.Core
                     case Opcode.GVAR: {
                             Symbol symbol = instr.first.AsSymbol;
                             Val value = symbol.pkg.GetValue(symbol);
-                            st.stack.Push(value);
+                            st.Push(value);
                         }
                         break;
 
                     case Opcode.GSET: {
                             Symbol symbol = instr.first.AsSymbol;
-                            Val value = st.stack.Peek();
+                            Val value = st.Peek();
                             symbol.pkg.SetValue(symbol, value);
                         }
                         break;
 
                     case Opcode.POP:
-                        st.stack.Pop();
+                        st.Pop();
                         break;
 
                     case Opcode.TJUMP: {
-                            Val value = st.stack.Pop();
+                            Val value = st.Pop();
                             if (value.CastToBool) {
                                 st.pc = GetLabelPosition(instr, st);
                             }
@@ -88,7 +91,7 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.FJUMP: {
-                            Val value = st.stack.Pop();
+                            Val value = st.Pop();
                             if (!value.CastToBool) {
                                 st.pc = GetLabelPosition(instr, st);
                             }
@@ -109,7 +112,7 @@ namespace CSLisp.Core
 
                             // move named arguments onto the stack frame
                             for (int i = argcount - 1; i >= 0; i--) {
-                                st.env.SetValue(i, st.stack.Pop());
+                                st.env.SetValue(i, st.Pop());
                             }
                         }
                         break;
@@ -124,26 +127,26 @@ namespace CSLisp.Core
 
                             // cons up dotted values from the stack
                             for (int dd = dotted - 1; dd >= 0; dd--) {
-                                Val arg = st.stack.Pop();
+                                Val arg = st.Pop();
                                 st.env.SetValue(argcount, new Val(new Cons(arg, st.env.GetValue(argcount))));
                             }
 
                             // and move the named ones onto the environment stack frame
                             for (int i = argcount - 1; i >= 0; i--) {
-                                st.env.SetValue(i, st.stack.Pop());
+                                st.env.SetValue(i, st.Pop());
                             }
                         }
                         break;
 
                     case Opcode.DUPE: {
                             if (st.stack.Count == 0) { throw new LanguageError("Cannot duplicate on an empty stack!"); }
-                            st.stack.Push(st.stack.Peek());
+                            st.Push(st.Peek());
                         }
                         break;
 
                     case Opcode.CALLJ: {
                             st.env = st.env.parent; // discard the top environment frame
-                            Val top = st.stack.Pop();
+                            Val top = st.Pop();
                             Closure closure = top.AsClosureOrNull;
 
                             // set vm state to the beginning of the closure
@@ -157,16 +160,16 @@ namespace CSLisp.Core
 
                     case Opcode.SAVE: {
                             // save current vm state to a return value
-                            st.stack.Push(new Val(new ReturnAddress(st.fn, GetLabelPosition(instr, st), st.env)));
+                            st.Push(new Val(new ReturnAddress(st.fn, GetLabelPosition(instr, st), st.env, instr.first.AsStringOrNull)));
                         }
                         break;
 
                     case Opcode.RETURN:
                         if (st.stack.Count > 1) {
                             // preserve return value on top of the stack
-                            Val retval = st.stack.Pop();
-                            ReturnAddress retaddr = st.stack.Pop().AsReturnAddress;
-                            st.stack.Push(retval);
+                            Val retval = st.Pop();
+                            ReturnAddress retaddr = st.Pop().AsReturnAddress;
+                            st.Push(retval);
 
                             // restore vm state from the return value
                             st.fn = retaddr.fn;
@@ -179,8 +182,9 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.FN: {
-                            var code = instr.first.AsClosure.instructions;
-                            st.stack.Push(new Val(new Closure(code, st.env, null)));
+                            var cl = instr.first.AsClosure;
+                            var code = cl.instructions;
+                            st.Push(new Closure(code, st.env, null, cl.name));
                         }
                         break;
 
@@ -192,7 +196,7 @@ namespace CSLisp.Core
                             if (prim == null) { throw new LanguageError($"Invalid argument count to primitive {name}, count of {argn}"); }
 
                             Val result = prim.Call(_ctx, argn, st);
-                            st.stack.Push(result);
+                            st.Push(result);
                         }
                         break;
 
@@ -206,7 +210,7 @@ namespace CSLisp.Core
                 throw new LanguageError("Stack underflow!");
             }
 
-            return st.stack.Peek();
+            return st.Peek();
         }
 
         /// <summary> Very naive helper function, finds the position of a given label in the instruction set </summary>

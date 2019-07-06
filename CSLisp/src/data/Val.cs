@@ -122,6 +122,7 @@ namespace CSLisp.Data
         public static implicit operator Val (string val) => new Val(val);
         public static implicit operator Val (Symbol val) => new Val(val);
         public static implicit operator Val (Cons val) => new Val(val);
+        public static implicit operator Val (Closure val) => new Val(val);
 
         public override bool Equals (object obj) => (obj is Val) && Equals((Val)obj, this);
         public override int GetHashCode () => (int)type ^ (rawobject != null ? rawobject.GetHashCode() : ((int)rawvalue));
@@ -148,7 +149,7 @@ namespace CSLisp.Data
                 case Type.Closure:
                     return $"[Closure]";
                 case Type.ReturnAddress:
-                    return $"[Return to pc={val.vreturn.pc}]";
+                    return $"[{val.vreturn.debug}:{val.vreturn.pc}]";
                 case Type.Object:
                     return $"[Native {val.rawobject}]";
                 default:

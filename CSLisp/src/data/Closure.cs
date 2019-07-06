@@ -19,7 +19,7 @@ namespace CSLisp.Data
         /// <summary> Optional closure name, for debugging purposes only </summary>
         public string name;
 
-        public Closure (List<Instruction> instructions, Environment env, Cons args, string name = null) {
+        public Closure (List<Instruction> instructions, Environment env, Cons args, string name) {
             this.instructions = instructions;
             this.env = env;
             this.args = args;

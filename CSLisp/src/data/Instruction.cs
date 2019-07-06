@@ -135,20 +135,22 @@ namespace CSLisp.Data
         public string debug;
 
         /// <summary> Converts an instruction to a string </summary>
-        public static string PrintInstruction (Instruction instruction) {
+        public static string PrintInstruction (Instruction inst) {
             StringBuilder sb = new StringBuilder();
-            sb.Append(_NAMES[(int)instruction.type]);
-            if (instruction.first.IsNotNil) {
+            sb.Append(_NAMES[(int)inst.type]);
+
+            if (inst.first.IsNotNil || inst.type == Opcode.CONST) {
                 sb.Append("\t");
-                sb.Append(Val.Print(instruction.first));
+                sb.Append(Val.Print(inst.first));
             }
-            if (instruction.second.IsNotNil) {
+
+            if (inst.second.IsNotNil) {
                 sb.Append("\t");
-                sb.Append(Val.Print(instruction.second));
+                sb.Append(Val.Print(inst.second));
             }
-            if (instruction.debug != null) {
+            if (inst.debug != null) {
                 sb.Append("\t; ");
-                sb.Append(instruction.debug);
+                sb.Append(inst.debug);
             }
             return sb.ToString();
         }

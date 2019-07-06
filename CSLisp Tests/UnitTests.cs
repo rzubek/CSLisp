@@ -35,7 +35,7 @@ namespace CSLisp
         public static void ClassInit (TestContext ctx) {
             switch (LOG_TARGET) {
                 case LogType.TempFile:
-                    string filePath = "Test Results.txt";
+                    string filePath = "..\\..\\Test Results.txt";
                     _log = new StreamWriter(new FileStream(filePath, FileMode.Create));
                     _log.WriteLine("TEST RESULTS: " + System.DateTime.Now.ToLongTimeString());
                     break;
@@ -484,6 +484,7 @@ namespace CSLisp
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>
         private void CompileAndRun (Context ctx, string input, params string[] expecteds) {
             ctx.parser.AddString(input);
+            Log("------------------------------------------------------");
             Log("\n\nCOMPILE AND RUN inputs: ", input);
 
             for (int i = 0, count = expecteds.Length; i < count; i++) {

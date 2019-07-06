@@ -88,31 +88,30 @@ namespace CSLisp.Core
 
         /// <summary> Calls the primitive function with argn operands waiting for it on the stack </summary>
         public Val Call (Context ctx, int argn, State state) {
-            var stack = state.stack;
             switch (argn) {
                 case 0: {
                         return fn.Call(ctx);
                     }
                 case 1: {
-                        Val first = stack.Pop();
+                        Val first = state.Pop();
                         return fn.Call(ctx, first);
                     }
                 case 2: {
-                        Val second = stack.Pop();
-                        Val first = stack.Pop();
+                        Val second = state.Pop();
+                        Val first = state.Pop();
                         return fn.Call(ctx, first, second);
                     }
                 default: {
-                        List<Val> args = RemoveArgsFromStack(stack, argn);
+                        List<Val> args = RemoveArgsFromStack(state, argn);
                         return fn.Call(ctx, args);
                     }
             }
         }
 
-        private List<Val> RemoveArgsFromStack (Stack<Val> stack, int count) {
+        private List<Val> RemoveArgsFromStack (State state, int count) {
             List<Val> result = new List<Val>();
             for (int i = 0; i < count; i++) {
-                result.Add(stack.Pop());
+                result.Add(state.Pop());
             }
             result.Reverse();
             return result;
