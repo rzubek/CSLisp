@@ -4,53 +4,57 @@ using System.Collections.Generic;
 namespace CSLisp.Data
 {
     /// <summary>
-    /// Cons cell, contains car and cdr elements.
+    /// Cons cell, contains first and rest (car and cdr) elements.
     /// </summary>
     public class Cons
     {
         /// <summary> First value of this cons cell </summary>
-        public Val car;
+        public Val first;
 
         /// <summary> Second value of this cons cell </summary>
-        public Val cdr;
+        public Val rest;
 
-        public Cons (Val car, Val cdr) {
-            this.car = car;
-            this.cdr = cdr;
+        public Cons (Val first, Val rest) {
+            this.first = first;
+            this.rest = rest;
         }
 
-        /// <summary> Shorthand for car, the first element of the list </summary>
-        public Val first => car;
+        // scheme-like accessors
 
         /// <summary> Shorthand for the second element of the list </summary>
-        public Val cadr => cdr.GetCons.car;
-        /// <summary> Shorthand for the second element of the list </summary>
-        public Val second => cdr.GetCons.car;
-
+        public Val second => GetNthCons(1).first;
         /// <summary> Shorthand for the third element of the list </summary>
-        public Val caddr => cddr.GetCons.car;
+        public Val third => GetNthCons(2).first;
         /// <summary> Shorthand for the third element of the list </summary>
-        public Val third => cddr.GetCons.car;
-
-        /// <summary> Shorthand for the fourth element of the list </summary>
-        public Val cadddr => cdddr.GetCons.car;
-        /// <summary> Shorthand for the third element of the list </summary>
-        public Val fourth => cdddr.GetCons.car;
+        public Val fourth => GetNthCons(3).first;
 
         /// <summary> Shorthand for cdr, the sublist after the first element (so second element and beyond) </summary>
-        public Val rest => cdr;
-        /// <summary> Shorthand for cdr, the sublist after the first element (so second element and beyond) </summary>
-        public Val afterFirst => cdr;
-
+        public Val afterFirst => rest;
         /// <summary> Shorthand for the sublist after the second element (so third element and beyond) </summary>
-        public Val cddr => cdr.GetCons.cdr;
-        /// <summary> Shorthand for the sublist after the second element (so third element and beyond) </summary>
-        public Val afterSecond => cdr.GetCons.cdr;
+        public Val afterSecond => GetNthCons(1).rest;
+        /// <summary> Shorthand for the sublist after the third element (so fourth element and beyond) </summary>
+        public Val afterThird => GetNthCons(2).rest;
 
-        /// <summary> Shorthand for the sublist after the third element (so fourth element and beyond) </summary>
-        public Val cdddr => cddr.GetCons.cdr;
-        /// <summary> Shorthand for the sublist after the third element (so fourth element and beyond) </summary>
-        public Val afterThird => cddr.GetCons.cdr;
+
+        /// <summary> Retrieves Nth cons cell in the list, 0-indexed, as an O(N) operation. 
+        /// List must have enough elements, otherwise an error will be thrown. </summary>
+        public Cons GetNthCons (int n) {
+            Cons cons = this;
+            while (n-- > 0) {
+                cons = cons.rest.AsConsOrNull;
+                if (cons == null) { throw new LanguageError("List operation out of bounds"); }
+            }
+            return cons;
+        }
+
+        /// <summary> Retrieves Nth element in the list, 0-indexed, as an O(N) operation. 
+        /// List must have enough elements, otherwise an error will be thrown. </summary>
+        public Val GetNth (int n) => GetNthCons(n).first;
+
+        /// <summary> Retrieves tail of the Nth cons cell in the list, 0-indexed, as an O(N) operation. 
+        /// List must have enough elements, otherwise an error will be thrown. </summary>
+        public Val GetNthTail (int n) => GetNthCons(n).rest;
+
 
         /// <summary> 
 		/// Helper function: converts an array of arguments to a cons list.
@@ -58,7 +62,7 @@ namespace CSLisp.Data
 		/// </summary>
         public static Val MakeList (List<Val> values) {
             int len = values.Count;
-            bool dotted = (len >= 3 && values[len - 2].IsSymbol && (values[len - 2].GetSymbol.fullName == "."));
+            bool dotted = (len >= 3 && values[len - 2].AsSymbolOrNull?.fullName == ".");
 
             // the tail should be either the last value, or a cons containing the last value
             Val result =
@@ -86,9 +90,9 @@ namespace CSLisp.Data
                 if (element.IsAtom) {
                     throw new LanguageError("Only null-terminated lists of cons cells can be converted to arrays!");
                 }
-                Cons cons = element.GetCons;
-                results.Add(cons.car);
-                element = cons.cdr;
+                Cons cons = element.AsCons;
+                results.Add(cons.first);
+                element = cons.rest;
             }
             return results;
         }
@@ -106,23 +110,23 @@ namespace CSLisp.Data
         public static bool IsList (Val value) {
             if (value.IsNil) { return true; }
 
-            Cons cons = value.GetAsConsOrNull;
+            Cons cons = value.AsConsOrNull;
             while (cons != null) {
-                if (cons.cdr.IsNil) { return true; } // found our terminating null
-                cons = cons.cdr.GetAsConsOrNull;
+                if (cons.rest.IsNil) { return true; } // found our terminating null
+                cons = cons.rest.AsConsOrNull;
             }
             return false;
         }
 
         /// <summary> Returns the number of cons cells in the list, starting at value. O(n) operation. </summary>
-        public static int Length (Val value) => Length(value.GetAsConsOrNull);
+        public static int Length (Val value) => Length(value.AsConsOrNull);
 
         /// <summary> Returns the number of cons cells in the list, starting at value. O(n) operation. </summary>
         public static int Length (Cons cons) {
             int result = 0;
             while (cons != null) {
                 result++;
-                cons = cons.cdr.GetAsConsOrNull;
+                cons = cons.rest.AsConsOrNull;
             }
             return result;
         }

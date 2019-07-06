@@ -13,8 +13,8 @@ namespace CSLisp.Data
         public int frameIndex, symbolIndex;
 
         public VarPos (Val frameIndex, Val symbolIndex) {
-            this.frameIndex = frameIndex.GetInt;
-            this.symbolIndex = symbolIndex.GetInt;
+            this.frameIndex = frameIndex.AsInt;
+            this.symbolIndex = symbolIndex.AsInt;
         }
 
         public VarPos (int frameIndex, int symbolIndex) {
@@ -57,9 +57,9 @@ namespace CSLisp.Data
             Environment env = new Environment(count, parent);
 
             for (int i = 0; i < count; i++) {
-                env.SetSymbol(i, args.car.GetSymbol);
+                env.SetSymbol(i, args.first.AsSymbol);
                 env.SetValue(i, Val.NIL);
-                args = args.cdr.GetAsConsOrNull;
+                args = args.rest.AsConsOrNull;
             }
 
             return env;

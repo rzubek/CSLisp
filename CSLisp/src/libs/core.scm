@@ -122,7 +122,11 @@
 (define first car)
 (define second cadr)
 (define third caddr)
+
 (define rest cdr)
+(define after-first cdr)
+(define after-second cddr)
+(define after-third cdddr)
 
 ;; (fold-left cons '() '(1 2 3)) 
 ;; 			=> (((() . 1) . 2) . 3) 

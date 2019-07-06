@@ -69,16 +69,20 @@ namespace CSLisp.Core
             new Primitive("boolean?", 1, true, new Function((ctx, a) => a.IsBool)),
             new Primitive("atom?", 1, true, new Function((ctx, a) => !a.IsCons)),
 
-            new Primitive("car", 1, true, new Function((ctx, a) => a.GetCons.car)),
-            new Primitive("cdr", 1, true, new Function((ctx, a) => a.GetCons.cdr)),
-            new Primitive("cadr", 1, true, new Function((ctx, a) => a.GetCons.cadr)),
-            new Primitive("cddr", 1, true, new Function((ctx, a) => a.GetCons.cddr)),
-            new Primitive("caddr", 1, true, new Function((ctx, a) => a.GetCons.caddr)),
-            new Primitive("cdddr", 1, true, new Function((ctx, a) => a.GetCons.cdddr)),
+            new Primitive("car", 1, true, new Function((ctx, a) => a.AsCons.first)),
+            new Primitive("cdr", 1, true, new Function((ctx, a) => a.AsCons.rest)),
+            new Primitive("cadr", 1, true, new Function((ctx, a) => a.AsCons.second)),
+            new Primitive("cddr", 1, true, new Function((ctx, a) => a.AsCons.afterSecond)),
+            new Primitive("caddr", 1, true, new Function((ctx, a) => a.AsCons.third)),
+            new Primitive("cdddr", 1, true, new Function((ctx, a) => a.AsCons.afterThird)),
+
+            new Primitive("nth", 2, true, new Function((ctx, a, n) => a.AsCons.GetNth(n.AsInt))),
+            new Primitive("nth-tail", 2, true, new Function((ctx, a, n) => a.AsCons.GetNthTail(n.AsInt))),
+            new Primitive("nth-cons", 2, true, new Function((ctx, a, n) => a.AsCons.GetNthCons(n.AsInt))),
 
             new Primitive("map", 2, true, new Function((ctx, a, b) => {
-                Closure fn = a.GetClosure;
-                Cons list = b.GetCons;
+                Closure fn = a.AsClosure;
+                Cons list = b.AsCons;
                 return new Val(MapHelper(ctx, fn, list));
             }), false, true),
 						
@@ -93,11 +97,11 @@ namespace CSLisp.Core
             }), false, true ),
 
             new Primitive("gensym", 0, true, new Function((ctx) => GensymHelper(ctx, "GENSYM-"))),
-            new Primitive("gensym", 1, true, new Function((ctx, a) => GensymHelper(ctx, a.GetAsStringOrNull))),
+            new Primitive("gensym", 1, true, new Function((ctx, a) => GensymHelper(ctx, a.AsStringOrNull))),
 			
 			// packages
 			new Primitive("package-set", 1, true, new Function((ctx, a) => {
-                string name = a.IsNil ? null : a.GetString; // nil package name == global package
+                string name = a.IsNil ? null : a.AsString; // nil package name == global package
                 Package pkg = ctx.packages.Intern(name);
                 ctx.packages.current = pkg;
                 return a.IsNil ? Val.NIL : new Val(name);
@@ -109,7 +113,7 @@ namespace CSLisp.Core
 
             new Primitive("package-import", 1, false, new Function ((Context ctx, List<Val> names) => {
                 foreach (Val a in names) {
-                    string name = a.IsNil ? null : a.GetString;
+                    string name = a.IsNil ? null : a.AsString;
                     ctx.packages.current.AddImport(ctx.packages.Intern(name));
                 }
                 return Val.NIL;
@@ -121,11 +125,11 @@ namespace CSLisp.Core
             }), false, true),
 
             new Primitive("package-export", 1, true, new Function ((Context ctx, Val a) => {
-                Cons names = a.GetAsConsOrNull;
+                Cons names = a.AsConsOrNull;
                 while (names != null) {
-                    Symbol symbol = names.car.GetSymbol;
+                    Symbol symbol = names.first.AsSymbol;
                     symbol.exported = true;
-                    names = names.cdr.GetAsConsOrNull;
+                    names = names.rest.AsConsOrNull;
                 }
                 return Val.NIL;
             }), false, true),
@@ -143,8 +147,8 @@ namespace CSLisp.Core
         /// returns an appropriate instance of Primitive for that argument count.
         /// </summary>
         public static Primitive FindGlobal (Val f, Environment env, int nargs) {
-            return (f.IsSymbol && (Environment.GetVariable(f.GetSymbol, env).IsNotValid))
-                ? FindNary(f.GetSymbol.name, nargs)
+            return (f.IsSymbol && (Environment.GetVariable(f.AsSymbol, env).IsNotValid))
+                ? FindNary(f.AsSymbol.name, nargs)
                 : null;
         }
 
@@ -191,21 +195,21 @@ namespace CSLisp.Core
         /// list that copies elements from the first value, and its tail is the second value </summary>
         private static Val AppendHelper (Val aval, Val bval) {
 
-            Cons alist = aval.GetAsConsOrNull;
+            Cons alist = aval.AsConsOrNull;
             Cons head = null, current = null, previous = null;
 
             // copy all nodes from a, set cdr of the last one to b
             while (alist != null) {
-                current = new Cons(alist.car, Val.NIL);
+                current = new Cons(alist.first, Val.NIL);
                 if (head == null) { head = current; }
-                if (previous != null) { previous.cdr = current; }
+                if (previous != null) { previous.rest = current; }
                 previous = current;
-                alist = alist.cdr.GetAsConsOrNull;
+                alist = alist.rest.AsConsOrNull;
             }
 
             if (current != null) {
                 // a != () => head points to the first new node
-                current.cdr = bval;
+                current.rest = bval;
                 return head;
             } else {
                 // a == (), we should return b
@@ -234,13 +238,13 @@ namespace CSLisp.Core
 
             // apply fn over all elements of the list, making a copy as we go
             while (list != null) {
-                Val input = list.car;
+                Val input = list.first;
                 Val output = ctx.vm.Execute(fn, input);
                 current = new Cons(output, Val.NIL);
                 if (head == null) { head = current; }
-                if (previous != null) { previous.cdr = current; }
+                if (previous != null) { previous.rest = current; }
                 previous = current;
-                list = list.cdr.GetAsConsOrNull;
+                list = list.rest.AsConsOrNull;
             }
 
             return head;
@@ -253,39 +257,39 @@ namespace CSLisp.Core
                 if (name.Length > 0) {
                     name += ".";
                 }
-                name += (path.car.GetSymbol).name;
-                path = path.cdr.GetCons;
+                name += (path.first.AsSymbol).name;
+                path = path.rest.AsCons;
             }
             return name;
         }
 
         private static Val ValAdd (Val a, Val b) {
-            if (a.IsInt && b.IsInt) { return new Val(a.GetInt + b.GetInt); }
-            if (a.IsNumber && b.IsNumber) { return new Val(a.GetNumber + b.GetNumber); }
+            if (a.IsInt && b.IsInt) { return new Val(a.AsInt + b.AsInt); }
+            if (a.IsNumber && b.IsNumber) { return new Val(a.CastToFloat + b.CastToFloat); }
             throw new LanguageError("Add applied to non-numbers");
         }
 
         private static Val ValSub (Val a, Val b) {
-            if (a.IsInt && b.IsInt) { return new Val(a.GetInt - b.GetInt); }
-            if (a.IsNumber && b.IsNumber) { return new Val(a.GetNumber - b.GetNumber); }
+            if (a.IsInt && b.IsInt) { return new Val(a.AsInt - b.AsInt); }
+            if (a.IsNumber && b.IsNumber) { return new Val(a.CastToFloat - b.CastToFloat); }
             throw new LanguageError("Add applied to non-numbers");
         }
 
         private static Val ValMul (Val a, Val b) {
-            if (a.IsInt && b.IsInt) { return new Val(a.GetInt * b.GetInt); }
-            if (a.IsNumber && b.IsNumber) { return new Val(a.GetNumber * b.GetNumber); }
+            if (a.IsInt && b.IsInt) { return new Val(a.AsInt * b.AsInt); }
+            if (a.IsNumber && b.IsNumber) { return new Val(a.CastToFloat * b.CastToFloat); }
             throw new LanguageError("Add applied to non-numbers");
         }
 
         private static Val ValDiv (Val a, Val b) {
-            if (a.IsInt && b.IsInt) { return new Val(a.GetInt / b.GetInt); }
-            if (a.IsNumber && b.IsNumber) { return new Val(a.GetNumber / b.GetNumber); }
+            if (a.IsInt && b.IsInt) { return new Val(a.AsInt / b.AsInt); }
+            if (a.IsNumber && b.IsNumber) { return new Val(a.CastToFloat / b.CastToFloat); }
             throw new LanguageError("Add applied to non-numbers");
         }
 
-        private static Val ValLT (Val a, Val b) => a.GetNumber < b.GetNumber;
-        private static Val ValLTE (Val a, Val b) => a.GetNumber <= b.GetNumber;
-        private static Val ValGT (Val a, Val b) => a.GetNumber > b.GetNumber;
-        private static Val ValGTE (Val a, Val b) => a.GetNumber >= b.GetNumber;
+        private static Val ValLT (Val a, Val b) => a.CastToFloat < b.CastToFloat;
+        private static Val ValLTE (Val a, Val b) => a.CastToFloat <= b.CastToFloat;
+        private static Val ValGT (Val a, Val b) => a.CastToFloat > b.CastToFloat;
+        private static Val ValGTE (Val a, Val b) => a.CastToFloat >= b.CastToFloat;
     }
 }

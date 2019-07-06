@@ -18,16 +18,18 @@ namespace CSLisp.Data
     {
         public enum Type : int
         {
+            // value types
             Nil,
             Bool,
             Int,
             Float,
+
+            // reference types
             String,
             Symbol,
             Cons,
             Closure,
             ReturnAddress,
-            // more here
             Object
         }
 
@@ -63,7 +65,6 @@ namespace CSLisp.Data
         public bool IsAtom => type != Type.Cons;
 
         public bool IsNumber => type == Type.Int || type == Type.Float;
-        public float GetNumber => (type == Type.Int) ? vint : (type == Type.Float) ? vfloat : throw new CompilerError("GetNumber applied to not a number");
 
         public bool IsBool => type == Type.Bool;
         public bool IsInt => type == Type.Int;
@@ -75,22 +76,28 @@ namespace CSLisp.Data
         public bool IsReturnAddress => type == Type.ReturnAddress;
         public bool IsObject => type == Type.Object;
 
-        public bool GetBool => type == Type.Bool ? vbool : throw new CompilerError("Value type was expected to be bool");
-        public int GetInt => type == Type.Int ? vint : throw new CompilerError("Value type was expected to be int");
-        public float GetFloat => type == Type.Float ? vfloat : throw new CompilerError("Value type was expected to be float");
-        public string GetString => type == Type.String ? vstring : throw new CompilerError("Value type was expected to be string");
-        public Symbol GetSymbol => type == Type.Symbol ? vsymbol : throw new CompilerError("Value type was expected to be symbol");
-        public Cons GetCons => type == Type.Cons ? vcons : throw new CompilerError("Value type was expected to be cons");
-        public Closure GetClosure => type == Type.Closure ? vclosure : throw new CompilerError("Value type was expected to be closure");
-        public ReturnAddress GetReturnAddress => type == Type.ReturnAddress ? vreturn : throw new CompilerError("Value type was expected to be ret addr");
-        public object GetObject => type == Type.Object ? rawobject : throw new CompilerError("Value type was expected to be object");
+        public bool AsBool => type == Type.Bool ? vbool : throw new CompilerError("Value type was expected to be bool");
+        public int AsInt => type == Type.Int ? vint : throw new CompilerError("Value type was expected to be int");
+        public float AsFloat => type == Type.Float ? vfloat : throw new CompilerError("Value type was expected to be float");
+        public string AsString => type == Type.String ? vstring : throw new CompilerError("Value type was expected to be string");
+        public Symbol AsSymbol => type == Type.Symbol ? vsymbol : throw new CompilerError("Value type was expected to be symbol");
+        public Cons AsCons => type == Type.Cons ? vcons : throw new CompilerError("Value type was expected to be cons");
+        public Closure AsClosure => type == Type.Closure ? vclosure : throw new CompilerError("Value type was expected to be closure");
+        public ReturnAddress AsReturnAddress => type == Type.ReturnAddress ? vreturn : throw new CompilerError("Value type was expected to be ret addr");
+        public object AsObject => type == Type.Object ? rawobject : throw new CompilerError("Value type was expected to be object");
 
-        public string GetAsStringOrNull => type == Type.String ? vstring : null;
-        public Symbol GetAsSymbolOrNull => type == Type.Symbol ? vsymbol : null;
-        public Cons GetAsConsOrNull => type == Type.Cons ? vcons : null;
-        public Closure GetAsClosureOrNull => type == Type.Closure ? vclosure : null;
+        public string AsStringOrNull => type == Type.String ? vstring : null;
+        public Symbol AsSymbolOrNull => type == Type.Symbol ? vsymbol : null;
+        public Cons AsConsOrNull => type == Type.Cons ? vcons : null;
+        public Closure AsClosureOrNull => type == Type.Closure ? vclosure : null;
 
         public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil) ? true : false;
+        public float CastToFloat =>
+            (type == Type.Int) ? vint :
+            (type == Type.Float) ? vfloat :
+            throw new CompilerError("Float cast applied to not a number");
+
+        private bool IsValueType => type == Type.Bool || type == Type.Int || type == Type.Float;
 
         public static bool Equals (Val a, Val b) {
             if (a.type != b.type) { return false; }
@@ -101,7 +108,7 @@ namespace CSLisp.Data
             }
 
             // if it's a value type, simply compare the value data
-            if (a.rawvalue != 0 || b.rawvalue != 0) { return a.rawvalue == b.rawvalue; }
+            if (a.IsValueType) { return a.rawvalue == b.rawvalue; }
 
             // otherwise if it's a reference type, compare object reference
             return ReferenceEquals(a.rawobject, b.rawobject);
@@ -116,7 +123,7 @@ namespace CSLisp.Data
         public static implicit operator Val (Symbol val) => new Val(val);
         public static implicit operator Val (Cons val) => new Val(val);
 
-        public override bool Equals (object obj) => (obj is Val) && Val.Equals((Val)obj, this);
+        public override bool Equals (object obj) => (obj is Val) && Equals((Val)obj, this);
         public override int GetHashCode () => (int)type ^ (rawobject != null ? rawobject.GetHashCode() : ((int)rawvalue));
 
         public override string ToString () => ToString(this);
@@ -157,13 +164,13 @@ namespace CSLisp.Data
 
             Val val = new Val(cell);
             while (val.IsNotNil) {
-                Cons cons = val.GetAsConsOrNull;
+                Cons cons = val.AsConsOrNull;
                 if (cons != null) {
-                    sb.Append(cons.car.ToString());
-                    if (cons.cdr.IsNotNil) {
+                    sb.Append(cons.first.ToString());
+                    if (cons.rest.IsNotNil) {
                         sb.Append(" ");
                     }
-                    val = cons.cdr;
+                    val = cons.rest;
                 } else {
                     sb.Append(". ");
                     sb.Append(val.ToString());

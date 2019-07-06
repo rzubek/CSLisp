@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CSLisp.Core;
+﻿using CSLisp.Core;
 using CSLisp.Data;
 using CSLisp.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CSLisp
 {
@@ -27,11 +27,11 @@ namespace CSLisp
 
         [TestCleanup]
         public void TestCleanup () {
-            log(failures == 0 ? "SUCCESS" : $"FAILURES: {failures}");
+            Log(failures == 0 ? "SUCCESS" : $"FAILURES: {failures}");
         }
 
         /// <summary> Log that log! </summary>
-        private void log (params object[] args) {
+        private void Log (params object[] args) {
             if (logger != null) {
                 logger(args);
             }
@@ -42,12 +42,12 @@ namespace CSLisp
         private void Check (Val result) => Check(result, new Val(true));
         private void Check (object result, object expected) => Check(new Val(result), new Val(expected));
         private void Check (Val result, Val expected, System.Func<Val, Val, bool> test = null) {
-            log("test: got", result, " - expected", expected);
+            Log("test: got", result, " - expected", expected);
             bool equal = (test != null) ? test(result, expected) : Val.Equals(result, expected);
             if (!equal) {
                 failures++;
                 string msg = $"*** FAILED TEST: got {result} - expected {expected}";
-                log(msg);
+                Log(msg);
                 Assert.Fail(msg);
             }
         }
@@ -70,14 +70,14 @@ namespace CSLisp
                 Check(Cons.IsCons(list1));
                 Check(Cons.IsList(list1));
                 Check(Cons.Length(list1), 2);
-                Check(list1.car, "foo");
-                Check(list1.cadr, "bar");
-                Check(list1.cddr, Val.NIL);
-                Check(Cons.IsAtom(list1.car)); // "foo"
-                Check(Cons.IsCons(list1.cdr)); // ("bar")
-                Check(Cons.IsAtom(list1.cadr)); // "bar"
-                Check(!Cons.IsCons(list1.cddr)); // null
-                Check(Cons.IsNil(list1.cddr)); // null
+                Check(list1.first, "foo");
+                Check(list1.second, "bar");
+                Check(list1.afterSecond, Val.NIL);
+                Check(list1.first.IsAtom); // "foo"
+                Check(list1.rest.IsCons); // ("bar")
+                Check(list1.second.IsAtom); // "bar"
+                Check(list1.afterSecond.IsAtom); // nil
+                Check(list1.afterSecond.IsNil); // null
                 Check(Val.ToString(list1), "(\"foo\" \"bar\")");
             }
 
@@ -86,14 +86,14 @@ namespace CSLisp
                 Check(Cons.IsCons(list2));
                 Check(Cons.IsList(list2));
                 Check(Cons.Length(list2), 2);
-                Check(list2.car, "foo");
-                Check(list2.cadr, "bar");
-                Check(list2.cddr, Val.NIL);
-                Check(Cons.IsAtom(list2.car)); // "foo"
-                Check(Cons.IsCons(list2.cdr)); // ("bar")
-                Check(Cons.IsAtom(list2.cadr)); // "bar"
-                Check(!Cons.IsCons(list2.cddr)); // null
-                Check(Cons.IsNil(list2.cddr)); // null
+                Check(list2.first, "foo");
+                Check(list2.second, "bar");
+                Check(list2.afterSecond, Val.NIL);
+                Check(list2.first.IsAtom); // "foo"
+                Check(list2.rest.IsCons); // ("bar")
+                Check(list2.second.IsAtom); // "bar"
+                Check(list2.afterSecond.IsAtom); // null
+                Check(list2.afterSecond.IsNil); // null
                 Check(Val.ToString(list2), "(\"foo\" \"bar\")");
             }
 
@@ -101,11 +101,11 @@ namespace CSLisp
                 Cons nonlist = new Cons("foo", "bar");
                 Check(Cons.IsCons(nonlist));
                 Check(!Cons.IsList(nonlist));
-                Check(nonlist.car, "foo");
-                Check(nonlist.cdr, "bar");
-                Check(Cons.IsAtom(nonlist.car)); // "foo"
-                Check(Cons.IsAtom(nonlist.cdr)); // "bar"
-                Check(!Cons.IsCons(nonlist.cdr));
+                Check(nonlist.first, "foo");
+                Check(nonlist.rest, "bar");
+                Check(nonlist.first.IsAtom); // "foo"
+                Check(nonlist.rest.IsAtom); // "bar"
+                Check(nonlist.rest.IsNotNil);
                 Check(Val.ToString(nonlist), "(\"foo\" . \"bar\")");
             }
         }
@@ -298,13 +298,13 @@ namespace CSLisp
 
         /// <summary> Compiles an s-expression and prints the resulting assembly </summary>
         private void CompileAndPrint (Context ctx, string input) {
-            log("COMPILE inputs: ", input);
+            Log("COMPILE inputs: ", input);
             ctx.parser.AddString(input);
 
             var parseds = ctx.parser.ParseAll();
             foreach (var parsed in parseds) {
                 Closure cl = ctx.compiler.Compile(parsed);
-                log(Instruction.printInstructions(cl.instructions));
+                Log(Instruction.PrintInstructions(cl.instructions));
             }
         }
 
@@ -368,7 +368,11 @@ namespace CSLisp
             CompileAndRun(ctx, "(list (atom? ()) (atom? '(a)) (atom? 0) (atom? 1) (atom? #f))", "(#t #f #t #t #t)");
             CompileAndRun(ctx, "(list (number? ()) (number? '(a)) (number? 0) (number? 1) (number? #f))", "(#f #f #t #t #f)");
             CompileAndRun(ctx, "(list (string? ()) (string? '(a)) (string? 0) (string? 1) (string? #f) (string? \"foo\"))", "(#f #f #f #f #f #t)");
-            CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (car x) (cadr x) (caddr x) (cdddr x)))", "(1 2 3 (4 5))");
+            CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (car x) (cadr x) (caddr x)))", "(1 2 3)");
+            CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (cdr x) (cddr x) (cdddr x)))", "((2 3 4 5) (3 4 5) (4 5))");
+            CompileAndRun(ctx, "(nth '(1 2 3 4 5) 2)", "3");
+            CompileAndRun(ctx, "(nth-tail '(1 2 3 4 5) 2)", "(4 5)");
+            CompileAndRun(ctx, "(nth-cons '(1 2 3 4 5) 2)", "(3 4 5)");
             // compileAndRun(ctx, "(begin (trace \"foo\" \"bar\") 5)", "5"); // todod trace not implemented yet
             CompileAndRun(ctx, "(begin (set! first car) (first '(1 2 3)))", "1");
 
@@ -438,23 +442,25 @@ namespace CSLisp
             CompileAndRun(ctx, "(case (+ 1 2) (2 #f) (3 #t) 'error)", "#t");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
+            CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
+            CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
         }
 
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>
         private void CompileAndRun (Context ctx, string input, params string[] expecteds) {
             ctx.parser.AddString(input);
-            log("\n\nCOMPILE AND RUN inputs: ", input);
+            Log("\n\nCOMPILE AND RUN inputs: ", input);
 
             for (int i = 0, count = expecteds.Length; i < count; i++) {
                 string expected = expecteds[i];
 
                 Val result = ctx.parser.ParseNext();
 
-                log("parsed: ", result);
+                Log("parsed: ", result);
                 Closure cl = ctx.compiler.Compile(result);
-                log(Instruction.printInstructions(cl.instructions));
+                Log(Instruction.PrintInstructions(cl.instructions));
 
-                log("running...");
+                Log("running...");
                 Val output = ctx.vm.Execute(cl);
                 string formatted = Val.ToString(output);
                 Check(new Val(formatted), new Val(expected));

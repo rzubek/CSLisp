@@ -46,7 +46,7 @@ namespace CSLisp.Core
                 st.pc++;
 
                 if (_logger != null) {
-                    _logger(st.stack.Count, "] ", st.pc, ":", Instruction.printInstruction(instr));
+                    _logger(st.stack.Count, "] ", st.pc, ":", Instruction.PrintInstruction(instr));
                 }
 
                 // and now a big old switch statement. not handler functions - this is much faster.
@@ -76,14 +76,14 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.GVAR: {
-                            Symbol symbol = instr.first.GetSymbol;
+                            Symbol symbol = instr.first.AsSymbol;
                             Val value = symbol.pkg.GetValue(symbol);
                             st.stack.Push(value);
                         }
                         break;
 
                     case Opcode.GSET: {
-                            Symbol symbol = instr.first.GetSymbol;
+                            Symbol symbol = instr.first.AsSymbol;
                             Val value = st.stack.Peek();
                             symbol.pkg.SetValue(symbol, value);
                         }
@@ -115,7 +115,7 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.ARGS: {
-                            int argcount = instr.first.GetInt;
+                            int argcount = instr.first.AsInt;
                             if (st.nargs != argcount) { throw new LanguageError($"Argument count error, expected {argcount}, got {st.nargs}"); }
 
                             // make an environment for the given number of named args
@@ -129,7 +129,7 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.ARGSDOT: {
-                            int argcount = instr.first.GetInt;
+                            int argcount = instr.first.AsInt;
                             if (st.nargs < argcount) { throw new LanguageError($"Argument count error, expected {argcount} or more, got {st.nargs}"); }
 
                             // make an environment for all named args, +1 for the list of remaining varargs
@@ -158,14 +158,14 @@ namespace CSLisp.Core
                     case Opcode.CALLJ: {
                             st.env = st.env.parent; // discard the top environment frame
                             Val top = st.stack.Pop();
-                            Closure closure = top.GetAsClosureOrNull;
+                            Closure closure = top.AsClosureOrNull;
 
                             // set vm state to the beginning of the closure
                             st.fn = closure ?? throw new LanguageError("Unknown function during function call!");
                             st.code = closure.instructions;
                             st.env = closure.env;
                             st.pc = 0;
-                            st.nargs = instr.first.GetInt;
+                            st.nargs = instr.first.AsInt;
                         }
                         break;
 
@@ -179,7 +179,7 @@ namespace CSLisp.Core
                         if (st.stack.Count > 1) {
                             // preserve return value on top of the stack
                             Val retval = st.stack.Pop();
-                            ReturnAddress retaddr = st.stack.Pop().GetReturnAddress;
+                            ReturnAddress retaddr = st.stack.Pop().AsReturnAddress;
                             st.stack.Push(retval);
 
                             // restore vm state from the return value
@@ -193,14 +193,14 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.FN: {
-                            var code = instr.first.GetClosure.instructions;
+                            var code = instr.first.AsClosure.instructions;
                             st.stack.Push(new Val(new Closure(code, st.env, null)));
                         }
                         break;
 
                     case Opcode.PRIM: {
-                            string name = instr.first.GetString;
-                            int argn = (instr.second.IsInt) ? instr.second.GetInt : st.nargs;
+                            string name = instr.first.AsString;
+                            int argn = (instr.second.IsInt) ? instr.second.AsInt : st.nargs;
 
                             Primitive prim = Primitives.FindNary(name, argn);
                             if (prim == null) { throw new LanguageError($"Invalid argument count to primitive {name}, count of {argn}"); }
@@ -226,7 +226,7 @@ namespace CSLisp.Core
         /// <summary> Very naive helper function, finds the position of a given label in the instruction set </summary>
         private int GetLabelPosition (Instruction inst, State st) {
             if (inst.second.IsInt) {
-                return inst.second.GetInt;
+                return inst.second.AsInt;
             } else {
                 throw new LanguageError("Unknown jump label: " + inst.first);
             }

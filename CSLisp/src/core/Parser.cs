@@ -332,13 +332,13 @@ namespace CSLisp.Core
         ///   
         /// </pre> </summary>
         private Val ConvertBackquote (Cons cons) {
-            Symbol first = cons.first.GetAsSymbolOrNull;
+            Symbol first = cons.first.AsSymbolOrNull;
             if (first == null || first.name != "`") {
                 throw new ParserError($"Unexpected {first} in place of backquote");
             }
 
             // (` e) where e is atomic => e
-            Cons body = cons.second.GetAsConsOrNull;
+            Cons body = cons.second.AsConsOrNull;
             if (body == null) {
                 return Cons.MakeList(_global.Intern("quote"), cons.second);
             }
@@ -354,7 +354,7 @@ namespace CSLisp.Core
             Cons c = body;
             while (c != null) {
                 forms.Add(ConvertBackquoteElement(c.first));
-                c = c.rest.GetAsConsOrNull;
+                c = c.rest.AsConsOrNull;
             }
 
             Cons result = new Cons(_global.Intern("append"), Cons.MakeList(forms));
@@ -373,9 +373,9 @@ namespace CSLisp.Core
 		/// [a] => (list (` a))
 		/// </summary>
         private Val ConvertBackquoteElement (Val value) {
-            var cons = value.GetAsConsOrNull;
+            var cons = value.AsConsOrNull;
             if (cons != null && cons.first.IsSymbol) {
-                Symbol sym = cons.first.GetSymbol;
+                Symbol sym = cons.first.AsSymbol;
                 switch (sym.name) {
                     case ",":
                         // [(, a)] => (list a)
@@ -405,12 +405,12 @@ namespace CSLisp.Core
             List<Val> results = new List<Val>();
             Val rest = value.rest;
             while (rest.IsNotNil) {
-                Cons cons = rest.GetAsConsOrNull;
+                Cons cons = rest.AsConsOrNull;
                 if (cons == null) {
                     return original; // not a proper list
                 }
 
-                Cons maybeList = cons.first.GetAsConsOrNull;
+                Cons maybeList = cons.first.AsConsOrNull;
                 if (maybeList == null) {
                     return original; // not all elements are lists themselves
                 }
@@ -421,8 +421,8 @@ namespace CSLisp.Core
 
                 Val ops = maybeList.rest;
                 while (ops.IsCons) {
-                    results.Add(ops.GetCons.first);
-                    ops = ops.GetCons.rest;
+                    results.Add(ops.AsCons.first);
+                    ops = ops.AsCons.rest;
                 }
                 rest = cons.rest;
             }
@@ -432,10 +432,8 @@ namespace CSLisp.Core
         }
 
         /// <summary> Convenience function: checks if the value is of type Symbol, and has the specified name </summary>
-        private bool IsSymbolWithName (Val value, string fullName) {
-            Symbol symbol = value.GetAsSymbolOrNull;
-            return (symbol != null) && (symbol.fullName == fullName);
-        }
+        private bool IsSymbolWithName (Val value, string fullName) =>
+            value.AsSymbolOrNull?.fullName == fullName;
 
     }
 }

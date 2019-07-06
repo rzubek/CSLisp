@@ -109,7 +109,7 @@ Packages
 
 Built-in primitives are very bare bones (for now):
 -  Functions:
-  -  + - * / = != < <= > >= 
+  -  `+ - * / = != < <= > >=`
   -  const list append length
   -  not null? cons? atom? string? number? boolean?
   -  car cdr cadr cddr caddr cdddr map

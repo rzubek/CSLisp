@@ -150,7 +150,7 @@ namespace CSLisp.Data
         public string debug;
 
         /// <summary> Converts an instruction to a string </summary>
-        public static string printInstruction (Instruction instruction) {
+        public static string PrintInstruction (Instruction instruction) {
             StringBuilder sb = new StringBuilder();
             sb.Append(_NAMES[(int)instruction.type]);
             if (instruction.first.IsNotNil) {
@@ -169,7 +169,7 @@ namespace CSLisp.Data
         }
 
         /// <summary> Converts a set of instructions to a string </summary>
-        public static string printInstructions (List<Instruction> instructions, int indentLevel = 1) {
+        public static string PrintInstructions (List<Instruction> instructions, int indentLevel = 1) {
             StringBuilder sb = new StringBuilder();
 
             foreach (Instruction instruction in instructions) {
@@ -177,12 +177,12 @@ namespace CSLisp.Data
                 // tab out and print current instruction
                 int tabs = indentLevel + (instruction.type == Opcode.LABEL ? -1 : 0);
                 sb.Append('\t', tabs);
-                sb.AppendLine(printInstruction(instruction));
+                sb.AppendLine(PrintInstruction(instruction));
 
                 if (instruction.type == Opcode.FN) {
                     // if function, recurse
-                    Closure closure = instruction.first.GetClosure;
-                    sb.Append(printInstructions(closure.instructions, indentLevel + 1));
+                    Closure closure = instruction.first.AsClosure;
+                    sb.Append(PrintInstructions(closure.instructions, indentLevel + 1));
                 }
             }
             return sb.ToString();
