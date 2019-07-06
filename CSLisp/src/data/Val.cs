@@ -126,11 +126,10 @@ namespace CSLisp.Data
         public override bool Equals (object obj) => (obj is Val) && Equals((Val)obj, this);
         public override int GetHashCode () => (int)type ^ (rawobject != null ? rawobject.GetHashCode() : ((int)rawvalue));
 
-        public override string ToString () => ToString(this);
+        private string DebugString => Print(this, true);
+        public override string ToString () => Print(this);
 
-        public static string ToString (Symbol s) => s.fullName;
-
-        public static string ToString (Val val) {
+        public static string Print (Val val, bool safe = false) {
             switch (val.type) {
                 case Type.Nil:
                     return "()";
@@ -153,6 +152,9 @@ namespace CSLisp.Data
                 case Type.Object:
                     return $"[Native {val.rawobject}]";
                 default:
+                    if (safe) {
+                        return null;
+                    }
                     throw new CompilerError("Unexpected value type: " + val.type);
             }
         }

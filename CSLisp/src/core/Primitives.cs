@@ -89,7 +89,7 @@ namespace CSLisp.Core
 			
 			// helpers
 			new Primitive("trace", 1, false, new Function((Context ctx, List<Val> args) => {
-                System.Console.WriteLine(string.Join(" ", args.Select(Val.ToString)));
+                System.Console.WriteLine(string.Join(" ", args.Select(val => Val.Print(val))));
                 return Val.NIL;
             }), false, true ),
 
@@ -183,7 +183,9 @@ namespace CSLisp.Core
                     List<Instruction> instructions = new List<Instruction>() {
                         new Instruction(Opcode.PRIM, p.name),
                         new Instruction(Opcode.RETURN)};
-                    pkg.SetValue(name, new Val(new Closure(instructions, null, null, p.name)));
+
+                    string debug = $"primitive: {name.fullName}";
+                    pkg.SetValue(name, new Val(new Closure(instructions, null, null, debug)));
                 }
             }
         }

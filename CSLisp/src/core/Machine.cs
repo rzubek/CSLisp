@@ -1,6 +1,5 @@
 using CSLisp.Data;
 using CSLisp.Error;
-using System.Collections.Generic;
 
 namespace CSLisp.Core
 {
@@ -15,9 +14,6 @@ namespace CSLisp.Core
         /// <summary> Internal execution context </summary>
         private Context _ctx = null;
 
-        /// <summary> Maps from instruction enum to a function that runs the body of this instruction </summary>
-        private List<Function> _ops = new List<Function>((int)Opcode.TYPE_COUNT);
-
         public Machine (Context ctx, LoggerCallback logger) {
             _ctx = ctx;
             _logger = logger;
@@ -25,16 +21,9 @@ namespace CSLisp.Core
 
         /// <summary> Runs the given piece of code, and returns the value left at the top of the stack. </summary>
         public Val Execute (Closure fn, params Val[] args) {
-            Instruction instr = null;
+            State st = new State(fn, args);
 
-            State st = new State();
-            st.fn = fn;
-            st.code = fn.instructions;
-            st.env = fn.env;
-            foreach (Val arg in args) {
-                st.stack.Push(arg);
-            }
-            st.nargs = args.Length;
+            _logger?.Invoke(string.Format("Executing closure '{0}'", fn.name));
 
             while (!st.done) {
                 if (st.pc >= st.code.Count) {
@@ -42,12 +31,9 @@ namespace CSLisp.Core
                 }
 
                 // fetch instruction
-                instr = st.code[st.pc];
+                Instruction instr = st.code[st.pc];
+                _logger?.Invoke(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc, Instruction.PrintInstruction(instr)));
                 st.pc++;
-
-                if (_logger != null) {
-                    _logger(st.stack.Count, "] ", st.pc, ":", Instruction.PrintInstruction(instr));
-                }
 
                 // and now a big old switch statement. not handler functions - this is much faster.
 

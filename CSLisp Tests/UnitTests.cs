@@ -3,6 +3,7 @@ using CSLisp.Data;
 using CSLisp.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CSLisp
@@ -10,15 +11,49 @@ namespace CSLisp
     [TestClass]
     public class UnitTests
     {
+        public enum LogType { None, Console, TempFile };
+
         /// <summary> Failures count during the last test run. </summary>
         public int failures = 0;
 
+        /// <summary> Where are we logging unit test results? </summary>
+        public static readonly LogType LOG_TARGET = LogType.TempFile; // change as needed
+
+        /// <summary> Logging stream, could be standard console, or file, or nothing </summary>
+        private static TextWriter _log;
+
         /// <summary> Static logger. Can be replaced with something else </summary>
         public static System.Action<object[]> logger = (object[] args) => {
-            var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString()).ToArray();
+            if (_log == null) { return; } // drop on the floor
+
+            var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
             var message = string.Join(" ", strings);
-            System.Console.WriteLine(message);
+            _log.WriteLine(message);
         };
+
+        [ClassInitialize]
+        public static void ClassInit (TestContext ctx) {
+            switch (LOG_TARGET) {
+                case LogType.TempFile:
+                    string filePath = "Test Results.txt";
+                    _log = new StreamWriter(new FileStream(filePath, FileMode.Create));
+                    _log.WriteLine("TEST RESULTS: " + System.DateTime.Now.ToLongTimeString());
+                    break;
+                case LogType.Console:
+                    _log = System.Console.Out;
+                    break;
+                default:
+                    _log = null; // don't log
+                    break;
+            }
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup () {
+            _log.Flush();
+            _log = null;
+        }
+
 
         [TestInitialize]
         public void TestInit () {
@@ -78,7 +113,7 @@ namespace CSLisp
                 Check(list1.second.IsAtom); // "bar"
                 Check(list1.afterSecond.IsAtom); // nil
                 Check(list1.afterSecond.IsNil); // null
-                Check(Val.ToString(list1), "(\"foo\" \"bar\")");
+                Check(Val.Print(list1), "(\"foo\" \"bar\")");
             }
 
             {
@@ -94,7 +129,7 @@ namespace CSLisp
                 Check(list2.second.IsAtom); // "bar"
                 Check(list2.afterSecond.IsAtom); // null
                 Check(list2.afterSecond.IsNil); // null
-                Check(Val.ToString(list2), "(\"foo\" \"bar\")");
+                Check(Val.Print(list2), "(\"foo\" \"bar\")");
             }
 
             {
@@ -106,7 +141,7 @@ namespace CSLisp
                 Check(nonlist.first.IsAtom); // "foo"
                 Check(nonlist.rest.IsAtom); // "bar"
                 Check(nonlist.rest.IsNotNil);
-                Check(Val.ToString(nonlist), "(\"foo\" . \"bar\")");
+                Check(Val.Print(nonlist), "(\"foo\" . \"bar\")");
             }
         }
 
@@ -135,14 +170,14 @@ namespace CSLisp
             // test the packages list
 
             Check(packages.global.name, (string)null); // get the global package
-            Check(Val.ToString((Val)packages.global.Intern("foo")), "foo"); // check symbol name
+            Check(Val.Print((Val)packages.global.Intern("foo")), "foo"); // check symbol name
             Check(packages.keywords.name, "");      // get the keywords package
-            Check(Val.ToString((Val)packages.keywords.Intern("foo")), ":foo");  // check symbol name
+            Check(Val.Print((Val)packages.keywords.Intern("foo")), ":foo");  // check symbol name
 
             Check(packages.Find("fancy"), null);    // make sure the fancy package was not added yet
             Check(packages.Add(p2), p2);            // add our fancy custom package
             Check(packages.Intern("fancy"), p2);    // get the fancy package - should be the same one
-            Check(Val.ToString((Val)packages.Intern("fancy").Intern("foo")), "fancy:foo");  // check symbol name
+            Check(Val.Print((Val)packages.Intern("fancy").Intern("foo")), "fancy:foo");  // check symbol name
             Check(packages.Remove(p2));             // check removal (should only return true the first time)
             Check(!packages.Remove(p2));            // check removal (should only return true the first time)
         }
@@ -252,7 +287,7 @@ namespace CSLisp
             Check(results.Count == expecteds.Length);
 
             for (int i = 0; i < results.Count; i++) {
-                string result = Val.ToString(results[i]);
+                string result = Val.Print(results[i]);
                 string expected = expecteds[i];
                 Check(result, expected);
             }
@@ -455,14 +490,15 @@ namespace CSLisp
                 string expected = expecteds[i];
 
                 Val result = ctx.parser.ParseNext();
+                Log("Parsed: ", result);
 
-                Log("parsed: ", result);
                 Closure cl = ctx.compiler.Compile(result);
+                Log("Compiled:");
                 Log(Instruction.PrintInstructions(cl.instructions));
 
-                Log("running...");
+                Log("Running...");
                 Val output = ctx.vm.Execute(cl);
-                string formatted = Val.ToString(output);
+                string formatted = Val.Print(output);
                 Check(new Val(formatted), new Val(expected));
             }
         }

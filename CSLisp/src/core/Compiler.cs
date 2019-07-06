@@ -116,7 +116,7 @@ namespace CSLisp.Core
                     Cons body = cons.afterSecond.AsConsOrNull;
                     Closure f = CompileLambda(cons.second, body, env);
                     return Merge(
-                        Emit(Opcode.FN, new Val(f), Val.NIL, Val.ToString(cons.afterSecond)),
+                        Emit(Opcode.FN, new Val(f), Val.NIL, Val.Print(cons.afterSecond)),
                         IfNot(more, Emit(Opcode.RETURN)));
                 }
             }
@@ -198,7 +198,7 @@ namespace CSLisp.Core
             bool isLocal = pos.IsValid;
             return Merge(
                 (isLocal ?
-                    Emit(Opcode.LVAR, pos.frameIndex, pos.symbolIndex, Val.ToString(x)) :
+                    Emit(Opcode.LVAR, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
                     Emit(Opcode.GVAR, x)),
                 IfNot(more, Emit(Opcode.RETURN)));
         }
@@ -237,7 +237,7 @@ namespace CSLisp.Core
             return Merge(
                 Compile(value, env, true, true),
                 (isLocal ?
-                        Emit(Opcode.LSET, pos.frameIndex, pos.symbolIndex, Val.ToString(x)) :
+                        Emit(Opcode.LSET, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
                         Emit(Opcode.GSET, x)),
                 IfNot(val, Emit(Opcode.POP)),
                 IfNot(more, Emit(Opcode.RETURN))
@@ -356,7 +356,9 @@ namespace CSLisp.Core
             List<Instruction> code = Merge(
                 EmitArgs(args, 0),
                 CompileBegin(new Val(body), newEnv, true, false));
-            return new Closure(Assemble(code), env, args.AsConsOrNull);
+
+            string debug = "lambda: " + Val.Print(body, true);
+            return new Closure(Assemble(code), env, args.AsConsOrNull, debug);
         }
 
         /// <summary> Compile a list, leaving all elements on the stack </summary>

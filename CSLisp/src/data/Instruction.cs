@@ -1,4 +1,4 @@
-using CSLisp.Error;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -103,10 +103,6 @@ namespace CSLisp.Data
         ///             stack maintenance (i.e. the primitive will pop its args, and push a return value)
         /// </summary>
         PRIM = 17,
-
-        // more here...
-        // finally:
-        TYPE_COUNT = 18
     }
 
     /// <summary>
@@ -115,18 +111,7 @@ namespace CSLisp.Data
     public class Instruction
     {
         /// <summary> ArrayList of human readable names for all constants </summary>
-        private static readonly List<string> _NAMES = new List<string>() {
-            "LABEL", "CONST", "LVAR", "LSET", "GVAR",
-            "GSET", "POP", "TJUMP", "FJUMP", "JUMP",
-            "ARGS", "ARGSDOT", "DUP", "CALLJ", "SAVE",
-            "RETURN", "FN", "PRIM"
-            };
-
-        static Instruction () {
-            if (_NAMES.Count != (int)Opcode.TYPE_COUNT) {
-                throw new CompilerError("Invalid Instruction type count!");
-            }
-        }
+        private static readonly string[] _NAMES = Enum.GetNames(typeof(Opcode));
 
         public Instruction (Opcode type) : this(type, Val.NIL, Val.NIL, null) { }
         public Instruction (Opcode type, Val first) : this(type, first, Val.NIL, null) { }
@@ -155,11 +140,11 @@ namespace CSLisp.Data
             sb.Append(_NAMES[(int)instruction.type]);
             if (instruction.first.IsNotNil) {
                 sb.Append("\t");
-                sb.Append(Val.ToString(instruction.first));
+                sb.Append(Val.Print(instruction.first));
             }
             if (instruction.second.IsNotNil) {
                 sb.Append("\t");
-                sb.Append(Val.ToString(instruction.second));
+                sb.Append(Val.Print(instruction.second));
             }
             if (instruction.debug != null) {
                 sb.Append("\t; ");
@@ -172,11 +157,14 @@ namespace CSLisp.Data
         public static string PrintInstructions (List<Instruction> instructions, int indentLevel = 1) {
             StringBuilder sb = new StringBuilder();
 
-            foreach (Instruction instruction in instructions) {
+            for (int i = 0; i < instructions.Count; i++) {
+                Instruction instruction = instructions[i];
 
                 // tab out and print current instruction
                 int tabs = indentLevel + (instruction.type == Opcode.LABEL ? -1 : 0);
                 sb.Append('\t', tabs);
+                sb.Append(i);
+                sb.Append('\t');
                 sb.AppendLine(PrintInstruction(instruction));
 
                 if (instruction.type == Opcode.FN) {

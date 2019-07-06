@@ -28,5 +28,13 @@ namespace CSLisp.Core
 
         /// <summary> Helper flag, stops the REPL </summary>
         public bool done = false;
+
+        public State (Closure closure, Val[] args) {
+            fn = closure;
+            code = fn.instructions;
+            env = fn.env;
+            foreach (Val arg in args) { stack.Push(arg); }
+            nargs = args.Length;
+        }
     }
 }

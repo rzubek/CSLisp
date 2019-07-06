@@ -3,8 +3,9 @@ using CSLisp.Error;
 namespace CSLisp.Data
 {
     /// <summary>
-    /// Stores variable lookup data: frame index relative to current frame,
-    /// and symbol index in the targe frame
+    /// Stores variable lookup data: target frame index relative to current frame
+    /// (0 = this frame, 1 = the previous one, etc) and then symbol index
+    /// in the target frame, similarly zero-indexed.
     /// </summary>
     public struct VarPos
     {
