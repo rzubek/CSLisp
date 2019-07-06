@@ -67,12 +67,12 @@ namespace CSLisp.Data
             // the tail should be either the last value, or a cons containing the last value
             Val result =
                 dotted ? values[len - 1] :
-                len >= 1 ? new Val(new Cons(values[len - 1], Val.NIL)) :
+                len >= 1 ? new Cons(values[len - 1], Val.NIL) :
                 Val.NIL;
 
             int iterlen = dotted ? len - 3 : len - 2;
             for (int i = iterlen; i >= 0; i--) {
-                result = new Val(new Cons(values[i], result));
+                result = new Cons(values[i], result);
             }
             return result;
         }
@@ -112,7 +112,7 @@ namespace CSLisp.Data
 
             Cons cons = value.AsConsOrNull;
             while (cons != null) {
-                if (cons.rest.IsNil) { return true; } // found our terminating null
+                if (cons.rest.IsNil) { return true; } // found our terminating NIL
                 cons = cons.rest.AsConsOrNull;
             }
             return false;

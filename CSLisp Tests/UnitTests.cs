@@ -349,8 +349,8 @@ namespace CSLisp
             // test primitives
             CompileAndRun(ctx, "(+ 1 2)", "3");
             CompileAndRun(ctx, "(+ (+ 1 2) 3)", "6");
-            //compileAndRun(ctx, "(+ 1 2 3)", "6"); // todo: fix n-ary arithmetic ops
-            //compileAndRun(ctx, "(* 1 2 3)", "6");
+            CompileAndRun(ctx, "(+ 1 2 3 4)", "10");
+            CompileAndRun(ctx, "(* 1 2 3 4)", "24");
             CompileAndRun(ctx, "(= 1 1)", "#t");
             CompileAndRun(ctx, "(!= 1 1)", "#f");
             CompileAndRun(ctx, "(cons 1 2)", "(1 . 2)");

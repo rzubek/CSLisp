@@ -34,13 +34,10 @@ namespace CSLisp.Core
             new Primitive("*", 2, true, new Function((ctx, a, b) => ValMul(a, b)), true),
             new Primitive("/", 2, true, new Function((ctx, a, b) => ValDiv(a, b)), true),
 
-            #warning fix nary add sub
-            //new Primitive("+", 3, uint.MAX_VALUE, Number (Context ctx, ... args) { 
-            //	return foldArrayListLeft(Number (a: Number, Number b) { return a + b; }, 0, args)
-            //}, true ),
-            //new Primitive("*", 3, uint.MAX_VALUE, Number (Context ctx, ... args) { 
-            //	return foldArrayListLeft(Number (a: Number, Number b) { return a * b; }, 1, args)
-            //}, true ),
+            new Primitive("+", 3, false, new Function((Context ctx, List<Val> args) => 
+                FoldLeft((a, b) => ValAdd(a, b), 0, args)), true),
+            new Primitive("*", 3, false, new Function((Context ctx, List<Val> args) =>
+                FoldLeft((a, b) => ValMul(a, b), 1, args)), true),
 
             new Primitive("=",  2, true, new Function((ctx, a, b) => Val.Equals(a, b))),
             new Primitive("!=", 2, true, new Function((ctx, a, b) => ! Val.Equals(a, b))),
@@ -92,7 +89,7 @@ namespace CSLisp.Core
 			
 			// helpers
 			new Primitive("trace", 1, false, new Function((Context ctx, List<Val> args) => {
-                System.Console.WriteLine(string.Join(" ", args.Select(Val.ToString).ToArray()));
+                System.Console.WriteLine(string.Join(" ", args.Select(Val.ToString)));
                 return Val.NIL;
             }), false, true ),
 
