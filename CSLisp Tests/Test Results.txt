@@ -1,4 +1,4 @@
-TEST RESULTS: 9:02:54 PM
+TEST RESULTS: 11:09:48 PM
 test: got #t  - expected #t
 test: got #t  - expected #t
 test: got #t  - expected #t
@@ -4960,9 +4960,9 @@ test: got "7"  - expected "7"
 -------------------------------------------------------------------------
 
 
-COMPILE AND RUN inputs:  (begin (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5))
-ParseNext ==>  (begin (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5))
-Parsed:  (begin (set! foo:fact (lambda (foo:x) (if (core:<= foo:x 1) 1 (core:* foo:x (foo:fact (core:- foo:x 1)))))) (foo:fact 5))
+COMPILE AND RUN inputs:  (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5)
+ParseNext ==>  (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1))))))
+Parsed:  (set! foo:fact (lambda (foo:x) (if (core:<= foo:x 1) 1 (core:* foo:x (foo:fact (core:- foo:x 1))))))
 Compiled:
 	0	MAKE_ENV	0
 	1	MAKE_CLOSURE	[Closure]	; ((if (<= x 1) 1 (* x (fact (- x 1)))))
@@ -4991,10 +4991,7 @@ Compiled:
 		22	GLOBAL_GET	*
 		23	JMP_CLOSURE	2
 	2	GLOBAL_SET	fact
-	3	STACK_POP
-	4	PUSH_CONST	5
-	5	GLOBAL_GET	fact
-	6	JMP_CLOSURE	1
+	3	RETURN_VAL
 
 Running...
 Executing:  
@@ -5025,10 +5022,7 @@ Executing:
 		22	GLOBAL_GET	*
 		23	JMP_CLOSURE	2
 	2	GLOBAL_SET	fact
-	3	STACK_POP
-	4	PUSH_CONST	5
-	5	GLOBAL_GET	fact
-	6	JMP_CLOSURE	1
+	3	RETURN_VAL
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0
@@ -5037,13 +5031,31 @@ Executing:
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fact
                                       1: [ [Closure] ]
-[ 1]   3 : STACK_POP
+[ 1]   3 : RETURN_VAL
+test: got "[Closure]"  - expected "[Closure]"
+ParseNext ==>  (fact 5)
+Parsed:  (foo:fact 5)
+Compiled:
+	0	MAKE_ENV	0
+	1	PUSH_CONST	5
+	2	GLOBAL_GET	fact
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	0	MAKE_ENV	0
+	1	PUSH_CONST	5
+	2	GLOBAL_GET	fact
+	3	JMP_CLOSURE	1
+
                                       0: [  ]
-[ 0]   4 : PUSH_CONST	5
+[ 0]   0 : MAKE_ENV	0
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
                                       1: [ 5 ]
-[ 1]   5 : GLOBAL_GET	fact
+[ 1]   2 : GLOBAL_GET	fact
                                       2: [ 5 [Closure] ]
-[ 2]   6 : JMP_CLOSURE	1
+[ 2]   3 : JMP_CLOSURE	1
                                       1: [ 5 ]
 [ 1]   0 : MAKE_ENV	1
                                       0: [  ]
@@ -5292,6 +5304,410 @@ Executing:
 [ 2]   0 : CALL_PRIMOP	"*"
                                       1: [ 120 ]
 [ 1]   1 : RETURN_VAL
+test: got "120"  - expected "120"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))) (set! fact (lambda (x) (fact-helper x 1))) (fact 5)
+ParseNext ==>  (set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod)))))
+Parsed:  (set! foo:fact-helper (lambda (foo:x foo:prod) (if (core:<= foo:x 1) foo:prod (foo:fact-helper (core:- foo:x 1) (core:* foo:x foo:prod)))))
+Compiled:
+	0	MAKE_ENV	0
+	1	MAKE_CLOSURE	[Closure]	; ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+		0	MAKE_ENV	2
+		1	SAVE_RETURN	"K0"	6
+		2	LOCAL_GET	0	0	; x
+		3	PUSH_CONST	1
+		4	GLOBAL_GET	<=
+		5	JMP_CLOSURE	2
+	6	MAKE_LABEL	"K0"
+		7	JMP_IF_FALSE	"L3"	10
+		8	LOCAL_GET	0	1	; prod
+		9	RETURN_VAL
+	10	MAKE_LABEL	"L3"
+		11	SAVE_RETURN	"K1"	16
+		12	LOCAL_GET	0	0	; x
+		13	PUSH_CONST	1
+		14	GLOBAL_GET	-
+		15	JMP_CLOSURE	2
+	16	MAKE_LABEL	"K1"
+		17	SAVE_RETURN	"K2"	22
+		18	LOCAL_GET	0	0	; x
+		19	LOCAL_GET	0	1	; prod
+		20	GLOBAL_GET	*
+		21	JMP_CLOSURE	2
+	22	MAKE_LABEL	"K2"
+		23	GLOBAL_GET	fact-helper
+		24	JMP_CLOSURE	2
+	2	GLOBAL_SET	fact-helper
+	3	RETURN_VAL
+
+Running...
+Executing:  
+	0	MAKE_ENV	0
+	1	MAKE_CLOSURE	[Closure]	; ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+		0	MAKE_ENV	2
+		1	SAVE_RETURN	"K0"	6
+		2	LOCAL_GET	0	0	; x
+		3	PUSH_CONST	1
+		4	GLOBAL_GET	<=
+		5	JMP_CLOSURE	2
+	6	MAKE_LABEL	"K0"
+		7	JMP_IF_FALSE	"L3"	10
+		8	LOCAL_GET	0	1	; prod
+		9	RETURN_VAL
+	10	MAKE_LABEL	"L3"
+		11	SAVE_RETURN	"K1"	16
+		12	LOCAL_GET	0	0	; x
+		13	PUSH_CONST	1
+		14	GLOBAL_GET	-
+		15	JMP_CLOSURE	2
+	16	MAKE_LABEL	"K1"
+		17	SAVE_RETURN	"K2"	22
+		18	LOCAL_GET	0	0	; x
+		19	LOCAL_GET	0	1	; prod
+		20	GLOBAL_GET	*
+		21	JMP_CLOSURE	2
+	22	MAKE_LABEL	"K2"
+		23	GLOBAL_GET	fact-helper
+		24	JMP_CLOSURE	2
+	2	GLOBAL_SET	fact-helper
+	3	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0
+                                      0: [  ]
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+                                      1: [ [Closure] ]
+[ 1]   2 : GLOBAL_SET	fact-helper
+                                      1: [ [Closure] ]
+[ 1]   3 : RETURN_VAL
+test: got "[Closure]"  - expected "[Closure]"
+ParseNext ==>  (set! fact (lambda (x) (fact-helper x 1)))
+Parsed:  (set! foo:fact (lambda (foo:x) (foo:fact-helper foo:x 1)))
+Compiled:
+	0	MAKE_ENV	0
+	1	MAKE_CLOSURE	[Closure]	; ((fact-helper x 1))
+		0	MAKE_ENV	1
+		1	LOCAL_GET	0	0	; x
+		2	PUSH_CONST	1
+		3	GLOBAL_GET	fact-helper
+		4	JMP_CLOSURE	2
+	2	GLOBAL_SET	fact
+	3	RETURN_VAL
+
+Running...
+Executing:  
+	0	MAKE_ENV	0
+	1	MAKE_CLOSURE	[Closure]	; ((fact-helper x 1))
+		0	MAKE_ENV	1
+		1	LOCAL_GET	0	0	; x
+		2	PUSH_CONST	1
+		3	GLOBAL_GET	fact-helper
+		4	JMP_CLOSURE	2
+	2	GLOBAL_SET	fact
+	3	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0
+                                      0: [  ]
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((fact-helper x 1))
+                                      1: [ [Closure] ]
+[ 1]   2 : GLOBAL_SET	fact
+                                      1: [ [Closure] ]
+[ 1]   3 : RETURN_VAL
+test: got "[Closure]"  - expected "[Closure]"
+ParseNext ==>  (fact 5)
+Parsed:  (foo:fact 5)
+Compiled:
+	0	MAKE_ENV	0
+	1	PUSH_CONST	5
+	2	GLOBAL_GET	fact
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	0	MAKE_ENV	0
+	1	PUSH_CONST	5
+	2	GLOBAL_GET	fact
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : GLOBAL_GET	fact
+                                      2: [ 5 [Closure] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ 5 ]
+[ 1]   0 : MAKE_ENV	1
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; x
+                                      1: [ 5 ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ 5 1 ]
+[ 2]   3 : GLOBAL_GET	fact-helper
+                                      3: [ 5 1 [Closure] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 5 1 ]
+[ 2]   0 : MAKE_ENV	2
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"K0"	6
+                                      1: [ [K0/6] ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ [K0/6] 5 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [K0/6] 5 1 ]
+[ 3]   4 : GLOBAL_GET	<=
+                                      4: [ [K0/6] 5 1 [Closure/core:<=] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [K0/6] 5 1 ]
+[ 3]   0 : CALL_PRIMOP	"<="
+                                      2: [ [K0/6] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   6 : MAKE_LABEL	"K0"
+                                      1: [ #f ]
+[ 1]   7 : JMP_IF_FALSE	"L3"	10
+                                      0: [  ]
+[ 0]  10 : MAKE_LABEL	"L3"
+                                      0: [  ]
+[ 0]  11 : SAVE_RETURN	"K1"	16
+                                      1: [ [K1/16] ]
+[ 1]  12 : LOCAL_GET	0	0	; x
+                                      2: [ [K1/16] 5 ]
+[ 2]  13 : PUSH_CONST	1
+                                      3: [ [K1/16] 5 1 ]
+[ 3]  14 : GLOBAL_GET	-
+                                      4: [ [K1/16] 5 1 [Closure/core:-] ]
+[ 4]  15 : JMP_CLOSURE	2
+                                      3: [ [K1/16] 5 1 ]
+[ 3]   0 : CALL_PRIMOP	"-"
+                                      2: [ [K1/16] 4 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 4 ]
+[ 1]  16 : MAKE_LABEL	"K1"
+                                      1: [ 4 ]
+[ 1]  17 : SAVE_RETURN	"K2"	22
+                                      2: [ 4 [K2/22] ]
+[ 2]  18 : LOCAL_GET	0	0	; x
+                                      3: [ 4 [K2/22] 5 ]
+[ 3]  19 : LOCAL_GET	0	1	; prod
+                                      4: [ 4 [K2/22] 5 1 ]
+[ 4]  20 : GLOBAL_GET	*
+                                      5: [ 4 [K2/22] 5 1 [Closure/core:*] ]
+[ 5]  21 : JMP_CLOSURE	2
+                                      4: [ 4 [K2/22] 5 1 ]
+[ 4]   0 : CALL_PRIMOP	"*"
+                                      3: [ 4 [K2/22] 5 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ 4 5 ]
+[ 2]  22 : MAKE_LABEL	"K2"
+                                      2: [ 4 5 ]
+[ 2]  23 : GLOBAL_GET	fact-helper
+                                      3: [ 4 5 [Closure] ]
+[ 3]  24 : JMP_CLOSURE	2
+                                      2: [ 4 5 ]
+[ 2]   0 : MAKE_ENV	2
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"K0"	6
+                                      1: [ [K0/6] ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ [K0/6] 4 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [K0/6] 4 1 ]
+[ 3]   4 : GLOBAL_GET	<=
+                                      4: [ [K0/6] 4 1 [Closure/core:<=] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [K0/6] 4 1 ]
+[ 3]   0 : CALL_PRIMOP	"<="
+                                      2: [ [K0/6] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   6 : MAKE_LABEL	"K0"
+                                      1: [ #f ]
+[ 1]   7 : JMP_IF_FALSE	"L3"	10
+                                      0: [  ]
+[ 0]  10 : MAKE_LABEL	"L3"
+                                      0: [  ]
+[ 0]  11 : SAVE_RETURN	"K1"	16
+                                      1: [ [K1/16] ]
+[ 1]  12 : LOCAL_GET	0	0	; x
+                                      2: [ [K1/16] 4 ]
+[ 2]  13 : PUSH_CONST	1
+                                      3: [ [K1/16] 4 1 ]
+[ 3]  14 : GLOBAL_GET	-
+                                      4: [ [K1/16] 4 1 [Closure/core:-] ]
+[ 4]  15 : JMP_CLOSURE	2
+                                      3: [ [K1/16] 4 1 ]
+[ 3]   0 : CALL_PRIMOP	"-"
+                                      2: [ [K1/16] 3 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 3 ]
+[ 1]  16 : MAKE_LABEL	"K1"
+                                      1: [ 3 ]
+[ 1]  17 : SAVE_RETURN	"K2"	22
+                                      2: [ 3 [K2/22] ]
+[ 2]  18 : LOCAL_GET	0	0	; x
+                                      3: [ 3 [K2/22] 4 ]
+[ 3]  19 : LOCAL_GET	0	1	; prod
+                                      4: [ 3 [K2/22] 4 5 ]
+[ 4]  20 : GLOBAL_GET	*
+                                      5: [ 3 [K2/22] 4 5 [Closure/core:*] ]
+[ 5]  21 : JMP_CLOSURE	2
+                                      4: [ 3 [K2/22] 4 5 ]
+[ 4]   0 : CALL_PRIMOP	"*"
+                                      3: [ 3 [K2/22] 20 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ 3 20 ]
+[ 2]  22 : MAKE_LABEL	"K2"
+                                      2: [ 3 20 ]
+[ 2]  23 : GLOBAL_GET	fact-helper
+                                      3: [ 3 20 [Closure] ]
+[ 3]  24 : JMP_CLOSURE	2
+                                      2: [ 3 20 ]
+[ 2]   0 : MAKE_ENV	2
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"K0"	6
+                                      1: [ [K0/6] ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ [K0/6] 3 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [K0/6] 3 1 ]
+[ 3]   4 : GLOBAL_GET	<=
+                                      4: [ [K0/6] 3 1 [Closure/core:<=] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [K0/6] 3 1 ]
+[ 3]   0 : CALL_PRIMOP	"<="
+                                      2: [ [K0/6] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   6 : MAKE_LABEL	"K0"
+                                      1: [ #f ]
+[ 1]   7 : JMP_IF_FALSE	"L3"	10
+                                      0: [  ]
+[ 0]  10 : MAKE_LABEL	"L3"
+                                      0: [  ]
+[ 0]  11 : SAVE_RETURN	"K1"	16
+                                      1: [ [K1/16] ]
+[ 1]  12 : LOCAL_GET	0	0	; x
+                                      2: [ [K1/16] 3 ]
+[ 2]  13 : PUSH_CONST	1
+                                      3: [ [K1/16] 3 1 ]
+[ 3]  14 : GLOBAL_GET	-
+                                      4: [ [K1/16] 3 1 [Closure/core:-] ]
+[ 4]  15 : JMP_CLOSURE	2
+                                      3: [ [K1/16] 3 1 ]
+[ 3]   0 : CALL_PRIMOP	"-"
+                                      2: [ [K1/16] 2 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 2 ]
+[ 1]  16 : MAKE_LABEL	"K1"
+                                      1: [ 2 ]
+[ 1]  17 : SAVE_RETURN	"K2"	22
+                                      2: [ 2 [K2/22] ]
+[ 2]  18 : LOCAL_GET	0	0	; x
+                                      3: [ 2 [K2/22] 3 ]
+[ 3]  19 : LOCAL_GET	0	1	; prod
+                                      4: [ 2 [K2/22] 3 20 ]
+[ 4]  20 : GLOBAL_GET	*
+                                      5: [ 2 [K2/22] 3 20 [Closure/core:*] ]
+[ 5]  21 : JMP_CLOSURE	2
+                                      4: [ 2 [K2/22] 3 20 ]
+[ 4]   0 : CALL_PRIMOP	"*"
+                                      3: [ 2 [K2/22] 60 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ 2 60 ]
+[ 2]  22 : MAKE_LABEL	"K2"
+                                      2: [ 2 60 ]
+[ 2]  23 : GLOBAL_GET	fact-helper
+                                      3: [ 2 60 [Closure] ]
+[ 3]  24 : JMP_CLOSURE	2
+                                      2: [ 2 60 ]
+[ 2]   0 : MAKE_ENV	2
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"K0"	6
+                                      1: [ [K0/6] ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ [K0/6] 2 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [K0/6] 2 1 ]
+[ 3]   4 : GLOBAL_GET	<=
+                                      4: [ [K0/6] 2 1 [Closure/core:<=] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [K0/6] 2 1 ]
+[ 3]   0 : CALL_PRIMOP	"<="
+                                      2: [ [K0/6] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   6 : MAKE_LABEL	"K0"
+                                      1: [ #f ]
+[ 1]   7 : JMP_IF_FALSE	"L3"	10
+                                      0: [  ]
+[ 0]  10 : MAKE_LABEL	"L3"
+                                      0: [  ]
+[ 0]  11 : SAVE_RETURN	"K1"	16
+                                      1: [ [K1/16] ]
+[ 1]  12 : LOCAL_GET	0	0	; x
+                                      2: [ [K1/16] 2 ]
+[ 2]  13 : PUSH_CONST	1
+                                      3: [ [K1/16] 2 1 ]
+[ 3]  14 : GLOBAL_GET	-
+                                      4: [ [K1/16] 2 1 [Closure/core:-] ]
+[ 4]  15 : JMP_CLOSURE	2
+                                      3: [ [K1/16] 2 1 ]
+[ 3]   0 : CALL_PRIMOP	"-"
+                                      2: [ [K1/16] 1 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 1 ]
+[ 1]  16 : MAKE_LABEL	"K1"
+                                      1: [ 1 ]
+[ 1]  17 : SAVE_RETURN	"K2"	22
+                                      2: [ 1 [K2/22] ]
+[ 2]  18 : LOCAL_GET	0	0	; x
+                                      3: [ 1 [K2/22] 2 ]
+[ 3]  19 : LOCAL_GET	0	1	; prod
+                                      4: [ 1 [K2/22] 2 60 ]
+[ 4]  20 : GLOBAL_GET	*
+                                      5: [ 1 [K2/22] 2 60 [Closure/core:*] ]
+[ 5]  21 : JMP_CLOSURE	2
+                                      4: [ 1 [K2/22] 2 60 ]
+[ 4]   0 : CALL_PRIMOP	"*"
+                                      3: [ 1 [K2/22] 120 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ 1 120 ]
+[ 2]  22 : MAKE_LABEL	"K2"
+                                      2: [ 1 120 ]
+[ 2]  23 : GLOBAL_GET	fact-helper
+                                      3: [ 1 120 [Closure] ]
+[ 3]  24 : JMP_CLOSURE	2
+                                      2: [ 1 120 ]
+[ 2]   0 : MAKE_ENV	2
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"K0"	6
+                                      1: [ [K0/6] ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ [K0/6] 1 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [K0/6] 1 1 ]
+[ 3]   4 : GLOBAL_GET	<=
+                                      4: [ [K0/6] 1 1 [Closure/core:<=] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [K0/6] 1 1 ]
+[ 3]   0 : CALL_PRIMOP	"<="
+                                      2: [ [K0/6] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   6 : MAKE_LABEL	"K0"
+                                      1: [ #t ]
+[ 1]   7 : JMP_IF_FALSE	"L3"	10
+                                      0: [  ]
+[ 0]   8 : LOCAL_GET	0	1	; prod
+                                      1: [ 120 ]
+[ 1]   9 : RETURN_VAL
 test: got "120"  - expected "120"
 
 

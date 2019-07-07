@@ -437,7 +437,9 @@ namespace CSLisp
             CompileAndRun(ctx, "(package-set \"foo\")", "\"foo\"");
             CompileAndRun(ctx, "(begin (+ (+ 1 2) 3) 4)", "4");
             CompileAndRun(ctx, "(begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5)))", "7");
-            CompileAndRun(ctx, "(begin (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5))", "120");
+            CompileAndRun(ctx, "(set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5)", "[Closure]", "120");
+#warning fix define'd functions not being able to self-recurse
+            CompileAndRun(ctx, "(set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))) (set! fact (lambda (x) (fact-helper x 1))) (fact 5)", "[Closure]", "[Closure]", "120");
             CompileAndRun(ctx, "(begin (set! add +) (add 3 (add 2 1)))", "6");
             CompileAndRun(ctx, "(begin (set! kar car) (set! car cdr) (set! result (car '(1 2 3))) (set! car kar) result)", "(2 3)");
             CompileAndRun(ctx, "((lambda (x) (set! x 5) x) 6)", "5");
