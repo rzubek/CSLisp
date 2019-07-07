@@ -23,7 +23,10 @@ namespace CSLisp.Core
         public Val Execute (Closure fn, params Val[] args) {
             State st = new State(fn, args);
 
-            _logger?.Invoke("Executing: ", fn.name);
+            if (_logger != null) {
+                _logger("Executing: ", fn.name);
+                _logger(Instruction.PrintInstructions(fn.instructions));
+            }
 
             while (!st.done) {
                 if (st.pc >= st.code.Count) {
@@ -34,55 +37,55 @@ namespace CSLisp.Core
                 Instruction instr = st.code[st.pc++];
 
                 if (_logger != null) {
-                    _logger("                                 " + State.PrintStack(st));
+                    _logger("                                    " + State.PrintStack(st));
                     _logger(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, Instruction.PrintInstruction(instr)));
                 }
 
                 // and now a big old switch statement. not handler functions - this is much faster.
 
                 switch (instr.type) {
-                    case Opcode.LABEL:
+                    case Opcode.MAKE_LABEL:
                         // no op :)
                         break;
 
-                    case Opcode.CONST: {
+                    case Opcode.PUSH_CONST: {
                             st.Push(instr.first);
                         }
                         break;
 
-                    case Opcode.LVAR: {
+                    case Opcode.LOCAL_GET: {
                             VarPos pos = new VarPos(instr.first, instr.second);
                             Val value = Environment.GetValueAt(pos, st.env);
                             st.Push(value);
                         }
                         break;
 
-                    case Opcode.LSET: {
+                    case Opcode.LOCAL_SET: {
                             Val val = st.Peek();
                             VarPos pos = new VarPos(instr.first, instr.second);
                             Environment.SetValueAt(pos, val, st.env);
                         }
                         break;
 
-                    case Opcode.GVAR: {
+                    case Opcode.GLOBAL_GET: {
                             Symbol symbol = instr.first.AsSymbol;
                             Val value = symbol.pkg.GetValue(symbol);
                             st.Push(value);
                         }
                         break;
 
-                    case Opcode.GSET: {
+                    case Opcode.GLOBAL_SET: {
                             Symbol symbol = instr.first.AsSymbol;
                             Val value = st.Peek();
                             symbol.pkg.SetValue(symbol, value);
                         }
                         break;
 
-                    case Opcode.POP:
+                    case Opcode.STACK_POP:
                         st.Pop();
                         break;
 
-                    case Opcode.TJUMP: {
+                    case Opcode.JMP_IF_TRUE: {
                             Val value = st.Pop();
                             if (value.CastToBool) {
                                 st.pc = GetLabelPosition(instr, st);
@@ -90,7 +93,7 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.FJUMP: {
+                    case Opcode.JMP_IF_FALSE: {
                             Val value = st.Pop();
                             if (!value.CastToBool) {
                                 st.pc = GetLabelPosition(instr, st);
@@ -98,12 +101,12 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.JUMP: {
+                    case Opcode.JMP_TO_LABEL: {
                             st.pc = GetLabelPosition(instr, st);
                         }
                         break;
 
-                    case Opcode.ARGS: {
+                    case Opcode.MAKE_ENV: {
                             int argcount = instr.first.AsInt;
                             if (st.nargs != argcount) { throw new LanguageError($"Argument count error, expected {argcount}, got {st.nargs}"); }
 
@@ -117,7 +120,7 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.ARGSDOT: {
+                    case Opcode.MAKE_ENVDOT: {
                             int argcount = instr.first.AsInt;
                             if (st.nargs < argcount) { throw new LanguageError($"Argument count error, expected {argcount} or more, got {st.nargs}"); }
 
@@ -138,13 +141,13 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.DUPE: {
+                    case Opcode.DUPLICATE: {
                             if (st.stack.Count == 0) { throw new LanguageError("Cannot duplicate on an empty stack!"); }
                             st.Push(st.Peek());
                         }
                         break;
 
-                    case Opcode.CALLJ: {
+                    case Opcode.JMP_CLOSURE: {
                             st.env = st.env.parent; // discard the top environment frame
                             Val top = st.Pop();
                             Closure closure = top.AsClosureOrNull;
@@ -158,13 +161,13 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.SAVE: {
+                    case Opcode.SAVE_RETURN: {
                             // save current vm state to a return value
                             st.Push(new Val(new ReturnAddress(st.fn, GetLabelPosition(instr, st), st.env, instr.first.AsStringOrNull)));
                         }
                         break;
 
-                    case Opcode.RETURN:
+                    case Opcode.RETURN_VAL:
                         if (st.stack.Count > 1) {
                             // preserve return value on top of the stack
                             Val retval = st.Pop();
@@ -181,14 +184,14 @@ namespace CSLisp.Core
                         }
                         break;
 
-                    case Opcode.FN: {
+                    case Opcode.MAKE_CLOSURE: {
                             var cl = instr.first.AsClosure;
                             var code = cl.instructions;
                             st.Push(new Closure(code, st.env, null, cl.name));
                         }
                         break;
 
-                    case Opcode.PRIM: {
+                    case Opcode.CALL_PRIMOP: {
                             string name = instr.first.AsString;
                             int argn = (instr.second.IsInt) ? instr.second.AsInt : st.nargs;
 

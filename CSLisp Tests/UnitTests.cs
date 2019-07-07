@@ -484,7 +484,7 @@ namespace CSLisp
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>
         private void CompileAndRun (Context ctx, string input, params string[] expecteds) {
             ctx.parser.AddString(input);
-            Log("------------------------------------------------------");
+            Log("\n\n-------------------------------------------------------------------------");
             Log("\n\nCOMPILE AND RUN inputs: ", input);
 
             for (int i = 0, count = expecteds.Length; i < count; i++) {

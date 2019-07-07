@@ -181,8 +181,8 @@ namespace CSLisp.Core
                     Symbol name = pkg.Intern(p.name);
                     name.exported = true;
                     List<Instruction> instructions = new List<Instruction>() {
-                        new Instruction(Opcode.PRIM, p.name),
-                        new Instruction(Opcode.RETURN)};
+                        new Instruction(Opcode.CALL_PRIMOP, p.name),
+                        new Instruction(Opcode.RETURN_VAL)};
 
                     string debug = $"primitive: {name.fullName}";
                     pkg.SetValue(name, new Closure(instructions, null, null, debug));

@@ -116,8 +116,8 @@ namespace CSLisp.Core
                     Cons body = cons.afterSecond.AsConsOrNull;
                     Closure f = CompileLambda(cons.second, body, env);
                     return Merge(
-                        Emit(Opcode.FN, new Val(f), Val.NIL, Val.Print(cons.afterSecond)),
-                        IfNot(more, Emit(Opcode.RETURN)));
+                        Emit(Opcode.MAKE_CLOSURE, new Val(f), Val.NIL, Val.Print(cons.afterSecond)),
+                        IfNot(more, Emit(Opcode.RETURN_VAL)));
                 }
             }
             if (name == _defmacro) {
@@ -198,9 +198,9 @@ namespace CSLisp.Core
             bool isLocal = pos.IsValid;
             return Merge(
                 (isLocal ?
-                    Emit(Opcode.LVAR, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
-                    Emit(Opcode.GVAR, x)),
-                IfNot(more, Emit(Opcode.RETURN)));
+                    Emit(Opcode.LOCAL_GET, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
+                    Emit(Opcode.GLOBAL_GET, x)),
+                IfNot(more, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles a constant, if it's actually used elsewhere </summary>
@@ -208,8 +208,8 @@ namespace CSLisp.Core
             if (!val) { return null; }
 
             return Merge(
-                Emit(Opcode.CONST, x, Val.NIL),
-                IfNot(more, Emit(Opcode.RETURN)));
+                Emit(Opcode.PUSH_CONST, x, Val.NIL),
+                IfNot(more, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles a sequence defined by a BEGIN - we pop all values, except for the last one </summary>
@@ -237,10 +237,10 @@ namespace CSLisp.Core
             return Merge(
                 Compile(value, env, true, true),
                 (isLocal ?
-                        Emit(Opcode.LSET, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
-                        Emit(Opcode.GSET, x)),
-                IfNot(val, Emit(Opcode.POP)),
-                IfNot(more, Emit(Opcode.RETURN))
+                        Emit(Opcode.LOCAL_SET, pos.frameIndex, pos.symbolIndex, Val.Print(x)) :
+                        Emit(Opcode.GLOBAL_SET, x)),
+                IfNot(val, Emit(Opcode.STACK_POP)),
+                IfNot(more, Emit(Opcode.RETURN_VAL))
                 );
         }
 
@@ -281,10 +281,10 @@ namespace CSLisp.Core
                 string l2 = MakeLabel();
                 return Merge(
                     PredCode,
-                    Emit(Opcode.TJUMP, l2),
+                    Emit(Opcode.JMP_IF_TRUE, l2),
                     ElseCode,
-                    Emit(Opcode.LABEL, l2),
-                    IfNot(more, Emit(Opcode.RETURN)));
+                    Emit(Opcode.MAKE_LABEL, l2),
+                    IfNot(more, Emit(Opcode.RETURN_VAL)));
             }
 
             // (if p x) => p (FJUMP L1) x L1:
@@ -292,10 +292,10 @@ namespace CSLisp.Core
                 string l1 = MakeLabel();
                 return Merge(
                     PredCode,
-                    Emit(Opcode.FJUMP, l1),
+                    Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
-                    Emit(Opcode.LABEL, l1),
-                    IfNot(more, Emit(Opcode.RETURN)));
+                    Emit(Opcode.MAKE_LABEL, l1),
+                    IfNot(more, Emit(Opcode.RETURN_VAL)));
             }
 
             // (if p x y) => p (FJUMP L1) x L1: y 
@@ -306,19 +306,19 @@ namespace CSLisp.Core
                 string l2 = MakeLabel();
                 return Merge(
                     PredCode,
-                    Emit(Opcode.FJUMP, l1),
+                    Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
-                    Emit(Opcode.JUMP, l2),
-                    Emit(Opcode.LABEL, l1),
+                    Emit(Opcode.JMP_TO_LABEL, l2),
+                    Emit(Opcode.MAKE_LABEL, l1),
                     ElseCode,
-                    Emit(Opcode.LABEL, l2));
+                    Emit(Opcode.MAKE_LABEL, l2));
             } else { 
                 string l1 = MakeLabel();
                 return Merge(
                     PredCode,
-                    Emit(Opcode.FJUMP, l1),
+                    Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
-                    Emit(Opcode.LABEL, l1),
+                    Emit(Opcode.MAKE_LABEL, l1),
                     ElseCode);
             }
         }
@@ -340,14 +340,14 @@ namespace CSLisp.Core
             string l1 = MakeLabel();
             return Merge(
                 PredCode,
-                Emit(Opcode.DUPE),
-                Emit(Opcode.TJUMP, l1),
-                Emit(Opcode.POP),
+                Emit(Opcode.DUPLICATE),
+                Emit(Opcode.JMP_IF_TRUE, l1),
+                Emit(Opcode.STACK_POP),
                 ElseCode,
-                IfNot(more || val, Emit(Opcode.RETURN)),
-                Emit(Opcode.LABEL, l1),
-                IfNot(val, Emit(Opcode.POP)),
-                IfNot(more, Emit(Opcode.RETURN)));
+                IfNot(more || val, Emit(Opcode.RETURN_VAL)),
+                Emit(Opcode.MAKE_LABEL, l1),
+                IfNot(val, Emit(Opcode.STACK_POP)),
+                IfNot(more, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles code to produce a new closure </summary>
@@ -403,18 +403,18 @@ namespace CSLisp.Core
                 // need to save the continuation point
                 string k = MakeLabel("K");
                 return Merge(
-                    Emit(Opcode.SAVE, k),
+                    Emit(Opcode.SAVE_RETURN, k),
                     CompileList(args, env),
                     Compile(f, env, true, true),
-                    Emit(Opcode.CALLJ, Cons.Length(args)),
-                    Emit(Opcode.LABEL, k),
-                    IfNot(val, Emit(Opcode.POP)));
+                    Emit(Opcode.JMP_CLOSURE, Cons.Length(args)),
+                    Emit(Opcode.MAKE_LABEL, k),
+                    IfNot(val, Emit(Opcode.STACK_POP)));
             } else {
                 // function call as rename plus goto
                 return Merge(
                     CompileList(args, env),
                     Compile(f, env, true, true),
-                    Emit(Opcode.CALLJ, Cons.Length(args)));
+                    Emit(Opcode.JMP_CLOSURE, Cons.Length(args)));
             }
         }
 
@@ -423,8 +423,8 @@ namespace CSLisp.Core
             // recursively detect whether it's a list or ends with a dotted cons, and generate appropriate arg
 
             // terminal case
-            if (args.IsNil) { return Emit(Opcode.ARGS, nSoFar); }        // (lambda (a b c) ...)
-            if (args.IsSymbol) { return Emit(Opcode.ARGSDOT, nSoFar); }  // (lambda (a b . c) ...)
+            if (args.IsNil) { return Emit(Opcode.MAKE_ENV, nSoFar); }        // (lambda (a b c) ...)
+            if (args.IsSymbol) { return Emit(Opcode.MAKE_ENVDOT, nSoFar); }  // (lambda (a b . c) ...)
 
             // if not at the end, recurse
             var cons = args.AsConsOrNull;
@@ -483,7 +483,7 @@ namespace CSLisp.Core
         }
 
         private static readonly List<Opcode> JUMP_TYPES = new List<Opcode>() {
-            Opcode.JUMP, Opcode.FJUMP, Opcode.TJUMP, Opcode.SAVE
+            Opcode.JMP_TO_LABEL, Opcode.JMP_IF_FALSE, Opcode.JMP_IF_TRUE, Opcode.SAVE_RETURN
         };
 
         /// <summary> Is this instruction one of the jump instructions that needs to be modified during assembly? </summary>
@@ -518,7 +518,7 @@ namespace CSLisp.Core
             public LabelPositions (List<Instruction> code) {
                 for (int i = 0; i < code.Count; i++) {
                     Instruction inst = code[i];
-                    if (inst.type == Opcode.LABEL) {
+                    if (inst.type == Opcode.MAKE_LABEL) {
                         string label = inst.first.AsString;
                         this[label] = i;
                     }
