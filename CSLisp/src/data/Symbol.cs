@@ -6,32 +6,23 @@ namespace CSLisp.Data
 	/// </summary>
     public class Symbol
     {
-        /// <summary> string name of this symbol </summary>
-        private string _name;
+        /// <summary> String name of this symbol </summary>
+        public string name { get; private set; }
 
         /// <summary> Package in this symbol is interned </summary>
-        private Package _pkg;
+        public Package pkg { get; private set; }
 
         /// <summary> Full (package-prefixed) name of this symbol </summary>
-        private string _fullName;
+        public string fullName { get; private set; }
 
         /// <summary> If true, this symbol is visible outside of its package. This can be adjusted later. </summary>
         public bool exported = false;
 
         public Symbol (string name, Package pkg) {
-            _name = name;
-            _pkg = pkg;
+            this.name = name;
+            this.pkg = pkg;
 
-            _fullName = (_pkg != null && _pkg.name != null) ? (_pkg.name + ":" + _name) : _name;
+            this.fullName = (pkg != null && pkg.name != null) ? (pkg.name + ":" + name) : name;
         }
-
-        /// <summary> string name of this symbol </summary>
-        public string name => _name;
-
-        /// <summary> Package in which this symbol is interned </summary>
-        public Package pkg => _pkg;
-
-        /// <summary> Returns the full name, including package prefix </summary>
-        public string fullName => _fullName;
     }
 }

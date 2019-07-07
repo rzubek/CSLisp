@@ -127,10 +127,12 @@ namespace CSLisp.Data
         public override bool Equals (object obj) => (obj is Val) && Equals((Val)obj, this);
         public override int GetHashCode () => (int)type ^ (rawobject != null ? rawobject.GetHashCode() : ((int)rawvalue));
 
-        private string DebugString => Print(this, true);
-        public override string ToString () => Print(this);
+        public override string ToString () => Print(this, true);
 
-        public static string Print (Val val, bool safe = false) {
+        public static string DebugPrint (Val val) => Print(val, false);
+        public static string Print (Val val) => Print(val, true);
+
+        private static string Print (Val val, bool fullName) {
             switch (val.type) {
                 case Type.Nil:
                     return "()";
@@ -143,25 +145,22 @@ namespace CSLisp.Data
                 case Type.String:
                     return "\"" + val.vstring + "\"";
                 case Type.Symbol:
-                    return val.vsymbol.fullName;
+                    return fullName ? val.vsymbol.fullName : val.vsymbol.name;
                 case Type.Cons:
-                    return StringifyCons(val.vcons);
+                    return StringifyCons(val.vcons, fullName);
                 case Type.Closure:
-                    return $"[Closure]";
+                    return string.IsNullOrEmpty(val.vclosure.name) ? "[Closure]" : $"[Closure/{val.vclosure.name}]";
                 case Type.ReturnAddress:
-                    return $"[{val.vreturn.debug}:{val.vreturn.pc}]";
+                    return $"[{val.vreturn.debug}/{val.vreturn.pc}]";
                 case Type.Object:
                     return $"[Native {val.rawobject}]";
                 default:
-                    if (safe) {
-                        return null;
-                    }
                     throw new CompilerError("Unexpected value type: " + val.type);
             }
         }
 
         /// <summary> Helper function for cons cells </summary>
-        private static string StringifyCons (Cons cell) {
+        private static string StringifyCons (Cons cell, bool fullName) {
             StringBuilder sb = new StringBuilder();
             sb.Append("(");
 
@@ -169,15 +168,15 @@ namespace CSLisp.Data
             while (val.IsNotNil) {
                 Cons cons = val.AsConsOrNull;
                 if (cons != null) {
-                    sb.Append(cons.first.ToString());
+                    sb.Append(Print(cons.first, fullName));
                     if (cons.rest.IsNotNil) {
                         sb.Append(" ");
                     }
                     val = cons.rest;
                 } else {
                     sb.Append(". ");
-                    sb.Append(val.ToString());
-                    val = Val.NIL;
+                    sb.Append(Print(val, fullName));
+                    val = NIL;
                 }
             }
 

@@ -430,7 +430,7 @@ namespace CSLisp
             CompileAndRun(ctx, "(package-set \"foo\") (package-get)", "\"foo\"", "\"foo\"");
             CompileAndRun(ctx, "(package-set \"foo\") (package-import \"core\") (car '(1 2))", "\"foo\"", "()", "1");
             CompileAndRun(ctx, "(package-set nil) (set! x 5) (package-set \"foo\") (package-import \"core\") (set! x (+ 1 5)) (package-set nil) x", "()", "5", "\"foo\"", "()", "6", "()", "5");
-            CompileAndRun(ctx, "(package-set \"foo\") (package-import \"core\") (set! first car) (first '(1 2))", "\"foo\"", "()", "[Closure]", "1");
+            CompileAndRun(ctx, "(package-set \"foo\") (package-import \"core\") (set! first car) (first '(1 2))", "\"foo\"", "()", "[Closure/core:car]", "1");
             CompileAndRun(ctx, "(package-set \"a\") (package-export '(afoo)) (set! afoo 1) (package-set \"b\") (package-import \"a\") afoo", "\"a\"", "()", "1", "\"b\"", "()", "1");
 
             // test more integration
@@ -441,7 +441,6 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (set! add +) (add 3 (add 2 1)))", "6");
             CompileAndRun(ctx, "(begin (set! kar car) (set! car cdr) (set! result (car '(1 2 3))) (set! car kar) result)", "(2 3)");
             CompileAndRun(ctx, "((lambda (x) (set! x 5) x) 6)", "5");
-
         }
 
         [TestMethod]
@@ -479,6 +478,7 @@ namespace CSLisp
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
+            CompileAndRun(ctx, "(set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))) (add 0) (add 100) (add 0)", "[Closure]", "0", "100", "100");
         }
 
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>

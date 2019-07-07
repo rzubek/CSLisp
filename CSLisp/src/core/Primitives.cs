@@ -184,8 +184,7 @@ namespace CSLisp.Core
                         new Instruction(Opcode.CALL_PRIMOP, p.name),
                         new Instruction(Opcode.RETURN_VAL)};
 
-                    string debug = $"primitive: {name.fullName}";
-                    pkg.SetValue(name, new Closure(instructions, null, null, debug));
+                    pkg.SetValue(name, new Closure(instructions, null, null, name.fullName));
                 }
             }
         }

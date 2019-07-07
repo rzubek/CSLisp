@@ -55,6 +55,7 @@ namespace CSLisp.Core
         }
 
         internal static string PrintStack (State st) =>
-            string.Format("{0,3}: [ {1} ]", st.stack.Count, string.Join(" ", st.stack.Select(val => Val.Print(val))));
+            string.Format("{0,3}: [ {1} ]", st.stack.Count,
+                string.Join(" ", st.stack.Select(val => Val.DebugPrint(val))));
     }
 }

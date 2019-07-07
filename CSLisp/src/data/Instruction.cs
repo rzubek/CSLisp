@@ -141,12 +141,12 @@ namespace CSLisp.Data
 
             if (inst.first.IsNotNil || inst.type == Opcode.PUSH_CONST) {
                 sb.Append("\t");
-                sb.Append(Val.Print(inst.first));
+                sb.Append(Val.DebugPrint(inst.first));
             }
 
             if (inst.second.IsNotNil) {
                 sb.Append("\t");
-                sb.Append(Val.Print(inst.second));
+                sb.Append(Val.DebugPrint(inst.second));
             }
             if (inst.debug != null) {
                 sb.Append("\t; ");

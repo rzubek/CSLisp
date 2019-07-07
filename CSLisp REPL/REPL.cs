@@ -30,7 +30,7 @@ namespace CSLisp
 
                 try {
                     List<Val> results = ctx.Execute(line);
-                    results.ForEach(val => Console.WriteLine(val));
+                    results.ForEach(val => Console.WriteLine(Val.Print(val)));
                     showPrompt = (results.Count > 0);
 
                 } catch (Error.LanguageError e){

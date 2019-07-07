@@ -63,7 +63,7 @@ namespace CSLisp.Core
             Val result = Parse(_stream);
             if (!Val.Equals(result, EOF)) {
                 if (_logger != null) {
-                    _logger("==> ", Val.Print(result));
+                    _logger("ParseNext ==> ", Val.DebugPrint(result));
                 }
                 return result;
             }
