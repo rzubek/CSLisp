@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace CSLisp
 {
@@ -55,16 +56,6 @@ namespace CSLisp
         }
 
 
-        [TestInitialize]
-        public void TestInit () {
-            failures = 0;
-        }
-
-        [TestCleanup]
-        public void TestCleanup () {
-            Log(failures == 0 ? "SUCCESS" : $"FAILURES: {failures}");
-        }
-
         /// <summary> Log that log! </summary>
         private void Log (params object[] args) {
             if (logger != null) {
@@ -88,10 +79,29 @@ namespace CSLisp
         }
 
 
+        [TestMethod]
+        public void RunTests () {
+            void Run (System.Action fn) {
+                Log("\n\n\n***** " + fn.GetMethodInfo().Name);
+                failures = 0;
+                fn();
+                Log(failures == 0 ? "SUCCESS" : $"FAILURES: {failures}");
+            }
+
+            Run(TestConsAndAtoms);
+            Run(TestPackagesAndSymbols);
+            Run(TestEnvironments);
+            Run(TestCharStream);
+            Run(TestParser);
+            Run(PrintSampleCompilations);
+            Run(TestVMNoCoreLib);
+            Run(TestVMPrimitives);
+            Run(TestPackages);
+            Run(TestStandardLibs);
+        }
 
 
         /// <summary> Tests various internal classes </summary>
-        [TestMethod]
         public void TestConsAndAtoms () {
 
             // test cons
@@ -146,7 +156,6 @@ namespace CSLisp
         }
 
         /// <summary> Test packages and symbols </summary>
-
         public void TestPackagesAndSymbols () {
 
             Packages packages = new Packages();
@@ -169,20 +178,19 @@ namespace CSLisp
 
             // test the packages list
 
-            Check(packages.global.name, (string)null); // get the global package
-            Check(Val.Print((Val)packages.global.Intern("foo")), "foo"); // check symbol name
+            Check(packages.global.name, (string) null); // get the global package
+            Check(Val.Print(packages.global.Intern("foo")), "foo"); // check symbol name
             Check(packages.keywords.name, "");      // get the keywords package
-            Check(Val.Print((Val)packages.keywords.Intern("foo")), ":foo");  // check symbol name
+            Check(Val.Print(packages.keywords.Intern("foo")), ":foo");  // check symbol name
 
             Check(packages.Find("fancy"), null);    // make sure the fancy package was not added yet
             Check(packages.Add(p2), p2);            // add our fancy custom package
             Check(packages.Intern("fancy"), p2);    // get the fancy package - should be the same one
-            Check(Val.Print((Val)packages.Intern("fancy").Intern("foo")), "fancy:foo");  // check symbol name
+            Check(Val.Print(packages.Intern("fancy").Intern("foo")), "fancy:foo");  // check symbol name
             Check(packages.Remove(p2));             // check removal (should only return true the first time)
             Check(!packages.Remove(p2));            // check removal (should only return true the first time)
         }
 
-        [TestMethod]
         public void TestEnvironments () {
             // test environments
 
@@ -212,7 +220,6 @@ namespace CSLisp
 
 
         /// <summary> Tests the character stream </summary>
-        [TestMethod]
         public void TestCharStream () {
 
             // first, test the stream wrapper
@@ -225,7 +232,7 @@ namespace CSLisp
             Check(stream.Peek(), 'o'); // don't remove
             Check(stream.Read(), 'o'); // remove
             Check(stream.Read(), 'o'); // remove last one
-            Check(stream.Read(), (char)0);
+            Check(stream.Read(), (char) 0);
             Check(stream.IsEmpty);
             Check(stream.Restore());   // make sure we can restore the old save
             Check(stream.Peek(), 'f'); // we're back at the beginning
@@ -233,7 +240,6 @@ namespace CSLisp
         }
 
         /// <summary> Tests the parser part of the system </summary>
-        [TestMethod]
         public void TestParser () {
 
             Packages packages = new Packages();
@@ -296,7 +302,6 @@ namespace CSLisp
 
 
         /// <summary> Compiles some sample scripts and prints them out, without validation. </summary>
-        [TestMethod]
         public void PrintSampleCompilations () {
             Context ctx = new Context(false, ctxDebugLog);
 
@@ -347,7 +352,6 @@ namespace CSLisp
 
 
         /// <summary> Front-to-back test of the virtual machine </summary>
-        [TestMethod]
         public void TestVMNoCoreLib () {
             // first without the standard library
             Context ctx = new Context(false, ctxDebugLog);
@@ -376,7 +380,6 @@ namespace CSLisp
         }
 
         /// <summary> Front-to-back test of the virtual machine </summary>
-        [TestMethod]
         public void TestVMPrimitives () {
             // first without the standard library
             Context ctx = new Context(false, ctxDebugLog);
@@ -408,7 +411,7 @@ namespace CSLisp
             CompileAndRun(ctx, "(nth '(1 2 3 4 5) 2)", "3");
             CompileAndRun(ctx, "(nth-tail '(1 2 3 4 5) 2)", "(4 5)");
             CompileAndRun(ctx, "(nth-cons '(1 2 3 4 5) 2)", "(3 4 5)");
-            // compileAndRun(ctx, "(begin (trace \"foo\" \"bar\") 5)", "5"); // todod trace not implemented yet
+            CompileAndRun(ctx, "(trace \"foo\" \"bar\")", "()"); // trace outputs text instead
             CompileAndRun(ctx, "(begin (set! first car) (first '(1 2 3)))", "1");
 
             // test quotes and macros
@@ -421,7 +424,6 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))", "(core:+ 1 (add 2 3))");
         }
 
-        [TestMethod]
         public void TestPackages () {
             // without the standard library
             Context ctx = new Context(false, ctxDebugLog);
@@ -438,14 +440,12 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (+ (+ 1 2) 3) 4)", "4");
             CompileAndRun(ctx, "(begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5)))", "7");
             CompileAndRun(ctx, "(set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))) (fact 5)", "[Closure]", "120");
-#warning fix define'd functions not being able to self-recurse
             CompileAndRun(ctx, "(set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))) (set! fact (lambda (x) (fact-helper x 1))) (fact 5)", "[Closure]", "[Closure]", "120");
             CompileAndRun(ctx, "(begin (set! add +) (add 3 (add 2 1)))", "6");
             CompileAndRun(ctx, "(begin (set! kar car) (set! car cdr) (set! result (car '(1 2 3))) (set! car kar) result)", "(2 3)");
             CompileAndRun(ctx, "((lambda (x) (set! x 5) x) 6)", "5");
         }
 
-        [TestMethod]
         public void TestStandardLibs () {
             // now initialize the standard library
             var ctx = new Context(true, ctxDebugLog);

@@ -1,4 +1,8 @@
-TEST RESULTS: 11:09:48 PM
+TEST RESULTS: 5:42:57 PM
+
+
+
+***** TestConsAndAtoms
 test: got #t  - expected #t
 test: got #t  - expected #t
 test: got #t  - expected #t
@@ -36,6 +40,35 @@ test: got #t  - expected #t
 test: got #t  - expected #t
 test: got "("foo" . "bar")"  - expected "("foo" . "bar")"
 SUCCESS
+
+
+
+***** TestPackagesAndSymbols
+test: got "foo"  - expected "foo"
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "foo"  - expected "foo"
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "foo"  - expected "foo"
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "fancy:foo"  - expected "fancy:foo"
+test: got ""  - expected ""
+test: got "foo"  - expected "foo"
+test: got ""  - expected ""
+test: got ":foo"  - expected ":foo"
+test: got [Native ]  - expected [Native ]
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "fancy:foo"  - expected "fancy:foo"
+test: got #t  - expected #t
+test: got #t  - expected #t
+SUCCESS
+
+
+
+***** TestEnvironments
 test: got 2  - expected 2
 test: got 0  - expected 0
 test: got 1  - expected 1
@@ -47,6 +80,10 @@ test: got temp:NEW_SYMBOL  - expected temp:NEW_SYMBOL
 test: got 2  - expected 2
 test: got 0  - expected 0
 SUCCESS
+
+
+
+***** TestCharStream
 test: got #t  - expected #t
 test: got 102  - expected 102
 test: got 102  - expected 102
@@ -59,6 +96,10 @@ test: got #t  - expected #t
 test: got 102  - expected 102
 test: got #t  - expected #t
 SUCCESS
+
+
+
+***** TestParser
 ParseNext ==>  1
 test: got #t  - expected #t
 test: got 1  - expected 1
@@ -130,6 +171,10 @@ ParseNext ==>  (append foo)
 test: got #t  - expected #t
 test: got "(append foo)"  - expected "(append foo)"
 SUCCESS
+
+
+
+***** PrintSampleCompilations
 COMPILE inputs:  5
 ParseNext ==>  5
 	0	MAKE_ENV	0
@@ -390,6 +435,10 @@ ParseNext ==>  (begin (- 2 3) (+ 2 3))
 	11	JMP_CLOSURE	2
 
 SUCCESS
+
+
+
+***** TestVMNoCoreLib
 
 
 -------------------------------------------------------------------------
@@ -1303,6 +1352,10 @@ Executing:
 [ 1]   4 : RETURN_VAL
 test: got "5"  - expected "5"
 SUCCESS
+
+
+
+***** TestVMPrimitives
 
 
 -------------------------------------------------------------------------
@@ -3220,6 +3273,44 @@ test: got "(3 4 5)"  - expected "(3 4 5)"
 -------------------------------------------------------------------------
 
 
+COMPILE AND RUN inputs:  (trace "foo" "bar")
+ParseNext ==>  (trace "foo" "bar")
+Parsed:  (core:trace "foo" "bar")
+Compiled:
+	0	MAKE_ENV	0
+	1	PUSH_CONST	"foo"
+	2	PUSH_CONST	"bar"
+	3	GLOBAL_GET	trace
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	0	MAKE_ENV	0
+	1	PUSH_CONST	"foo"
+	2	PUSH_CONST	"bar"
+	3	GLOBAL_GET	trace
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	"foo"
+                                      1: [ "foo" ]
+[ 1]   2 : PUSH_CONST	"bar"
+                                      2: [ "foo" "bar" ]
+[ 2]   3 : GLOBAL_GET	trace
+                                      3: [ "foo" "bar" [Closure/core:trace] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ "foo" "bar" ]
+[ 2]   0 : CALL_PRIMOP	"trace"
+                                      1: [ () ]
+[ 1]   1 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
 COMPILE AND RUN inputs:  (begin (set! first car) (first '(1 2 3)))
 ParseNext ==>  (begin (set! first car) (first (quote (1 2 3))))
 Parsed:  (begin (set! first core:car) (first (quote (1 2 3))))
@@ -4109,6 +4200,10 @@ Executing:
 [ 1]   1 : RETURN_VAL
 test: got "(core:+ 1 (add 2 3))"  - expected "(core:+ 1 (add 2 3))"
 SUCCESS
+
+
+
+***** TestPackages
 
 
 -------------------------------------------------------------------------
@@ -5932,6 +6027,10 @@ Executing:
 [ 1]   5 : RETURN_VAL
 test: got "5"  - expected "5"
 SUCCESS
+
+
+
+***** TestStandardLibs
 ParseNext ==>  (package-set "core")
 Executing:  
 	0	MAKE_ENV	0

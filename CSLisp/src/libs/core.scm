@@ -148,11 +148,9 @@
 
 
 
-
-
 ;;
 ;;
-;; FLASH INTEROP
+;; TODO INTEROP
 
 ;; (.. struct '(field1 field2)) 
 ;;		=> (deref (deref struct field1) field2)

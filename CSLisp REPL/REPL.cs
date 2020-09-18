@@ -33,7 +33,7 @@ namespace CSLisp
                     results.ForEach(val => Console.WriteLine(Val.Print(val)));
                     showPrompt = (results.Count > 0);
 
-                } catch (Error.LanguageError e){
+                } catch (Error.LanguageError e) {
                     Console.Error.WriteLine("ERROR: " + e.Message);
                     showPrompt = true;
 
