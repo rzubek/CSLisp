@@ -124,7 +124,7 @@ namespace CSLisp.Data
         public static implicit operator Val (Cons val) => new Val(val);
         public static implicit operator Val (Closure val) => new Val(val);
 
-        public override bool Equals (object obj) => (obj is Val) && Equals((Val) obj, this);
+        public override bool Equals (object obj) => (obj is Val val) && Equals(val, this);
         public override int GetHashCode () => (int) type ^ (rawobject != null ? rawobject.GetHashCode() : ((int) rawvalue));
 
         public override string ToString () => Print(this, true);

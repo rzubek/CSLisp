@@ -14,6 +14,10 @@ namespace CSLisp.Core
         /// <summary> Internal execution context </summary>
         private readonly Context _ctx = null;
 
+        /// <summary> Internal debugging info </summary>
+        private readonly DebugContext _debug = new DebugContext();
+
+
         public Machine (Context ctx, LoggerCallback logger) {
             _ctx = ctx;
             _logger = logger;
@@ -155,7 +159,7 @@ namespace CSLisp.Core
                             Closure closure = top.AsClosureOrNull;
 
                             // set vm state to the beginning of the closure
-                            st.fn = closure ?? throw new LanguageError("Unknown function during function call!");
+                            st.fn = closure ?? throw new LanguageError($"Unknown function during function call around {_debug.lastDebug}");
                             st.env = closure.env;
                             st.pc = 0;
                             st.argcount = instr.first.AsInt;
@@ -205,6 +209,9 @@ namespace CSLisp.Core
                     default:
                         throw new LanguageError("Unknown instruction type: " + instr.type);
                 }
+
+                // a little bit of debugging
+                _debug.Remember(instr);
             }
 
             // return whatever's on the top of the stack
@@ -223,6 +230,20 @@ namespace CSLisp.Core
                 throw new LanguageError("Unknown jump label: " + inst.first);
             }
         }
-    }
 
+
+        /// <summary>
+        /// Helper class that provides some debugging info
+        /// </summary>
+        private class DebugContext
+        {
+            public string lastDebug;
+
+            public void Remember (Instruction instr) {
+                lastDebug = null;
+                if (instr?.debug != null) { lastDebug = instr.debug; }
+                if (instr?.type == Opcode.GLOBAL_GET) { lastDebug = instr.first.AsSymbolOrNull?.fullName; }
+            }
+        }
+    }
 }
