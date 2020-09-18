@@ -23,12 +23,13 @@ namespace CSLisp.Data
 		public static readonly string NAME_CORE = "core";
 
         /// <summary> Dictionary of packages, keyed by package name </summary>
-        private List<Entry> _packages;
+        private readonly List<Entry> _packages;
 
         /// <summary> Currently active package, used to intern symbols </summary>
         public Package current;
 
         public Packages () {
+            _packages = new List<Entry>();
             Reinitialize();
         }
 
@@ -43,7 +44,7 @@ namespace CSLisp.Data
 
         /// <summary> Clears and re-initializes all packages to their initial settings. </summary>
         public void Reinitialize () {
-            _packages = new List<Entry>();
+            _packages.Clear();
             Add(new Package(NAME_CORE));
             Add(new Package(NAME_GLOBAL));
             Add(new Package(NAME_KEYWORDS));

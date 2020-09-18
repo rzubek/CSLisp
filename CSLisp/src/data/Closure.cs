@@ -8,16 +8,16 @@ namespace CSLisp.Data
     public class Closure
     {
         /// <summary> Compiled sequence of instructions </summary>
-        public List<Instruction> instructions;
+        public readonly List<Instruction> instructions;
 
         /// <summary> Environment in which we're running </summary>
-        public Environment env;
+        public readonly Environment env;
 
         /// <summary> List of arguments this function expects </summary>
-        public Cons args;
+        public readonly Cons args;
 
         /// <summary> Optional closure name, for debugging purposes only </summary>
-        public string name;
+        public readonly string name;
 
         public Closure (List<Instruction> instructions, Environment env, Cons args, string name) {
             this.instructions = instructions;

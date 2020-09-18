@@ -11,7 +11,7 @@ namespace CSLisp.Data
     {
         public static readonly VarPos INVALID = new VarPos(-1, -1);
 
-        public int frameIndex, symbolIndex;
+        public readonly int frameIndex, symbolIndex;
 
         public VarPos (Val frameIndex, Val symbolIndex) {
             this.frameIndex = frameIndex.AsInt;
@@ -35,22 +35,19 @@ namespace CSLisp.Data
     public class Environment
     {
         /// <summary> Parent environment </summary>
-        private Environment _parent;
+        public readonly Environment parent;
 
         /// <summary> Symbols defined in this environment </summary>
-        private Symbol[] _symbols;
+        private readonly Symbol[] _symbols;
 
         /// <summary> Values defined for each symbol </summary>
-        private Val[] _values;
+        private readonly Val[] _values;
 
         public Environment (int count, Environment parent) {
             _symbols = new Symbol[count];
             _values = new Val[count];
-            _parent = parent;
+            this.parent = parent;
         }
-
-        /// <summary> Reference to the parent environment </summary>
-        public Environment parent => _parent;
 
         /// <summary> Creates a new environment from a cons'd list of arguments </summary>
         public static Environment Make (Cons args, Environment parent) {
@@ -101,7 +98,7 @@ namespace CSLisp.Data
                 if (symbolIndex >= 0) {
                     return new VarPos(frameIndex, symbolIndex);
                 } else {
-                    frame = frame._parent;
+                    frame = frame.parent;
                     frameIndex++;
                 }
             }
@@ -127,7 +124,7 @@ namespace CSLisp.Data
         /// <summary> Returns the specified frame, relative to the current environment </summary>
         private static Environment GetFrame (int frameIndex, Environment frame) {
             for (int i = 0; i < frameIndex; i++) {
-                frame = frame._parent;
+                frame = frame.parent;
                 if (frame == null) {
                     throw new LanguageError("Invalid frame coordinates detected");
                 }

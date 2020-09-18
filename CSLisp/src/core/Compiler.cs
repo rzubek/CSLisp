@@ -14,16 +14,16 @@ namespace CSLisp.Core
         private int _labelNum = 0;
 
         /// <summary> Internal execution context </summary>
-        private Context _ctx = null;
+        private readonly Context _ctx = null;
 
         // some helpful symbol constants, interned only once at the beginning
-        private Symbol _quote;
-        private Symbol _begin;
-        private Symbol _set;
-        private Symbol _if;
-        private Symbol _ifStar;
-        private Symbol _lambda;
-        private Symbol _defmacro;
+        private readonly Symbol _quote;
+        private readonly Symbol _begin;
+        private readonly Symbol _set;
+        private readonly Symbol _if;
+        private readonly Symbol _ifStar;
+        private readonly Symbol _lambda;
+        private readonly Symbol _defmacro;
 
         public Compiler (Context ctx) {
             var global = ctx.packages.global;
@@ -312,7 +312,7 @@ namespace CSLisp.Core
                     Emit(Opcode.MAKE_LABEL, l1),
                     ElseCode,
                     Emit(Opcode.MAKE_LABEL, l2));
-            } else { 
+            } else {
                 string l1 = MakeLabel();
                 return Merge(
                     PredCode,
@@ -361,13 +361,11 @@ namespace CSLisp.Core
         }
 
         /// <summary> Compile a list, leaving all elements on the stack </summary>
-        private List<Instruction> CompileList (Cons exps, Environment env) {
-            return (exps == null)
+        private List<Instruction> CompileList (Cons exps, Environment env) => (exps == null)
                 ? null
                 : Merge(
                     Compile(exps.first, env, true, true),
                     CompileList(exps.rest.AsConsOrNull, env));
-        }
 
         /// <summary> 
         /// Compiles a macro, and sets the given symbol to point to it. NOTE: unlike all other expressions,
@@ -446,27 +444,29 @@ namespace CSLisp.Core
         }
 
         /// <summary> Generates a sequence containing a single instruction </summary>
-        private List<Instruction> Emit (Opcode type, Val first, Val second, string debug = null)
-            => new List<Instruction>() { new Instruction(type, first, second, debug) };
+        private List<Instruction> Emit (Opcode type, Val first, Val second, string debug = null) =>
+            new List<Instruction>() { new Instruction(type, first, second, debug) };
 
         /// <summary> Generates a sequence containing a single instruction </summary>
-        private List<Instruction> Emit (Opcode type, Val first)
-            => new List<Instruction>() { new Instruction(type, first) };
+        private List<Instruction> Emit (Opcode type, Val first) =>
+            new List<Instruction>() { new Instruction(type, first) };
 
         /// <summary> Generates a sequence containing a single instruction with no arguments </summary>
-        private List<Instruction> Emit (Opcode type)
-            => new List<Instruction>() { new Instruction(type) };
+        private List<Instruction> Emit (Opcode type) =>
+            new List<Instruction>() { new Instruction(type) };
 
 
         /// <summary> Creates a new unique label </summary>
-        private string MakeLabel (string prefix = "L") => prefix + (_labelNum++).ToString();
+        private string MakeLabel (string prefix = "L") =>
+            prefix + _labelNum++.ToString();
 
         /// <summary> Merges sequences of instructions into a single sequence </summary>
         private List<Instruction> Merge (params List<Instruction>[] elements) =>
             elements.Where(list => list != null).SelectMany(instr => instr).ToList();
 
         /// <summary> Returns the value if the condition is false, null if it's true </summary>
-        private List<Instruction> IfNot (bool test, List<Instruction> value) => !test ? value : null;
+        private List<Instruction> IfNot (bool test, List<Instruction> value) =>
+            !test ? value : null;
 
         /// <summary> Compares two code sequences, and returns true if they're equal </summary>
         private bool CodeEquals (List<Instruction> a, List<Instruction> b) {
@@ -481,27 +481,22 @@ namespace CSLisp.Core
             return true;
         }
 
-        private static readonly List<Opcode> JUMP_TYPES = new List<Opcode>() {
-            Opcode.JMP_TO_LABEL, Opcode.JMP_IF_FALSE, Opcode.JMP_IF_TRUE, Opcode.SAVE_RETURN
-        };
-
-        /// <summary> Is this instruction one of the jump instructions that needs to be modified during assembly? </summary>
-        private static bool IsJump (Instruction instr) => JUMP_TYPES.Contains(instr.type);
-
         /// <summary> 
-		/// "Assembles" the compiled code, by resolving label references and converting them to index offsets. 
-		/// Modifies the code data structure in place, and returns it back to the caller.
-		/// </summary>
+        /// "Assembles" the compiled code, by resolving label references and converting them to index offsets. 
+        /// Modifies the code data structure in place, and returns it back to the caller.
+        /// </summary>
         private List<Instruction> Assemble (List<Instruction> code) {
             var positions = new LabelPositions(code);
 
             for (int i = 0; i < code.Count; i++) {
                 Instruction inst = code[i];
 
-                if (IsJump(inst)) {
+                if (inst.IsJump) {
                     int pos = positions.FindPosition(inst.first);
                     if (pos >= 0) {
-                        code[i].second = new Val(pos);
+                        inst.UpdateJumpDestination(pos);
+                    } else {
+                        throw new CompilerError($"Can't find jump label {inst.first} during assembly");
                     }
                 }
             }

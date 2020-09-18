@@ -12,16 +12,16 @@ namespace CSLisp.Data
     public class Package
     {
         /// <summary> Name of this package </summary>
-        private string _name;
+        public readonly string name;
 
         /// <summary> Map from symbol name (string) to instance (Symbol) </summary>
-        private Dictionary<string, Symbol> _symbols;
+        private readonly Dictionary<string, Symbol> _symbols;
 
         /// <summary> Map from symbol (Symbol) to its value (*) </summary>
-        private Dictionary<Symbol, Val> _bindings;
+        private readonly Dictionary<Symbol, Val> _bindings;
 
         /// <summary> Map from macro name (Symbol) to the actual macro body </summary>
-        private Dictionary<Symbol, Macro> _macros;
+        private readonly Dictionary<Symbol, Macro> _macros;
 
         /// <summary> 
         /// Vector of other packages imported into this one. 
@@ -30,15 +30,12 @@ namespace CSLisp.Data
         private List<Package> _imports;
 
         public Package (string name) {
-            _name = name;
+            this.name = name;
             _symbols = new Dictionary<string, Symbol>();
             _bindings = new Dictionary<Symbol, Val>();
             _macros = new Dictionary<Symbol, Macro>();
             _imports = new List<Package>();
         }
-
-        /// <summary> Name of this package </summary>
-        public string name => _name;
 
         /// <summary> 
         /// Returns a symbol with the given name if one was interned, undefined otherwise.

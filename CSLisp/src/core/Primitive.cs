@@ -70,12 +70,12 @@ namespace CSLisp.Core
     /// </summary>
     public class Primitive
     {
-        public string name;
-        public int minargs;
-        public bool exact; // if not exact, the function accepts arbitrary varargs
-        public Function fn;
-        public bool alwaysNotNull;
-        public bool hasSideEffects;
+        public readonly string name;
+        public readonly int minargs;
+        public readonly bool exact; // if not exact, the function accepts arbitrary varargs
+        public readonly Function fn;
+        public readonly bool alwaysNotNull;
+        public readonly bool hasSideEffects;
 
         public Primitive (string name, int minargs, bool exact, Function fn, bool alwaysNotNull = false, bool hasSideEffects = false) {
             this.name = name;

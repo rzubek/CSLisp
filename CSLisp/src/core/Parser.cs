@@ -21,16 +21,16 @@ namespace CSLisp.Core
         public static readonly Val EOF = new Val("!eof");
 
         /// <summary> Internal stream </summary>
-        private InputStream _stream = new InputStream();
+        private readonly InputStream _stream = new InputStream();
 
         /// <summary> Reference to the global packages manager </summary>
-        private Packages _packages;
+        private readonly Packages _packages;
 
         /// <summary> Global unnamed package, used for symbols like "quote" (convenience reference) </summary>
-        private Package _global;
+        private readonly Package _global;
 
         /// <summary> Optional logger callback </summary>
-        private LoggerCallback _logger;
+        private readonly LoggerCallback _logger;
 
         public Parser (Packages packages, LoggerCallback logger) {
             _packages = packages ?? throw new ParserError("Parser requires a valid packages structure during initialization");
@@ -39,9 +39,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Adds a new string to the parse buffer </summary>
-        public void AddString (string str) {
-            _stream.Add(str);
-        }
+        public void AddString (string str) => _stream.Add(str);
 
         /// <summary> Parses and returns all the elements it can from the stream </summary>
         public List<Val> ParseAll () {
@@ -175,8 +173,7 @@ namespace CSLisp.Core
         private readonly List<char> SPECIAL_ELEMENTS = new List<char>() { '(', ')', '\"', '\'', '`' };
 
         /// <summary> Special elements are like whitespace - they interrupt tokenizing </summary>
-        private bool IsSpecialElement (char elt, bool insideBackquote)
-            => SPECIAL_ELEMENTS.Contains(elt) || (insideBackquote && elt == ',');
+        private bool IsSpecialElement (char elt, bool insideBackquote) => SPECIAL_ELEMENTS.Contains(elt) || (insideBackquote && elt == ',');
 
 
         /// <summary> 
@@ -192,7 +189,7 @@ namespace CSLisp.Core
             // tokenizer loop
             StringBuilder sb = new StringBuilder();
             char ch;
-            while ((ch = stream.Peek()) != (char)0) {
+            while ((ch = stream.Peek()) != (char) 0) {
                 if (IsWhitespace(ch) || IsSpecialElement(ch, backquote)) {
                     break; // we're done here, don't touch the special character
                 }
@@ -284,7 +281,7 @@ namespace CSLisp.Core
 
             while (true) {
                 char ch = stream.Read();
-                if (ch == (char)0) { throw new ParserError($"string not properly terminated: {sb.ToString()}"); }
+                if (ch == (char) 0) { throw new ParserError($"string not properly terminated: {sb.ToString()}"); }
 
                 // if we've consumed the closing double-quote, we're done.
                 if (ch == '\"') { break; }
@@ -308,7 +305,7 @@ namespace CSLisp.Core
             char ch = stream.Read(); // consume opening paren
             ConsumeWhitespace(stream);
 
-            while ((ch = stream.Peek()) != ')' && ch != (char)0) {
+            while ((ch = stream.Peek()) != ')' && ch != (char) 0) {
                 Val val = Parse(stream, backquote);
                 results.Add(val);
             }
@@ -432,8 +429,6 @@ namespace CSLisp.Core
         }
 
         /// <summary> Convenience function: checks if the value is of type Symbol, and has the specified name </summary>
-        private bool IsSymbolWithName (Val value, string fullName) =>
-            value.AsSymbolOrNull?.fullName == fullName;
-
+        private bool IsSymbolWithName (Val value, string fullName) => value.AsSymbolOrNull?.fullName == fullName;
     }
 }

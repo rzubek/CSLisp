@@ -91,7 +91,7 @@ namespace CSLisp.Data
         public Cons AsConsOrNull => type == Type.Cons ? vcons : null;
         public Closure AsClosureOrNull => type == Type.Closure ? vclosure : null;
 
-        public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil) ? true : false;
+        public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil);
         public float CastToFloat =>
             (type == Type.Int) ? vint :
             (type == Type.Float) ? vfloat :
@@ -124,8 +124,8 @@ namespace CSLisp.Data
         public static implicit operator Val (Cons val) => new Val(val);
         public static implicit operator Val (Closure val) => new Val(val);
 
-        public override bool Equals (object obj) => (obj is Val) && Equals((Val)obj, this);
-        public override int GetHashCode () => (int)type ^ (rawobject != null ? rawobject.GetHashCode() : ((int)rawvalue));
+        public override bool Equals (object obj) => (obj is Val) && Equals((Val) obj, this);
+        public override int GetHashCode () => (int) type ^ (rawobject != null ? rawobject.GetHashCode() : ((int) rawvalue));
 
         public override string ToString () => Print(this, true);
 

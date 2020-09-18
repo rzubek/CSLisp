@@ -9,10 +9,10 @@ namespace CSLisp.Core
     /// </summary>
     public class Context
     {
-        public Packages packages;
-        public Parser parser;
-        public Compiler compiler;
-        public Machine vm;
+        public readonly Packages packages;
+        public readonly Parser parser;
+        public readonly Compiler compiler;
+        public readonly Machine vm;
 
         public Context (bool loadLibraries = true, LoggerCallback logger = null) {
             this.packages = new Packages();

@@ -8,16 +8,16 @@ namespace CSLisp.Core
 	public class ReturnAddress
     {
         /// <summary> Closure we're returning to </summary>
-		public Closure fn;
+		public readonly Closure fn;
 
         /// <summary> Program counter we're returning to </summary>
-		public int pc;
+		public readonly int pc;
 
         /// <summary> Environment that needs to be restored </summary>
-		public Environment env;
+		public readonly Environment env;
 
         /// <summary> Return label name for debugging </summary>
-        public string debug;
+        public readonly string debug;
 
         public ReturnAddress (Closure fn, int pc, Environment env, string debug) {
             this.fn = fn;

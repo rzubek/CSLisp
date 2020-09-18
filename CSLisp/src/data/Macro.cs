@@ -6,13 +6,13 @@ namespace CSLisp.Data
 	public class Macro 
 	{
         /// <summary> Optional debug name </summary>
-		public string name;
+		public readonly string name;
 
         /// <summary> List of arguments for the macro </summary>
-		public Cons args;
+		public readonly Cons args;
 
         /// <summary> Body of the macro </summary>
-		public Closure body;
+		public readonly Closure body;
 		
 		public Macro (Symbol name, Cons args, Closure body)
 		{

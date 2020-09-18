@@ -8,10 +8,11 @@ indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
 # we like braces
-csharp_prefer_braces = true:suggestion
+csharp_prefer_braces = true:warning
 # some spacing questions
 csharp_space_between_method_declaration_name_and_open_parenthesis  = true
 csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_cast = true
 # fewer newlines for more vertical economy
 csharp_new_line_before_open_brace = types
 csharp_new_line_before_else = false
@@ -21,3 +22,12 @@ csharp_new_line_before_members_in_object_initializers = false
 csharp_new_line_before_members_in_anonymous_types = false
 # allow for single line blocks
 csharp_preserve_single_line_blocks = true
+# expression syntax preferred over blocks
+csharp_style_expression_bodied_methods = true:suggestion
+csharp_style_expression_bodied_operators = true:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+csharp_style_expression_bodied_indexers = true:suggestion
+csharp_style_expression_bodied_accessors = true:suggestion
+dotnet_style_readonly_field = true:suggestion
+# don't complain when public fields or properties are not capitalized
+dotnet_diagnostic.IDE1006.severity = silent

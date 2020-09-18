@@ -34,7 +34,7 @@ namespace CSLisp.Core
             new Primitive("*", 2, true, new Function((ctx, a, b) => ValMul(a, b)), true),
             new Primitive("/", 2, true, new Function((ctx, a, b) => ValDiv(a, b)), true),
 
-            new Primitive("+", 3, false, new Function((Context ctx, List<Val> args) => 
+            new Primitive("+", 3, false, new Function((Context ctx, List<Val> args) =>
                 FoldLeft((a, b) => ValAdd(a, b), 0, args)), true),
             new Primitive("*", 3, false, new Function((Context ctx, List<Val> args) =>
                 FoldLeft((a, b) => ValMul(a, b), 1, args)), true),
@@ -143,11 +143,9 @@ namespace CSLisp.Core
         /// If f is a symbol that refers to a primitive, and it's not shadowed in the local environment,
         /// returns an appropriate instance of Primitive for that argument count.
         /// </summary>
-        public static Primitive FindGlobal (Val f, Environment env, int nargs) {
-            return (f.IsSymbol && (Environment.GetVariable(f.AsSymbol, env).IsNotValid))
+        public static Primitive FindGlobal (Val f, Environment env, int nargs) => (f.IsSymbol && (Environment.GetVariable(f.AsSymbol, env).IsNotValid))
                 ? FindNary(f.AsSymbol.name, nargs)
                 : null;
-        }
 
         /// <summary> Helper function, searches based on name and argument count </summary>
         public static Primitive FindNary (string symbol, int nargs) {

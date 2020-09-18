@@ -1,3 +1,4 @@
+using CSLisp.Error;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -113,6 +114,26 @@ namespace CSLisp.Data
         /// <summary> ArrayList of human readable names for all constants </summary>
         private static readonly string[] _NAMES = Enum.GetNames(typeof(Opcode));
 
+        /// <summary> Names of all jump instructions that need to be fixed up at assembly time </summary>
+        private static readonly List<Opcode> JUMP_TYPES = new List<Opcode>() {
+            Opcode.JMP_TO_LABEL,
+            Opcode.JMP_IF_FALSE,
+            Opcode.JMP_IF_TRUE,
+            Opcode.SAVE_RETURN
+        };
+
+        /// <summary> Instruction type, one of the constants in this class </summary>
+        public Opcode type { get; private set; }
+
+        /// <summary> First instruction parameter (context-sensitive) </summary>
+        public Val first { get; private set; }
+
+        /// <summary> Second instruction parameter (context-sensitive) </summary>
+        public Val second { get; private set; }
+
+        /// <summary> Debug information (printed to the user as needed) </summary>
+        public readonly string debug;
+
         public Instruction (Opcode type) : this(type, Val.NIL, Val.NIL, null) { }
         public Instruction (Opcode type, Val first) : this(type, first, Val.NIL, null) { }
         public Instruction (Opcode type, Val first, Val second, string debug = null) {
@@ -122,22 +143,20 @@ namespace CSLisp.Data
             this.debug = debug;
         }
 
-        /// <summary> Instruction type, one of the constants in this class </summary>
-        public Opcode type;
+        /// <summary> Is this instruction one of the jump instructions that needs to be modified during assembly? </summary>
+        public bool IsJump => JUMP_TYPES.Contains(type);
 
-        /// <summary> First instruction parameter (context-sensitive) </summary>
-        public Val first;
+        /// <summary> If this is a jump instruction, updates the second parameter to contain the destination </summary>
+        public void UpdateJumpDestination (int pc) {
+            if (!IsJump) { throw new LanguageError($"Attempting to set jump destination for non-jump instruction {type}"); }
+            second = new Val(pc);
+        }
 
-        /// <summary> Second instruction parameter (context-sensitive) </summary>
-        public Val second;
-
-        /// <summary> Debug information (printed to the user as needed) </summary>
-        public string debug;
 
         /// <summary> Converts an instruction to a string </summary>
         public static string PrintInstruction (Instruction inst) {
             StringBuilder sb = new StringBuilder();
-            sb.Append(_NAMES[(int)inst.type]);
+            sb.Append(_NAMES[(int) inst.type]);
 
             if (inst.first.IsNotNil || inst.type == Opcode.PUSH_CONST) {
                 sb.Append("\t");

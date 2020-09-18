@@ -9,10 +9,10 @@ namespace CSLisp.Core
     public class Machine
     {
         /// <summary> If set, instructions will be logged to this function as they're executed. </summary>
-        private LoggerCallback _logger = null;
+        private readonly LoggerCallback _logger = null;
 
         /// <summary> Internal execution context </summary>
-        private Context _ctx = null;
+        private readonly Context _ctx = null;
 
         public Machine (Context ctx, LoggerCallback logger) {
             _ctx = ctx;
@@ -29,12 +29,14 @@ namespace CSLisp.Core
             }
 
             while (!st.done) {
-                if (st.pc >= st.code.Count) {
+                var code = st.fn.instructions;
+
+                if (st.pc >= code.Count) {
                     throw new LanguageError("Runaway opcodes!");
                 }
 
                 // fetch instruction
-                Instruction instr = st.code[st.pc++];
+                Instruction instr = code[st.pc++];
 
                 if (_logger != null) {
                     _logger("                                    " + State.PrintStack(st));
@@ -61,9 +63,9 @@ namespace CSLisp.Core
                         break;
 
                     case Opcode.LOCAL_SET: {
-                            Val val = st.Peek();
                             VarPos pos = new VarPos(instr.first, instr.second);
-                            Environment.SetValueAt(pos, val, st.env);
+                            Val value = st.Peek();
+                            Environment.SetValueAt(pos, value, st.env);
                         }
                         break;
 
@@ -108,10 +110,10 @@ namespace CSLisp.Core
 
                     case Opcode.MAKE_ENV: {
                             int argcount = instr.first.AsInt;
-                            if (st.nargs != argcount) { throw new LanguageError($"Argument count error, expected {argcount}, got {st.nargs}"); }
+                            if (st.argcount != argcount) { throw new LanguageError($"Argument count error, expected {argcount}, got {st.argcount}"); }
 
                             // make an environment for the given number of named args
-                            st.env = new Environment(st.nargs, st.env);
+                            st.env = new Environment(st.argcount, st.env);
 
                             // move named arguments onto the stack frame
                             for (int i = argcount - 1; i >= 0; i--) {
@@ -122,10 +124,10 @@ namespace CSLisp.Core
 
                     case Opcode.MAKE_ENVDOT: {
                             int argcount = instr.first.AsInt;
-                            if (st.nargs < argcount) { throw new LanguageError($"Argument count error, expected {argcount} or more, got {st.nargs}"); }
+                            if (st.argcount < argcount) { throw new LanguageError($"Argument count error, expected {argcount} or more, got {st.argcount}"); }
 
                             // make an environment for all named args, +1 for the list of remaining varargs
-                            int dotted = st.nargs - argcount;
+                            int dotted = st.argcount - argcount;
                             st.env = new Environment(argcount + 1, st.env);
 
                             // cons up dotted values from the stack
@@ -154,10 +156,9 @@ namespace CSLisp.Core
 
                             // set vm state to the beginning of the closure
                             st.fn = closure ?? throw new LanguageError("Unknown function during function call!");
-                            st.code = closure.instructions;
                             st.env = closure.env;
                             st.pc = 0;
-                            st.nargs = instr.first.AsInt;
+                            st.argcount = instr.first.AsInt;
                         }
                         break;
 
@@ -176,7 +177,6 @@ namespace CSLisp.Core
 
                             // restore vm state from the return value
                             st.fn = retaddr.fn;
-                            st.code = retaddr.fn.instructions;
                             st.env = retaddr.env;
                             st.pc = retaddr.pc;
                         } else {
@@ -186,14 +186,13 @@ namespace CSLisp.Core
 
                     case Opcode.MAKE_CLOSURE: {
                             var cl = instr.first.AsClosure;
-                            var code = cl.instructions;
-                            st.Push(new Closure(code, st.env, null, cl.name));
+                            st.Push(new Closure(cl.instructions, st.env, null, cl.name));
                         }
                         break;
 
                     case Opcode.CALL_PRIMOP: {
                             string name = instr.first.AsString;
-                            int argn = (instr.second.IsInt) ? instr.second.AsInt : st.nargs;
+                            int argn = (instr.second.IsInt) ? instr.second.AsInt : st.argcount;
 
                             Primitive prim = Primitives.FindNary(name, argn);
                             if (prim == null) { throw new LanguageError($"Invalid argument count to primitive {name}, count of {argn}"); }
