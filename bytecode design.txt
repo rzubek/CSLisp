@@ -1,11 +1,10 @@
 VM STATE
 
-code    array of instructions
-fn		reference to the closure that contains these instructions
-pc      program counter; index to the code array
-env     list of environments (map variables to values)
-stack   stack of heterogeneous values (numbers, strings, environments, closures, etc)
-nargs   argument count, used when calling functions
+fn         closure that contains the current code block
+pc         program counter; index to the code array
+env        linked list of execution environments (each map variables to values)
+stack      stack of heterogeneous values (numbers, strings, environments, closures, etc)
+argcount   transient argument count, used when calling functions
 
 
 
@@ -13,26 +12,41 @@ OPCODES
 
 Internally, opcodes are not raw bytes - they're structs that hold a type, and arguments
 in a form that's already processed (e.g. lists are lists, and not serialized byte arrays).
-These are mostly from Norvig:
 
-LABEL   n       label for jumps, only gets used during compilation
-CONST   x       push x onto the stack
-LVAR    i, j    push a local variable's value onto stack (ith frame, jth variable in that frame)
-LSET    i, j    store top-of-stack in a local variable (ith frame, jth variable in that frame)
-GVAR    name    push a global variable's value onto stack
-GSET    name    store top-of-stack in a global variable
-POP             pop the stack, discarding the value
-TJUMP   label   pop stack, and if the top value is true, go to label
-FJUMP   label   pop stack, and if the top value is false, go to label
-JUMP    label   go to label, don't touch the stack
-ARGS    n       make a new env frame, move n values from stack into it, push on the env stack
-ARGSDOT n       same as ARGS, but supports varargs
-DUPE            duplicates (pushes a second reference to) the topmost entry on the stack
-CALLJ   n       go to the function on top of the stack (don't save return point); n is arg count
-SAVE            save a return address on the stack
-RETURN          go to return address on the stack (by convention, second from top; ret val is at top) 
-FN      fn      create a closure from argument and current environment, push onto the stack
-PRIM    name    performs a function call right off the stack, and stores return val back on stack
+MAKE_LABEL   n       label for jumps, only gets used during compilation
+PUSH_CONST   x       push constant x onto the stack
+LOCAL_GET    i, j    read a local variable's value and push onto stack (ith frame, jth variable in that frame)
+LOCAL_SET    i, j    copy top-of-stack into a local variable (ith frame, jth variable in that frame)
+GLOBAL_GET   name    push a global variable's value onto stack
+GLOBAL_SET   name    copy top-of-stack into a global variable
+DUPLICATE            duplicate the topmost entry on the stack
+STACK_POP            pop top-of-stack, discarding the value
+
+JMP_IF_TRUE  label   pop stack, and if the top value is true, go to label
+JMP_IF_FALSE label   pop stack, and if the top value is not true, go to label
+JMP_TO_LABEL label   go to label, don't touch the stack
+
+SAVE_RETURN  label   make a return point continuation and push it on the stack.
+                     the continuation is a combo of current code block and instruction index for the specified label.
+
+MAKE_ENV     n       make a new env frame that points to current env as parent, then move n values from stack into local vars 
+                     (top of stack becomes the last var) and set this new env as current env.
+
+MAKE_ENVDOT  n       same as MAKE_ENV but supports varargs. makes an env with n + 1 local vars,
+                     first n arguments from call get stored in n local vars, and rest in cons list at var n + 1
+
+MAKE_CLOSURE fn      create a new closure from fn argument and current environment, and push it on top of the stack.
+					 fn is expected to be the actual code block that will be the body of the closure.
+
+JMP_CLOSURE  n       pop closure from top of the stack and set execution pointer there; n is number of args on stack to pass.
+                     return point is not saved here; if desired, compiler should emit a call to SAVE_RETURN first.
+
+RETURN_VAL           jump to the saved return point while preserving the return value.
+                     (by convention, return value is on top of the stack, while continuation is second.
+					 this will pop the return value, pop the continuation, push return value back down, and then jump.)
+
+CALL_PRIMOP  name    performs a primitive function call right off the stack, and stores return val back on stack.
+                     it is assumed that the primitive function will pop all its arguments, but *not* push the return value.
 
 
 
