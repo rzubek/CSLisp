@@ -159,7 +159,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Initializes the core package with stub functions for primitives </summary>
-        public static void InitializeCorePackage (Package pkg) {
+        public static void InitializeCorePackage (Context context, Package pkg) {
 
             // clear out and reinitialize the dictionary.
             // also, intern all primitives in their appropriate package
@@ -182,7 +182,8 @@ namespace CSLisp.Core
                         new Instruction(Opcode.CALL_PRIMOP, p.name),
                         new Instruction(Opcode.RETURN_VAL)};
 
-                    pkg.SetValue(name, new Closure(instructions, null, null, name.fullName));
+                    var code = context.code.Register(instructions, name.fullName);
+                    pkg.SetValue(name, new Closure(code, null, null, name.fullName));
                 }
             }
         }

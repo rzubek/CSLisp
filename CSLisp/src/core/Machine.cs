@@ -1,5 +1,6 @@
 using CSLisp.Data;
 using CSLisp.Error;
+using System.Collections.Generic;
 
 namespace CSLisp.Core
 {
@@ -26,25 +27,30 @@ namespace CSLisp.Core
         /// <summary> Runs the given piece of code, and returns the value left at the top of the stack. </summary>
         public Val Execute (Closure fn, params Val[] args) {
             State st = new State(fn, args);
+            Code.Handle code = default;
+            List<Instruction> instructions = null;
 
             if (_logger != null) {
                 _logger("Executing: ", fn.name);
-                _logger(Instruction.PrintInstructions(fn.instructions));
+                _logger(_ctx.code.DebugPrint(fn));
             }
 
             while (!st.done) {
-                var code = st.fn.instructions;
+                if (!code.Equals(st.fn.code)) {
+                    code = st.fn.code;
+                    instructions = _ctx.code.Get(code).instructions;
+                }
 
-                if (st.pc >= code.Count) {
+                if (st.pc >= instructions.Count) {
                     throw new LanguageError("Runaway opcodes!");
                 }
 
                 // fetch instruction
-                Instruction instr = code[st.pc++];
+                Instruction instr = instructions[st.pc++];
 
                 if (_logger != null) {
                     _logger("                                    " + State.PrintStack(st));
-                    _logger(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, Instruction.PrintInstruction(instr)));
+                    _logger(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, instr.DebugPrint()));
                 }
 
                 // and now a big old switch statement. not handler functions - this is much faster.
@@ -190,7 +196,7 @@ namespace CSLisp.Core
 
                     case Opcode.MAKE_CLOSURE: {
                             var cl = instr.first.AsClosure;
-                            st.Push(new Closure(cl.instructions, st.env, null, cl.name));
+                            st.Push(new Closure(cl.code, st.env, null, cl.name));
                         }
                         break;
 

@@ -353,15 +353,17 @@ namespace CSLisp.Core
         /// <summary> Compiles code to produce a new closure </summary>
         private Closure CompileLambda (Val args, Cons body, Environment env) {
             Environment newEnv = Environment.Make(MakeTrueList(args), env);
-            List<Instruction> code = Merge(
+            List<Instruction> instructions = Merge(
                 EmitArgs(args, 0),
                 CompileBegin(new Val(body), newEnv, true, false));
 
-            return new Closure(Assemble(code), env, args.AsConsOrNull, "");
+            Code.Handle handle = _ctx.code.Register(Assemble(instructions), "");
+            return new Closure(handle, env, args.AsConsOrNull, "");
         }
 
         /// <summary> Compile a list, leaving all elements on the stack </summary>
-        private List<Instruction> CompileList (Cons exps, Environment env) => (exps == null)
+        private List<Instruction> CompileList (Cons exps, Environment env) =>
+            (exps == null)
                 ? null
                 : Merge(
                     Compile(exps.first, env, true, true),

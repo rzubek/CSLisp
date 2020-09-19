@@ -1,6 +1,8 @@
+using CSLisp.Core;
 using CSLisp.Error;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace CSLisp.Data
@@ -109,6 +111,7 @@ namespace CSLisp.Data
     /// <summary>
 	/// Instructions produced by the compiler
 	/// </summary>
+    [DebuggerDisplay("{DebugString}")]
     public class Instruction
     {
         /// <summary> ArrayList of human readable names for all constants </summary>
@@ -152,47 +155,26 @@ namespace CSLisp.Data
             second = new Val(pc);
         }
 
+        private string DebugString => DebugPrint(" ");
 
         /// <summary> Converts an instruction to a string </summary>
-        public static string PrintInstruction (Instruction inst) {
+        public string DebugPrint (string sep = "\t") {
             StringBuilder sb = new StringBuilder();
-            sb.Append(_NAMES[(int) inst.type]);
+            sb.Append(_NAMES[(int) type]);
 
-            if (inst.first.IsNotNil || inst.type == Opcode.PUSH_CONST) {
-                sb.Append("\t");
-                sb.Append(Val.DebugPrint(inst.first));
+            if (first.IsNotNil || type == Opcode.PUSH_CONST) {
+                sb.Append(sep);
+                sb.Append(Val.DebugPrint(first));
             }
 
-            if (inst.second.IsNotNil) {
-                sb.Append("\t");
-                sb.Append(Val.DebugPrint(inst.second));
+            if (second.IsNotNil) {
+                sb.Append(sep);
+                sb.Append(Val.DebugPrint(second));
             }
-            if (inst.debug != null) {
-                sb.Append("\t; ");
-                sb.Append(inst.debug);
-            }
-            return sb.ToString();
-        }
-
-        /// <summary> Converts a set of instructions to a string </summary>
-        public static string PrintInstructions (List<Instruction> instructions, int indentLevel = 1) {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < instructions.Count; i++) {
-                Instruction instruction = instructions[i];
-
-                // tab out and print current instruction
-                int tabs = indentLevel + (instruction.type == Opcode.MAKE_LABEL ? -1 : 0);
-                sb.Append('\t', tabs);
-                sb.Append(i);
-                sb.Append('\t');
-                sb.AppendLine(PrintInstruction(instruction));
-
-                if (instruction.type == Opcode.MAKE_CLOSURE) {
-                    // if function, recurse
-                    Closure closure = instruction.first.AsClosure;
-                    sb.Append(PrintInstructions(closure.instructions, indentLevel + 1));
-                }
+            if (debug != null) {
+                sb.Append(sep);
+                sb.Append("; ");
+                sb.Append(debug);
             }
             return sb.ToString();
         }
@@ -200,7 +182,6 @@ namespace CSLisp.Data
         /// <summary> Returns true if two instructions are equal </summary>
         public static bool Equal (Instruction a, Instruction b)
             => a.type == b.type && Val.Equals(a.first, b.first) && Val.Equals(a.second, b.second);
-
     }
 
 }

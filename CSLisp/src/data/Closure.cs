@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using CSLisp.Core;
 
 namespace CSLisp.Data
 {
@@ -7,8 +7,8 @@ namespace CSLisp.Data
     /// </summary>
     public class Closure
     {
-        /// <summary> Compiled sequence of instructions </summary>
-        public readonly List<Instruction> instructions;
+        /// <summary> Handle to the compiled sequence of instructions </summary>
+        public readonly Code.Handle code;
 
         /// <summary> Environment in which we're running </summary>
         public readonly Environment env;
@@ -19,8 +19,8 @@ namespace CSLisp.Data
         /// <summary> Optional closure name, for debugging purposes only </summary>
         public readonly string name;
 
-        public Closure (List<Instruction> instructions, Environment env, Cons args, string name) {
-            this.instructions = instructions;
+        public Closure (Code.Handle code, Environment env, Cons args, string name) {
+            this.code = code;
             this.env = env;
             this.args = args;
             this.name = name;

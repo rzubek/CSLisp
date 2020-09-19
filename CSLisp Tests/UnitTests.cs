@@ -100,6 +100,7 @@ namespace CSLisp
             Run(TestStandardLibs);
         }
 
+        private void DumpCodeBlocks (Context ctx) => Log(ctx.code.DebugPrintAll());
 
         /// <summary> Tests various internal classes </summary>
         public void TestConsAndAtoms () {
@@ -334,6 +335,8 @@ namespace CSLisp
             CompileAndPrint(ctx, "(if* #f b)");
             CompileAndPrint(ctx, "(begin (- 2 3) (+ 2 3))");
             //			compileAndPrint(ctx, "(begin (set! sum (lambda (x) (if (<= x 0) 0 (sum (+ 1 (- x 1)))))) (sum 5))");
+
+            //DumpCodeBlocks(ctx);
         }
 
         /// <summary> Compiles an s-expression and prints the resulting assembly </summary>
@@ -344,7 +347,7 @@ namespace CSLisp
             var parseds = ctx.parser.ParseAll();
             foreach (var parsed in parseds) {
                 Closure cl = ctx.compiler.Compile(parsed);
-                Log(Instruction.PrintInstructions(cl.instructions));
+                Log(ctx.code.DebugPrint(cl));
             }
         }
 
@@ -377,6 +380,8 @@ namespace CSLisp
             CompileAndRun(ctx, "((lambda (x . rest) (if x 'foo rest)) #t 'a 'b 'c)", "foo");
             CompileAndRun(ctx, "((lambda (x . rest) (if x 'foo rest)) #f 'a 'b 'c)", "(a b c)");
             CompileAndRun(ctx, "(begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6))", "5");
+
+            //DumpCodeBlocks(ctx);
         }
 
         /// <summary> Front-to-back test of the virtual machine </summary>
@@ -422,6 +427,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (defmacro lettest (bindings . body) `((lambda ,(map car bindings) ,@body) ,@(map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y)))", "3");
             CompileAndRun(ctx, "(begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 (inc1 (inc1 1))))", "4");
             CompileAndRun(ctx, "(begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))", "(core:+ 1 (add 2 3))");
+
+            //DumpCodeBlocks(ctx);
         }
 
         public void TestPackages () {
@@ -444,6 +451,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (set! add +) (add 3 (add 2 1)))", "6");
             CompileAndRun(ctx, "(begin (set! kar car) (set! car cdr) (set! result (car '(1 2 3))) (set! car kar) result)", "(2 3)");
             CompileAndRun(ctx, "((lambda (x) (set! x 5) x) 6)", "5");
+
+            //DumpCodeBlocks(ctx);
         }
 
         public void TestStandardLibs () {
@@ -481,6 +490,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
             CompileAndRun(ctx, "(set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))) (add 0) (add 100) (add 0)", "[Closure]", "0", "100", "100");
+
+            //DumpCodeBlocks(ctx);
         }
 
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>
@@ -497,7 +508,7 @@ namespace CSLisp
 
                 Closure cl = ctx.compiler.Compile(result);
                 Log("Compiled:");
-                Log(Instruction.PrintInstructions(cl.instructions));
+                Log(ctx.code.DebugPrint(cl));
 
                 Log("Running...");
                 Val output = ctx.vm.Execute(cl);
@@ -505,6 +516,5 @@ namespace CSLisp
                 Check(new Val(formatted), new Val(expected));
             }
         }
-
     }
 }

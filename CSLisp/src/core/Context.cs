@@ -9,18 +9,20 @@ namespace CSLisp.Core
     /// </summary>
     public class Context
     {
+        public readonly Code code;
         public readonly Packages packages;
         public readonly Parser parser;
         public readonly Compiler compiler;
         public readonly Machine vm;
 
         public Context (bool loadLibraries = true, LoggerCallback logger = null) {
+            this.code = new Code();
             this.packages = new Packages();
             this.parser = new Parser(packages, logger);
             this.compiler = new Compiler(this);
             this.vm = new Machine(this, logger);
 
-            Primitives.InitializeCorePackage(packages.core);
+            Primitives.InitializeCorePackage(this, packages.core);
 
             if (loadLibraries) {
                 Libraries.LoadStandardLibraries(this);

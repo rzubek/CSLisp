@@ -48,6 +48,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\core\Code.cs" />
     <Compile Include="src\core\Compiler.cs" />
     <Compile Include="src\core\Machine.cs" />
     <Compile Include="src\core\Parser.cs" />
