@@ -27,7 +27,7 @@ namespace CSLisp.Core
         /// <summary> Runs the given piece of code, and returns the value left at the top of the stack. </summary>
         public Val Execute (Closure fn, params Val[] args) {
             State st = new State(fn, args);
-            Code.Handle code = default;
+            CodeHandle code = default;
             List<Instruction> instructions = null;
 
             if (_logger != null) {
@@ -56,7 +56,7 @@ namespace CSLisp.Core
                 // and now a big old switch statement. not handler functions - this is much faster.
 
                 switch (instr.type) {
-                    case Opcode.MAKE_LABEL:
+                    case Opcode.LABEL:
                         // no op :)
                         break;
 

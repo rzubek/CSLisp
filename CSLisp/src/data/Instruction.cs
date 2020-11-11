@@ -1,4 +1,3 @@
-using CSLisp.Core;
 using CSLisp.Error;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace CSLisp.Data
         /// <summary>
         /// Just a label, doesn't do anything, only used during compilation
         /// </summary>
-        MAKE_LABEL = 0,
+        LABEL = 0,
 
         /// <summary>
         /// PUSH_CONST x - pushes x onto the stack
@@ -138,7 +137,7 @@ namespace CSLisp.Data
         public readonly string debug;
 
         public Instruction (Opcode type) : this(type, Val.NIL, Val.NIL, null) { }
-        public Instruction (Opcode type, Val first) : this(type, first, Val.NIL, null) { }
+        public Instruction (Opcode type, Val first, string debug = null) : this(type, first, Val.NIL, debug) { }
         public Instruction (Opcode type, Val first, Val second, string debug = null) {
             this.type = type;
             this.first = first;

@@ -182,7 +182,7 @@ namespace CSLisp.Core
                         new Instruction(Opcode.CALL_PRIMOP, p.name),
                         new Instruction(Opcode.RETURN_VAL)};
 
-                    var code = context.code.Register(instructions, name.fullName);
+                    var code = context.code.AddBlock(instructions, name.fullName);
                     pkg.SetValue(name, new Closure(code, null, null, name.fullName));
                 }
             }

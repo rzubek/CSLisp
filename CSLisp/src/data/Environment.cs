@@ -1,4 +1,5 @@
 using CSLisp.Error;
+using System.Linq;
 
 namespace CSLisp.Data
 {
@@ -131,6 +132,8 @@ namespace CSLisp.Data
             }
             return frame;
         }
+
+        public string DebugPrintSymbols () => "(" + string.Join(" ", _symbols.Select(s => Val.DebugPrint(s))) + ")";
     }
 
 }

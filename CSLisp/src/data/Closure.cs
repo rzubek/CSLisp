@@ -8,7 +8,7 @@ namespace CSLisp.Data
     public class Closure
     {
         /// <summary> Handle to the compiled sequence of instructions </summary>
-        public readonly Code.Handle code;
+        public readonly CodeHandle code;
 
         /// <summary> Environment in which we're running </summary>
         public readonly Environment env;
@@ -19,7 +19,7 @@ namespace CSLisp.Data
         /// <summary> Optional closure name, for debugging purposes only </summary>
         public readonly string name;
 
-        public Closure (Code.Handle code, Environment env, Cons args, string name) {
+        public Closure (CodeHandle code, Environment env, Cons args, string name) {
             this.code = code;
             this.env = env;
             this.args = args;

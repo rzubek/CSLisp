@@ -98,6 +98,8 @@ namespace CSLisp
             Run(TestVMPrimitives);
             Run(TestPackages);
             Run(TestStandardLibs);
+
+            Run(PrintAllStandardLibraries);
         }
 
         private void DumpCodeBlocks (Context ctx) => Log(ctx.code.DebugPrintAll());
@@ -346,8 +348,8 @@ namespace CSLisp
 
             var parseds = ctx.parser.ParseAll();
             foreach (var parsed in parseds) {
-                Closure cl = ctx.compiler.Compile(parsed);
-                Log(ctx.code.DebugPrint(cl));
+                var results = ctx.compiler.Compile(parsed);
+                Log(ctx.code.DebugPrint(results));
             }
         }
 
@@ -494,6 +496,11 @@ namespace CSLisp
             //DumpCodeBlocks(ctx);
         }
 
+        public void PrintAllStandardLibraries () {
+            var ctx = new Context(true, ctxDebugLog);
+            DumpCodeBlocks(ctx);
+        }
+
         /// <summary> Compiles an s-expression, runs the resulting code, and checks the output against the expected value </summary>
         private void CompileAndRun (Context ctx, string input, params string[] expecteds) {
             ctx.parser.AddString(input);
@@ -506,12 +513,12 @@ namespace CSLisp
                 Val result = ctx.parser.ParseNext();
                 Log("Parsed: ", result);
 
-                Closure cl = ctx.compiler.Compile(result);
+                var comp = ctx.compiler.Compile(result);
                 Log("Compiled:");
-                Log(ctx.code.DebugPrint(cl));
+                Log(ctx.code.DebugPrint(comp));
 
                 Log("Running...");
-                Val output = ctx.vm.Execute(cl);
+                Val output = ctx.vm.Execute(comp.closure);
                 string formatted = Val.Print(output);
                 Check(new Val(formatted), new Val(expected));
             }

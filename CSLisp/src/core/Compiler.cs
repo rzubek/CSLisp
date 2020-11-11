@@ -6,6 +6,21 @@ using System.Linq;
 namespace CSLisp.Core
 {
     /// <summary>
+    /// Stores the results of top-level compilation: a closure that is ready for execution,
+    /// and a set of code block handles for code that was just compiled, for debugging purposes.
+    /// </summary>
+    public struct CompilationResults
+    {
+        public Closure closure;
+        public List<CodeHandle> recents;
+
+        public CompilationResults (Closure closure, List<CodeHandle> blocks) {
+            this.closure = closure;
+            this.recents = blocks;
+        }
+    }
+
+    /// <summary>
     /// Compiles source s-expression into bytecode.
     /// </summary>
     public class Compiler
@@ -36,14 +51,23 @@ namespace CSLisp.Core
             _defmacro = global.Intern("defmacro");
 
             _ctx = ctx;
-
-            // initializePrimitives();
         }
 
-        /// <summary> Top level compilation entry point. Compiles the expression x given an empty environment. </summary>
-        public Closure Compile (Val x) {
+        /// <summary>
+        /// Top level compilation entry point. Compiles the expression x given an empty environment.
+        /// Returns the newly compiled lambda for execution, and a list of all recently
+        /// compiled code blocks for debugging purposes.
+        /// </summary>
+        public CompilationResults Compile (Val x) {
+            var before = _ctx.code.LastHandle;
             _labelNum = 0;
-            return CompileLambda(Val.NIL, new Cons(x, Val.NIL), null);
+            var closure = CompileLambda(Val.NIL, new Cons(x, Val.NIL), null);
+            var after = _ctx.code.LastHandle;
+
+            List<CodeHandle> blocks = new List<CodeHandle>();
+            for (int i = before.index + 1; i <= after.index; i++) { blocks.Add(new CodeHandle(i)); }
+
+            return new CompilationResults(closure, blocks);
         }
 
         /// <summary> 
@@ -115,8 +139,9 @@ namespace CSLisp.Core
                 } else {
                     Cons body = cons.afterSecond.AsConsOrNull;
                     Closure f = CompileLambda(cons.second, body, env);
+                    string debug = $"#{f.code.index} : " + Val.DebugPrint(cons.afterSecond);
                     return Merge(
-                        Emit(Opcode.MAKE_CLOSURE, new Val(f), Val.NIL, Val.DebugPrint(cons.afterSecond)),
+                        Emit(Opcode.MAKE_CLOSURE, new Val(f), Val.NIL, debug),
                         IfNot(more, Emit(Opcode.RETURN_VAL)));
                 }
             }
@@ -283,7 +308,7 @@ namespace CSLisp.Core
                     PredCode,
                     Emit(Opcode.JMP_IF_TRUE, l2),
                     ElseCode,
-                    Emit(Opcode.MAKE_LABEL, l2),
+                    Emit(Opcode.LABEL, l2),
                     IfNot(more, Emit(Opcode.RETURN_VAL)));
             }
 
@@ -294,7 +319,7 @@ namespace CSLisp.Core
                     PredCode,
                     Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
-                    Emit(Opcode.MAKE_LABEL, l1),
+                    Emit(Opcode.LABEL, l1),
                     IfNot(more, Emit(Opcode.RETURN_VAL)));
             }
 
@@ -309,16 +334,16 @@ namespace CSLisp.Core
                     Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
                     Emit(Opcode.JMP_TO_LABEL, l2),
-                    Emit(Opcode.MAKE_LABEL, l1),
+                    Emit(Opcode.LABEL, l1),
                     ElseCode,
-                    Emit(Opcode.MAKE_LABEL, l2));
+                    Emit(Opcode.LABEL, l2));
             } else {
                 string l1 = MakeLabel();
                 return Merge(
                     PredCode,
                     Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
-                    Emit(Opcode.MAKE_LABEL, l1),
+                    Emit(Opcode.LABEL, l1),
                     ElseCode);
             }
         }
@@ -345,7 +370,7 @@ namespace CSLisp.Core
                 Emit(Opcode.STACK_POP),
                 ElseCode,
                 IfNot(more || val, Emit(Opcode.RETURN_VAL)),
-                Emit(Opcode.MAKE_LABEL, l1),
+                Emit(Opcode.LABEL, l1),
                 IfNot(val, Emit(Opcode.STACK_POP)),
                 IfNot(more, Emit(Opcode.RETURN_VAL)));
         }
@@ -354,10 +379,11 @@ namespace CSLisp.Core
         private Closure CompileLambda (Val args, Cons body, Environment env) {
             Environment newEnv = Environment.Make(MakeTrueList(args), env);
             List<Instruction> instructions = Merge(
-                EmitArgs(args, 0),
+                EmitArgs(args, newEnv.DebugPrintSymbols()),
                 CompileBegin(new Val(body), newEnv, true, false));
 
-            Code.Handle handle = _ctx.code.Register(Assemble(instructions), "");
+            var debug = newEnv.DebugPrintSymbols() + " => " + Val.DebugPrint(body);
+            CodeHandle handle = _ctx.code.AddBlock(Assemble(instructions), debug);
             return new Closure(handle, env, args.AsConsOrNull, "");
         }
 
@@ -406,7 +432,7 @@ namespace CSLisp.Core
                     CompileList(args, env),
                     Compile(f, env, true, true),
                     Emit(Opcode.JMP_CLOSURE, Cons.Length(args)),
-                    Emit(Opcode.MAKE_LABEL, k),
+                    Emit(Opcode.LABEL, k),
                     IfNot(val, Emit(Opcode.STACK_POP)));
             } else {
                 // function call as rename plus goto
@@ -418,16 +444,16 @@ namespace CSLisp.Core
         }
 
         /// <summary> Generates an appropriate ARGS or ARGSDOT sequence, making a new stack frame </summary>
-        private List<Instruction> EmitArgs (Val args, int nSoFar) {
+        private List<Instruction> EmitArgs (Val args, string debug, int nSoFar = 0) {
             // recursively detect whether it's a list or ends with a dotted cons, and generate appropriate arg
 
             // terminal case
-            if (args.IsNil) { return Emit(Opcode.MAKE_ENV, nSoFar); }        // (lambda (a b c) ...)
-            if (args.IsSymbol) { return Emit(Opcode.MAKE_ENVDOT, nSoFar); }  // (lambda (a b . c) ...)
+            if (args.IsNil) { return Emit(Opcode.MAKE_ENV, nSoFar, debug); }        // (lambda (a b c) ...)
+            if (args.IsSymbol) { return Emit(Opcode.MAKE_ENVDOT, nSoFar, debug); }  // (lambda (a b . c) ...)
 
             // if not at the end, recurse
             var cons = args.AsConsOrNull;
-            if (cons != null && cons.first.IsSymbol) { return EmitArgs(cons.rest, nSoFar + 1); }
+            if (cons != null && cons.first.IsSymbol) { return EmitArgs(cons.rest, debug, nSoFar + 1); }
 
             throw new CompilerError("Invalid argument list");           // (lambda (a b 5 #t) ...) or some other nonsense
         }
@@ -450,8 +476,8 @@ namespace CSLisp.Core
             new List<Instruction>() { new Instruction(type, first, second, debug) };
 
         /// <summary> Generates a sequence containing a single instruction </summary>
-        private List<Instruction> Emit (Opcode type, Val first) =>
-            new List<Instruction>() { new Instruction(type, first) };
+        private List<Instruction> Emit (Opcode type, Val first, string debug = null) =>
+            new List<Instruction>() { new Instruction(type, first, debug) };
 
         /// <summary> Generates a sequence containing a single instruction with no arguments </summary>
         private List<Instruction> Emit (Opcode type) =>
@@ -514,7 +540,7 @@ namespace CSLisp.Core
             public LabelPositions (List<Instruction> code) {
                 for (int i = 0; i < code.Count; i++) {
                     Instruction inst = code[i];
-                    if (inst.type == Opcode.MAKE_LABEL) {
+                    if (inst.type == Opcode.LABEL) {
                         string label = inst.first.AsString;
                         this[label] = i;
                     }

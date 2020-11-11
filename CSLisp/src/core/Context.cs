@@ -38,7 +38,7 @@ namespace CSLisp.Core
             List<Val> parseResults = parser.ParseAll();
 
             foreach (Val result in parseResults) {
-                Closure cl = compiler.Compile(result);
+                Closure cl = compiler.Compile(result).closure;
                 Val output = vm.Execute(cl);
                 outputs.Add(output);
             }
