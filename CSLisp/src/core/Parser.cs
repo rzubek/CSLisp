@@ -60,9 +60,7 @@ namespace CSLisp.Core
             _stream.Save();
             Val result = Parse(_stream);
             if (!Val.Equals(result, EOF)) {
-                if (_logger != null) {
-                    _logger("ParseNext ==> ", Val.DebugPrint(result));
-                }
+                _logger?.Invoke("ParseNext ==> ", Val.DebugPrint(result));
                 return result;
             }
 
@@ -88,7 +86,7 @@ namespace CSLisp.Core
             ConsumeWhitespace(stream);
 
             // check for special forms
-            Val result = EOF;
+            Val result;
             char c = stream.Peek();
             switch (c) {
                 case ';':
@@ -281,7 +279,7 @@ namespace CSLisp.Core
 
             while (true) {
                 char ch = stream.Read();
-                if (ch == (char) 0) { throw new ParserError($"string not properly terminated: {sb.ToString()}"); }
+                if (ch == (char) 0) { throw new ParserError($"string not properly terminated: {sb}"); }
 
                 // if we've consumed the closing double-quote, we're done.
                 if (ch == '\"') { break; }
@@ -302,9 +300,10 @@ namespace CSLisp.Core
 		private Val ParseList (InputStream stream, bool backquote) {
 
             List<Val> results = new List<Val>();
-            char ch = stream.Read(); // consume opening paren
+            stream.Read(); // consume opening paren
             ConsumeWhitespace(stream);
 
+            char ch;
             while ((ch = stream.Peek()) != ')' && ch != (char) 0) {
                 Val val = Parse(stream, backquote);
                 results.Add(val);

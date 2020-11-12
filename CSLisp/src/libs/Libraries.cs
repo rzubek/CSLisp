@@ -39,7 +39,7 @@ namespace CSLisp.Libs
                 }
 
                 Closure cl = ctx.compiler.Compile(result).closure;
-                Val output = ctx.vm.Execute(cl);
+                Val _ = ctx.vm.Execute(cl);
                 // and we drop the output on the floor... for now... :)
             }
         }

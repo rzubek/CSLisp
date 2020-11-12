@@ -1,10 +1,10 @@
-namespace CSLisp.Data 
+namespace CSLisp.Data
 {
-	/// <summary>
-	/// Encapsulates a macro and code that runs to expand it.
-	/// </summary>
-	public class Macro 
-	{
+    /// <summary>
+    /// Encapsulates a macro and code that runs to expand it.
+    /// </summary>
+    public class Macro
+    {
         /// <summary> Optional debug name </summary>
 		public readonly string name;
 
@@ -13,13 +13,12 @@ namespace CSLisp.Data
 
         /// <summary> Body of the macro </summary>
 		public readonly Closure body;
-		
-		public Macro (Symbol name, Cons args, Closure body)
-		{
-			this.name = name.name;
-			this.args = args;
-			this.body = body;
-		}
-	}
+
+        public Macro (Symbol name, Cons args, Closure body) {
+            this.name = name.name;
+            this.args = args;
+            this.body = body;
+        }
+    }
 
 }

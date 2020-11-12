@@ -1,26 +1,26 @@
 using System.Collections.Generic;
 
-namespace CSLisp.Data 
+namespace CSLisp.Data
 {
-	/// <summary>
-	/// Packages class is responsible for managing the list of packages defined by the runtime.
-	/// </summary>
-	public class Packages 
-	{
+    /// <summary>
+    /// Packages class is responsible for managing the list of packages defined by the runtime.
+    /// </summary>
+    public class Packages
+    {
         private struct Entry
         {
             public string name;
             public Package package;
         }
 
-		/// <summary> Global package, unnamed </summary>
-		public static readonly string NAME_GLOBAL = null;
-		
-		/// <summary> Special keywords package </summary>
-		public static readonly string NAME_KEYWORDS = "";
-		
-		/// <summary> Core package with all the built-in primitives </summary>
-		public static readonly string NAME_CORE = "core";
+        /// <summary> Global package, unnamed </summary>
+        public static readonly string NAME_GLOBAL = null;
+
+        /// <summary> Special keywords package </summary>
+        public static readonly string NAME_KEYWORDS = "";
+
+        /// <summary> Core package with all the built-in primitives </summary>
+        public static readonly string NAME_CORE = "core";
 
         /// <summary> Dictionary of packages, keyed by package name </summary>
         private readonly List<Entry> _packages;
@@ -68,11 +68,11 @@ namespace CSLisp.Data
                 pkg = Add(new Package(name));
                 pkg.AddImport(core); // every user package imports core
             }
-			return pkg;
-		}
-		
-		/// <summary> Gets a package by name, if it exists, but does not intern it </summary>
-		public Package Find (string name) {
+            return pkg;
+        }
+
+        /// <summary> Gets a package by name, if it exists, but does not intern it </summary>
+        public Package Find (string name) {
             for (int i = 0; i < _packages.Count; i++) {
                 Entry pkg = _packages[i];
                 if (pkg.name == name) {
@@ -81,25 +81,25 @@ namespace CSLisp.Data
             }
             return null;
         }
-		
-		/// <summary> Adds a new package, replacing an old one with the same name if it was already defined </summary>
-		public Package Add (Package pkg) {
+
+        /// <summary> Adds a new package, replacing an old one with the same name if it was already defined </summary>
+        public Package Add (Package pkg) {
             int index = FindIndexOfPackage(pkg.name);
             if (index >= 0) { _packages.RemoveAt(index); }
             _packages.Add(new Entry() { name = pkg.name, package = pkg });
             return pkg;
-		}
+        }
 
         /// <summary> Removes the package and returns true if successful. </summary>
         public bool Remove (Package pkg) {
             var index = FindIndexOfPackage(pkg.name);
             if (index >= 0) {
                 _packages.RemoveAt(index);
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 }

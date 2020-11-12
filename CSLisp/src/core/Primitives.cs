@@ -230,14 +230,13 @@ namespace CSLisp.Core
         private static Cons MapHelper (Context ctx, Closure fn, Cons list) {
 
             Cons head = null;
-            Cons current = null;
             Cons previous = null;
 
             // apply fn over all elements of the list, making a copy as we go
             while (list != null) {
                 Val input = list.first;
                 Val output = ctx.vm.Execute(fn, input);
-                current = new Cons(output, Val.NIL);
+                Cons current = new Cons(output, Val.NIL);
                 if (head == null) { head = current; }
                 if (previous != null) { previous.rest = current; }
                 previous = current;

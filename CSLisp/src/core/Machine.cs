@@ -100,7 +100,7 @@ namespace CSLisp.Core
                     case Opcode.JMP_IF_TRUE: {
                             Val value = st.Pop();
                             if (value.CastToBool) {
-                                st.pc = GetLabelPosition(instr, st);
+                                st.pc = GetLabelPosition(instr);
                             }
                         }
                         break;
@@ -108,13 +108,13 @@ namespace CSLisp.Core
                     case Opcode.JMP_IF_FALSE: {
                             Val value = st.Pop();
                             if (!value.CastToBool) {
-                                st.pc = GetLabelPosition(instr, st);
+                                st.pc = GetLabelPosition(instr);
                             }
                         }
                         break;
 
                     case Opcode.JMP_TO_LABEL: {
-                            st.pc = GetLabelPosition(instr, st);
+                            st.pc = GetLabelPosition(instr);
                         }
                         break;
 
@@ -174,7 +174,7 @@ namespace CSLisp.Core
 
                     case Opcode.SAVE_RETURN: {
                             // save current vm state to a return value
-                            st.Push(new Val(new ReturnAddress(st.fn, GetLabelPosition(instr, st), st.env, instr.first.AsStringOrNull)));
+                            st.Push(new Val(new ReturnAddress(st.fn, GetLabelPosition(instr), st.env, instr.first.AsStringOrNull)));
                         }
                         break;
 
@@ -229,7 +229,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Very naive helper function, finds the position of a given label in the instruction set </summary>
-        private int GetLabelPosition (Instruction inst, State st) {
+        private int GetLabelPosition (Instruction inst) {
             if (inst.second.IsInt) {
                 return inst.second.AsInt;
             } else {

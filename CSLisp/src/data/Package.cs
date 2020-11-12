@@ -27,7 +27,7 @@ namespace CSLisp.Data
         /// Vector of other packages imported into this one. 
         /// Symbol lookup will use these packages, if the symbol is not found here. 
         /// </summary>
-        private List<Package> _imports;
+        private readonly List<Package> _imports;
 
         public Package (string name) {
             this.name = name;
@@ -63,8 +63,7 @@ namespace CSLisp.Data
         /// Otherwise a new symbol is created, added to internal storage, and returned.
         /// </summary>
         public Symbol Intern (string name) {
-            Symbol result;
-            if (!_symbols.TryGetValue(name, out result)) {
+            if (!_symbols.TryGetValue(name, out Symbol result)) {
                 result = _symbols[name] = new Symbol(name, this);
             }
             return result;

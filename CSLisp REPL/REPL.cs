@@ -8,7 +8,7 @@ namespace CSLisp
 {
     class REPL
     {
-        static void Main (string[] args) {
+        static void Main (string[] _) {
 
             Context ctx = new Context();
             Console.WriteLine(GetInfo(ctx));
