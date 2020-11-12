@@ -147,60 +147,71 @@ Built-in primitives are very bare bones (for now):
 Just a few examples of the bytecode produced by the compiler. More can be found by running unit tests and inspecting their outputs - they are _quite_ verbose.
 
 ```
-inputs:  (+ 1 2)
-parsed:  (core:+ 1 2)
-  ARGS  0
-  CONST 1
-  CONST 2
-  GVAR  core:+
-  CALLJ 2
+Inputs:  (+ 1 2)
+Parsed:  (core:+ 1 2)
+Compiled:
 
-inputs:  (begin (+ (+ 1 2) 3) 4)
-parsed:  (begin (core:+ (core:+ 1 2) 3) 4)
-  ARGS  0
-  SAVE  "K0"  11
-  SAVE  "K1"  7
-  CONST 1
-  CONST 2
-  GVAR  core:+
-  CALLJ 2
-LABEL "K1"
-  CONST 3
-  GVAR  core:+
-  CALLJ 2
-LABEL "K0"
-  POP
-  CONST 4
-  RETURN
+  CODE BLOCK # 42 ; () => ((+ 1 2))
+  0 MAKE_ENV  0 ; ()
+  1 PUSH_CONST  1
+  2 PUSH_CONST  2
+  3 GLOBAL_GET  +
+  4 JMP_CLOSURE 2
 
-inputs:  ((lambda (a) a) 5)
-parsed:  ((lambda (a) a) 5)
-  ARGS  0
-  CONST 5
-  FN  [Closure] ; (a)
-    ARGS  1
-    LVAR  0 0 ; a
-    RETURN
-  CALLJ 1
+Inputs:  (+ (+ 1 2) 3)
+Parsed:  (core:+ (core:+ 1 2) 3)
+Compiled:
 
-inputs:  (begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5)))
-parsed:  (begin (set! foo:incf (lambda (foo:x) (core:+ foo:x 1))) (foo:incf (foo:incf 5)))
-  ARGS  0
-  FN  [Closure] ; ((core:+ foo:x 1))
-    ARGS  1
-    LVAR  0 0 ; foo:x
-    CONST 1
-    GVAR  core:+
-    CALLJ 2
-  GSET  foo:incf
-  POP
-  SAVE  "K0"  8
-  CONST 5
-  GVAR  foo:incf
-  CALLJ 1
-LABEL "K0"
-  GVAR  foo:incf
-  CALLJ 1
+  CODE BLOCK # 43 ; () => ((+ (+ 1 2) 3))
+  0 MAKE_ENV  0 ; ()
+  1 SAVE_RETURN "K0"  6
+  2 PUSH_CONST  1
+  3 PUSH_CONST  2
+  4 GLOBAL_GET  +
+  5 JMP_CLOSURE 2
+6 LABEL "K0"
+  7 PUSH_CONST  3
+  8 GLOBAL_GET  +
+  9 JMP_CLOSURE 2
+
+Inputs:  ((lambda (a) a) 5)
+Parsed:  ((lambda (a) a) 5)
+
+  CODE BLOCK # 69 ; (a) => (a)
+  0 MAKE_ENV  1 ; (a)
+  1 LOCAL_GET 0 0 ; a
+  2 RETURN_VAL
+
+  CODE BLOCK # 70 ; () => (((lambda (a) a) 5))
+  0 MAKE_ENV  0 ; ()
+  1 PUSH_CONST  5
+  2 MAKE_CLOSURE  [Closure] ; #69 : (a)
+  3 JMP_CLOSURE 1
+
+Inputs:  (begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5)))
+Parsed:  (begin (set! incf (lambda (x) (core:+ x 1))) (incf (incf 5)))
+Compiled:
+
+  CODE BLOCK # 66 ; (x) => ((+ x 1))
+  0 MAKE_ENV  1 ; (x)
+  1 LOCAL_GET 0 0 ; x
+  2 PUSH_CONST  1
+  3 GLOBAL_GET  +
+  4 JMP_CLOSURE 2
+
+  CODE BLOCK # 67 ; () => ((begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))))
+  0 MAKE_ENV  0 ; ()
+  1 MAKE_CLOSURE  [Closure] ; #66 : ((+ x 1))
+  2 GLOBAL_SET  incf
+  3 STACK_POP
+  4 SAVE_RETURN "K0"  8
+  5 PUSH_CONST  5
+  6 GLOBAL_GET  incf
+  7 JMP_CLOSURE 1
+8 LABEL "K0"
+  9 GLOBAL_GET  incf
+  10  JMP_CLOSURE 1
+
 ```
 
 
