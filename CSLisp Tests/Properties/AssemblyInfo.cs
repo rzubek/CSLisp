@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CSLisp Tests")]
-[assembly: AssemblyCopyright("Copyright © 2019 Robert Zubek")]
+[assembly: AssemblyCopyright("Copyright 2019, 2020 Robert Zubek")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CSLisp")]
-[assembly: AssemblyCopyright("Copyright © 2019 Robert Zubek")]
+[assembly: AssemblyCopyright("Copyright 2019, 2020 Robert Zubek")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

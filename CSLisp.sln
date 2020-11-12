@@ -1,13 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp", "CSLisp\CSLisp.csproj", "{5A73AA7C-9BD5-442C-A264-36FA61AA77F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp Tests", "CSLisp Tests\CSLisp Tests.csproj", "{833F7EF3-9489-4278-82B0-BD29722D19CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp REPL", "CSLisp REPL\CSLisp REPL.csproj", "{E4719D40-DDFB-4F86-8EBC-BAF7DA4E5ECC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D778EA57-5645-41DF-B356-49E60A3E7389}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Bytecode Design.txt = Bytecode Design.txt
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

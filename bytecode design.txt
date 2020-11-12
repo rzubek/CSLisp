@@ -13,7 +13,7 @@ OPCODES
 Internally, opcodes are not raw bytes - they're structs that hold a type, and arguments
 in a form that's already processed (e.g. lists are lists, and not serialized byte arrays).
 
-MAKE_LABEL   n       label for jumps, only gets used during compilation
+LABEL   n            label for jumps, only gets used during compilation
 PUSH_CONST   x       push constant x onto the stack
 LOCAL_GET    i, j    read a local variable's value and push onto stack (ith frame, jth variable in that frame)
 LOCAL_SET    i, j    copy top-of-stack into a local variable (ith frame, jth variable in that frame)
@@ -36,14 +36,14 @@ MAKE_ENVDOT  n       same as MAKE_ENV but supports varargs. makes an env with n 
                      first n arguments from call get stored in n local vars, and rest in cons list at var n + 1
 
 MAKE_CLOSURE fn      create a new closure from fn argument and current environment, and push it on top of the stack.
-					 fn is expected to be the actual code block that will be the body of the closure.
+                     fn is expected to be the actual code block that will be the body of the closure.
 
 JMP_CLOSURE  n       pop closure from top of the stack and set execution pointer there; n is number of args on stack to pass.
                      return point is not saved here; if desired, compiler should emit a call to SAVE_RETURN first.
 
 RETURN_VAL           jump to the saved return point while preserving the return value.
                      (by convention, return value is on top of the stack, while continuation is second.
-					 this will pop the return value, pop the continuation, push return value back down, and then jump.)
+                     this will pop the return value, pop the continuation, push return value back down, and then jump.)
 
 CALL_PRIMOP  name    performs a primitive function call right off the stack, and stores return val back on stack.
                      it is assumed that the primitive function will pop all its arguments, but *not* push the return value.
@@ -79,10 +79,10 @@ IMPLEMENTATION STEPS DONE
 + Macros
 + Trivial assemble / optimize / execute loop
 + Optimize primitive lookup with dictionary
++ Example REPL
 
 IMPLEMENTATION TODO
 
-- Example REPL
 - Easier FFI / custom primitives
 - .NET interop via reflection (with safety checks?!)
 - Peephole optimizer
