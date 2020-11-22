@@ -73,12 +73,13 @@
     <Compile Include="src\util\InputStream.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\libs\core.scm" />
+    <None Include="src\libs\core.lisp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
