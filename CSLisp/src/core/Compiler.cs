@@ -25,6 +25,34 @@ namespace CSLisp.Core
     /// </summary>
     public class Compiler
     {
+        /// <summary>
+        /// Compilation state for the expression being compiled 
+        ///
+        /// <p> Val and More flags are used for tail-call optimization. "Val" is true when 
+        /// the expression returns a value that's then used elsewhere. "More" is false when 
+        /// the expression represents the final value, true if there is more to compute
+        /// (this determines whether we need to jump and return, or just jump)
+        /// 
+        /// <p> Examples, when compiling expression X:
+        /// <ul>
+        /// <li> val = t, more = t ... (if X y z) or (f X y)      </li>
+        /// <li> val = t, more = f ... (if p X z) or (begin y X)  </li>
+        /// <li> val = f, more = t ... (begin X y)                </li>
+        /// <li> val = f, more = f ... impossible                 </li>
+        /// </ul>
+        /// </summary>
+        private struct State
+        {
+            private bool _val, _more;
+
+            public bool IsUnused => !_val;
+            public bool IsFinal => !_more;
+
+            public static readonly State UsedFinal = new State { _val = true, _more = false };
+            public static readonly State UsedNonFinal = new State { _val = true, _more = true };
+            public static readonly State NotUsedNonFinal = new State { _val = false, _more = true };
+        }
+
         /// <summary> Label counter for each separate compilation block </summary>
         private int _labelNum = 0;
 
@@ -72,33 +100,20 @@ namespace CSLisp.Core
 
         /// <summary> 
         /// Compiles the expression x, given the environment env, into a vector of instructions.
-        /// 
-        /// Val and More flags are used for tail-call optimization. "Val" is true when 
-        /// the expression returns a value that's then used elsewhere. "More" is false when 
-        /// the expression represents the final value, true if there is more to compute
-        /// (this determines whether we need to jump and return, or just jump)
-        /// 
-        /// <p> Examples, when compiling expression X:
-        /// <ul>
-        /// <li> val = t, more = t ... (if X y z) or (f X y)      </li>
-        /// <li> val = t, more = f ... (if p X z) or (begin y X)  </li>
-        /// <li> val = f, more = t ... (begin X y)                </li>
-        /// <li> val = f, more = f ... impossible                 </li>
-        /// </ul>
         /// </summary>
-        private List<Instruction> Compile (Val x, Environment env, bool val, bool more) {
+        private List<Instruction> Compile (Val x, Environment env, State st) {
 
             // check if macro
             if (IsMacroApplication(x)) {
-                return Compile(MacroExpandFull(x), env, val, more);
+                return Compile(MacroExpandFull(x), env, st);
             }
 
             if (x.IsSymbol) {       // check if symbol
-                return CompileVariable(x.AsSymbol, env, val, more);
+                return CompileVariable(x.AsSymbol, env, st);
             }
 
             if (x.IsAtom) {         // check if it's not a list
-                return CompileConstant(x, val, more);
+                return CompileConstant(x, st);
             }
 
             // it's not an atom, it's a list, deal with it.
@@ -108,15 +123,15 @@ namespace CSLisp.Core
 
             if (name == _quote) {    // (quote value)
                 VerifyArgCount(cons, 1);
-                return CompileConstant(cons.second, val, more); // second element is the constant
+                return CompileConstant(cons.second, st); // second element is the constant
             }
             if (name == _begin) {    // (begin ...)
-                return CompileBegin(cons.rest, env, val, more);
+                return CompileBegin(cons.rest, env, st);
             }
             if (name == _set) {      // (set! symbol-name value)
                 VerifyArgCount(cons, 2);
                 VerifyExpression(cons.second.IsSymbol, "Invalid lvalue in set!, must be a symbol, got: ", cons.second);
-                return CompileVarSet(cons.second.AsSymbol, cons.third, env, val, more);
+                return CompileVarSet(cons.second.AsSymbol, cons.third, env, st);
             }
             if (name == _if) {       // (if pred then else) or (if pred then)
                 VerifyArgCount(cons, 2, 3);
@@ -124,17 +139,17 @@ namespace CSLisp.Core
                     cons.second,     // pred
                     cons.third,      // then
                     (cons.afterThird.IsNotNil ? cons.fourth : Val.NIL), // else
-                    env, val, more);
+                    env, st);
             }
             if (name == _ifStar) {   // (if *pred else)
                 VerifyArgCount(cons, 2);
                 return CompileIfStar(
                     cons.second,    // pred
                     cons.third,     // else
-                    env, val, more);
+                    env, st);
             }
             if (name == _lambda) {   // (lambda (args...) body...)
-                if (!val) {
+                if (st.IsUnused) {
                     return null;    // it's not used, don't compile
                 } else {
                     Cons body = cons.afterSecond.AsConsOrNull;
@@ -142,14 +157,14 @@ namespace CSLisp.Core
                     string debug = $"#{f.code.index} : " + Val.DebugPrint(cons.afterSecond);
                     return Merge(
                         Emit(Opcode.MAKE_CLOSURE, new Val(f), Val.NIL, debug),
-                        IfNot(more, Emit(Opcode.RETURN_VAL)));
+                        EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
                 }
             }
             if (name == _defmacro) {
-                return CompileAndInstallMacroDefinition(cons.rest.AsConsOrNull, env, val, more);
+                return CompileAndInstallMacroDefinition(cons.rest.AsConsOrNull, env, st);
             }
 
-            return CompileFunctionCall(cons.first, cons.rest.AsConsOrNull, env, val, more);
+            return CompileFunctionCall(cons.first, cons.rest.AsConsOrNull, env, st);
         }
 
         /// <summary> 
@@ -216,8 +231,8 @@ namespace CSLisp.Core
         }
 
         /// <summary> Compiles a variable lookup </summary>
-        private List<Instruction> CompileVariable (Symbol x, Environment env, bool val, bool more) {
-            if (!val) { return null; }
+        private List<Instruction> CompileVariable (Symbol x, Environment env, State st) {
+            if (st.IsUnused) { return null; }
 
             var pos = Environment.GetVariable(x, env);
             bool isLocal = pos.IsValid;
@@ -225,108 +240,84 @@ namespace CSLisp.Core
                 (isLocal ?
                     Emit(Opcode.LOCAL_GET, pos.frameIndex, pos.symbolIndex, Val.DebugPrint(x)) :
                     Emit(Opcode.GLOBAL_GET, x)),
-                IfNot(more, Emit(Opcode.RETURN_VAL)));
+                EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles a constant, if it's actually used elsewhere </summary>
-        private List<Instruction> CompileConstant (Val x, bool val, bool more) {
-            if (!val) { return null; }
+        private List<Instruction> CompileConstant (Val x, State st) {
+            if (st.IsUnused) { return null; }
 
             return Merge(
                 Emit(Opcode.PUSH_CONST, x, Val.NIL),
-                IfNot(more, Emit(Opcode.RETURN_VAL)));
+                EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles a sequence defined by a BEGIN - we pop all values, except for the last one </summary>
-        private List<Instruction> CompileBegin (Val exps, Environment env, bool val, bool more) {
+        private List<Instruction> CompileBegin (Val exps, Environment env, State st) {
             if (exps.IsNil) {
-                return CompileConstant(Val.NIL, val, more); // (begin)
+                return CompileConstant(Val.NIL, st); // (begin)
             }
 
             Cons cons = exps.AsConsOrNull;
             VerifyExpression(cons != null, "Unexpected value passed to begin block, instead of a cons:", exps);
 
             if (cons.rest.IsNil) {  // length == 1
-                return Compile(cons.first, env, val, more);
+                return Compile(cons.first, env, st);
             } else {
                 return Merge(
-                    Compile(cons.first, env, false, true),  // note: not the final expression, set val = f, more = t
-                    CompileBegin(cons.rest, env, val, more));
+                    Compile(cons.first, env, State.NotUsedNonFinal),  // note: not the final expression, set val = f, more = t
+                    CompileBegin(cons.rest, env, st));
             }
         }
 
         /// <summary> Compiles a variable set </summary>
-        private List<Instruction> CompileVarSet (Symbol x, Val value, Environment env, bool val, bool more) {
+        private List<Instruction> CompileVarSet (Symbol x, Val value, Environment env, State st) {
             var pos = Environment.GetVariable(x, env);
             bool isLocal = pos.IsValid;
             return Merge(
-                Compile(value, env, true, true),
+                Compile(value, env, State.UsedNonFinal),
                 (isLocal ?
                         Emit(Opcode.LOCAL_SET, pos.frameIndex, pos.symbolIndex, Val.DebugPrint(x)) :
                         Emit(Opcode.GLOBAL_SET, x)),
-                IfNot(val, Emit(Opcode.STACK_POP)),
-                IfNot(more, Emit(Opcode.RETURN_VAL))
+                EmitIf(st.IsUnused, Emit(Opcode.STACK_POP)),
+                EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL))
                 );
         }
 
         /// <summary> Compiles an if statement (fun!) </summary>
-        private List<Instruction> CompileIf (Val pred, Val then, Val els, Environment env, bool val, bool more) {
+        private List<Instruction> CompileIf (Val pred, Val then, Val els, Environment env, State st) {
             // (if #f x y) => y
-            if (pred.IsBool && !pred.AsBool) { return Compile(els, env, val, more); }
+            if (pred.IsBool && !pred.AsBool) { return Compile(els, env, st); }
 
             // (if #t x y) => x, or (if 5 ...) or (if "foo" ...)
             bool isConst = (pred.IsBool) || (pred.IsNumber) || (pred.IsString);
-            if (isConst) { return Compile(then, env, val, more); }
+            if (isConst) { return Compile(then, env, st); }
 
-            // (if (not p) x y) => (if p y x)
-            if (Cons.IsList(pred)) {
-                var cons = pred.AsConsOrNull;
-                bool isNotTest =
-                    Cons.Length(cons) == 2 &&
-                    cons.first.IsSymbol &&
-                    cons.first.AsSymbol.fullName == "not";  // TODO: this should make sure it's a const not just a symbol
-
-                if (isNotTest) { return CompileIf(cons.second, els, then, env, val, more); }
-            }
-
-            // it's more complicated...
-            List<Instruction> PredCode = Compile(pred, env, true, true);
-            List<Instruction> ThenCode = Compile(then, env, val, more);
-            List<Instruction> ElseCode = els.IsNotNil ? Compile(els, env, val, more) : null;
+            // actually produce the code for if/then/else clauses
+            // note that those clauses will already contain a return opcode if they're final.
+            List<Instruction> PredCode = Compile(pred, env, State.UsedNonFinal);
+            List<Instruction> ThenCode = Compile(then, env, st);
+            List<Instruction> ElseCode = els.IsNotNil ? Compile(els, env, st) : CompileConstant(els, st);
 
             // (if p x x) => (begin p x)
             if (CodeEquals(ThenCode, ElseCode)) {
                 return Merge(
-                    Compile(pred, env, false, true),
+                    Compile(pred, env, State.NotUsedNonFinal),
                     ElseCode);
             }
 
-            // (if p nil y) => p (TJUMP L2) y L2:
-            if (ThenCode == null) {
-                string l2 = MakeLabel();
-                return Merge(
-                    PredCode,
-                    Emit(Opcode.JMP_IF_TRUE, l2),
-                    ElseCode,
-                    Emit(Opcode.LABEL, l2),
-                    IfNot(more, Emit(Opcode.RETURN_VAL)));
-            }
-
-            // (if p x) => p (FJUMP L1) x L1:
-            if (ElseCode == null) {
+            // (if p x y) => p (FJUMP L1) x L1: y 
+            //         or    p (FJUMP L1) x (JUMP L2) L1: y L2:
+            // depending on whether this is the last exp, or if there's more
+            if (st.IsFinal) {
                 string l1 = MakeLabel();
                 return Merge(
                     PredCode,
                     Emit(Opcode.JMP_IF_FALSE, l1),
                     ThenCode,
                     Emit(Opcode.LABEL, l1),
-                    IfNot(more, Emit(Opcode.RETURN_VAL)));
-            }
-
-            // (if p x y) => p (FJUMP L1) x L1: y 
-            //         or    p (FJUMP L1) x (JUMP L2) L1: y L2:
-            // depending on whether this is the last exp, or if there's more
-            if (more) {
+                    ElseCode);
+            } else {
                 string l1 = MakeLabel();
                 string l2 = MakeLabel();
                 return Merge(
@@ -337,29 +328,23 @@ namespace CSLisp.Core
                     Emit(Opcode.LABEL, l1),
                     ElseCode,
                     Emit(Opcode.LABEL, l2));
-            } else {
-                string l1 = MakeLabel();
-                return Merge(
-                    PredCode,
-                    Emit(Opcode.JMP_IF_FALSE, l1),
-                    ThenCode,
-                    Emit(Opcode.LABEL, l1),
-                    ElseCode);
             }
         }
 
         /// <summary> Compiles an if* statement </summary>
-        private List<Instruction> CompileIfStar (Val pred, Val els, Environment env, bool val, bool more) {
+        private List<Instruction> CompileIfStar (Val pred, Val els, Environment env, State st) {
 
             // (if* x y) will return x if it's not false, otherwise it will return y
 
             // (if* #f x) => x
             if (pred.IsBool && !pred.AsBool) {
-                return Compile(els, env, val, more);
+                return Compile(els, env, st);
             }
 
-            List<Instruction> PredCode = Compile(pred, env, true, true);
-            List<Instruction> ElseCode = els.IsNotNil ? Compile(els, env, true, more) : null;
+            List<Instruction> PredCode = Compile(pred, env, State.UsedNonFinal);
+
+            var elseState = st.IsFinal ? State.UsedFinal : State.UsedNonFinal;
+            List<Instruction> ElseCode = els.IsNotNil ? Compile(els, env, elseState) : null;
 
             // (if* p x) => p (DUPE) (TJUMP L1) (POP) x L1: (POP?)
             string l1 = MakeLabel();
@@ -369,10 +354,9 @@ namespace CSLisp.Core
                 Emit(Opcode.JMP_IF_TRUE, l1),
                 Emit(Opcode.STACK_POP),
                 ElseCode,
-                IfNot(more || val, Emit(Opcode.RETURN_VAL)),
                 Emit(Opcode.LABEL, l1),
-                IfNot(val, Emit(Opcode.STACK_POP)),
-                IfNot(more, Emit(Opcode.RETURN_VAL)));
+                EmitIf(st.IsUnused, Emit(Opcode.STACK_POP)),
+                EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
         }
 
         /// <summary> Compiles code to produce a new closure </summary>
@@ -380,7 +364,7 @@ namespace CSLisp.Core
             Environment newEnv = Environment.Make(MakeTrueList(args), env);
             List<Instruction> instructions = Merge(
                 EmitArgs(args, newEnv.DebugPrintSymbols()),
-                CompileBegin(new Val(body), newEnv, true, false));
+                CompileBegin(new Val(body), newEnv, State.UsedFinal));
 
             var debug = newEnv.DebugPrintSymbols() + " => " + Val.DebugPrint(body);
             CodeHandle handle = _ctx.code.AddBlock(Assemble(instructions), debug);
@@ -392,14 +376,14 @@ namespace CSLisp.Core
             (exps == null)
                 ? null
                 : Merge(
-                    Compile(exps.first, env, true, true),
+                    Compile(exps.first, env, State.UsedNonFinal),
                     CompileList(exps.rest.AsConsOrNull, env));
 
         /// <summary> 
         /// Compiles a macro, and sets the given symbol to point to it. NOTE: unlike all other expressions,
         /// which are executed by the virtual machine, this happens immediately, during compilation.
         /// </summary>
-        private List<Instruction> CompileAndInstallMacroDefinition (Cons cons, Environment env, bool val, bool more) {
+        private List<Instruction> CompileAndInstallMacroDefinition (Cons cons, Environment env, State st) {
 
             // example: (defmacro foo (x) (+ x 1))
             Symbol name = cons.first.AsSymbol;
@@ -410,36 +394,36 @@ namespace CSLisp.Core
 
             // install it in the package
             name.pkg.SetMacro(name, macro);
-            return CompileConstant(Val.NIL, val, more);
+            return CompileConstant(Val.NIL, st);
         }
 
         /// <summary> Compile the application of a function to arguments </summary>
-        private List<Instruction> CompileFunctionCall (Val f, Cons args, Environment env, bool val, bool more) {
+        private List<Instruction> CompileFunctionCall (Val f, Cons args, Environment env, State st) {
             if (f.IsCons) {
                 var fcons = f.AsCons;
                 if (fcons.first.IsSymbol && fcons.first.AsSymbol.fullName == "lambda" && fcons.second.IsNil) {
                     // ((lambda () body)) => (begin body)
                     VerifyExpression(args == null, "Too many arguments supplied!");
-                    return CompileBegin(fcons.afterSecond, env, val, more);
+                    return CompileBegin(fcons.afterSecond, env, st);
                 }
             }
 
-            if (more) {
+            if (st.IsFinal) {
+                // function call as rename plus goto
+                return Merge(
+                    CompileList(args, env),
+                    Compile(f, env, State.UsedNonFinal),
+                    Emit(Opcode.JMP_CLOSURE, Cons.Length(args)));
+            } else {
                 // need to save the continuation point
                 string k = MakeLabel("K");
                 return Merge(
                     Emit(Opcode.SAVE_RETURN, k),
                     CompileList(args, env),
-                    Compile(f, env, true, true),
+                    Compile(f, env, State.UsedNonFinal),
                     Emit(Opcode.JMP_CLOSURE, Cons.Length(args)),
                     Emit(Opcode.LABEL, k),
-                    IfNot(val, Emit(Opcode.STACK_POP)));
-            } else {
-                // function call as rename plus goto
-                return Merge(
-                    CompileList(args, env),
-                    Compile(f, env, true, true),
-                    Emit(Opcode.JMP_CLOSURE, Cons.Length(args)));
+                    EmitIf(st.IsUnused, Emit(Opcode.STACK_POP)));
             }
         }
 
@@ -492,9 +476,11 @@ namespace CSLisp.Core
         private List<Instruction> Merge (params List<Instruction>[] elements) =>
             elements.Where(list => list != null).SelectMany(instr => instr).ToList();
 
+        /// <summary> Returns the value if the condition is true, null if it's false </summary>
+        private List<Instruction> EmitIf (bool test, List<Instruction> value) => test ? value : null;
+
         /// <summary> Returns the value if the condition is false, null if it's true </summary>
-        private List<Instruction> IfNot (bool test, List<Instruction> value) =>
-            !test ? value : null;
+        private List<Instruction> EmitIfNot (bool test, List<Instruction> value) => !test ? value : null;
 
         /// <summary> Compares two code sequences, and returns true if they're equal </summary>
         private bool CodeEquals (List<Instruction> a, List<Instruction> b) {

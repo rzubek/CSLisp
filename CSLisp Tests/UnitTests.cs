@@ -420,6 +420,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(nth-cons '(1 2 3 4 5) 2)", "(3 4 5)");
             CompileAndRun(ctx, "(trace \"foo\" \"bar\")", "()"); // trace outputs text instead
             CompileAndRun(ctx, "(begin (set! first car) (first '(1 2 3)))", "1");
+            CompileAndRun(ctx, "(if (< 0 1) 5)", "5");
+            CompileAndRun(ctx, "(if (> 0 1) 5)", "()");
 
             // test quotes and macros
             CompileAndRun(ctx, "`((list 1 2) ,(list 1 2) ,@(list 1 2))", "((list 1 2) (1 2) 1 2)");
