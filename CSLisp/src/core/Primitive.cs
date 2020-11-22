@@ -66,25 +66,41 @@ namespace CSLisp.Core
     }
 
     /// <summary>
+    /// Describes whether a primitive function has constant or variable number of arguments
+    /// </summary>
+    public enum FnType { ConstArgs, VarArgs };
+
+    /// <summary>
+    /// Describes whether a primitive function may cause side effects, or whether it's a pure function.
+    /// Pure functions may be optimized away if their outputs are never consumed.
+    /// </summary>
+    public enum SideFx { None, Possible }
+
+    /// <summary>
     /// Built-in primitive functions, which all live in the core package.
     /// </summary>
     public class Primitive
     {
         public readonly string name;
         public readonly int minargs;
-        public readonly bool exact; // if not exact, the function accepts arbitrary varargs
         public readonly Function fn;
-        public readonly bool alwaysNotNull;
-        public readonly bool hasSideEffects;
+        public readonly FnType argsType; // is this a function with exact or variable number of arguments?
+        public readonly SideFx sideFx;   // does this primitive cause side effects? if so, it should never be optimized away
 
-        public Primitive (string name, int minargs, bool exact, Function fn, bool alwaysNotNull = false, bool hasSideEffects = false) {
+        public Primitive (string name, int minargs, Function fn, FnType argsType = FnType.ConstArgs, SideFx sideFx = SideFx.None)
+        {
             this.name = name;
             this.minargs = minargs;
-            this.exact = exact;
             this.fn = fn;
-            this.alwaysNotNull = alwaysNotNull;
-            this.hasSideEffects = hasSideEffects;
+            this.argsType = argsType;
+            this.sideFx = sideFx;
         }
+
+        public bool IsExact => argsType == FnType.ConstArgs;
+        public bool IsVarArg => argsType == FnType.VarArgs;
+
+        public bool HasSideEffects => sideFx == SideFx.Possible;
+        public bool IsPureFunction => sideFx == SideFx.None;
 
         /// <summary> Calls the primitive function with argn operands waiting for it on the stack </summary>
         public Val Call (Context ctx, int argn, State state) {

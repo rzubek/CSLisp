@@ -29,99 +29,96 @@ namespace CSLisp.Core
 
         private static Dictionary<string, List<Primitive>> ALL_PRIMITIVES_DICT = new Dictionary<string, List<Primitive>>();
         private static readonly List<Primitive> ALL_PRIMITIVES_VECTOR = new List<Primitive>() {
-            new Primitive("+", 2, true, new Function((ctx, a, b) => ValAdd(a, b)), true),
-            new Primitive("-", 2, true, new Function((ctx, a, b) => ValSub(a, b)), true),
-            new Primitive("*", 2, true, new Function((ctx, a, b) => ValMul(a, b)), true),
-            new Primitive("/", 2, true, new Function((ctx, a, b) => ValDiv(a, b)), true),
+            new Primitive("+", 2, new Function((ctx, a, b) => ValAdd(a, b))),
+            new Primitive("-", 2, new Function((ctx, a, b) => ValSub(a, b))),
+            new Primitive("*", 2, new Function((ctx, a, b) => ValMul(a, b))),
+            new Primitive("/", 2, new Function((ctx, a, b) => ValDiv(a, b))),
 
-            new Primitive("+", 3, false, new Function((Context ctx, List<Val> args) =>
-                FoldLeft((a, b) => ValAdd(a, b), 0, args)), true),
-            new Primitive("*", 3, false, new Function((Context ctx, List<Val> args) =>
-                FoldLeft((a, b) => ValMul(a, b), 1, args)), true),
+            new Primitive("+", 3, new Function((Context ctx, List<Val> args) =>
+                FoldLeft((a, b) => ValAdd(a, b), 0, args)), FnType.VarArgs),
+            new Primitive("*", 3, new Function((Context ctx, List<Val> args) =>
+                FoldLeft((a, b) => ValMul(a, b), 1, args)), FnType.VarArgs),
 
-            new Primitive("=",  2, true, new Function((ctx, a, b) => Val.Equals(a, b))),
-            new Primitive("!=", 2, true, new Function((ctx, a, b) => ! Val.Equals(a, b))),
+            new Primitive("=",  2, new Function((ctx, a, b) => Val.Equals(a, b))),
+            new Primitive("!=", 2, new Function((ctx, a, b) => ! Val.Equals(a, b))),
+            new Primitive("<",  2, new Function((ctx, a, b) => ValLT(a, b))),
+            new Primitive("<=", 2, new Function((ctx, a, b) => ValLTE(a, b))),
+            new Primitive(">",  2, new Function((ctx, a, b) => ValGT(a, b))),
+            new Primitive(">=", 2, new Function((ctx, a, b) => ValGTE(a, b))),
 
-            new Primitive("<",  2, true, new Function((ctx, a, b) => ValLT(a, b))),
-            new Primitive("<=", 2, true, new Function((ctx, a, b) => ValLTE(a, b))),
-            new Primitive(">",  2, true, new Function((ctx, a, b) => ValGT(a, b))),
-            new Primitive(">=", 2, true, new Function((ctx, a, b) => ValGTE(a, b))),
+            new Primitive("cons", 2, new Function((ctx, a, b) => new Cons(a, b))),
+            new Primitive("list", 0, new Function((ctx) => Val.NIL)),
+            new Primitive("list", 1, new Function((ctx, a) => new Cons(a, Val.NIL))),
+            new Primitive("list", 2, new Function((ctx, a, b) => new Cons(a, new Cons(b, Val.NIL)))),
+            new Primitive("list", 3, new Function((Context ctx, List<Val> args) => Cons.MakeList(args)), FnType.VarArgs),
 
-            new Primitive("cons", 2, true, new Function((ctx, a, b) => new Cons(a, b)), true),
-            new Primitive("list", 0, true, new Function((ctx) => Val.NIL), false),
-            new Primitive("list", 1, true, new Function((ctx, a) => new Cons(a, Val.NIL)), true),
-            new Primitive("list", 2, true, new Function((ctx, a, b) => new Cons(a, new Cons(b, Val.NIL))), true),
-            new Primitive("list", 3, false, new Function((Context ctx, List<Val> args) => Cons.MakeList(args)), true),
+            new Primitive("append", 1, new Function((Context ctx, List<Val> args) => FoldRight(AppendHelper, Val.NIL, args)), FnType.VarArgs),
 
-            new Primitive("append", 1, false, new Function((Context ctx, List<Val> args) =>
-                FoldRight(AppendHelper, Val.NIL, args))),
+            new Primitive("length", 1, new Function((ctx, a) => Cons.Length(a))),
 
-            new Primitive("length", 1, true, new Function((ctx, a) => Cons.Length(a)), true),
+            new Primitive("not", 1, new Function((ctx, a) => !a.CastToBool)),
+            new Primitive("null?", 1, new Function((ctx, a) => a.IsNil)),
+            new Primitive("cons?", 1, new Function((ctx, a) => a.IsCons)),
+            new Primitive("string?", 1, new Function((ctx, a) => a.IsString)),
+            new Primitive("number?", 1, new Function((ctx, a) => a.IsNumber)),
+            new Primitive("boolean?", 1, new Function((ctx, a) => a.IsBool)),
+            new Primitive("atom?", 1, new Function((ctx, a) => !a.IsCons)),
 
-            new Primitive("not", 1, true, new Function((ctx, a) => !a.CastToBool)),
-            new Primitive("null?", 1, true, new Function((ctx, a) => a.IsNil)),
-            new Primitive("cons?", 1, true, new Function((ctx, a) => a.IsCons)),
-            new Primitive("string?", 1, true, new Function((ctx, a) => a.IsString)),
-            new Primitive("number?", 1, true, new Function((ctx, a) => a.IsNumber)),
-            new Primitive("boolean?", 1, true, new Function((ctx, a) => a.IsBool)),
-            new Primitive("atom?", 1, true, new Function((ctx, a) => !a.IsCons)),
+            new Primitive("car", 1, new Function((ctx, a) => a.AsCons.first)),
+            new Primitive("cdr", 1, new Function((ctx, a) => a.AsCons.rest)),
+            new Primitive("cadr", 1, new Function((ctx, a) => a.AsCons.second)),
+            new Primitive("cddr", 1, new Function((ctx, a) => a.AsCons.afterSecond)),
+            new Primitive("caddr", 1, new Function((ctx, a) => a.AsCons.third)),
+            new Primitive("cdddr", 1, new Function((ctx, a) => a.AsCons.afterThird)),
 
-            new Primitive("car", 1, true, new Function((ctx, a) => a.AsCons.first)),
-            new Primitive("cdr", 1, true, new Function((ctx, a) => a.AsCons.rest)),
-            new Primitive("cadr", 1, true, new Function((ctx, a) => a.AsCons.second)),
-            new Primitive("cddr", 1, true, new Function((ctx, a) => a.AsCons.afterSecond)),
-            new Primitive("caddr", 1, true, new Function((ctx, a) => a.AsCons.third)),
-            new Primitive("cdddr", 1, true, new Function((ctx, a) => a.AsCons.afterThird)),
+            new Primitive("nth", 2, new Function((ctx, a, n) => a.AsCons.GetNth(n.AsInt))),
+            new Primitive("nth-tail", 2, new Function((ctx, a, n) => a.AsCons.GetNthTail(n.AsInt))),
+            new Primitive("nth-cons", 2, new Function((ctx, a, n) => a.AsCons.GetNthCons(n.AsInt))),
 
-            new Primitive("nth", 2, true, new Function((ctx, a, n) => a.AsCons.GetNth(n.AsInt))),
-            new Primitive("nth-tail", 2, true, new Function((ctx, a, n) => a.AsCons.GetNthTail(n.AsInt))),
-            new Primitive("nth-cons", 2, true, new Function((ctx, a, n) => a.AsCons.GetNthCons(n.AsInt))),
-
-            new Primitive("map", 2, true, new Function((ctx, a, b) => {
+            new Primitive("map", 2, new Function((ctx, a, b) => {
                 Closure fn = a.AsClosure;
                 Cons list = b.AsCons;
                 return new Val(MapHelper(ctx, fn, list));
-            }), false, true),
+            }), sideFx: SideFx.Possible),
 						
 			// macroexpansion
-			new Primitive("mx1", 1, true, new Function((ctx, exp) => ctx.compiler.MacroExpand1Step(exp))),
-            new Primitive("mx", 1, true, new Function((ctx, exp) => ctx.compiler.MacroExpandFull(exp))),
+			new Primitive("mx1", 1, new Function((ctx, exp) => ctx.compiler.MacroExpand1Step(exp))),
+            new Primitive("mx", 1, new Function((ctx, exp) => ctx.compiler.MacroExpandFull(exp))),
 			
 			// helpers
-			new Primitive("trace", 1, false, new Function((Context ctx, List<Val> args) => {
+			new Primitive("trace", 1, new Function((Context ctx, List<Val> args) => {
                 System.Console.WriteLine(string.Join(" ", args.Select(val => Val.Print(val))));
                 return Val.NIL;
-            }), false, true ),
+            }), FnType.VarArgs, SideFx.Possible),
 
-            new Primitive("gensym", 0, true, new Function((ctx) => GensymHelper(ctx, "GENSYM-"))),
-            new Primitive("gensym", 1, true, new Function((ctx, a) => GensymHelper(ctx, a.AsStringOrNull))),
+            new Primitive("gensym", 0, new Function((ctx) => GensymHelper(ctx, "GENSYM-"))),
+            new Primitive("gensym", 1, new Function((ctx, a) => GensymHelper(ctx, a.AsStringOrNull))),
 			
 			// packages
-			new Primitive("package-set", 1, true, new Function((ctx, a) => {
+			new Primitive("package-set", 1, new Function((ctx, a) => {
                 string name = a.IsNil ? null : a.AsString; // nil package name == global package
                 Package pkg = ctx.packages.Intern(name);
                 ctx.packages.current = pkg;
                 return a.IsNil ? Val.NIL : new Val(name);
-            }), false, true),
+            }), sideFx: SideFx.Possible),
 
-            new Primitive("package-get", 0, true, new Function (ctx =>
-                new Val(ctx.packages.current.name)),
-            false, true),
+            new Primitive("package-get", 0, new Function (ctx => new Val(ctx.packages.current.name)),
+                sideFx: SideFx.Possible),
 
-            new Primitive("package-import", 1, false, new Function ((Context ctx, List<Val> names) => {
+            new Primitive("package-import", 1, new Function ((Context ctx, List<Val> names) => {
                 foreach (Val a in names) {
                     string name = a.IsNil ? null : a.AsString;
                     ctx.packages.current.AddImport(ctx.packages.Intern(name));
                 }
                 return Val.NIL;
-            }), false, true),
+            }), FnType.VarArgs, SideFx.Possible),
 
-            new Primitive("package-imports", 0, true, new Function (ctx => {
+            new Primitive("package-imports", 0, new Function (ctx => {
                 List<Val> imports = ctx.packages.current.ListImports();
                 return Cons.MakeList(imports);
-            }), false, true),
+            }), sideFx: SideFx.Possible),
 
-            new Primitive("package-export", 1, true, new Function ((Context ctx, Val a) => {
+            new Primitive("package-export", 1, new Function ((Context ctx, Val a) => {
                 Cons names = a.AsConsOrNull;
                 while (names != null) {
                     Symbol symbol = names.first.AsSymbol;
@@ -129,12 +126,12 @@ namespace CSLisp.Core
                     names = names.rest.AsConsOrNull;
                 }
                 return Val.NIL;
-            }), false, true),
+            }), sideFx: SideFx.Possible),
 
-            new Primitive("package-exports", 0, true, new Function (ctx => {
+            new Primitive("package-exports", 0, new Function (ctx => {
                 List<Val> exports = ctx.packages.current.ListExports();
                 return Cons.MakeList(exports);
-            }), false, true),
+            }), sideFx: SideFx.Possible),
 
         };
 
@@ -151,7 +148,7 @@ namespace CSLisp.Core
         public static Primitive FindNary (string symbol, int nargs) {
             List<Primitive> primitives = ALL_PRIMITIVES_DICT[symbol];
             foreach (Primitive p in primitives) {
-                if (symbol == p.name && (p.exact ? nargs == p.minargs : nargs >= p.minargs)) {
+                if (symbol == p.name && (p.IsExact ? nargs == p.minargs : nargs >= p.minargs)) {
                     return p;
                 }
             }

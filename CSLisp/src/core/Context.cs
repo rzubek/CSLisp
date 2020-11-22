@@ -29,18 +29,25 @@ namespace CSLisp.Core
             }
         }
 
-        /// <summary> Processes the input as a string, and returns an array of results </summary>
-        public List<Val> Execute (string input) {
+        /// <summary> Stores the result of compiling a given code block and executing it </summary>
+        public struct CompileAndExecuteResult
+        {
+            public CompilationResults comp;
+            public Val output;
+        }
 
-            List<Val> outputs = new List<Val>();
+        /// <summary> Convenience wrapper that processes the input as a string, and returns an array of results. </summary>
+        public List<CompileAndExecuteResult> CompileAndExecute (string input) {
+
+            var outputs = new List<CompileAndExecuteResult>();
 
             parser.AddString(input);
-            List<Val> parseResults = parser.ParseAll();
+            var parseResults = parser.ParseAll();
 
             foreach (Val result in parseResults) {
-                Closure cl = compiler.Compile(result).closure;
-                Val output = vm.Execute(cl);
-                outputs.Add(output);
+                var cr = compiler.Compile(result);
+                var output = vm.Execute(cr.closure);
+                outputs.Add(new CompileAndExecuteResult { comp = cr, output = output });
             }
 
             return outputs;
