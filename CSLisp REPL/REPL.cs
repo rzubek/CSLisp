@@ -12,16 +12,24 @@ namespace CSLisp
         private static bool
             _runRepl = true,
             _showPrompt = true,
-            _debugCompilation = false;
+            _logCompilation = false,
+            _logExecution = false;
         private static Dictionary<string, Action> _specialPragmas = new Dictionary<string, Action>() {
             { "!exit", () => _runRepl = false },
             { "!help", () => Console.WriteLine("Valid pragmas: " + string.Join(" ", _specialPragmas.Keys)) },
-            { "!debugcomp", () => _debugCompilation = !_debugCompilation }
+            { "!logcomp", () => {
+                _logCompilation = !_logCompilation;
+                Console.WriteLine("Logging compilation: " + _logCompilation);
+            } },
+            { "!logexec", () => {
+                _logExecution = !_logExecution;
+                Console.WriteLine("Logging execution: " + _logExecution);
+            } },
         };
 
         private static void Main (string[] _) {
 
-            Context ctx = new Context();
+            Context ctx = new Context(logger: Logger);
             Console.WriteLine(GetInfo(ctx));
 
             var selfTest = ctx.CompileAndExecute("(+ 1 2)").Select(r => r.output);
@@ -44,7 +52,7 @@ namespace CSLisp
 
                     } else {
                         var results = ctx.CompileAndExecute(line);
-                        MaybeDebugCompilation(ctx, results);
+                        LogCompilation(ctx, results);
 
                         results.ForEach(entry => Console.WriteLine(Val.Print(entry.output)));
                         _showPrompt = (results.Count > 0);
@@ -61,10 +69,18 @@ namespace CSLisp
 
         }
 
-        private static void MaybeDebugCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
-            if (!_debugCompilation) { return; }
+        private static void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
+            if (!_logCompilation) { return; }
 
             results.ForEach(result => Console.WriteLine(ctx.code.DebugPrint(result.comp)));
+        }
+
+        private static void Logger (object[] args) {
+            if (!_logExecution) { return; }
+
+            var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
+            var message = string.Join(" ", strings);
+            Console.WriteLine(message);
         }
 
         private static string GetInfo (Context ctx) {
