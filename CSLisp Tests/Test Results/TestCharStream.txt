@@ -1,0 +1,13 @@
+TEST TestCharStream : 5:55:33 PM
+test: got #t  - expected #t
+test: got 102  - expected 102
+test: got 102  - expected 102
+test: got 111  - expected 111
+test: got 111  - expected 111
+test: got 111  - expected 111
+test: got 0  - expected 0
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got 102  - expected 102
+test: got #t  - expected #t
+SUCCESS

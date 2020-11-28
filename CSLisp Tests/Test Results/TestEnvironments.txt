@@ -1,0 +1,12 @@
+TEST TestEnvironments : 5:55:33 PM
+test: got 2  - expected 2
+test: got 0  - expected 0
+test: got 1  - expected 1
+test: got 1  - expected 1
+test: got 0  - expected 0
+test: got 0  - expected 0
+test: got temp:env2symbol0  - expected temp:env2symbol0
+test: got temp:NEW_SYMBOL  - expected temp:NEW_SYMBOL
+test: got 2  - expected 2
+test: got 0  - expected 0
+SUCCESS

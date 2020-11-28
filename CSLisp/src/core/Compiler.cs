@@ -416,7 +416,7 @@ namespace CSLisp.Core
                     Emit(Opcode.JMP_CLOSURE, Cons.Length(args)));
             } else {
                 // need to save the continuation point
-                string k = MakeLabel("K");
+                string k = MakeLabel("R");
                 return Merge(
                     Emit(Opcode.SAVE_RETURN, k),
                     CompileList(args, env),

@@ -1,0 +1,72 @@
+TEST TestParser : 5:55:33 PM
+ParseNext ==>  1
+test: got #t  - expected #t
+test: got 1  - expected 1
+ParseNext ==>  1.1
+test: got #t  - expected #t
+test: got 1.1  - expected 1.1
+ParseNext ==>  -2
+test: got #t  - expected #t
+test: got -2  - expected -2
+ParseNext ==>  -2
+test: got #t  - expected #t
+test: got -2  - expected -2
+ParseNext ==>  #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+ParseNext ==>  #f
+test: got #t  - expected #t
+test: got #f  - expected #f
+ParseNext ==>  #f
+test: got #t  - expected #t
+test: got #f  - expected #f
+ParseNext ==>  a
+test: got #t  - expected #t
+test: got a  - expected a
+ParseNext ==>  ()
+test: got #t  - expected #t
+test: got ()  - expected ()
+ParseNext ==>  "foo " "
+test: got #t  - expected #t
+test: got "foo " "  - expected "foo " "
+ParseNext ==>  (a b c)
+test: got #t  - expected #t
+test: got "(a b c)"  - expected "(a b c)"
+ParseNext ==>  (1 2.1 -3 #t #f () a b c)
+test: got #t  - expected #t
+test: got "(1 2.1 -3 #t #f () a b c)"  - expected "(1 2.1 -3 #t #f () a b c)"
+ParseNext ==>  (a (b (c d)) e)
+test: got #t  - expected #t
+test: got "(a (b (c d)) e)"  - expected "(a (b (c d)) e)"
+ParseNext ==>  (quote (foo))
+ParseNext ==>  (quote ((a b) c))
+ParseNext ==>  (quote ())
+test: got #t  - expected #t
+test: got "(quote (foo))"  - expected "(quote (foo))"
+test: got "(quote ((a b) c))"  - expected "(quote ((a b) c))"
+test: got "(quote ())"  - expected "(quote ())"
+ParseNext ==>  (a b e f)
+test: got #t  - expected #t
+test: got "(a b e f)"  - expected "(a b e f)"
+ParseNext ==>  foo
+ParseNext ==>  (quote foo)
+ParseNext ==>  (quote foo)
+ParseNext ==>  foo
+test: got #t  - expected #t
+test: got "foo"  - expected "foo"
+test: got "(quote foo)"  - expected "(quote foo)"
+test: got "(quote foo)"  - expected "(quote foo)"
+test: got "foo"  - expected "foo"
+ParseNext ==>  (list (quote foo))
+test: got #t  - expected #t
+test: got "(list (quote foo))"  - expected "(list (quote foo))"
+ParseNext ==>  (list (quote foo) (quote foo))
+test: got #t  - expected #t
+test: got "(list (quote foo) (quote foo))"  - expected "(list (quote foo) (quote foo))"
+ParseNext ==>  (list foo)
+test: got #t  - expected #t
+test: got "(list foo)"  - expected "(list foo)"
+ParseNext ==>  (append foo)
+test: got #t  - expected #t
+test: got "(append foo)"  - expected "(append foo)"
+SUCCESS

@@ -1,0 +1,3135 @@
+TEST TestVMPrimitives : 5:55:34 PM
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (+ 1 2)
+ParseNext ==>  (+ 1 2)
+Parsed:  (core:+ 1 2)
+Compiled:
+	CODE BLOCK # 42 ; () => ((+ 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 42 ; () => ((+ 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	+
+                                      3: [ 1 2 [Closure/core:+] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (+ (+ 1 2) 3)
+ParseNext ==>  (+ (+ 1 2) 3)
+Parsed:  (core:+ (core:+ 1 2) 3)
+Compiled:
+	CODE BLOCK # 43 ; () => ((+ (+ 1 2) 3))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	1
+	3	PUSH_CONST	2
+	4	GLOBAL_GET	+
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	PUSH_CONST	3
+	8	GLOBAL_GET	+
+	9	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 43 ; () => ((+ (+ 1 2) 3))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	1
+	3	PUSH_CONST	2
+	4	GLOBAL_GET	+
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	PUSH_CONST	3
+	8	GLOBAL_GET	+
+	9	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	6
+                                      1: [ [R0/6] ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ [R0/6] 1 ]
+[ 2]   3 : PUSH_CONST	2
+                                      3: [ [R0/6] 1 2 ]
+[ 3]   4 : GLOBAL_GET	+
+                                      4: [ [R0/6] 1 2 [Closure/core:+] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [R0/6] 1 2 ]
+[ 3]   0 : CALL_PRIMOP	"+"
+                                      2: [ [R0/6] 3 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 3 ]
+[ 1]   6 : LABEL	"R0"
+                                      1: [ 3 ]
+[ 1]   7 : PUSH_CONST	3
+                                      2: [ 3 3 ]
+[ 2]   8 : GLOBAL_GET	+
+                                      3: [ 3 3 [Closure/core:+] ]
+[ 3]   9 : JMP_CLOSURE	2
+                                      2: [ 3 3 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 6 ]
+[ 1]   1 : RETURN_VAL
+test: got "6"  - expected "6"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (+ 1 2 3 4)
+ParseNext ==>  (+ 1 2 3 4)
+Parsed:  (core:+ 1 2 3 4)
+Compiled:
+	CODE BLOCK # 44 ; () => ((+ 1 2 3 4))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	PUSH_CONST	4
+	5	GLOBAL_GET	+
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 44 ; () => ((+ 1 2 3 4))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	PUSH_CONST	4
+	5	GLOBAL_GET	+
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : PUSH_CONST	3
+                                      3: [ 1 2 3 ]
+[ 3]   4 : PUSH_CONST	4
+                                      4: [ 1 2 3 4 ]
+[ 4]   5 : GLOBAL_GET	+
+                                      5: [ 1 2 3 4 [Closure/core:+] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ 1 2 3 4 ]
+[ 4]   0 : CALL_PRIMOP	"+"
+                                      1: [ 10 ]
+[ 1]   1 : RETURN_VAL
+test: got "10"  - expected "10"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (* 1 2 3 4)
+ParseNext ==>  (* 1 2 3 4)
+Parsed:  (core:* 1 2 3 4)
+Compiled:
+	CODE BLOCK # 45 ; () => ((* 1 2 3 4))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	PUSH_CONST	4
+	5	GLOBAL_GET	*
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 45 ; () => ((* 1 2 3 4))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	PUSH_CONST	4
+	5	GLOBAL_GET	*
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : PUSH_CONST	3
+                                      3: [ 1 2 3 ]
+[ 3]   4 : PUSH_CONST	4
+                                      4: [ 1 2 3 4 ]
+[ 4]   5 : GLOBAL_GET	*
+                                      5: [ 1 2 3 4 [Closure/core:*] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ 1 2 3 4 ]
+[ 4]   0 : CALL_PRIMOP	"*"
+                                      1: [ 24 ]
+[ 1]   1 : RETURN_VAL
+test: got "24"  - expected "24"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (= 1 1)
+ParseNext ==>  (= 1 1)
+Parsed:  (core:= 1 1)
+Compiled:
+	CODE BLOCK # 46 ; () => ((= 1 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	=
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 46 ; () => ((= 1 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	=
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ 1 1 ]
+[ 2]   3 : GLOBAL_GET	=
+                                      3: [ 1 1 [Closure/core:=] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 1 ]
+[ 2]   0 : CALL_PRIMOP	"="
+                                      1: [ #t ]
+[ 1]   1 : RETURN_VAL
+test: got "#t"  - expected "#t"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (!= 1 1)
+ParseNext ==>  (!= 1 1)
+Parsed:  (core:!= 1 1)
+Compiled:
+	CODE BLOCK # 47 ; () => ((!= 1 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	!=
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 47 ; () => ((!= 1 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	!=
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ 1 1 ]
+[ 2]   3 : GLOBAL_GET	!=
+                                      3: [ 1 1 [Closure/core:!=] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 1 ]
+[ 2]   0 : CALL_PRIMOP	"!="
+                                      1: [ #f ]
+[ 1]   1 : RETURN_VAL
+test: got "#f"  - expected "#f"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (cons 1 2)
+ParseNext ==>  (cons 1 2)
+Parsed:  (core:cons 1 2)
+Compiled:
+	CODE BLOCK # 48 ; () => ((cons 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	cons
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 48 ; () => ((cons 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	cons
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	cons
+                                      3: [ 1 2 [Closure/core:cons] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"cons"
+                                      1: [ (1 . 2) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 . 2)"  - expected "(1 . 2)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  `(a 1)
+ParseNext ==>  (list (quote a) (quote 1))
+Parsed:  (list (quote a) (quote 1))
+Compiled:
+	CODE BLOCK # 49 ; () => ((list (quote a) (quote 1)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	a
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 49 ; () => ((list (quote a) (quote 1)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	a
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	a
+                                      1: [ a ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ a 1 ]
+[ 2]   3 : GLOBAL_GET	list
+                                      3: [ a 1 [Closure/core:list] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ a 1 ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      1: [ (a 1) ]
+[ 1]   1 : RETURN_VAL
+test: got "(a 1)"  - expected "(a 1)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list)
+ParseNext ==>  (list)
+Parsed:  (list)
+Compiled:
+	CODE BLOCK # 50 ; () => ((list))
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	list
+	2	JMP_CLOSURE	0
+
+Running...
+Executing:  
+	CODE BLOCK # 50 ; () => ((list))
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	list
+	2	JMP_CLOSURE	0
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : GLOBAL_GET	list
+                                      1: [ [Closure/core:list] ]
+[ 1]   2 : JMP_CLOSURE	0
+                                      0: [  ]
+[ 0]   0 : CALL_PRIMOP	"list"
+                                      1: [ () ]
+[ 1]   1 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list 1)
+ParseNext ==>  (list 1)
+Parsed:  (list 1)
+Compiled:
+	CODE BLOCK # 51 ; () => ((list 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	GLOBAL_GET	list
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 51 ; () => ((list 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	GLOBAL_GET	list
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : GLOBAL_GET	list
+                                      2: [ 1 [Closure/core:list] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ 1 ]
+[ 1]   0 : CALL_PRIMOP	"list"
+                                      1: [ (1) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1)"  - expected "(1)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list 1 2)
+ParseNext ==>  (list 1 2)
+Parsed:  (list 1 2)
+Compiled:
+	CODE BLOCK # 52 ; () => ((list 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 52 ; () => ((list 1 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	list
+                                      3: [ 1 2 [Closure/core:list] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      1: [ (1 2) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 2)"  - expected "(1 2)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list 1 2 3)
+ParseNext ==>  (list 1 2 3)
+Parsed:  (list 1 2 3)
+Compiled:
+	CODE BLOCK # 53 ; () => ((list 1 2 3))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 53 ; () => ((list 1 2 3))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	PUSH_CONST	3
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : PUSH_CONST	3
+                                      3: [ 1 2 3 ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ 1 2 3 [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ 1 2 3 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (1 2 3) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 2 3)"  - expected "(1 2 3)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (length '(a b c))
+ParseNext ==>  (length (quote (a b c)))
+Parsed:  (core:length (quote (a b c)))
+Compiled:
+	CODE BLOCK # 54 ; () => ((length (quote (a b c))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(a b c)
+	2	GLOBAL_GET	length
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 54 ; () => ((length (quote (a b c))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(a b c)
+	2	GLOBAL_GET	length
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(a b c)
+                                      1: [ (a b c) ]
+[ 1]   2 : GLOBAL_GET	length
+                                      2: [ (a b c) [Closure/core:length] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ (a b c) ]
+[ 1]   0 : CALL_PRIMOP	"length"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (append '(1 2) '(3 4) '() '(5))
+ParseNext ==>  (append (quote (1 2)) (quote (3 4)) (quote ()) (quote (5)))
+Parsed:  (append (quote (1 2)) (quote (3 4)) (quote ()) (quote (5)))
+Compiled:
+	CODE BLOCK # 55 ; () => ((append (quote (1 2)) (quote (3 4)) (quote ()) (quote (5))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	PUSH_CONST	(3 4)
+	3	PUSH_CONST	()
+	4	PUSH_CONST	(5)
+	5	GLOBAL_GET	append
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 55 ; () => ((append (quote (1 2)) (quote (3 4)) (quote ()) (quote (5))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	PUSH_CONST	(3 4)
+	3	PUSH_CONST	()
+	4	PUSH_CONST	(5)
+	5	GLOBAL_GET	append
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2)
+                                      1: [ (1 2) ]
+[ 1]   2 : PUSH_CONST	(3 4)
+                                      2: [ (1 2) (3 4) ]
+[ 2]   3 : PUSH_CONST	()
+                                      3: [ (1 2) (3 4) () ]
+[ 3]   4 : PUSH_CONST	(5)
+                                      4: [ (1 2) (3 4) () (5) ]
+[ 4]   5 : GLOBAL_GET	append
+                                      5: [ (1 2) (3 4) () (5) [Closure/core:append] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ (1 2) (3 4) () (5) ]
+[ 4]   0 : CALL_PRIMOP	"append"
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 2 3 4 5)"  - expected "(1 2 3 4 5)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (append '() '(3 4)) (append '(1 2) '()))
+ParseNext ==>  (list (append (quote ()) (quote (3 4))) (append (quote (1 2)) (quote ())))
+Parsed:  (list (append (quote ()) (quote (3 4))) (append (quote (1 2)) (quote ())))
+Compiled:
+	CODE BLOCK # 56 ; () => ((list (append (quote ()) (quote (3 4))) (append (quote (1 2)) (quote ()))))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	()
+	3	PUSH_CONST	(3 4)
+	4	GLOBAL_GET	append
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	SAVE_RETURN	"R1"	12
+	8	PUSH_CONST	(1 2)
+	9	PUSH_CONST	()
+	10	GLOBAL_GET	append
+	11	JMP_CLOSURE	2
+12	LABEL	"R1"
+	13	GLOBAL_GET	list
+	14	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 56 ; () => ((list (append (quote ()) (quote (3 4))) (append (quote (1 2)) (quote ()))))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	()
+	3	PUSH_CONST	(3 4)
+	4	GLOBAL_GET	append
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	SAVE_RETURN	"R1"	12
+	8	PUSH_CONST	(1 2)
+	9	PUSH_CONST	()
+	10	GLOBAL_GET	append
+	11	JMP_CLOSURE	2
+12	LABEL	"R1"
+	13	GLOBAL_GET	list
+	14	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	6
+                                      1: [ [R0/6] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/6] () ]
+[ 2]   3 : PUSH_CONST	(3 4)
+                                      3: [ [R0/6] () (3 4) ]
+[ 3]   4 : GLOBAL_GET	append
+                                      4: [ [R0/6] () (3 4) [Closure/core:append] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [R0/6] () (3 4) ]
+[ 3]   0 : CALL_PRIMOP	"append"
+                                      2: [ [R0/6] (3 4) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (3 4) ]
+[ 1]   6 : LABEL	"R0"
+                                      1: [ (3 4) ]
+[ 1]   7 : SAVE_RETURN	"R1"	12
+                                      2: [ (3 4) [R1/12] ]
+[ 2]   8 : PUSH_CONST	(1 2)
+                                      3: [ (3 4) [R1/12] (1 2) ]
+[ 3]   9 : PUSH_CONST	()
+                                      4: [ (3 4) [R1/12] (1 2) () ]
+[ 4]  10 : GLOBAL_GET	append
+                                      5: [ (3 4) [R1/12] (1 2) () [Closure/core:append] ]
+[ 5]  11 : JMP_CLOSURE	2
+                                      4: [ (3 4) [R1/12] (1 2) () ]
+[ 4]   0 : CALL_PRIMOP	"append"
+                                      3: [ (3 4) [R1/12] (1 2) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ (3 4) (1 2) ]
+[ 2]  12 : LABEL	"R1"
+                                      2: [ (3 4) (1 2) ]
+[ 2]  13 : GLOBAL_GET	list
+                                      3: [ (3 4) (1 2) [Closure/core:list] ]
+[ 3]  14 : JMP_CLOSURE	2
+                                      2: [ (3 4) (1 2) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      1: [ ((3 4) (1 2)) ]
+[ 1]   1 : RETURN_VAL
+test: got "((3 4) (1 2))"  - expected "((3 4) (1 2))"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list #t (not #t) #f (not #f) 1 (not 1) 0 (not 0))
+ParseNext ==>  (list #t (not #t) #f (not #f) 1 (not 1) 0 (not 0))
+Parsed:  (list #t (core:not #t) #f (core:not #f) 1 (core:not 1) 0 (core:not 0))
+Compiled:
+	CODE BLOCK # 57 ; () => ((list #t (not #t) #f (not #f) 1 (not 1) 0 (not 0)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	SAVE_RETURN	"R0"	6
+	3	PUSH_CONST	#t
+	4	GLOBAL_GET	not
+	5	JMP_CLOSURE	1
+6	LABEL	"R0"
+	7	PUSH_CONST	#f
+	8	SAVE_RETURN	"R1"	12
+	9	PUSH_CONST	#f
+	10	GLOBAL_GET	not
+	11	JMP_CLOSURE	1
+12	LABEL	"R1"
+	13	PUSH_CONST	1
+	14	SAVE_RETURN	"R2"	18
+	15	PUSH_CONST	1
+	16	GLOBAL_GET	not
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	PUSH_CONST	0
+	20	SAVE_RETURN	"R3"	24
+	21	PUSH_CONST	0
+	22	GLOBAL_GET	not
+	23	JMP_CLOSURE	1
+24	LABEL	"R3"
+	25	GLOBAL_GET	list
+	26	JMP_CLOSURE	8
+
+Running...
+Executing:  
+	CODE BLOCK # 57 ; () => ((list #t (not #t) #f (not #f) 1 (not 1) 0 (not 0)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	SAVE_RETURN	"R0"	6
+	3	PUSH_CONST	#t
+	4	GLOBAL_GET	not
+	5	JMP_CLOSURE	1
+6	LABEL	"R0"
+	7	PUSH_CONST	#f
+	8	SAVE_RETURN	"R1"	12
+	9	PUSH_CONST	#f
+	10	GLOBAL_GET	not
+	11	JMP_CLOSURE	1
+12	LABEL	"R1"
+	13	PUSH_CONST	1
+	14	SAVE_RETURN	"R2"	18
+	15	PUSH_CONST	1
+	16	GLOBAL_GET	not
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	PUSH_CONST	0
+	20	SAVE_RETURN	"R3"	24
+	21	PUSH_CONST	0
+	22	GLOBAL_GET	not
+	23	JMP_CLOSURE	1
+24	LABEL	"R3"
+	25	GLOBAL_GET	list
+	26	JMP_CLOSURE	8
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   2 : SAVE_RETURN	"R0"	6
+                                      2: [ #t [R0/6] ]
+[ 2]   3 : PUSH_CONST	#t
+                                      3: [ #t [R0/6] #t ]
+[ 3]   4 : GLOBAL_GET	not
+                                      4: [ #t [R0/6] #t [Closure/core:not] ]
+[ 4]   5 : JMP_CLOSURE	1
+                                      3: [ #t [R0/6] #t ]
+[ 3]   0 : CALL_PRIMOP	"not"
+                                      3: [ #t [R0/6] #f ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #t #f ]
+[ 2]   6 : LABEL	"R0"
+                                      2: [ #t #f ]
+[ 2]   7 : PUSH_CONST	#f
+                                      3: [ #t #f #f ]
+[ 3]   8 : SAVE_RETURN	"R1"	12
+                                      4: [ #t #f #f [R1/12] ]
+[ 4]   9 : PUSH_CONST	#f
+                                      5: [ #t #f #f [R1/12] #f ]
+[ 5]  10 : GLOBAL_GET	not
+                                      6: [ #t #f #f [R1/12] #f [Closure/core:not] ]
+[ 6]  11 : JMP_CLOSURE	1
+                                      5: [ #t #f #f [R1/12] #f ]
+[ 5]   0 : CALL_PRIMOP	"not"
+                                      5: [ #t #f #f [R1/12] #t ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #t #f #f #t ]
+[ 4]  12 : LABEL	"R1"
+                                      4: [ #t #f #f #t ]
+[ 4]  13 : PUSH_CONST	1
+                                      5: [ #t #f #f #t 1 ]
+[ 5]  14 : SAVE_RETURN	"R2"	18
+                                      6: [ #t #f #f #t 1 [R2/18] ]
+[ 6]  15 : PUSH_CONST	1
+                                      7: [ #t #f #f #t 1 [R2/18] 1 ]
+[ 7]  16 : GLOBAL_GET	not
+                                      8: [ #t #f #f #t 1 [R2/18] 1 [Closure/core:not] ]
+[ 8]  17 : JMP_CLOSURE	1
+                                      7: [ #t #f #f #t 1 [R2/18] 1 ]
+[ 7]   0 : CALL_PRIMOP	"not"
+                                      7: [ #t #f #f #t 1 [R2/18] #f ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ #t #f #f #t 1 #f ]
+[ 6]  18 : LABEL	"R2"
+                                      6: [ #t #f #f #t 1 #f ]
+[ 6]  19 : PUSH_CONST	0
+                                      7: [ #t #f #f #t 1 #f 0 ]
+[ 7]  20 : SAVE_RETURN	"R3"	24
+                                      8: [ #t #f #f #t 1 #f 0 [R3/24] ]
+[ 8]  21 : PUSH_CONST	0
+                                      9: [ #t #f #f #t 1 #f 0 [R3/24] 0 ]
+[ 9]  22 : GLOBAL_GET	not
+                                     10: [ #t #f #f #t 1 #f 0 [R3/24] 0 [Closure/core:not] ]
+[10]  23 : JMP_CLOSURE	1
+                                      9: [ #t #f #f #t 1 #f 0 [R3/24] 0 ]
+[ 9]   0 : CALL_PRIMOP	"not"
+                                      9: [ #t #f #f #t 1 #f 0 [R3/24] #f ]
+[ 9]   1 : RETURN_VAL
+                                      8: [ #t #f #f #t 1 #f 0 #f ]
+[ 8]  24 : LABEL	"R3"
+                                      8: [ #t #f #f #t 1 #f 0 #f ]
+[ 8]  25 : GLOBAL_GET	list
+                                      9: [ #t #f #f #t 1 #f 0 #f [Closure/core:list] ]
+[ 9]  26 : JMP_CLOSURE	8
+                                      8: [ #t #f #f #t 1 #f 0 #f ]
+[ 8]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#t #f #f #t 1 #f 0 #f) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#t #f #f #t 1 #f 0 #f)"  - expected "(#t #f #f #t 1 #f 0 #f)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (null? ()) (null? '(a)) (null? 0) (null? 1) (null? #f))
+ParseNext ==>  (list (null? ()) (null? (quote (a))) (null? 0) (null? 1) (null? #f))
+Parsed:  (list (core:null? ()) (core:null? (quote (a))) (core:null? 0) (core:null? 1) (core:null? #f))
+Compiled:
+	CODE BLOCK # 58 ; () => ((list (null? ()) (null? (quote (a))) (null? 0) (null? 1) (null? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	null?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	null?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	null?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	null?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+Running...
+Executing:  
+	CODE BLOCK # 58 ; () => ((list (null? ()) (null? (quote (a))) (null? 0) (null? 1) (null? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	null?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	null?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	null?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	null?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	null?
+                                      3: [ [R0/5] () [Closure/core:null?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"null?"
+                                      2: [ [R0/5] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   6 : SAVE_RETURN	"R1"	10
+                                      2: [ #t [R1/10] ]
+[ 2]   7 : PUSH_CONST	(a)
+                                      3: [ #t [R1/10] (a) ]
+[ 3]   8 : GLOBAL_GET	null?
+                                      4: [ #t [R1/10] (a) [Closure/core:null?] ]
+[ 4]   9 : JMP_CLOSURE	1
+                                      3: [ #t [R1/10] (a) ]
+[ 3]   0 : CALL_PRIMOP	"null?"
+                                      3: [ #t [R1/10] #f ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #t #f ]
+[ 2]  10 : LABEL	"R1"
+                                      2: [ #t #f ]
+[ 2]  11 : SAVE_RETURN	"R2"	15
+                                      3: [ #t #f [R2/15] ]
+[ 3]  12 : PUSH_CONST	0
+                                      4: [ #t #f [R2/15] 0 ]
+[ 4]  13 : GLOBAL_GET	null?
+                                      5: [ #t #f [R2/15] 0 [Closure/core:null?] ]
+[ 5]  14 : JMP_CLOSURE	1
+                                      4: [ #t #f [R2/15] 0 ]
+[ 4]   0 : CALL_PRIMOP	"null?"
+                                      4: [ #t #f [R2/15] #f ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ #t #f #f ]
+[ 3]  15 : LABEL	"R2"
+                                      3: [ #t #f #f ]
+[ 3]  16 : SAVE_RETURN	"R3"	20
+                                      4: [ #t #f #f [R3/20] ]
+[ 4]  17 : PUSH_CONST	1
+                                      5: [ #t #f #f [R3/20] 1 ]
+[ 5]  18 : GLOBAL_GET	null?
+                                      6: [ #t #f #f [R3/20] 1 [Closure/core:null?] ]
+[ 6]  19 : JMP_CLOSURE	1
+                                      5: [ #t #f #f [R3/20] 1 ]
+[ 5]   0 : CALL_PRIMOP	"null?"
+                                      5: [ #t #f #f [R3/20] #f ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #t #f #f #f ]
+[ 4]  20 : LABEL	"R3"
+                                      4: [ #t #f #f #f ]
+[ 4]  21 : SAVE_RETURN	"R4"	25
+                                      5: [ #t #f #f #f [R4/25] ]
+[ 5]  22 : PUSH_CONST	#f
+                                      6: [ #t #f #f #f [R4/25] #f ]
+[ 6]  23 : GLOBAL_GET	null?
+                                      7: [ #t #f #f #f [R4/25] #f [Closure/core:null?] ]
+[ 7]  24 : JMP_CLOSURE	1
+                                      6: [ #t #f #f #f [R4/25] #f ]
+[ 6]   0 : CALL_PRIMOP	"null?"
+                                      6: [ #t #f #f #f [R4/25] #f ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ #t #f #f #f #f ]
+[ 5]  25 : LABEL	"R4"
+                                      5: [ #t #f #f #f #f ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ #t #f #f #f #f [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	5
+                                      5: [ #t #f #f #f #f ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#t #f #f #f #f) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#t #f #f #f #f)"  - expected "(#t #f #f #f #f)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (cons? ()) (cons? '(a)) (cons? 0) (cons? 1) (cons? #f))
+ParseNext ==>  (list (cons? ()) (cons? (quote (a))) (cons? 0) (cons? 1) (cons? #f))
+Parsed:  (list (core:cons? ()) (core:cons? (quote (a))) (core:cons? 0) (core:cons? 1) (core:cons? #f))
+Compiled:
+	CODE BLOCK # 59 ; () => ((list (cons? ()) (cons? (quote (a))) (cons? 0) (cons? 1) (cons? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	cons?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	cons?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	cons?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	cons?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	cons?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+Running...
+Executing:  
+	CODE BLOCK # 59 ; () => ((list (cons? ()) (cons? (quote (a))) (cons? 0) (cons? 1) (cons? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	cons?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	cons?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	cons?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	cons?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	cons?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	cons?
+                                      3: [ [R0/5] () [Closure/core:cons?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"cons?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : SAVE_RETURN	"R1"	10
+                                      2: [ #f [R1/10] ]
+[ 2]   7 : PUSH_CONST	(a)
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   8 : GLOBAL_GET	cons?
+                                      4: [ #f [R1/10] (a) [Closure/core:cons?] ]
+[ 4]   9 : JMP_CLOSURE	1
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   0 : CALL_PRIMOP	"cons?"
+                                      3: [ #f [R1/10] #t ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #f #t ]
+[ 2]  10 : LABEL	"R1"
+                                      2: [ #f #t ]
+[ 2]  11 : SAVE_RETURN	"R2"	15
+                                      3: [ #f #t [R2/15] ]
+[ 3]  12 : PUSH_CONST	0
+                                      4: [ #f #t [R2/15] 0 ]
+[ 4]  13 : GLOBAL_GET	cons?
+                                      5: [ #f #t [R2/15] 0 [Closure/core:cons?] ]
+[ 5]  14 : JMP_CLOSURE	1
+                                      4: [ #f #t [R2/15] 0 ]
+[ 4]   0 : CALL_PRIMOP	"cons?"
+                                      4: [ #f #t [R2/15] #f ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ #f #t #f ]
+[ 3]  15 : LABEL	"R2"
+                                      3: [ #f #t #f ]
+[ 3]  16 : SAVE_RETURN	"R3"	20
+                                      4: [ #f #t #f [R3/20] ]
+[ 4]  17 : PUSH_CONST	1
+                                      5: [ #f #t #f [R3/20] 1 ]
+[ 5]  18 : GLOBAL_GET	cons?
+                                      6: [ #f #t #f [R3/20] 1 [Closure/core:cons?] ]
+[ 6]  19 : JMP_CLOSURE	1
+                                      5: [ #f #t #f [R3/20] 1 ]
+[ 5]   0 : CALL_PRIMOP	"cons?"
+                                      5: [ #f #t #f [R3/20] #f ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #f #t #f #f ]
+[ 4]  20 : LABEL	"R3"
+                                      4: [ #f #t #f #f ]
+[ 4]  21 : SAVE_RETURN	"R4"	25
+                                      5: [ #f #t #f #f [R4/25] ]
+[ 5]  22 : PUSH_CONST	#f
+                                      6: [ #f #t #f #f [R4/25] #f ]
+[ 6]  23 : GLOBAL_GET	cons?
+                                      7: [ #f #t #f #f [R4/25] #f [Closure/core:cons?] ]
+[ 7]  24 : JMP_CLOSURE	1
+                                      6: [ #f #t #f #f [R4/25] #f ]
+[ 6]   0 : CALL_PRIMOP	"cons?"
+                                      6: [ #f #t #f #f [R4/25] #f ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ #f #t #f #f #f ]
+[ 5]  25 : LABEL	"R4"
+                                      5: [ #f #t #f #f #f ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ #f #t #f #f #f [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	5
+                                      5: [ #f #t #f #f #f ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#f #t #f #f #f) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#f #t #f #f #f)"  - expected "(#f #t #f #f #f)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (atom? ()) (atom? '(a)) (atom? 0) (atom? 1) (atom? #f))
+ParseNext ==>  (list (atom? ()) (atom? (quote (a))) (atom? 0) (atom? 1) (atom? #f))
+Parsed:  (list (core:atom? ()) (core:atom? (quote (a))) (core:atom? 0) (core:atom? 1) (core:atom? #f))
+Compiled:
+	CODE BLOCK # 60 ; () => ((list (atom? ()) (atom? (quote (a))) (atom? 0) (atom? 1) (atom? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	atom?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	atom?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	atom?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	atom?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+Running...
+Executing:  
+	CODE BLOCK # 60 ; () => ((list (atom? ()) (atom? (quote (a))) (atom? 0) (atom? 1) (atom? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	atom?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	atom?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	atom?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	atom?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	atom?
+                                      3: [ [R0/5] () [Closure/core:atom?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"atom?"
+                                      2: [ [R0/5] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   6 : SAVE_RETURN	"R1"	10
+                                      2: [ #t [R1/10] ]
+[ 2]   7 : PUSH_CONST	(a)
+                                      3: [ #t [R1/10] (a) ]
+[ 3]   8 : GLOBAL_GET	atom?
+                                      4: [ #t [R1/10] (a) [Closure/core:atom?] ]
+[ 4]   9 : JMP_CLOSURE	1
+                                      3: [ #t [R1/10] (a) ]
+[ 3]   0 : CALL_PRIMOP	"atom?"
+                                      3: [ #t [R1/10] #f ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #t #f ]
+[ 2]  10 : LABEL	"R1"
+                                      2: [ #t #f ]
+[ 2]  11 : SAVE_RETURN	"R2"	15
+                                      3: [ #t #f [R2/15] ]
+[ 3]  12 : PUSH_CONST	0
+                                      4: [ #t #f [R2/15] 0 ]
+[ 4]  13 : GLOBAL_GET	atom?
+                                      5: [ #t #f [R2/15] 0 [Closure/core:atom?] ]
+[ 5]  14 : JMP_CLOSURE	1
+                                      4: [ #t #f [R2/15] 0 ]
+[ 4]   0 : CALL_PRIMOP	"atom?"
+                                      4: [ #t #f [R2/15] #t ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ #t #f #t ]
+[ 3]  15 : LABEL	"R2"
+                                      3: [ #t #f #t ]
+[ 3]  16 : SAVE_RETURN	"R3"	20
+                                      4: [ #t #f #t [R3/20] ]
+[ 4]  17 : PUSH_CONST	1
+                                      5: [ #t #f #t [R3/20] 1 ]
+[ 5]  18 : GLOBAL_GET	atom?
+                                      6: [ #t #f #t [R3/20] 1 [Closure/core:atom?] ]
+[ 6]  19 : JMP_CLOSURE	1
+                                      5: [ #t #f #t [R3/20] 1 ]
+[ 5]   0 : CALL_PRIMOP	"atom?"
+                                      5: [ #t #f #t [R3/20] #t ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #t #f #t #t ]
+[ 4]  20 : LABEL	"R3"
+                                      4: [ #t #f #t #t ]
+[ 4]  21 : SAVE_RETURN	"R4"	25
+                                      5: [ #t #f #t #t [R4/25] ]
+[ 5]  22 : PUSH_CONST	#f
+                                      6: [ #t #f #t #t [R4/25] #f ]
+[ 6]  23 : GLOBAL_GET	atom?
+                                      7: [ #t #f #t #t [R4/25] #f [Closure/core:atom?] ]
+[ 7]  24 : JMP_CLOSURE	1
+                                      6: [ #t #f #t #t [R4/25] #f ]
+[ 6]   0 : CALL_PRIMOP	"atom?"
+                                      6: [ #t #f #t #t [R4/25] #t ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ #t #f #t #t #t ]
+[ 5]  25 : LABEL	"R4"
+                                      5: [ #t #f #t #t #t ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ #t #f #t #t #t [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	5
+                                      5: [ #t #f #t #t #t ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#t #f #t #t #t) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#t #f #t #t #t)"  - expected "(#t #f #t #t #t)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (number? ()) (number? '(a)) (number? 0) (number? 1) (number? #f))
+ParseNext ==>  (list (number? ()) (number? (quote (a))) (number? 0) (number? 1) (number? #f))
+Parsed:  (list (core:number? ()) (core:number? (quote (a))) (core:number? 0) (core:number? 1) (core:number? #f))
+Compiled:
+	CODE BLOCK # 61 ; () => ((list (number? ()) (number? (quote (a))) (number? 0) (number? 1) (number? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	number?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	number?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	number?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	number?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	number?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+Running...
+Executing:  
+	CODE BLOCK # 61 ; () => ((list (number? ()) (number? (quote (a))) (number? 0) (number? 1) (number? #f)))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	number?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	number?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	number?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	number?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	number?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	5
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	number?
+                                      3: [ [R0/5] () [Closure/core:number?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"number?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : SAVE_RETURN	"R1"	10
+                                      2: [ #f [R1/10] ]
+[ 2]   7 : PUSH_CONST	(a)
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   8 : GLOBAL_GET	number?
+                                      4: [ #f [R1/10] (a) [Closure/core:number?] ]
+[ 4]   9 : JMP_CLOSURE	1
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   0 : CALL_PRIMOP	"number?"
+                                      3: [ #f [R1/10] #f ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #f #f ]
+[ 2]  10 : LABEL	"R1"
+                                      2: [ #f #f ]
+[ 2]  11 : SAVE_RETURN	"R2"	15
+                                      3: [ #f #f [R2/15] ]
+[ 3]  12 : PUSH_CONST	0
+                                      4: [ #f #f [R2/15] 0 ]
+[ 4]  13 : GLOBAL_GET	number?
+                                      5: [ #f #f [R2/15] 0 [Closure/core:number?] ]
+[ 5]  14 : JMP_CLOSURE	1
+                                      4: [ #f #f [R2/15] 0 ]
+[ 4]   0 : CALL_PRIMOP	"number?"
+                                      4: [ #f #f [R2/15] #t ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ #f #f #t ]
+[ 3]  15 : LABEL	"R2"
+                                      3: [ #f #f #t ]
+[ 3]  16 : SAVE_RETURN	"R3"	20
+                                      4: [ #f #f #t [R3/20] ]
+[ 4]  17 : PUSH_CONST	1
+                                      5: [ #f #f #t [R3/20] 1 ]
+[ 5]  18 : GLOBAL_GET	number?
+                                      6: [ #f #f #t [R3/20] 1 [Closure/core:number?] ]
+[ 6]  19 : JMP_CLOSURE	1
+                                      5: [ #f #f #t [R3/20] 1 ]
+[ 5]   0 : CALL_PRIMOP	"number?"
+                                      5: [ #f #f #t [R3/20] #t ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #f #f #t #t ]
+[ 4]  20 : LABEL	"R3"
+                                      4: [ #f #f #t #t ]
+[ 4]  21 : SAVE_RETURN	"R4"	25
+                                      5: [ #f #f #t #t [R4/25] ]
+[ 5]  22 : PUSH_CONST	#f
+                                      6: [ #f #f #t #t [R4/25] #f ]
+[ 6]  23 : GLOBAL_GET	number?
+                                      7: [ #f #f #t #t [R4/25] #f [Closure/core:number?] ]
+[ 7]  24 : JMP_CLOSURE	1
+                                      6: [ #f #f #t #t [R4/25] #f ]
+[ 6]   0 : CALL_PRIMOP	"number?"
+                                      6: [ #f #f #t #t [R4/25] #f ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ #f #f #t #t #f ]
+[ 5]  25 : LABEL	"R4"
+                                      5: [ #f #f #t #t #f ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ #f #f #t #t #f [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	5
+                                      5: [ #f #f #t #t #f ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#f #f #t #t #f) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#f #f #t #t #f)"  - expected "(#f #f #t #t #f)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (list (string? ()) (string? '(a)) (string? 0) (string? 1) (string? #f) (string? "foo"))
+ParseNext ==>  (list (string? ()) (string? (quote (a))) (string? 0) (string? 1) (string? #f) (string? "foo"))
+Parsed:  (list (core:string? ()) (core:string? (quote (a))) (core:string? 0) (core:string? 1) (core:string? #f) (core:string? "foo"))
+Compiled:
+	CODE BLOCK # 62 ; () => ((list (string? ()) (string? (quote (a))) (string? 0) (string? 1) (string? #f) (string? "foo")))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	string?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	string?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	string?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	string?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	string?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	SAVE_RETURN	"R5"	30
+	27	PUSH_CONST	"foo"
+	28	GLOBAL_GET	string?
+	29	JMP_CLOSURE	1
+30	LABEL	"R5"
+	31	GLOBAL_GET	list
+	32	JMP_CLOSURE	6
+
+Running...
+Executing:  
+	CODE BLOCK # 62 ; () => ((list (string? ()) (string? (quote (a))) (string? 0) (string? 1) (string? #f) (string? "foo")))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	5
+	2	PUSH_CONST	()
+	3	GLOBAL_GET	string?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	10
+	7	PUSH_CONST	(a)
+	8	GLOBAL_GET	string?
+	9	JMP_CLOSURE	1
+10	LABEL	"R1"
+	11	SAVE_RETURN	"R2"	15
+	12	PUSH_CONST	0
+	13	GLOBAL_GET	string?
+	14	JMP_CLOSURE	1
+15	LABEL	"R2"
+	16	SAVE_RETURN	"R3"	20
+	17	PUSH_CONST	1
+	18	GLOBAL_GET	string?
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	SAVE_RETURN	"R4"	25
+	22	PUSH_CONST	#f
+	23	GLOBAL_GET	string?
+	24	JMP_CLOSURE	1
+25	LABEL	"R4"
+	26	SAVE_RETURN	"R5"	30
+	27	PUSH_CONST	"foo"
+	28	GLOBAL_GET	string?
+	29	JMP_CLOSURE	1
+30	LABEL	"R5"
+	31	GLOBAL_GET	list
+	32	JMP_CLOSURE	6
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : PUSH_CONST	()
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	string?
+                                      3: [ [R0/5] () [Closure/core:string?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"string?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : SAVE_RETURN	"R1"	10
+                                      2: [ #f [R1/10] ]
+[ 2]   7 : PUSH_CONST	(a)
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   8 : GLOBAL_GET	string?
+                                      4: [ #f [R1/10] (a) [Closure/core:string?] ]
+[ 4]   9 : JMP_CLOSURE	1
+                                      3: [ #f [R1/10] (a) ]
+[ 3]   0 : CALL_PRIMOP	"string?"
+                                      3: [ #f [R1/10] #f ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ #f #f ]
+[ 2]  10 : LABEL	"R1"
+                                      2: [ #f #f ]
+[ 2]  11 : SAVE_RETURN	"R2"	15
+                                      3: [ #f #f [R2/15] ]
+[ 3]  12 : PUSH_CONST	0
+                                      4: [ #f #f [R2/15] 0 ]
+[ 4]  13 : GLOBAL_GET	string?
+                                      5: [ #f #f [R2/15] 0 [Closure/core:string?] ]
+[ 5]  14 : JMP_CLOSURE	1
+                                      4: [ #f #f [R2/15] 0 ]
+[ 4]   0 : CALL_PRIMOP	"string?"
+                                      4: [ #f #f [R2/15] #f ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ #f #f #f ]
+[ 3]  15 : LABEL	"R2"
+                                      3: [ #f #f #f ]
+[ 3]  16 : SAVE_RETURN	"R3"	20
+                                      4: [ #f #f #f [R3/20] ]
+[ 4]  17 : PUSH_CONST	1
+                                      5: [ #f #f #f [R3/20] 1 ]
+[ 5]  18 : GLOBAL_GET	string?
+                                      6: [ #f #f #f [R3/20] 1 [Closure/core:string?] ]
+[ 6]  19 : JMP_CLOSURE	1
+                                      5: [ #f #f #f [R3/20] 1 ]
+[ 5]   0 : CALL_PRIMOP	"string?"
+                                      5: [ #f #f #f [R3/20] #f ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ #f #f #f #f ]
+[ 4]  20 : LABEL	"R3"
+                                      4: [ #f #f #f #f ]
+[ 4]  21 : SAVE_RETURN	"R4"	25
+                                      5: [ #f #f #f #f [R4/25] ]
+[ 5]  22 : PUSH_CONST	#f
+                                      6: [ #f #f #f #f [R4/25] #f ]
+[ 6]  23 : GLOBAL_GET	string?
+                                      7: [ #f #f #f #f [R4/25] #f [Closure/core:string?] ]
+[ 7]  24 : JMP_CLOSURE	1
+                                      6: [ #f #f #f #f [R4/25] #f ]
+[ 6]   0 : CALL_PRIMOP	"string?"
+                                      6: [ #f #f #f #f [R4/25] #f ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ #f #f #f #f #f ]
+[ 5]  25 : LABEL	"R4"
+                                      5: [ #f #f #f #f #f ]
+[ 5]  26 : SAVE_RETURN	"R5"	30
+                                      6: [ #f #f #f #f #f [R5/30] ]
+[ 6]  27 : PUSH_CONST	"foo"
+                                      7: [ #f #f #f #f #f [R5/30] "foo" ]
+[ 7]  28 : GLOBAL_GET	string?
+                                      8: [ #f #f #f #f #f [R5/30] "foo" [Closure/core:string?] ]
+[ 8]  29 : JMP_CLOSURE	1
+                                      7: [ #f #f #f #f #f [R5/30] "foo" ]
+[ 7]   0 : CALL_PRIMOP	"string?"
+                                      7: [ #f #f #f #f #f [R5/30] #t ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ #f #f #f #f #f #t ]
+[ 6]  30 : LABEL	"R5"
+                                      6: [ #f #f #f #f #f #t ]
+[ 6]  31 : GLOBAL_GET	list
+                                      7: [ #f #f #f #f #f #t [Closure/core:list] ]
+[ 7]  32 : JMP_CLOSURE	6
+                                      6: [ #f #f #f #f #f #t ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#f #f #f #f #f #t) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#f #f #f #f #f #t)"  - expected "(#f #f #f #f #f #t)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x '(1 2 3 4 5)) (list (car x) (cadr x) (caddr x)))
+ParseNext ==>  (begin (set! x (quote (1 2 3 4 5))) (list (car x) (cadr x) (caddr x)))
+Parsed:  (begin (set! x (quote (1 2 3 4 5))) (list (core:car x) (core:cadr x) (core:caddr x)))
+Compiled:
+	CODE BLOCK # 63 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (car x) (cadr x) (caddr x))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	SAVE_RETURN	"R0"	8
+	5	GLOBAL_GET	x
+	6	GLOBAL_GET	car
+	7	JMP_CLOSURE	1
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	13
+	10	GLOBAL_GET	x
+	11	GLOBAL_GET	cadr
+	12	JMP_CLOSURE	1
+13	LABEL	"R1"
+	14	SAVE_RETURN	"R2"	18
+	15	GLOBAL_GET	x
+	16	GLOBAL_GET	caddr
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 63 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (car x) (cadr x) (caddr x))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	SAVE_RETURN	"R0"	8
+	5	GLOBAL_GET	x
+	6	GLOBAL_GET	car
+	7	JMP_CLOSURE	1
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	13
+	10	GLOBAL_GET	x
+	11	GLOBAL_GET	cadr
+	12	JMP_CLOSURE	1
+13	LABEL	"R1"
+	14	SAVE_RETURN	"R2"	18
+	15	GLOBAL_GET	x
+	16	GLOBAL_GET	caddr
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2 3 4 5)
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : SAVE_RETURN	"R0"	8
+                                      1: [ [R0/8] ]
+[ 1]   5 : GLOBAL_GET	x
+                                      2: [ [R0/8] (1 2 3 4 5) ]
+[ 2]   6 : GLOBAL_GET	car
+                                      3: [ [R0/8] (1 2 3 4 5) [Closure/core:car] ]
+[ 3]   7 : JMP_CLOSURE	1
+                                      2: [ [R0/8] (1 2 3 4 5) ]
+[ 2]   0 : CALL_PRIMOP	"car"
+                                      2: [ [R0/8] 1 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 1 ]
+[ 1]   8 : LABEL	"R0"
+                                      1: [ 1 ]
+[ 1]   9 : SAVE_RETURN	"R1"	13
+                                      2: [ 1 [R1/13] ]
+[ 2]  10 : GLOBAL_GET	x
+                                      3: [ 1 [R1/13] (1 2 3 4 5) ]
+[ 3]  11 : GLOBAL_GET	cadr
+                                      4: [ 1 [R1/13] (1 2 3 4 5) [Closure/core:cadr] ]
+[ 4]  12 : JMP_CLOSURE	1
+                                      3: [ 1 [R1/13] (1 2 3 4 5) ]
+[ 3]   0 : CALL_PRIMOP	"cadr"
+                                      3: [ 1 [R1/13] 2 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ 1 2 ]
+[ 2]  13 : LABEL	"R1"
+                                      2: [ 1 2 ]
+[ 2]  14 : SAVE_RETURN	"R2"	18
+                                      3: [ 1 2 [R2/18] ]
+[ 3]  15 : GLOBAL_GET	x
+                                      4: [ 1 2 [R2/18] (1 2 3 4 5) ]
+[ 4]  16 : GLOBAL_GET	caddr
+                                      5: [ 1 2 [R2/18] (1 2 3 4 5) [Closure/core:caddr] ]
+[ 5]  17 : JMP_CLOSURE	1
+                                      4: [ 1 2 [R2/18] (1 2 3 4 5) ]
+[ 4]   0 : CALL_PRIMOP	"caddr"
+                                      4: [ 1 2 [R2/18] 3 ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ 1 2 3 ]
+[ 3]  18 : LABEL	"R2"
+                                      3: [ 1 2 3 ]
+[ 3]  19 : GLOBAL_GET	list
+                                      4: [ 1 2 3 [Closure/core:list] ]
+[ 4]  20 : JMP_CLOSURE	3
+                                      3: [ 1 2 3 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (1 2 3) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 2 3)"  - expected "(1 2 3)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x '(1 2 3 4 5)) (list (cdr x) (cddr x) (cdddr x)))
+ParseNext ==>  (begin (set! x (quote (1 2 3 4 5))) (list (cdr x) (cddr x) (cdddr x)))
+Parsed:  (begin (set! x (quote (1 2 3 4 5))) (list (core:cdr x) (core:cddr x) (core:cdddr x)))
+Compiled:
+	CODE BLOCK # 64 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (cdr x) (cddr x) (cdddr x))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	SAVE_RETURN	"R0"	8
+	5	GLOBAL_GET	x
+	6	GLOBAL_GET	cdr
+	7	JMP_CLOSURE	1
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	13
+	10	GLOBAL_GET	x
+	11	GLOBAL_GET	cddr
+	12	JMP_CLOSURE	1
+13	LABEL	"R1"
+	14	SAVE_RETURN	"R2"	18
+	15	GLOBAL_GET	x
+	16	GLOBAL_GET	cdddr
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 64 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (cdr x) (cddr x) (cdddr x))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	SAVE_RETURN	"R0"	8
+	5	GLOBAL_GET	x
+	6	GLOBAL_GET	cdr
+	7	JMP_CLOSURE	1
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	13
+	10	GLOBAL_GET	x
+	11	GLOBAL_GET	cddr
+	12	JMP_CLOSURE	1
+13	LABEL	"R1"
+	14	SAVE_RETURN	"R2"	18
+	15	GLOBAL_GET	x
+	16	GLOBAL_GET	cdddr
+	17	JMP_CLOSURE	1
+18	LABEL	"R2"
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2 3 4 5)
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : SAVE_RETURN	"R0"	8
+                                      1: [ [R0/8] ]
+[ 1]   5 : GLOBAL_GET	x
+                                      2: [ [R0/8] (1 2 3 4 5) ]
+[ 2]   6 : GLOBAL_GET	cdr
+                                      3: [ [R0/8] (1 2 3 4 5) [Closure/core:cdr] ]
+[ 3]   7 : JMP_CLOSURE	1
+                                      2: [ [R0/8] (1 2 3 4 5) ]
+[ 2]   0 : CALL_PRIMOP	"cdr"
+                                      2: [ [R0/8] (2 3 4 5) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (2 3 4 5) ]
+[ 1]   8 : LABEL	"R0"
+                                      1: [ (2 3 4 5) ]
+[ 1]   9 : SAVE_RETURN	"R1"	13
+                                      2: [ (2 3 4 5) [R1/13] ]
+[ 2]  10 : GLOBAL_GET	x
+                                      3: [ (2 3 4 5) [R1/13] (1 2 3 4 5) ]
+[ 3]  11 : GLOBAL_GET	cddr
+                                      4: [ (2 3 4 5) [R1/13] (1 2 3 4 5) [Closure/core:cddr] ]
+[ 4]  12 : JMP_CLOSURE	1
+                                      3: [ (2 3 4 5) [R1/13] (1 2 3 4 5) ]
+[ 3]   0 : CALL_PRIMOP	"cddr"
+                                      3: [ (2 3 4 5) [R1/13] (3 4 5) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ (2 3 4 5) (3 4 5) ]
+[ 2]  13 : LABEL	"R1"
+                                      2: [ (2 3 4 5) (3 4 5) ]
+[ 2]  14 : SAVE_RETURN	"R2"	18
+                                      3: [ (2 3 4 5) (3 4 5) [R2/18] ]
+[ 3]  15 : GLOBAL_GET	x
+                                      4: [ (2 3 4 5) (3 4 5) [R2/18] (1 2 3 4 5) ]
+[ 4]  16 : GLOBAL_GET	cdddr
+                                      5: [ (2 3 4 5) (3 4 5) [R2/18] (1 2 3 4 5) [Closure/core:cdddr] ]
+[ 5]  17 : JMP_CLOSURE	1
+                                      4: [ (2 3 4 5) (3 4 5) [R2/18] (1 2 3 4 5) ]
+[ 4]   0 : CALL_PRIMOP	"cdddr"
+                                      4: [ (2 3 4 5) (3 4 5) [R2/18] (4 5) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ (2 3 4 5) (3 4 5) (4 5) ]
+[ 3]  18 : LABEL	"R2"
+                                      3: [ (2 3 4 5) (3 4 5) (4 5) ]
+[ 3]  19 : GLOBAL_GET	list
+                                      4: [ (2 3 4 5) (3 4 5) (4 5) [Closure/core:list] ]
+[ 4]  20 : JMP_CLOSURE	3
+                                      3: [ (2 3 4 5) (3 4 5) (4 5) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ ((2 3 4 5) (3 4 5) (4 5)) ]
+[ 1]   1 : RETURN_VAL
+test: got "((2 3 4 5) (3 4 5) (4 5))"  - expected "((2 3 4 5) (3 4 5) (4 5))"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (nth '(1 2 3 4 5) 2)
+ParseNext ==>  (nth (quote (1 2 3 4 5)) 2)
+Parsed:  (core:nth (quote (1 2 3 4 5)) 2)
+Compiled:
+	CODE BLOCK # 65 ; () => ((nth (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 65 ; () => ((nth (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2 3 4 5)
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   3 : GLOBAL_GET	nth
+                                      3: [ (1 2 3 4 5) 2 [Closure/core:nth] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   0 : CALL_PRIMOP	"nth"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (nth-tail '(1 2 3 4 5) 2)
+ParseNext ==>  (nth-tail (quote (1 2 3 4 5)) 2)
+Parsed:  (core:nth-tail (quote (1 2 3 4 5)) 2)
+Compiled:
+	CODE BLOCK # 66 ; () => ((nth-tail (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth-tail
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 66 ; () => ((nth-tail (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth-tail
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2 3 4 5)
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   3 : GLOBAL_GET	nth-tail
+                                      3: [ (1 2 3 4 5) 2 [Closure/core:nth-tail] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   0 : CALL_PRIMOP	"nth-tail"
+                                      1: [ (4 5) ]
+[ 1]   1 : RETURN_VAL
+test: got "(4 5)"  - expected "(4 5)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (nth-cons '(1 2 3 4 5) 2)
+ParseNext ==>  (nth-cons (quote (1 2 3 4 5)) 2)
+Parsed:  (core:nth-cons (quote (1 2 3 4 5)) 2)
+Compiled:
+	CODE BLOCK # 67 ; () => ((nth-cons (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth-cons
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 67 ; () => ((nth-cons (quote (1 2 3 4 5)) 2))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2 3 4 5)
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	nth-cons
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2 3 4 5)
+                                      1: [ (1 2 3 4 5) ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   3 : GLOBAL_GET	nth-cons
+                                      3: [ (1 2 3 4 5) 2 [Closure/core:nth-cons] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ (1 2 3 4 5) 2 ]
+[ 2]   0 : CALL_PRIMOP	"nth-cons"
+                                      1: [ (3 4 5) ]
+[ 1]   1 : RETURN_VAL
+test: got "(3 4 5)"  - expected "(3 4 5)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (trace "foo" "bar")
+ParseNext ==>  (trace "foo" "bar")
+Parsed:  (core:trace "foo" "bar")
+Compiled:
+	CODE BLOCK # 68 ; () => ((trace "foo" "bar"))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	"foo"
+	2	PUSH_CONST	"bar"
+	3	GLOBAL_GET	trace
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 68 ; () => ((trace "foo" "bar"))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	"foo"
+	2	PUSH_CONST	"bar"
+	3	GLOBAL_GET	trace
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	"foo"
+                                      1: [ "foo" ]
+[ 1]   2 : PUSH_CONST	"bar"
+                                      2: [ "foo" "bar" ]
+[ 2]   3 : GLOBAL_GET	trace
+                                      3: [ "foo" "bar" [Closure/core:trace] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ "foo" "bar" ]
+[ 2]   0 : CALL_PRIMOP	"trace"
+                                      1: [ () ]
+[ 1]   1 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! first car) (first '(1 2 3)))
+ParseNext ==>  (begin (set! first car) (first (quote (1 2 3))))
+Parsed:  (begin (set! first core:car) (first (quote (1 2 3))))
+Compiled:
+	CODE BLOCK # 69 ; () => ((begin (set! first car) (first (quote (1 2 3)))))
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	car
+	2	GLOBAL_SET	first
+	3	STACK_POP
+	4	PUSH_CONST	(1 2 3)
+	5	GLOBAL_GET	first
+	6	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 69 ; () => ((begin (set! first car) (first (quote (1 2 3)))))
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	car
+	2	GLOBAL_SET	first
+	3	STACK_POP
+	4	PUSH_CONST	(1 2 3)
+	5	GLOBAL_GET	first
+	6	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : GLOBAL_GET	car
+                                      1: [ [Closure/core:car] ]
+[ 1]   2 : GLOBAL_SET	first
+                                      1: [ [Closure/core:car] ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : PUSH_CONST	(1 2 3)
+                                      1: [ (1 2 3) ]
+[ 1]   5 : GLOBAL_GET	first
+                                      2: [ (1 2 3) [Closure/core:car] ]
+[ 2]   6 : JMP_CLOSURE	1
+                                      1: [ (1 2 3) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ 1 ]
+[ 1]   1 : RETURN_VAL
+test: got "1"  - expected "1"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (if (< 0 1) 5)
+ParseNext ==>  (if (< 0 1) 5)
+Parsed:  (if (core:< 0 1) 5)
+Compiled:
+	CODE BLOCK # 70 ; () => ((if (< 0 1) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	0
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	<
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	JMP_IF_FALSE	"L1"	10
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+10	LABEL	"L1"
+	11	PUSH_CONST	()
+	12	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 70 ; () => ((if (< 0 1) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	0
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	<
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	JMP_IF_FALSE	"L1"	10
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+10	LABEL	"L1"
+	11	PUSH_CONST	()
+	12	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	6
+                                      1: [ [R0/6] ]
+[ 1]   2 : PUSH_CONST	0
+                                      2: [ [R0/6] 0 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [R0/6] 0 1 ]
+[ 3]   4 : GLOBAL_GET	<
+                                      4: [ [R0/6] 0 1 [Closure/core:<] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [R0/6] 0 1 ]
+[ 3]   0 : CALL_PRIMOP	"<"
+                                      2: [ [R0/6] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   6 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   7 : JMP_IF_FALSE	"L1"	10
+                                      0: [  ]
+[ 0]   8 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   9 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (if (> 0 1) 5)
+ParseNext ==>  (if (> 0 1) 5)
+Parsed:  (if (core:> 0 1) 5)
+Compiled:
+	CODE BLOCK # 71 ; () => ((if (> 0 1) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	0
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	>
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	JMP_IF_FALSE	"L1"	10
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+10	LABEL	"L1"
+	11	PUSH_CONST	()
+	12	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 71 ; () => ((if (> 0 1) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	0
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	>
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	JMP_IF_FALSE	"L1"	10
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+10	LABEL	"L1"
+	11	PUSH_CONST	()
+	12	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	6
+                                      1: [ [R0/6] ]
+[ 1]   2 : PUSH_CONST	0
+                                      2: [ [R0/6] 0 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [R0/6] 0 1 ]
+[ 3]   4 : GLOBAL_GET	>
+                                      4: [ [R0/6] 0 1 [Closure/core:>] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [R0/6] 0 1 ]
+[ 3]   0 : CALL_PRIMOP	">"
+                                      2: [ [R0/6] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   6 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   7 : JMP_IF_FALSE	"L1"	10
+                                      0: [  ]
+[ 0]  10 : LABEL	"L1"
+                                      0: [  ]
+[ 0]  11 : PUSH_CONST	()
+                                      1: [ () ]
+[ 1]  12 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  `((list 1 2) ,(list 1 2) ,@(list 1 2))
+ParseNext ==>  (list (list (quote list) (quote 1) (quote 2)) (list 1 2) 1 2)
+Parsed:  (list (list (quote list) (quote 1) (quote 2)) (list 1 2) 1 2)
+Compiled:
+	CODE BLOCK # 72 ; () => ((list (list (quote list) (quote 1) (quote 2)) (list 1 2) 1 2))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	7
+	2	PUSH_CONST	list
+	3	PUSH_CONST	1
+	4	PUSH_CONST	2
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	3
+7	LABEL	"R0"
+	8	SAVE_RETURN	"R1"	13
+	9	PUSH_CONST	1
+	10	PUSH_CONST	2
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	2
+13	LABEL	"R1"
+	14	PUSH_CONST	1
+	15	PUSH_CONST	2
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 72 ; () => ((list (list (quote list) (quote 1) (quote 2)) (list 1 2) 1 2))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	7
+	2	PUSH_CONST	list
+	3	PUSH_CONST	1
+	4	PUSH_CONST	2
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	3
+7	LABEL	"R0"
+	8	SAVE_RETURN	"R1"	13
+	9	PUSH_CONST	1
+	10	PUSH_CONST	2
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	2
+13	LABEL	"R1"
+	14	PUSH_CONST	1
+	15	PUSH_CONST	2
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	7
+                                      1: [ [R0/7] ]
+[ 1]   2 : PUSH_CONST	list
+                                      2: [ [R0/7] list ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [R0/7] list 1 ]
+[ 3]   4 : PUSH_CONST	2
+                                      4: [ [R0/7] list 1 2 ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/7] list 1 2 [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	3
+                                      4: [ [R0/7] list 1 2 ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/7] (list 1 2) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (list 1 2) ]
+[ 1]   7 : LABEL	"R0"
+                                      1: [ (list 1 2) ]
+[ 1]   8 : SAVE_RETURN	"R1"	13
+                                      2: [ (list 1 2) [R1/13] ]
+[ 2]   9 : PUSH_CONST	1
+                                      3: [ (list 1 2) [R1/13] 1 ]
+[ 3]  10 : PUSH_CONST	2
+                                      4: [ (list 1 2) [R1/13] 1 2 ]
+[ 4]  11 : GLOBAL_GET	list
+                                      5: [ (list 1 2) [R1/13] 1 2 [Closure/core:list] ]
+[ 5]  12 : JMP_CLOSURE	2
+                                      4: [ (list 1 2) [R1/13] 1 2 ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      3: [ (list 1 2) [R1/13] (1 2) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ (list 1 2) (1 2) ]
+[ 2]  13 : LABEL	"R1"
+                                      2: [ (list 1 2) (1 2) ]
+[ 2]  14 : PUSH_CONST	1
+                                      3: [ (list 1 2) (1 2) 1 ]
+[ 3]  15 : PUSH_CONST	2
+                                      4: [ (list 1 2) (1 2) 1 2 ]
+[ 4]  16 : GLOBAL_GET	list
+                                      5: [ (list 1 2) (1 2) 1 2 [Closure/core:list] ]
+[ 5]  17 : JMP_CLOSURE	4
+                                      4: [ (list 1 2) (1 2) 1 2 ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      1: [ ((list 1 2) (1 2) 1 2) ]
+[ 1]   1 : RETURN_VAL
+test: got "((list 1 2) (1 2) 1 2)"  - expected "((list 1 2) (1 2) 1 2)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x 5) (set! y '(a b)) `(x ,x ,y ,@y))
+ParseNext ==>  (begin (set! x 5) (set! y (quote (a b))) (append (list (quote x)) (list x) (list y) y))
+Parsed:  (begin (set! x 5) (set! y (quote (a b))) (append (list (quote x)) (list x) (list y) y))
+Compiled:
+	CODE BLOCK # 73 ; () => ((begin (set! x 5) (set! y (quote (a b))) (append (list (quote x)) (list x) (list y) y)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	PUSH_CONST	(a b)
+	5	GLOBAL_SET	y
+	6	STACK_POP
+	7	SAVE_RETURN	"R0"	11
+	8	PUSH_CONST	x
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R0"
+	12	SAVE_RETURN	"R1"	16
+	13	GLOBAL_GET	x
+	14	GLOBAL_GET	list
+	15	JMP_CLOSURE	1
+16	LABEL	"R1"
+	17	SAVE_RETURN	"R2"	21
+	18	GLOBAL_GET	y
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	1
+21	LABEL	"R2"
+	22	GLOBAL_GET	y
+	23	GLOBAL_GET	append
+	24	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 73 ; () => ((begin (set! x 5) (set! y (quote (a b))) (append (list (quote x)) (list x) (list y) y)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	PUSH_CONST	(a b)
+	5	GLOBAL_SET	y
+	6	STACK_POP
+	7	SAVE_RETURN	"R0"	11
+	8	PUSH_CONST	x
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R0"
+	12	SAVE_RETURN	"R1"	16
+	13	GLOBAL_GET	x
+	14	GLOBAL_GET	list
+	15	JMP_CLOSURE	1
+16	LABEL	"R1"
+	17	SAVE_RETURN	"R2"	21
+	18	GLOBAL_GET	y
+	19	GLOBAL_GET	list
+	20	JMP_CLOSURE	1
+21	LABEL	"R2"
+	22	GLOBAL_GET	y
+	23	GLOBAL_GET	append
+	24	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ 5 ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : PUSH_CONST	(a b)
+                                      1: [ (a b) ]
+[ 1]   5 : GLOBAL_SET	y
+                                      1: [ (a b) ]
+[ 1]   6 : STACK_POP
+                                      0: [  ]
+[ 0]   7 : SAVE_RETURN	"R0"	11
+                                      1: [ [R0/11] ]
+[ 1]   8 : PUSH_CONST	x
+                                      2: [ [R0/11] x ]
+[ 2]   9 : GLOBAL_GET	list
+                                      3: [ [R0/11] x [Closure/core:list] ]
+[ 3]  10 : JMP_CLOSURE	1
+                                      2: [ [R0/11] x ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/11] (x) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (x) ]
+[ 1]  11 : LABEL	"R0"
+                                      1: [ (x) ]
+[ 1]  12 : SAVE_RETURN	"R1"	16
+                                      2: [ (x) [R1/16] ]
+[ 2]  13 : GLOBAL_GET	x
+                                      3: [ (x) [R1/16] 5 ]
+[ 3]  14 : GLOBAL_GET	list
+                                      4: [ (x) [R1/16] 5 [Closure/core:list] ]
+[ 4]  15 : JMP_CLOSURE	1
+                                      3: [ (x) [R1/16] 5 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      3: [ (x) [R1/16] (5) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ (x) (5) ]
+[ 2]  16 : LABEL	"R1"
+                                      2: [ (x) (5) ]
+[ 2]  17 : SAVE_RETURN	"R2"	21
+                                      3: [ (x) (5) [R2/21] ]
+[ 3]  18 : GLOBAL_GET	y
+                                      4: [ (x) (5) [R2/21] (a b) ]
+[ 4]  19 : GLOBAL_GET	list
+                                      5: [ (x) (5) [R2/21] (a b) [Closure/core:list] ]
+[ 5]  20 : JMP_CLOSURE	1
+                                      4: [ (x) (5) [R2/21] (a b) ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ (x) (5) [R2/21] ((a b)) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ (x) (5) ((a b)) ]
+[ 3]  21 : LABEL	"R2"
+                                      3: [ (x) (5) ((a b)) ]
+[ 3]  22 : GLOBAL_GET	y
+                                      4: [ (x) (5) ((a b)) (a b) ]
+[ 4]  23 : GLOBAL_GET	append
+                                      5: [ (x) (5) ((a b)) (a b) [Closure/core:append] ]
+[ 5]  24 : JMP_CLOSURE	4
+                                      4: [ (x) (5) ((a b)) (a b) ]
+[ 4]   0 : CALL_PRIMOP	"append"
+                                      1: [ (x 5 (a b) a b) ]
+[ 1]   1 : RETURN_VAL
+test: got "(x 5 (a b) a b)"  - expected "(x 5 (a b) a b)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 2))
+ParseNext ==>  (begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 2))
+Parsed:  (begin (defmacro inc1 (x) (list (quote core:+) x (quote 1))) (inc1 2))
+Executing:  
+	CODE BLOCK # 74 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      1: [ 2 ]
+[ 1]   0 : MAKE_ENV	1	; (x)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	+
+                                      1: [ + ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ + 2 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ + 2 1 ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ + 2 1 [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ + 2 1 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (+ 2 1) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK # 74 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+	CODE BLOCK # 75 ; () => ((begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	2
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 75 ; () => ((begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	2
+	2	PUSH_CONST	1
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	2
+                                      1: [ 2 ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ 2 1 ]
+[ 2]   3 : GLOBAL_GET	+
+                                      3: [ 2 1 [Closure/core:+] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 2 1 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (defmacro foo (op . rest) `(,op ,@(map number? rest))) (foo list 1 #f 'a))
+ParseNext ==>  (begin (defmacro foo (op . rest) (append (list op) (map number? rest))) (foo list 1 #f (quote a)))
+Parsed:  (begin (defmacro foo (op . rest) (append (list op) (core:map core:number? rest))) (foo list 1 #f (quote a)))
+Executing:  
+	CODE BLOCK # 76 ; (op rest) => ((append (list op) (map number? rest)))
+	0	MAKE_ENVDOT	1	; (op rest)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; op
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	11
+	7	GLOBAL_GET	number?
+	8	LOCAL_GET	0	1	; rest
+	9	GLOBAL_GET	map
+	10	JMP_CLOSURE	2
+11	LABEL	"R1"
+	12	GLOBAL_GET	append
+	13	JMP_CLOSURE	2
+
+                                      4: [ list 1 #f (quote a) ]
+[ 4]   0 : MAKE_ENVDOT	1	; (op rest)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; op
+                                      2: [ [R0/5] list ]
+[ 2]   3 : GLOBAL_GET	list
+                                      3: [ [R0/5] list [Closure/core:list] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] list ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/5] (list) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (list) ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ (list) ]
+[ 1]   6 : SAVE_RETURN	"R1"	11
+                                      2: [ (list) [R1/11] ]
+[ 2]   7 : GLOBAL_GET	number?
+                                      3: [ (list) [R1/11] [Closure/core:number?] ]
+[ 3]   8 : LOCAL_GET	0	1	; rest
+                                      4: [ (list) [R1/11] [Closure/core:number?] (1 #f (quote a)) ]
+[ 4]   9 : GLOBAL_GET	map
+                                      5: [ (list) [R1/11] [Closure/core:number?] (1 #f (quote a)) [Closure/core:map] ]
+[ 5]  10 : JMP_CLOSURE	2
+                                      4: [ (list) [R1/11] [Closure/core:number?] (1 #f (quote a)) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:number?
+	CODE BLOCK # 19 ; core:number?
+	0	CALL_PRIMOP	"number?"
+	1	RETURN_VAL
+
+                                      1: [ 1 ]
+[ 1]   0 : CALL_PRIMOP	"number?"
+                                      1: [ #t ]
+[ 1]   1 : RETURN_VAL
+Executing:  core:number?
+	CODE BLOCK # 19 ; core:number?
+	0	CALL_PRIMOP	"number?"
+	1	RETURN_VAL
+
+                                      1: [ #f ]
+[ 1]   0 : CALL_PRIMOP	"number?"
+                                      1: [ #f ]
+[ 1]   1 : RETURN_VAL
+Executing:  core:number?
+	CODE BLOCK # 19 ; core:number?
+	0	CALL_PRIMOP	"number?"
+	1	RETURN_VAL
+
+                                      1: [ (quote a) ]
+[ 1]   0 : CALL_PRIMOP	"number?"
+                                      1: [ #f ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ (list) [R1/11] (#t #f #f) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ (list) (#t #f #f) ]
+[ 2]  11 : LABEL	"R1"
+                                      2: [ (list) (#t #f #f) ]
+[ 2]  12 : GLOBAL_GET	append
+                                      3: [ (list) (#t #f #f) [Closure/core:append] ]
+[ 3]  13 : JMP_CLOSURE	2
+                                      2: [ (list) (#t #f #f) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ (list #t #f #f) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK # 76 ; (op rest) => ((append (list op) (map number? rest)))
+	0	MAKE_ENVDOT	1	; (op rest)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; op
+	3	GLOBAL_GET	list
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	SAVE_RETURN	"R1"	11
+	7	GLOBAL_GET	number?
+	8	LOCAL_GET	0	1	; rest
+	9	GLOBAL_GET	map
+	10	JMP_CLOSURE	2
+11	LABEL	"R1"
+	12	GLOBAL_GET	append
+	13	JMP_CLOSURE	2
+
+	CODE BLOCK # 77 ; () => ((begin (defmacro foo (op . rest) (append (list op) (map number? rest))) (foo list 1 #f (quote a))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	PUSH_CONST	#f
+	3	PUSH_CONST	#f
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 77 ; () => ((begin (defmacro foo (op . rest) (append (list op) (map number? rest))) (foo list 1 #f (quote a))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	PUSH_CONST	#f
+	3	PUSH_CONST	#f
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   2 : PUSH_CONST	#f
+                                      2: [ #t #f ]
+[ 2]   3 : PUSH_CONST	#f
+                                      3: [ #t #f #f ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ #t #f #f [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ #t #f #f ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (#t #f #f) ]
+[ 1]   1 : RETURN_VAL
+test: got "(#t #f #f)"  - expected "(#t #f #f)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (defmacro lettest (bindings . body) `((lambda ,(map car bindings) ,@body) ,@(map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y)))
+ParseNext ==>  (begin (defmacro lettest (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y)))
+Parsed:  (begin (defmacro lettest (bindings . body) (append (list (append (list (quote lambda)) (list (core:map core:car bindings)) body)) (core:map core:cadr bindings))) (lettest ((x 1) (y 2)) (core:+ x y)))
+Executing:  
+	CODE BLOCK # 78 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((x 1) (y 2)) (+ x y) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1) (y 2)) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1) (y 2)) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1) (y 2)) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK # 22 ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (x 1) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ x ]
+[ 1]   1 : RETURN_VAL
+Executing:  core:car
+	CODE BLOCK # 22 ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (y 2) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ y ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (x y) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (x y) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (x y) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (x y) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (x y) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((x y)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((x y)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((x y)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((x y)) ((+ x y)) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((x y)) ((+ x y)) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((x y)) ((+ x y)) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (x y) (+ x y)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (x y) (+ x y)) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (x y) (+ x y)) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (x y) (+ x y)) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (x y) (+ x y)) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (x y) (+ x y))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (x y) (+ x y))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (x y) (+ x y))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (x y) (+ x y))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (x y) (+ x y))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (x y) (+ x y))) [R5/30] [Closure/core:cadr] ((x 1) (y 2)) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (x y) (+ x y))) [R5/30] [Closure/core:cadr] ((x 1) (y 2)) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (x y) (+ x y))) [R5/30] [Closure/core:cadr] ((x 1) (y 2)) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK # 24 ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (x 1) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ 1 ]
+[ 1]   1 : RETURN_VAL
+Executing:  core:cadr
+	CODE BLOCK # 24 ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (y 2) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ 2 ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (x y) (+ x y))) [R5/30] (1 2) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (x y) (+ x y))) (1 2) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (x y) (+ x y))) (1 2) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (x y) (+ x y))) (1 2) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (x y) (+ x y))) (1 2) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (x y) (+ x y)) 1 2) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK # 78 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+	CODE BLOCK # 79 ; (x y) => ((+ x y))
+	0	MAKE_ENV	2	; (x y)
+	1	LOCAL_GET	0	0	; x
+	2	LOCAL_GET	0	1	; y
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+	CODE BLOCK # 80 ; () => ((begin (defmacro lettest (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	MAKE_CLOSURE	[Closure]	; #79 : ((+ x y))
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 80 ; () => ((begin (defmacro lettest (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	MAKE_CLOSURE	[Closure]	; #79 : ((+ x y))
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; #79 : ((+ x y))
+                                      3: [ 1 2 [Closure] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : MAKE_ENV	2	; (x y)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; x
+                                      1: [ 1 ]
+[ 1]   2 : LOCAL_GET	0	1	; y
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	+
+                                      3: [ 1 2 [Closure/core:+] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 (inc1 (inc1 1))))
+ParseNext ==>  (begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 (inc1 (inc1 1))))
+Parsed:  (begin (defmacro inc1 (x) (list (quote core:+) x (quote 1))) (inc1 (inc1 (inc1 1))))
+Executing:  
+	CODE BLOCK # 81 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      1: [ (inc1 (inc1 1)) ]
+[ 1]   0 : MAKE_ENV	1	; (x)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	+
+                                      1: [ + ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ + (inc1 (inc1 1)) ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ + (inc1 (inc1 1)) 1 ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ + (inc1 (inc1 1)) 1 [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ + (inc1 (inc1 1)) 1 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (+ (inc1 (inc1 1)) 1) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK # 81 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      1: [ (inc1 1) ]
+[ 1]   0 : MAKE_ENV	1	; (x)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	+
+                                      1: [ + ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ + (inc1 1) ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ + (inc1 1) 1 ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ + (inc1 1) 1 [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ + (inc1 1) 1 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (+ (inc1 1) 1) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK # 81 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      1: [ 1 ]
+[ 1]   0 : MAKE_ENV	1	; (x)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	+
+                                      1: [ + ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ + 1 ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ + 1 1 ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ + 1 1 [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ + 1 1 ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (+ 1 1) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK # 81 ; (x) => ((list (quote +) x (quote 1)))
+	0	MAKE_ENV	1	; (x)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+	CODE BLOCK # 82 ; () => ((begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 (inc1 (inc1 1)))))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	11
+	2	SAVE_RETURN	"R1"	7
+	3	PUSH_CONST	1
+	4	PUSH_CONST	1
+	5	GLOBAL_GET	+
+	6	JMP_CLOSURE	2
+7	LABEL	"R1"
+	8	PUSH_CONST	1
+	9	GLOBAL_GET	+
+	10	JMP_CLOSURE	2
+11	LABEL	"R0"
+	12	PUSH_CONST	1
+	13	GLOBAL_GET	+
+	14	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 82 ; () => ((begin (defmacro inc1 (x) (list (quote +) x (quote 1))) (inc1 (inc1 (inc1 1)))))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	11
+	2	SAVE_RETURN	"R1"	7
+	3	PUSH_CONST	1
+	4	PUSH_CONST	1
+	5	GLOBAL_GET	+
+	6	JMP_CLOSURE	2
+7	LABEL	"R1"
+	8	PUSH_CONST	1
+	9	GLOBAL_GET	+
+	10	JMP_CLOSURE	2
+11	LABEL	"R0"
+	12	PUSH_CONST	1
+	13	GLOBAL_GET	+
+	14	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	11
+                                      1: [ [R0/11] ]
+[ 1]   2 : SAVE_RETURN	"R1"	7
+                                      2: [ [R0/11] [R1/7] ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ [R0/11] [R1/7] 1 ]
+[ 3]   4 : PUSH_CONST	1
+                                      4: [ [R0/11] [R1/7] 1 1 ]
+[ 4]   5 : GLOBAL_GET	+
+                                      5: [ [R0/11] [R1/7] 1 1 [Closure/core:+] ]
+[ 5]   6 : JMP_CLOSURE	2
+                                      4: [ [R0/11] [R1/7] 1 1 ]
+[ 4]   0 : CALL_PRIMOP	"+"
+                                      3: [ [R0/11] [R1/7] 2 ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/11] 2 ]
+[ 2]   7 : LABEL	"R1"
+                                      2: [ [R0/11] 2 ]
+[ 2]   8 : PUSH_CONST	1
+                                      3: [ [R0/11] 2 1 ]
+[ 3]   9 : GLOBAL_GET	+
+                                      4: [ [R0/11] 2 1 [Closure/core:+] ]
+[ 4]  10 : JMP_CLOSURE	2
+                                      3: [ [R0/11] 2 1 ]
+[ 3]   0 : CALL_PRIMOP	"+"
+                                      2: [ [R0/11] 3 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 3 ]
+[ 1]  11 : LABEL	"R0"
+                                      1: [ 3 ]
+[ 1]  12 : PUSH_CONST	1
+                                      2: [ 3 1 ]
+[ 2]  13 : GLOBAL_GET	+
+                                      3: [ 3 1 [Closure/core:+] ]
+[ 3]  14 : JMP_CLOSURE	2
+                                      2: [ 3 1 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 4 ]
+[ 1]   1 : RETURN_VAL
+test: got "4"  - expected "4"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))
+ParseNext ==>  (begin (defmacro add (x y) (list (quote +) x y)) (mx1 (quote (add 1 (add 2 3)))))
+Parsed:  (begin (defmacro add (x y) (list (quote core:+) x y)) (core:mx1 (quote (add 1 (add 2 3)))))
+Compiled:
+	CODE BLOCK # 83 ; (x y) => ((list (quote +) x y))
+	0	MAKE_ENV	2	; (x y)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	LOCAL_GET	0	1	; y
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+	CODE BLOCK # 84 ; () => ((begin (defmacro add (x y) (list (quote +) x y)) (mx1 (quote (add 1 (add 2 3))))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(add 1 (add 2 3))
+	2	GLOBAL_GET	mx1
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 84 ; () => ((begin (defmacro add (x y) (list (quote +) x y)) (mx1 (quote (add 1 (add 2 3))))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(add 1 (add 2 3))
+	2	GLOBAL_GET	mx1
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(add 1 (add 2 3))
+                                      1: [ (add 1 (add 2 3)) ]
+[ 1]   2 : GLOBAL_GET	mx1
+                                      2: [ (add 1 (add 2 3)) [Closure/core:mx1] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ (add 1 (add 2 3)) ]
+[ 1]   0 : CALL_PRIMOP	"mx1"
+Executing:  
+	CODE BLOCK # 83 ; (x y) => ((list (quote +) x y))
+	0	MAKE_ENV	2	; (x y)
+	1	PUSH_CONST	+
+	2	LOCAL_GET	0	0	; x
+	3	LOCAL_GET	0	1	; y
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	3
+
+                                      2: [ 1 (add 2 3) ]
+[ 2]   0 : MAKE_ENV	2	; (x y)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	+
+                                      1: [ + ]
+[ 1]   2 : LOCAL_GET	0	0	; x
+                                      2: [ + 1 ]
+[ 2]   3 : LOCAL_GET	0	1	; y
+                                      3: [ + 1 (add 2 3) ]
+[ 3]   4 : GLOBAL_GET	list
+                                      4: [ + 1 (add 2 3) [Closure/core:list] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ + 1 (add 2 3) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (+ 1 (add 2 3)) ]
+[ 1]   1 : RETURN_VAL
+                                      1: [ (+ 1 (add 2 3)) ]
+[ 1]   1 : RETURN_VAL
+test: got "(core:+ 1 (add 2 3))"  - expected "(core:+ 1 (add 2 3))"
+SUCCESS

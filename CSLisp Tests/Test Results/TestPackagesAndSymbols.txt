@@ -1,0 +1,22 @@
+TEST TestPackagesAndSymbols : 5:55:33 PM
+test: got "foo"  - expected "foo"
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "foo"  - expected "foo"
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "foo"  - expected "foo"
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "fancy:foo"  - expected "fancy:foo"
+test: got ""  - expected ""
+test: got "foo"  - expected "foo"
+test: got ""  - expected ""
+test: got ":foo"  - expected ":foo"
+test: got [Native ]  - expected [Native ]
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got [Native CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package]
+test: got "fancy:foo"  - expected "fancy:foo"
+test: got #t  - expected #t
+test: got #t  - expected #t
+SUCCESS

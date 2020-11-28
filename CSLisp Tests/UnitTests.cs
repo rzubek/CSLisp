@@ -15,7 +15,7 @@ namespace CSLisp
         public enum LogType { None, Console, TempFile };
 
         /// <summary> Failures count during the last test run. </summary>
-        public int failures = 0;
+        private int _failures = 0;
 
         /// <summary> Where are we logging unit test results? </summary>
         public static readonly LogType LOG_TARGET = LogType.TempFile; // change as needed
@@ -32,13 +32,14 @@ namespace CSLisp
             _log.WriteLine(message);
         };
 
-        [ClassInitialize]
-        public static void ClassInit (TestContext ctx) {
+        private static void StartLog (string name) {
             switch (LOG_TARGET) {
                 case LogType.TempFile:
-                    string filePath = "..\\..\\Test Results.txt";
+                    string testDir = Path.Combine("..", "..", "Test Results");
+                    Directory.CreateDirectory(testDir);
+                    string filePath = Path.Combine(testDir, $"{name}.txt");
                     _log = new StreamWriter(new FileStream(filePath, FileMode.Create));
-                    _log.WriteLine("TEST RESULTS: " + System.DateTime.Now.ToLongTimeString());
+                    _log.WriteLine($"TEST {name} : " + System.DateTime.Now.ToLongTimeString());
                     break;
                 case LogType.Console:
                     _log = System.Console.Out;
@@ -49,8 +50,7 @@ namespace CSLisp
             }
         }
 
-        [ClassCleanup]
-        public static void ClassCleanup () {
+        private static void EndLog () {
             _log.Flush();
             _log = null;
         }
@@ -71,7 +71,7 @@ namespace CSLisp
             Log("test: got", result, " - expected", expected);
             bool equal = (test != null) ? test(result, expected) : Val.Equals(result, expected);
             if (!equal) {
-                failures++;
+                _failures++;
                 string msg = $"*** FAILED TEST: got {result} - expected {expected}";
                 Log(msg);
                 Assert.Fail(msg);
@@ -82,10 +82,11 @@ namespace CSLisp
         [TestMethod]
         public void RunTests () {
             void Run (System.Action fn) {
-                Log("\n\n\n***** " + fn.GetMethodInfo().Name);
-                failures = 0;
+                StartLog(fn.GetMethodInfo().Name);
+                _failures = 0;
                 fn();
-                Log(failures == 0 ? "SUCCESS" : $"FAILURES: {failures}");
+                Log(_failures == 0 ? "SUCCESS" : $"FAILURES: {_failures}");
+                EndLog();
             }
 
             Run(TestConsAndAtoms);
@@ -489,6 +490,9 @@ namespace CSLisp
             CompileAndRun(ctx, "(cond ((= 2 2) 2) ((= 1 4) 4) 0)", "2");
             CompileAndRun(ctx, "(cond ((= 1 2) 2) ((= 4 4) 4) 0)", "4");
             CompileAndRun(ctx, "(case (+ 1 2) (2 #f) (3 #t) 'error)", "#t");
+            CompileAndRun(ctx, "(let ((x 0)) (while (< x 10) (set! x (+ x 1))) x)", "10");
+            CompileAndRun(ctx, "(let ((r '())) (for (x 0 (< x 3) (+ x 1)) (set! r (cons x r))) r)", "(2 1 0)");
+            CompileAndRun(ctx, "(let ((r '())) (dotimes (x 3) (set! r (cons x r))) r)", "(2 1 0)");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");

@@ -1,0 +1,930 @@
+TEST TestVMNoCoreLib : 5:55:34 PM
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  5
+ParseNext ==>  5
+Parsed:  5
+Compiled:
+	CODE BLOCK # 42 ; () => (5)
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 42 ; () => (5)
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  #t
+ParseNext ==>  #t
+Parsed:  #t
+Compiled:
+	CODE BLOCK # 43 ; () => (#t)
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 43 ; () => (#t)
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   2 : RETURN_VAL
+test: got "#t"  - expected "#t"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  "foo"
+ParseNext ==>  "foo"
+Parsed:  "foo"
+Compiled:
+	CODE BLOCK # 44 ; () => ("foo")
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	"foo"
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 44 ; () => ("foo")
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	"foo"
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	"foo"
+                                      1: [ "foo" ]
+[ 1]   2 : RETURN_VAL
+test: got ""foo""  - expected ""foo""
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin 1 2 3)
+ParseNext ==>  (begin 1 2 3)
+Parsed:  (begin 1 2 3)
+Compiled:
+	CODE BLOCK # 45 ; () => ((begin 1 2 3))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	3
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 45 ; () => ((begin 1 2 3))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	3
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	3
+                                      1: [ 3 ]
+[ 1]   2 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  xyz
+ParseNext ==>  xyz
+Parsed:  xyz
+Compiled:
+	CODE BLOCK # 46 ; () => (xyz)
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	xyz
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 46 ; () => (xyz)
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	xyz
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : GLOBAL_GET	xyz
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  xyz
+ParseNext ==>  xyz
+Parsed:  xyz
+Compiled:
+	CODE BLOCK # 47 ; () => (xyz)
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	xyz
+	2	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 47 ; () => (xyz)
+	0	MAKE_ENV	0	; ()
+	1	GLOBAL_GET	xyz
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : GLOBAL_GET	xyz
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
+test: got "()"  - expected "()"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (set! x 5)
+ParseNext ==>  (set! x 5)
+Parsed:  (set! x 5)
+Compiled:
+	CODE BLOCK # 48 ; () => ((set! x 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	GLOBAL_SET	x
+	3	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 48 ; () => ((set! x 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	GLOBAL_SET	x
+	3	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ 5 ]
+[ 1]   3 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x 2) x)
+ParseNext ==>  (begin (set! x 2) x)
+Parsed:  (begin (set! x 2) x)
+Compiled:
+	CODE BLOCK # 49 ; () => ((begin (set! x 2) x))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	2
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 49 ; () => ((begin (set! x 2) x))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	2
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	2
+                                      1: [ 2 ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ 2 ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : GLOBAL_GET	x
+                                      1: [ 2 ]
+[ 1]   5 : RETURN_VAL
+test: got "2"  - expected "2"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x #t) (if x 5 6))
+ParseNext ==>  (begin (set! x #t) (if x 5 6))
+Parsed:  (begin (set! x #t) (if x 5 6))
+Compiled:
+	CODE BLOCK # 50 ; () => ((begin (set! x #t) (if x 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	JMP_IF_FALSE	"L0"	8
+	6	PUSH_CONST	5
+	7	RETURN_VAL
+8	LABEL	"L0"
+	9	PUSH_CONST	6
+	10	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 50 ; () => ((begin (set! x #t) (if x 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	JMP_IF_FALSE	"L0"	8
+	6	PUSH_CONST	5
+	7	RETURN_VAL
+8	LABEL	"L0"
+	9	PUSH_CONST	6
+	10	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ #t ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : GLOBAL_GET	x
+                                      1: [ #t ]
+[ 1]   5 : JMP_IF_FALSE	"L0"	8
+                                      0: [  ]
+[ 0]   6 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   7 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x #f) (if x 5 6))
+ParseNext ==>  (begin (set! x #f) (if x 5 6))
+Parsed:  (begin (set! x #f) (if x 5 6))
+Compiled:
+	CODE BLOCK # 51 ; () => ((begin (set! x #f) (if x 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	JMP_IF_FALSE	"L0"	8
+	6	PUSH_CONST	5
+	7	RETURN_VAL
+8	LABEL	"L0"
+	9	PUSH_CONST	6
+	10	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 51 ; () => ((begin (set! x #f) (if x 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	GLOBAL_GET	x
+	5	JMP_IF_FALSE	"L0"	8
+	6	PUSH_CONST	5
+	7	RETURN_VAL
+8	LABEL	"L0"
+	9	PUSH_CONST	6
+	10	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#f
+                                      1: [ #f ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ #f ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : GLOBAL_GET	x
+                                      1: [ #f ]
+[ 1]   5 : JMP_IF_FALSE	"L0"	8
+                                      0: [  ]
+[ 0]   8 : LABEL	"L0"
+                                      0: [  ]
+[ 0]   9 : PUSH_CONST	6
+                                      1: [ 6 ]
+[ 1]  10 : RETURN_VAL
+test: got "6"  - expected "6"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (if* 5 6))
+ParseNext ==>  (begin (if* 5 6))
+Parsed:  (begin (if* 5 6))
+Compiled:
+	CODE BLOCK # 52 ; () => ((begin (if* 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	7
+	4	STACK_POP
+	5	PUSH_CONST	6
+	6	RETURN_VAL
+7	LABEL	"L0"
+	8	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 52 ; () => ((begin (if* 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	7
+	4	STACK_POP
+	5	PUSH_CONST	6
+	6	RETURN_VAL
+7	LABEL	"L0"
+	8	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : DUPLICATE
+                                      2: [ 5 5 ]
+[ 2]   3 : JMP_IF_TRUE	"L0"	7
+                                      1: [ 5 ]
+[ 1]   7 : LABEL	"L0"
+                                      1: [ 5 ]
+[ 1]   8 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (if* (if 5 #f) 6))
+ParseNext ==>  (begin (if* (if 5 #f) 6))
+Parsed:  (begin (if* (if 5 #f) 6))
+Compiled:
+	CODE BLOCK # 53 ; () => ((begin (if* (if 5 #f) 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	7
+	4	STACK_POP
+	5	PUSH_CONST	6
+	6	RETURN_VAL
+7	LABEL	"L0"
+	8	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 53 ; () => ((begin (if* (if 5 #f) 6)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	7
+	4	STACK_POP
+	5	PUSH_CONST	6
+	6	RETURN_VAL
+7	LABEL	"L0"
+	8	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#f
+                                      1: [ #f ]
+[ 1]   2 : DUPLICATE
+                                      2: [ #f #f ]
+[ 2]   3 : JMP_IF_TRUE	"L0"	7
+                                      1: [ #f ]
+[ 1]   4 : STACK_POP
+                                      0: [  ]
+[ 0]   5 : PUSH_CONST	6
+                                      1: [ 6 ]
+[ 1]   6 : RETURN_VAL
+test: got "6"  - expected "6"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (if* (+ 1 2) 4) 5)
+ParseNext ==>  (begin (if* (+ 1 2) 4) 5)
+Parsed:  (begin (if* (core:+ 1 2) 4) 5)
+Compiled:
+	CODE BLOCK # 54 ; () => ((begin (if* (+ 1 2) 4) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	1
+	3	PUSH_CONST	2
+	4	GLOBAL_GET	+
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	DUPLICATE
+	8	JMP_IF_TRUE	"L1"	11
+	9	STACK_POP
+	10	PUSH_CONST	4
+11	LABEL	"L1"
+	12	STACK_POP
+	13	PUSH_CONST	5
+	14	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 54 ; () => ((begin (if* (+ 1 2) 4) 5))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	6
+	2	PUSH_CONST	1
+	3	PUSH_CONST	2
+	4	GLOBAL_GET	+
+	5	JMP_CLOSURE	2
+6	LABEL	"R0"
+	7	DUPLICATE
+	8	JMP_IF_TRUE	"L1"	11
+	9	STACK_POP
+	10	PUSH_CONST	4
+11	LABEL	"L1"
+	12	STACK_POP
+	13	PUSH_CONST	5
+	14	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	6
+                                      1: [ [R0/6] ]
+[ 1]   2 : PUSH_CONST	1
+                                      2: [ [R0/6] 1 ]
+[ 2]   3 : PUSH_CONST	2
+                                      3: [ [R0/6] 1 2 ]
+[ 3]   4 : GLOBAL_GET	+
+                                      4: [ [R0/6] 1 2 [Closure/core:+] ]
+[ 4]   5 : JMP_CLOSURE	2
+                                      3: [ [R0/6] 1 2 ]
+[ 3]   0 : CALL_PRIMOP	"+"
+                                      2: [ [R0/6] 3 ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ 3 ]
+[ 1]   6 : LABEL	"R0"
+                                      1: [ 3 ]
+[ 1]   7 : DUPLICATE
+                                      2: [ 3 3 ]
+[ 2]   8 : JMP_IF_TRUE	"L1"	11
+                                      1: [ 3 ]
+[ 1]  11 : LABEL	"L1"
+                                      1: [ 3 ]
+[ 1]  12 : STACK_POP
+                                      0: [  ]
+[ 0]  13 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]  14 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (if* (if 5 #f) 4) 5)
+ParseNext ==>  (begin (if* (if 5 #f) 4) 5)
+Parsed:  (begin (if* (if 5 #f) 4) 5)
+Compiled:
+	CODE BLOCK # 55 ; () => ((begin (if* (if 5 #f) 4) 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	6
+	4	STACK_POP
+	5	PUSH_CONST	4
+6	LABEL	"L0"
+	7	STACK_POP
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+
+Running...
+Executing:  
+	CODE BLOCK # 55 ; () => ((begin (if* (if 5 #f) 4) 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	DUPLICATE
+	3	JMP_IF_TRUE	"L0"	6
+	4	STACK_POP
+	5	PUSH_CONST	4
+6	LABEL	"L0"
+	7	STACK_POP
+	8	PUSH_CONST	5
+	9	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#f
+                                      1: [ #f ]
+[ 1]   2 : DUPLICATE
+                                      2: [ #f #f ]
+[ 2]   3 : JMP_IF_TRUE	"L0"	6
+                                      1: [ #f ]
+[ 1]   4 : STACK_POP
+                                      0: [  ]
+[ 0]   5 : PUSH_CONST	4
+                                      1: [ 4 ]
+[ 1]   6 : LABEL	"L0"
+                                      1: [ 4 ]
+[ 1]   7 : STACK_POP
+                                      0: [  ]
+[ 0]   8 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   9 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  ((lambda (a) a) 5)
+ParseNext ==>  ((lambda (a) a) 5)
+Parsed:  ((lambda (a) a) 5)
+Compiled:
+	CODE BLOCK # 56 ; (a) => (a)
+	0	MAKE_ENV	1	; (a)
+	1	LOCAL_GET	0	0	; a
+	2	RETURN_VAL
+
+	CODE BLOCK # 57 ; () => (((lambda (a) a) 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	MAKE_CLOSURE	[Closure]	; #56 : (a)
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 57 ; () => (((lambda (a) a) 5))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	MAKE_CLOSURE	[Closure]	; #56 : (a)
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; #56 : (a)
+                                      2: [ 5 [Closure] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ 5 ]
+[ 1]   0 : MAKE_ENV	1	; (a)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; a
+                                      1: [ 5 ]
+[ 1]   2 : RETURN_VAL
+test: got "5"  - expected "5"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  ((lambda (a . b) b) 5 6 7 8)
+ParseNext ==>  ((lambda (a . b) b) 5 6 7 8)
+Parsed:  ((lambda (a . b) b) 5 6 7 8)
+Compiled:
+	CODE BLOCK # 58 ; (a b) => (b)
+	0	MAKE_ENVDOT	1	; (a b)
+	1	LOCAL_GET	0	1	; b
+	2	RETURN_VAL
+
+	CODE BLOCK # 59 ; () => (((lambda (a . b) b) 5 6 7 8))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	PUSH_CONST	6
+	3	PUSH_CONST	7
+	4	PUSH_CONST	8
+	5	MAKE_CLOSURE	[Closure]	; #58 : (b)
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 59 ; () => (((lambda (a . b) b) 5 6 7 8))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	5
+	2	PUSH_CONST	6
+	3	PUSH_CONST	7
+	4	PUSH_CONST	8
+	5	MAKE_CLOSURE	[Closure]	; #58 : (b)
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	5
+                                      1: [ 5 ]
+[ 1]   2 : PUSH_CONST	6
+                                      2: [ 5 6 ]
+[ 2]   3 : PUSH_CONST	7
+                                      3: [ 5 6 7 ]
+[ 3]   4 : PUSH_CONST	8
+                                      4: [ 5 6 7 8 ]
+[ 4]   5 : MAKE_CLOSURE	[Closure]	; #58 : (b)
+                                      5: [ 5 6 7 8 [Closure] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ 5 6 7 8 ]
+[ 4]   0 : MAKE_ENVDOT	1	; (a b)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	1	; b
+                                      1: [ (6 7 8) ]
+[ 1]   2 : RETURN_VAL
+test: got "(6 7 8)"  - expected "(6 7 8)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  ((lambda (a) (set! a 6) a) 1)
+ParseNext ==>  ((lambda (a) (set! a 6) a) 1)
+Parsed:  ((lambda (a) (set! a 6) a) 1)
+Compiled:
+	CODE BLOCK # 60 ; (a) => ((set! a 6) a)
+	0	MAKE_ENV	1	; (a)
+	1	PUSH_CONST	6
+	2	LOCAL_SET	0	0	; a
+	3	STACK_POP
+	4	LOCAL_GET	0	0	; a
+	5	RETURN_VAL
+
+	CODE BLOCK # 61 ; () => (((lambda (a) (set! a 6) a) 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	MAKE_CLOSURE	[Closure]	; #60 : ((set! a 6) a)
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 61 ; () => (((lambda (a) (set! a 6) a) 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	MAKE_CLOSURE	[Closure]	; #60 : ((set! a 6) a)
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; #60 : ((set! a 6) a)
+                                      2: [ 1 [Closure] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ 1 ]
+[ 1]   0 : MAKE_ENV	1	; (a)
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	6
+                                      1: [ 6 ]
+[ 1]   2 : LOCAL_SET	0	0	; a
+                                      1: [ 6 ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : LOCAL_GET	0	0	; a
+                                      1: [ 6 ]
+[ 1]   5 : RETURN_VAL
+test: got "6"  - expected "6"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  ((lambda (x . rest) (if x 'foo rest)) #t 'a 'b 'c)
+ParseNext ==>  ((lambda (x . rest) (if x (quote foo) rest)) #t (quote a) (quote b) (quote c))
+Parsed:  ((lambda (x . rest) (if x (quote foo) rest)) #t (quote a) (quote b) (quote c))
+Compiled:
+	CODE BLOCK # 62 ; (x rest) => ((if x (quote foo) rest))
+	0	MAKE_ENVDOT	1	; (x rest)
+	1	LOCAL_GET	0	0	; x
+	2	JMP_IF_FALSE	"L0"	5
+	3	PUSH_CONST	foo
+	4	RETURN_VAL
+5	LABEL	"L0"
+	6	LOCAL_GET	0	1	; rest
+	7	RETURN_VAL
+
+	CODE BLOCK # 63 ; () => (((lambda (x . rest) (if x (quote foo) rest)) #t (quote a) (quote b) (quote c)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	PUSH_CONST	a
+	3	PUSH_CONST	b
+	4	PUSH_CONST	c
+	5	MAKE_CLOSURE	[Closure]	; #62 : ((if x (quote foo) rest))
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 63 ; () => (((lambda (x . rest) (if x (quote foo) rest)) #t (quote a) (quote b) (quote c)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#t
+	2	PUSH_CONST	a
+	3	PUSH_CONST	b
+	4	PUSH_CONST	c
+	5	MAKE_CLOSURE	[Closure]	; #62 : ((if x (quote foo) rest))
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   2 : PUSH_CONST	a
+                                      2: [ #t a ]
+[ 2]   3 : PUSH_CONST	b
+                                      3: [ #t a b ]
+[ 3]   4 : PUSH_CONST	c
+                                      4: [ #t a b c ]
+[ 4]   5 : MAKE_CLOSURE	[Closure]	; #62 : ((if x (quote foo) rest))
+                                      5: [ #t a b c [Closure] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ #t a b c ]
+[ 4]   0 : MAKE_ENVDOT	1	; (x rest)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; x
+                                      1: [ #t ]
+[ 1]   2 : JMP_IF_FALSE	"L0"	5
+                                      0: [  ]
+[ 0]   3 : PUSH_CONST	foo
+                                      1: [ foo ]
+[ 1]   4 : RETURN_VAL
+test: got "foo"  - expected "foo"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  ((lambda (x . rest) (if x 'foo rest)) #f 'a 'b 'c)
+ParseNext ==>  ((lambda (x . rest) (if x (quote foo) rest)) #f (quote a) (quote b) (quote c))
+Parsed:  ((lambda (x . rest) (if x (quote foo) rest)) #f (quote a) (quote b) (quote c))
+Compiled:
+	CODE BLOCK # 64 ; (x rest) => ((if x (quote foo) rest))
+	0	MAKE_ENVDOT	1	; (x rest)
+	1	LOCAL_GET	0	0	; x
+	2	JMP_IF_FALSE	"L0"	5
+	3	PUSH_CONST	foo
+	4	RETURN_VAL
+5	LABEL	"L0"
+	6	LOCAL_GET	0	1	; rest
+	7	RETURN_VAL
+
+	CODE BLOCK # 65 ; () => (((lambda (x . rest) (if x (quote foo) rest)) #f (quote a) (quote b) (quote c)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	PUSH_CONST	a
+	3	PUSH_CONST	b
+	4	PUSH_CONST	c
+	5	MAKE_CLOSURE	[Closure]	; #64 : ((if x (quote foo) rest))
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 65 ; () => (((lambda (x . rest) (if x (quote foo) rest)) #f (quote a) (quote b) (quote c)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	#f
+	2	PUSH_CONST	a
+	3	PUSH_CONST	b
+	4	PUSH_CONST	c
+	5	MAKE_CLOSURE	[Closure]	; #64 : ((if x (quote foo) rest))
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	#f
+                                      1: [ #f ]
+[ 1]   2 : PUSH_CONST	a
+                                      2: [ #f a ]
+[ 2]   3 : PUSH_CONST	b
+                                      3: [ #f a b ]
+[ 3]   4 : PUSH_CONST	c
+                                      4: [ #f a b c ]
+[ 4]   5 : MAKE_CLOSURE	[Closure]	; #64 : ((if x (quote foo) rest))
+                                      5: [ #f a b c [Closure] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ #f a b c ]
+[ 4]   0 : MAKE_ENVDOT	1	; (x rest)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; x
+                                      1: [ #f ]
+[ 1]   2 : JMP_IF_FALSE	"L0"	5
+                                      0: [  ]
+[ 0]   5 : LABEL	"L0"
+                                      0: [  ]
+[ 0]   6 : LOCAL_GET	0	1	; rest
+                                      1: [ (a b c) ]
+[ 1]   7 : RETURN_VAL
+test: got "(a b c)"  - expected "(a b c)"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6))
+ParseNext ==>  (begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6))
+Parsed:  (begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6))
+Compiled:
+	CODE BLOCK # 66 ; (a b c) => ((if a b c))
+	0	MAKE_ENV	3	; (a b c)
+	1	LOCAL_GET	0	0	; a
+	2	JMP_IF_FALSE	"L0"	5
+	3	LOCAL_GET	0	1	; b
+	4	RETURN_VAL
+5	LABEL	"L0"
+	6	LOCAL_GET	0	2	; c
+	7	RETURN_VAL
+
+	CODE BLOCK # 67 ; () => ((begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; #66 : ((if a b c))
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	PUSH_CONST	#t
+	5	PUSH_CONST	5
+	6	PUSH_CONST	6
+	7	GLOBAL_GET	x
+	8	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 67 ; () => ((begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6)))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; #66 : ((if a b c))
+	2	GLOBAL_SET	x
+	3	STACK_POP
+	4	PUSH_CONST	#t
+	5	PUSH_CONST	5
+	6	PUSH_CONST	6
+	7	GLOBAL_GET	x
+	8	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #66 : ((if a b c))
+                                      1: [ [Closure] ]
+[ 1]   2 : GLOBAL_SET	x
+                                      1: [ [Closure] ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : PUSH_CONST	#t
+                                      1: [ #t ]
+[ 1]   5 : PUSH_CONST	5
+                                      2: [ #t 5 ]
+[ 2]   6 : PUSH_CONST	6
+                                      3: [ #t 5 6 ]
+[ 3]   7 : GLOBAL_GET	x
+                                      4: [ #t 5 6 [Closure] ]
+[ 4]   8 : JMP_CLOSURE	3
+                                      3: [ #t 5 6 ]
+[ 3]   0 : MAKE_ENV	3	; (a b c)
+                                      0: [  ]
+[ 0]   1 : LOCAL_GET	0	0	; a
+                                      1: [ #t ]
+[ 1]   2 : JMP_IF_FALSE	"L0"	5
+                                      0: [  ]
+[ 0]   3 : LOCAL_GET	0	1	; b
+                                      1: [ 5 ]
+[ 1]   4 : RETURN_VAL
+test: got "5"  - expected "5"
+SUCCESS

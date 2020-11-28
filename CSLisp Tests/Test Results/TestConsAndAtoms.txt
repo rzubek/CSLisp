@@ -1,0 +1,38 @@
+TEST TestConsAndAtoms : 5:55:33 PM
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got 2  - expected 2
+test: got "foo"  - expected "foo"
+test: got "bar"  - expected "bar"
+test: got ()  - expected ()
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "("foo" "bar")"  - expected "("foo" "bar")"
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got 2  - expected 2
+test: got "foo"  - expected "foo"
+test: got "bar"  - expected "bar"
+test: got ()  - expected ()
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "("foo" "bar")"  - expected "("foo" "bar")"
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "foo"  - expected "foo"
+test: got "bar"  - expected "bar"
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got #t  - expected #t
+test: got "("foo" . "bar")"  - expected "("foo" . "bar")"
+SUCCESS
