@@ -3,8 +3,10 @@
 (package-export 
 	'(let let* letrec define 
 	  and or cond case
+	  while for dotimes
+
 	  first second third rest
-	  
+	  after-first after-second after-third
 	  fold-left fold-right
 	  ))
 	
@@ -104,7 +106,7 @@
 ;;			  "baz"))
 ;;
 (defmacro case (key . rest)
-	(let* ((keyval (gensym "KEY")))
+	(let* ((keyval (gensym "CASE")))
 		`(let ((,keyval ,key))
 			(cond
 			   ,@(map (lambda (elt) 
@@ -113,7 +115,37 @@
 									elt))
 						rest)))))
 						
-						
+;; (while (< x y) ...)
+;; =>
+;; (letrec ((GENSYM-xxx (lambda () (if (< x y) (begin ... (GENSYM-xxx))))))
+;;    (GENSYM-xxx))
+(defmacro while (test . body)
+    (let ((loop (gensym "WHILE")))
+	    `(letrec ((,loop (lambda () (if ,test (begin ,@body (,loop))))))
+		    (,loop))))
+
+;; (for (x 0 (< x 10) (+ x 1)) (trace x) ...)
+;; =>
+;; (let ((x 0)))
+;;     (while (< x 10) 
+;;         (trace x) ... 
+;;         (set! x (+ x 1))))
+(defmacro for (test . body)
+    (let ((varname (car test)) 
+	      (init-value (cadr test)) 
+		  (predicate (caddr test)) 
+		  (step-value (car (cdddr test))))
+	    `(let ((,varname ,init-value)) 
+		    (while ,predicate ,@body (set! ,varname ,step-value)))))
+
+;; (dotimes (x 10) (trace x) ...)
+;; =>
+;; (for (x 0 (< x 10) (+ x 1)) (trace x) ...)
+(defmacro dotimes (pars . body) 
+    (let ((varname (car pars))
+	      (count (cadr pars)))
+        `(for (,varname 0 (< ,varname ,count) (+ ,varname 1))
+		    ,@body)))
 												
 ;; 
 ;;
@@ -122,7 +154,6 @@
 (define first car)
 (define second cadr)
 (define third caddr)
-
 (define rest cdr)
 (define after-first cdr)
 (define after-second cddr)
