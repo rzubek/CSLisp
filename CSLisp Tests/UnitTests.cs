@@ -20,52 +20,61 @@ namespace CSLisp
         /// <summary> Where are we logging unit test results? </summary>
         public static readonly LogType LOG_TARGET = LogType.TempFile; // change as needed
 
-        /// <summary> Logging stream, could be standard console, or file, or nothing </summary>
-        private static TextWriter _log;
+        /// <summary> Logging implementation, could target standard console, or file, or nothing </summary>
+        private class Logger : ILogger
+        {
+            private TextWriter _writer;
 
-        /// <summary> Static logger. Can be replaced with something else </summary>
-        public static System.Action<object[]> logger = (object[] args) => {
-            if (_log == null) { return; } // drop on the floor
+            public bool EnableParsingLogging => true;
+            public bool EnableInstructionLogging => true;
+            public bool EnableStackLogging => true;
 
-            var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
-            var message = string.Join(" ", strings);
-            _log.WriteLine(message);
-        };
+            public void OpenLog (string name) {
+                switch (LOG_TARGET) {
+                    case LogType.TempFile:
+                        string testDir = Path.Combine("..", "..", "Test Results");
+                        Directory.CreateDirectory(testDir);
+                        string filePath = Path.Combine(testDir, $"{name}.txt");
+                        _writer = new StreamWriter(new FileStream(filePath, FileMode.Create));
+                        _writer.WriteLine($"TEST {name} : " + System.DateTime.Now.ToLongTimeString());
+                        break;
+                    case LogType.Console:
+                        _writer = System.Console.Out;
+                        break;
+                    default:
+                        _writer = null; // don't log
+                        break;
+                }
+            }
 
-        private static void StartLog (string name) {
-            switch (LOG_TARGET) {
-                case LogType.TempFile:
-                    string testDir = Path.Combine("..", "..", "Test Results");
-                    Directory.CreateDirectory(testDir);
-                    string filePath = Path.Combine(testDir, $"{name}.txt");
-                    _log = new StreamWriter(new FileStream(filePath, FileMode.Create));
-                    _log.WriteLine($"TEST {name} : " + System.DateTime.Now.ToLongTimeString());
-                    break;
-                case LogType.Console:
-                    _log = System.Console.Out;
-                    break;
-                default:
-                    _log = null; // don't log
-                    break;
+            public void Log (params object[] args) {
+                if (_writer == null) { return; } // drop on the floor
+
+                var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
+                var message = string.Join(" ", strings);
+                _writer.WriteLine(message);
+            }
+
+            public void CloseLog () {
+                _writer.Flush();
+                _writer.Close();
+                _writer = null;
             }
         }
 
-        private static void EndLog () {
-            _log.Flush();
-            _log = null;
-        }
+        /// <summary> Logger implementation </summary>
+        private readonly Logger _logger = new Logger();
 
-
-        /// <summary> Log that log! </summary>
+        /// <summary> Simple logger wrapper </summary>
         private void Log (params object[] args) {
-            if (logger != null) {
-                logger(args);
+            if (_logger != null) {
+                _logger.Log(args);
             }
         }
 
         /// <summary> Checks whether the result is equal to the expected value; if not, logs an info statement </summary>
         private void Check (bool result) => Check(new Val(result), new Val(true));
-        private void Check (Val result) => Check(result, new Val(true));
+        //private void Check (Val result) => Check(result, new Val(true));
         private void Check (object result, object expected) => Check(new Val(result), new Val(expected));
         private void Check (Val result, Val expected, System.Func<Val, Val, bool> test = null) {
             Log("test: got", result, " - expected", expected);
@@ -82,11 +91,11 @@ namespace CSLisp
         [TestMethod]
         public void RunTests () {
             void Run (System.Action fn) {
-                StartLog(fn.GetMethodInfo().Name);
+                _logger.OpenLog(fn.GetMethodInfo().Name);
                 _failures = 0;
                 fn();
                 Log(_failures == 0 ? "SUCCESS" : $"FAILURES: {_failures}");
-                EndLog();
+                _logger.CloseLog();
             }
 
             Run(TestConsAndAtoms);
@@ -247,7 +256,7 @@ namespace CSLisp
         public void TestParser () {
 
             Packages packages = new Packages();
-            Parser p = new Parser(packages, ctxDebugLog);
+            Parser p = new Parser(packages, _logger);
 
             // test parsing simple atoms, check their internal form
             CheckParseRaw(p, "1", 1);
@@ -275,8 +284,6 @@ namespace CSLisp
             CheckParse(p, "`(,foo)", "(list foo)");
             CheckParse(p, "`(,@foo)", "(append foo)");
         }
-
-        private static void ctxDebugLog (params object[] args) => logger(args);
 
         /// <summary> Test helper - does equality comparison on the raw parse results </summary>
         private void CheckParseRaw (Parser parser, string input, Val expected) {
@@ -307,7 +314,7 @@ namespace CSLisp
 
         /// <summary> Compiles some sample scripts and prints them out, without validation. </summary>
         public void PrintSampleCompilations () {
-            Context ctx = new Context(false, ctxDebugLog);
+            Context ctx = new Context(false, _logger);
 
             CompileAndPrint(ctx, "5");
             CompileAndPrint(ctx, "\"foo\"");
@@ -360,7 +367,7 @@ namespace CSLisp
         /// <summary> Front-to-back test of the virtual machine </summary>
         public void TestVMNoCoreLib () {
             // first without the standard library
-            Context ctx = new Context(false, ctxDebugLog);
+            Context ctx = new Context(false, _logger);
 
             // test reserved keywords
             CompileAndRun(ctx, "5", "5");
@@ -392,7 +399,7 @@ namespace CSLisp
         /// <summary> Front-to-back test of the virtual machine </summary>
         public void TestVMPrimitives () {
             // first without the standard library
-            Context ctx = new Context(false, ctxDebugLog);
+            Context ctx = new Context(false, _logger);
 
             // test primitives
             CompileAndRun(ctx, "(+ 1 2)", "3");
@@ -440,7 +447,7 @@ namespace CSLisp
 
         public void TestPackages () {
             // without the standard library
-            Context ctx = new Context(false, ctxDebugLog);
+            Context ctx = new Context(false, _logger);
 
             // test packages
             CompileAndRun(ctx, "(package-set \"foo\") (package-get)", "\"foo\"", "\"foo\"");
@@ -464,7 +471,7 @@ namespace CSLisp
 
         public void TestStandardLibs () {
             // now initialize the standard library
-            var ctx = new Context(true, ctxDebugLog);
+            var ctx = new Context(true, _logger);
 
             // test some basic functions
             CompileAndRun(ctx, "(map number? '(a 2 \"foo\"))", "(#f #t #f)");
@@ -504,7 +511,7 @@ namespace CSLisp
         }
 
         public void PrintAllStandardLibraries () {
-            var ctx = new Context(true, ctxDebugLog);
+            var ctx = new Context(true, _logger);
             DumpCodeBlocks(ctx);
         }
 

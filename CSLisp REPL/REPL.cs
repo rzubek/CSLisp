@@ -30,7 +30,20 @@ namespace CSLisp
             public string Message => $"{command} - {description}";
         }
 
-        private static List<Command> _commands = new List<Command>() {
+        private class Logger : ILogger
+        {
+            public bool EnableParsingLogging => _logExecution;
+            public bool EnableInstructionLogging => _logExecution;
+            public bool EnableStackLogging => _logExecution;
+
+            public void Log (params object[] args) {
+                var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
+                var message = string.Join(" ", strings);
+                Console.WriteLine(message);
+            }
+        }
+
+        private static readonly List<Command> _commands = new List<Command>() {
             new Command(",exit", "Quits the REPL", () => _runRepl = false),
             new Command(",help", "Shows this help menu",
                 () => Console.WriteLine("Valid repl commands:\n" + string.Join("\n", _commands.Select(p => p.Message)))),
@@ -49,9 +62,9 @@ namespace CSLisp
                 () => _timeNextExecution = true)
         };
 
-        private static void Main (string[] _) {
+        public void Run () {
 
-            Context ctx = new Context(logger: Logger);
+            Context ctx = new Context(logger: new Logger());
             Console.WriteLine(GetInfo(ctx));
 
             var selfTest = ctx.CompileAndExecute("(+ 1 2)").Select(r => r.output);
@@ -94,7 +107,7 @@ namespace CSLisp
 
         }
 
-        private static void LogExecutionTime (List<Context.CompileAndExecuteResult> results, Stopwatch s) {
+        private void LogExecutionTime (List<Context.CompileAndExecuteResult> results, Stopwatch s) {
             if (s == null) { return; }
 
             _timeNextExecution = false;
@@ -104,24 +117,21 @@ namespace CSLisp
             }
         }
 
-        private static void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
+        private void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
             if (!_logCompilation) { return; }
 
             results.ForEach(result => Console.WriteLine(ctx.code.DebugPrint(result.comp)));
         }
 
-        private static void Logger (object[] args) {
-            if (!_logExecution) { return; }
-
-            var strings = args.Select(obj => (obj == null) ? "null" : obj.ToString());
-            var message = string.Join(" ", strings);
-            Console.WriteLine(message);
-        }
-
-        private static string GetInfo (Context ctx) {
+        private string GetInfo (Context ctx) {
             var manifestLocation = ctx.GetType().Assembly.Location;
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(manifestLocation);
             return $"CSLisp REPL. {info.LegalCopyright}. Version {info.ProductVersion}.";
+        }
+
+        private static void Main (string[] _) {
+            REPL repl = new REPL();
+            repl.Run();
         }
     }
 }

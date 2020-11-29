@@ -10,7 +10,7 @@ namespace CSLisp.Core
     public class Machine
     {
         /// <summary> If set, instructions will be logged to this function as they're executed. </summary>
-        private readonly LoggerCallback _logger = null;
+        private readonly ILogger _logger = null;
 
         /// <summary> Internal execution context </summary>
         private readonly Context _ctx = null;
@@ -19,7 +19,7 @@ namespace CSLisp.Core
         private readonly DebugContext _debug = new DebugContext();
 
 
-        public Machine (Context ctx, LoggerCallback logger) {
+        public Machine (Context ctx, ILogger logger) {
             _ctx = ctx;
             _logger = logger;
         }
@@ -30,9 +30,9 @@ namespace CSLisp.Core
             CodeHandle code = default;
             List<Instruction> instructions = null;
 
-            if (_logger != null) {
-                _logger("Executing: ", fn.name);
-                _logger(_ctx.code.DebugPrint(fn));
+            if (_logger.EnableInstructionLogging) {
+                _logger.Log("Executing: ", fn.name);
+                _logger.Log(_ctx.code.DebugPrint(fn));
             }
 
             while (!st.done) {
@@ -48,9 +48,9 @@ namespace CSLisp.Core
                 // fetch instruction
                 Instruction instr = instructions[st.pc++];
 
-                if (_logger != null) {
-                    _logger("                                    " + State.PrintStack(st));
-                    _logger(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, instr.DebugPrint()));
+                if (_logger.EnableStackLogging) {
+                    _logger.Log("                                    " + State.PrintStack(st));
+                    _logger.Log(string.Format("[{0,2}] {1,3} : {2}", st.stack.Count, st.pc - 1, instr.DebugPrint()));
                 }
 
                 // and now a big old switch statement. not handler functions - this is much faster.

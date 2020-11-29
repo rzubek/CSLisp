@@ -30,9 +30,9 @@ namespace CSLisp.Core
         private readonly Package _global;
 
         /// <summary> Optional logger callback </summary>
-        private readonly LoggerCallback _logger;
+        private readonly ILogger _logger;
 
-        public Parser (Packages packages, LoggerCallback logger) {
+        public Parser (Packages packages, ILogger logger) {
             _packages = packages ?? throw new ParserError("Parser requires a valid packages structure during initialization");
             _global = packages.global;
             _logger = logger;
@@ -59,13 +59,16 @@ namespace CSLisp.Core
         public Val ParseNext () {
             _stream.Save();
             Val result = Parse(_stream);
-            if (!Val.Equals(result, EOF)) {
-                _logger?.Invoke("ParseNext ==> ", Val.DebugPrint(result));
-                return result;
+            if (Val.Equals(result, EOF)) {
+                _stream.Restore();
+                return EOF;
             }
 
-            _stream.Restore();
-            return EOF;
+            if (_logger.EnableParsingLogging) {
+                _logger.Log("ParseNext ==> ", Val.DebugPrint(result));
+            }
+
+            return result;
         }
 
         /// <summary> 

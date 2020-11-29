@@ -7,6 +7,24 @@ using System.Diagnostics;
 namespace CSLisp.Core
 {
     /// <summary>
+    /// Definition of a logger that will capture debug info about compilation and execution.
+    /// </summary>
+    public interface ILogger
+    {
+        /// <summary> When true, we will log expression parsing details </summary>
+        bool EnableParsingLogging { get; }
+
+        /// <summary> When true, we will log every executed instruction </summary>
+        bool EnableInstructionLogging { get; }
+
+        /// <summary> When true, we will log stack state at the end of each executed instruction </summary>
+        bool EnableStackLogging { get; }
+
+        /// <summary> Type signature for the actual debug logging function </summary>
+        void Log (params object[] args);
+    }
+
+    /// <summary>
     /// Binds together an instance of a compiler, parser, and executor.
     /// </summary>
     public class Context
@@ -17,7 +35,7 @@ namespace CSLisp.Core
         public readonly Compiler compiler;
         public readonly Machine vm;
 
-        public Context (bool loadLibraries = true, LoggerCallback logger = null) {
+        public Context (bool loadLibraries = true, ILogger logger = null) {
             this.code = new Code();
             this.packages = new Packages();
             this.parser = new Parser(packages, logger);
@@ -63,8 +81,4 @@ namespace CSLisp.Core
             return outputs;
         }
     }
-
-    /// <summary> Type signature for the debug logging function </summary>
-    public delegate void LoggerCallback (params object[] args);
-
 }
