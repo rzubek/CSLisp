@@ -1,6 +1,8 @@
 using CSLisp.Data;
 using CSLisp.Libs;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CSLisp.Core
 {
@@ -32,8 +34,10 @@ namespace CSLisp.Core
         /// <summary> Stores the result of compiling a given code block and executing it </summary>
         public struct CompileAndExecuteResult
         {
+            public string input;
             public CompilationResults comp;
             public Val output;
+            public TimeSpan exectime;
         }
 
         /// <summary> Convenience wrapper that processes the input as a string, and returns an array of results. </summary>
@@ -46,8 +50,14 @@ namespace CSLisp.Core
 
             foreach (Val result in parseResults) {
                 var cr = compiler.Compile(result);
+
+                Stopwatch s = Stopwatch.StartNew();
                 var output = vm.Execute(cr.closure);
-                outputs.Add(new CompileAndExecuteResult { comp = cr, output = output });
+                s.Stop();
+
+                outputs.Add(new CompileAndExecuteResult {
+                    input = input, comp = cr, output = output, exectime = s.Elapsed
+                });
             }
 
             return outputs;

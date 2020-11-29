@@ -13,18 +13,40 @@ namespace CSLisp
             _runRepl = true,
             _showPrompt = true,
             _logCompilation = false,
-            _logExecution = false;
-        private static Dictionary<string, Action> _specialPragmas = new Dictionary<string, Action>() {
-            { "!exit", () => _runRepl = false },
-            { "!help", () => Console.WriteLine("Valid pragmas: " + string.Join(" ", _specialPragmas.Keys)) },
-            { "!logcomp", () => {
-                _logCompilation = !_logCompilation;
-                Console.WriteLine("Logging compilation: " + _logCompilation);
-            } },
-            { "!logexec", () => {
-                _logExecution = !_logExecution;
-                Console.WriteLine("Logging execution: " + _logExecution);
-            } },
+            _logExecution = false,
+            _timeNextExecution = false;
+
+        private class Command
+        {
+            public string command, description;
+            public Action action;
+
+            public Command (string command, string description, Action action) {
+                this.command = command;
+                this.description = description;
+                this.action = action;
+            }
+
+            public string Message => $"{command} - {description}";
+        }
+
+        private static List<Command> _commands = new List<Command>() {
+            new Command(",exit", "Quits the REPL", () => _runRepl = false),
+            new Command(",help", "Shows this help menu",
+                () => Console.WriteLine("Valid repl commands:\n" + string.Join("\n", _commands.Select(p => p.Message)))),
+
+            new Command(",logcomp", "Toggles logging of bytecode compilation",
+                () => {
+                    _logCompilation = !_logCompilation;
+                    Console.WriteLine("Logging compilation: " + _logCompilation);
+                }),
+            new Command(",logexec", "Toggles logging of bytecode execution",
+                () => {
+                    _logExecution = !_logExecution;
+                    Console.WriteLine("Logging execution: " + _logExecution);
+                }),
+            new Command(",time", "Type ',time (expression ...)' to log and print execution time of that expression",
+                () => _timeNextExecution = true)
         };
 
         private static void Main (string[] _) {
@@ -33,7 +55,9 @@ namespace CSLisp
             Console.WriteLine(GetInfo(ctx));
 
             var selfTest = ctx.CompileAndExecute("(+ 1 2)").Select(r => r.output);
-            Console.Write(string.Format("\nSELF TEST: (+ 1 2) => {0}\n\n", string.Join(" ", selfTest)));
+            Console.WriteLine();
+            Console.WriteLine("SELF TEST: (+ 1 2) => " + string.Join(" ", selfTest));
+            Console.WriteLine("Type ,help for list of repl commands or ,exit to quit.\n");
 
             while (_runRepl) {
                 if (_showPrompt) {
@@ -42,21 +66,22 @@ namespace CSLisp
                 }
 
                 string line = Console.ReadLine();
-                string lower = line.ToLowerInvariant();
-                bool isPragma = _specialPragmas.ContainsKey(lower);
+                var cmd = _commands.Find(c => line.StartsWith(c.command));
 
                 try {
-                    if (isPragma) {
-                        _specialPragmas[lower].Invoke();
-                        _showPrompt = true;
-
-                    } else {
-                        var results = ctx.CompileAndExecute(line);
-                        LogCompilation(ctx, results);
-
-                        results.ForEach(entry => Console.WriteLine(Val.Print(entry.output)));
-                        _showPrompt = (results.Count > 0);
+                    if (cmd != null) {
+                        line = line.Remove(0, cmd.command.Length).TrimStart();
+                        cmd.action.Invoke();
                     }
+
+                    Stopwatch s = _timeNextExecution ? Stopwatch.StartNew() : null;
+                    var results = ctx.CompileAndExecute(line);
+                    LogCompilation(ctx, results);
+                    LogExecutionTime(results, s);
+
+                    results.ForEach(entry => Console.WriteLine(Val.Print(entry.output)));
+
+                    _showPrompt = cmd != null || results.Count > 0;
 
                 } catch (Error.LanguageError e) {
                     Console.Error.WriteLine("ERROR: " + e.Message);
@@ -67,6 +92,16 @@ namespace CSLisp
                 }
             }
 
+        }
+
+        private static void LogExecutionTime (List<Context.CompileAndExecuteResult> results, Stopwatch s) {
+            if (s == null) { return; }
+
+            _timeNextExecution = false;
+
+            foreach (var result in results) {
+                Console.WriteLine($"Execution took {result.exectime.TotalSeconds} seconds for: {result.input}");
+            }
         }
 
         private static void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
