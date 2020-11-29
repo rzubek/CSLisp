@@ -15,7 +15,7 @@ namespace CSLisp.Core
     {
         /// <summary> Full list of reserved keywords - no symbol can be named as one of these </summary>
         public static readonly List<string> RESERVED
-            = new List<string>() { "quote", "begin", "set!", "if", "if*", "lambda", "defmacro", "." };
+            = new List<string>() { "quote", "begin", "set!", "if", "if*", "while", "lambda", "defmacro", "." };
 
         /// <summary> Special "end of stream" constant </summary>
         public static readonly Val EOF = new Val("!eof");

@@ -65,6 +65,7 @@ namespace CSLisp.Core
         private readonly Symbol _set;
         private readonly Symbol _if;
         private readonly Symbol _ifStar;
+        private readonly Symbol _while;
         private readonly Symbol _lambda;
         private readonly Symbol _defmacro;
 
@@ -75,6 +76,7 @@ namespace CSLisp.Core
             _set = global.Intern("set!");
             _if = global.Intern("if");
             _ifStar = global.Intern("if*");
+            _while = global.Intern("while");
             _lambda = global.Intern("lambda");
             _defmacro = global.Intern("defmacro");
 
@@ -147,6 +149,10 @@ namespace CSLisp.Core
                     cons.second,    // pred
                     cons.third,     // else
                     env, st);
+            }
+            if (name == _while) {    // (while pred body ...)
+                Cons body = cons.afterSecond.AsConsOrNull;
+                return CompileWhile(cons.second, body, env, st);
             }
             if (name == _lambda) {   // (lambda (args...) body...)
                 if (st.IsUnused) {
@@ -355,6 +361,26 @@ namespace CSLisp.Core
                 Emit(Opcode.STACK_POP),
                 ElseCode,
                 Emit(Opcode.LABEL, l1),
+                EmitIf(st.IsUnused, Emit(Opcode.STACK_POP)),
+                EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
+        }
+
+        /// <summary> Compiles a while loop </summary>
+        private List<Instruction> CompileWhile (Val pred, Cons body, Environment env, State st) {
+            // (while p ...) => (PUSH '()) L1: p (FJUMP L2) (POP) (begin ...) (JUMP L1) L2:
+            List<Instruction> PredCode = Compile(pred, env, State.UsedNonFinal);
+            List<Instruction> BodyCode = CompileBegin(body, env, State.UsedNonFinal); // keep result on stack
+
+            string l1 = MakeLabel(), l2 = MakeLabel();
+            return Merge(
+                Emit(Opcode.PUSH_CONST, Val.NIL),
+                Emit(Opcode.LABEL, l1),
+                PredCode,
+                Emit(Opcode.JMP_IF_FALSE, l2),
+                Emit(Opcode.STACK_POP),
+                BodyCode,
+                Emit(Opcode.JMP_TO_LABEL, l1),
+                Emit(Opcode.LABEL, l2),
                 EmitIf(st.IsUnused, Emit(Opcode.STACK_POP)),
                 EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));
         }

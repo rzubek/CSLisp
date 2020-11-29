@@ -3,7 +3,7 @@
 (package-export 
 	'(let let* letrec define 
 	  and or cond case
-	  while for dotimes
+	  for dotimes
 
 	  first second third rest
 	  after-first after-second after-third
@@ -115,15 +115,6 @@
 									elt))
 						rest)))))
 						
-;; (while (< x y) ...)
-;; =>
-;; (letrec ((GENSYM-xxx (lambda () (if (< x y) (begin ... (GENSYM-xxx))))))
-;;    (GENSYM-xxx))
-(defmacro while (test . body)
-    (let ((loop (gensym "WHILE")))
-	    `(letrec ((,loop (lambda () (if ,test (begin ,@body (,loop))))))
-		    (,loop))))
-
 ;; (for (x 0 (< x 10) (+ x 1)) (trace x) ...)
 ;; =>
 ;; (let ((x 0)))

@@ -383,6 +383,8 @@ namespace CSLisp
             CompileAndRun(ctx, "((lambda (x . rest) (if x 'foo rest)) #t 'a 'b 'c)", "foo");
             CompileAndRun(ctx, "((lambda (x . rest) (if x 'foo rest)) #f 'a 'b 'c)", "(a b c)");
             CompileAndRun(ctx, "(begin (set! x (lambda (a b c) (if a b c))) (x #t 5 6))", "5");
+            CompileAndRun(ctx, "(begin (set! x 0) (while (< x 5) (set! x (+ x 1)) x))", "5");
+            CompileAndRun(ctx, "(begin (set! x 0) (while (< x 5) (set! x (+ x 1))) x)", "5");
 
             //DumpCodeBlocks(ctx);
         }
@@ -490,9 +492,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(cond ((= 2 2) 2) ((= 1 4) 4) 0)", "2");
             CompileAndRun(ctx, "(cond ((= 1 2) 2) ((= 4 4) 4) 0)", "4");
             CompileAndRun(ctx, "(case (+ 1 2) (2 #f) (3 #t) 'error)", "#t");
-            CompileAndRun(ctx, "(let ((x 0)) (while (< x 10) (set! x (+ x 1))) x)", "10");
-            CompileAndRun(ctx, "(let ((r '())) (for (x 0 (< x 3) (+ x 1)) (set! r (cons x r))) r)", "(2 1 0)");
-            CompileAndRun(ctx, "(let ((r '())) (dotimes (x 3) (set! r (cons x r))) r)", "(2 1 0)");
+            CompileAndRun(ctx, "(let ((r '())) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)", "(2 1 0)");
+            CompileAndRun(ctx, "(let ((r '())) (dotimes (i 3) (set! r (cons i r))) r)", "(2 1 0)");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");

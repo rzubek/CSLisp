@@ -1,4 +1,4 @@
-TEST PrintAllStandardLibraries : 5:55:34 PM
+TEST PrintAllStandardLibraries : 8:08:13 PM
 ParseNext ==>  (package-set "core")
 Executing:  
 	CODE BLOCK # 42 ; () => ((package-set "core"))
@@ -19,23 +19,23 @@ Executing:
 [ 1]   0 : CALL_PRIMOP	"package-set"
                                       1: [ "core" ]
 [ 1]   1 : RETURN_VAL
-ParseNext ==>  (package-export (quote (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
+ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
 Executing:  
-	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	(let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right)
+	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : PUSH_CONST	(let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right)
-                                      1: [ (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
+[ 0]   1 : PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
+                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
 [ 1]   2 : GLOBAL_GET	package-export
-                                      2: [ (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right) [Closure/core:package-export] ]
+                                      2: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) [Closure/core:package-export] ]
 [ 2]   3 : JMP_CLOSURE	1
-                                      1: [ (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
+                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
 [ 1]   0 : CALL_PRIMOP	"package-export"
                                       1: [ () ]
 [ 1]   1 : RETURN_VAL
@@ -543,167 +543,6 @@ Executing:
 [ 0]   1 : PUSH_CONST	()
                                       1: [ () ]
 [ 1]   2 : RETURN_VAL
-ParseNext ==>  (defmacro while (test . body) (let ((loop (gensym "WHILE"))) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))))
-Executing:  
-	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
-	0	MAKE_ENVDOT	1	; (bindings body)
-	1	SAVE_RETURN	"R0"	24
-	2	SAVE_RETURN	"R1"	21
-	3	SAVE_RETURN	"R2"	7
-	4	PUSH_CONST	lambda
-	5	GLOBAL_GET	list
-	6	JMP_CLOSURE	1
-7	LABEL	"R2"
-	8	SAVE_RETURN	"R3"	17
-	9	SAVE_RETURN	"R4"	14
-	10	GLOBAL_GET	car
-	11	LOCAL_GET	0	0	; bindings
-	12	GLOBAL_GET	map
-	13	JMP_CLOSURE	2
-14	LABEL	"R4"
-	15	GLOBAL_GET	list
-	16	JMP_CLOSURE	1
-17	LABEL	"R3"
-	18	LOCAL_GET	0	1	; body
-	19	GLOBAL_GET	append
-	20	JMP_CLOSURE	3
-21	LABEL	"R1"
-	22	GLOBAL_GET	list
-	23	JMP_CLOSURE	1
-24	LABEL	"R0"
-	25	SAVE_RETURN	"R5"	30
-	26	GLOBAL_GET	cadr
-	27	LOCAL_GET	0	0	; bindings
-	28	GLOBAL_GET	map
-	29	JMP_CLOSURE	2
-30	LABEL	"R5"
-	31	GLOBAL_GET	append
-	32	JMP_CLOSURE	2
-
-                                      2: [ ((loop (gensym "WHILE"))) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)) ]
-[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
-                                      0: [  ]
-[ 0]   1 : SAVE_RETURN	"R0"	24
-                                      1: [ [R0/24] ]
-[ 1]   2 : SAVE_RETURN	"R1"	21
-                                      2: [ [R0/24] [R1/21] ]
-[ 2]   3 : SAVE_RETURN	"R2"	7
-                                      3: [ [R0/24] [R1/21] [R2/7] ]
-[ 3]   4 : PUSH_CONST	lambda
-                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
-[ 4]   5 : GLOBAL_GET	list
-                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
-[ 5]   6 : JMP_CLOSURE	1
-                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
-[ 4]   0 : CALL_PRIMOP	"list"
-                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
-[ 4]   1 : RETURN_VAL
-                                      3: [ [R0/24] [R1/21] (lambda) ]
-[ 3]   7 : LABEL	"R2"
-                                      3: [ [R0/24] [R1/21] (lambda) ]
-[ 3]   8 : SAVE_RETURN	"R3"	17
-                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
-[ 4]   9 : SAVE_RETURN	"R4"	14
-                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
-[ 5]  10 : GLOBAL_GET	car
-                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
-[ 6]  11 : LOCAL_GET	0	0	; bindings
-                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((loop (gensym "WHILE"))) ]
-[ 7]  12 : GLOBAL_GET	map
-                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((loop (gensym "WHILE"))) [Closure/core:map] ]
-[ 8]  13 : JMP_CLOSURE	2
-                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((loop (gensym "WHILE"))) ]
-[ 7]   0 : CALL_PRIMOP	"map"
-Executing:  core:car
-	CODE BLOCK # 22 ; core:car
-	0	CALL_PRIMOP	"car"
-	1	RETURN_VAL
-
-                                      1: [ (loop (gensym "WHILE")) ]
-[ 1]   0 : CALL_PRIMOP	"car"
-                                      1: [ loop ]
-[ 1]   1 : RETURN_VAL
-                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (loop) ]
-[ 6]   1 : RETURN_VAL
-                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (loop) ]
-[ 5]  14 : LABEL	"R4"
-                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (loop) ]
-[ 5]  15 : GLOBAL_GET	list
-                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (loop) [Closure/core:list] ]
-[ 6]  16 : JMP_CLOSURE	1
-                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (loop) ]
-[ 5]   0 : CALL_PRIMOP	"list"
-                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((loop)) ]
-[ 5]   1 : RETURN_VAL
-                                      4: [ [R0/24] [R1/21] (lambda) ((loop)) ]
-[ 4]  17 : LABEL	"R3"
-                                      4: [ [R0/24] [R1/21] (lambda) ((loop)) ]
-[ 4]  18 : LOCAL_GET	0	1	; body
-                                      5: [ [R0/24] [R1/21] (lambda) ((loop)) ((list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 5]  19 : GLOBAL_GET	append
-                                      6: [ [R0/24] [R1/21] (lambda) ((loop)) ((list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) [Closure/core:append] ]
-[ 6]  20 : JMP_CLOSURE	3
-                                      5: [ [R0/24] [R1/21] (lambda) ((loop)) ((list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 5]   0 : CALL_PRIMOP	"append"
-                                      3: [ [R0/24] [R1/21] (lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 3]   1 : RETURN_VAL
-                                      2: [ [R0/24] (lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 2]  21 : LABEL	"R1"
-                                      2: [ [R0/24] (lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 2]  22 : GLOBAL_GET	list
-                                      3: [ [R0/24] (lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) [Closure/core:list] ]
-[ 3]  23 : JMP_CLOSURE	1
-                                      2: [ [R0/24] (lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) ]
-[ 2]   0 : CALL_PRIMOP	"list"
-                                      2: [ [R0/24] ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ]
-[ 2]   1 : RETURN_VAL
-                                      1: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ]
-[ 1]  24 : LABEL	"R0"
-                                      1: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ]
-[ 1]  25 : SAVE_RETURN	"R5"	30
-                                      2: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] ]
-[ 2]  26 : GLOBAL_GET	cadr
-                                      3: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] [Closure/core:cadr] ]
-[ 3]  27 : LOCAL_GET	0	0	; bindings
-                                      4: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] [Closure/core:cadr] ((loop (gensym "WHILE"))) ]
-[ 4]  28 : GLOBAL_GET	map
-                                      5: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] [Closure/core:cadr] ((loop (gensym "WHILE"))) [Closure/core:map] ]
-[ 5]  29 : JMP_CLOSURE	2
-                                      4: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] [Closure/core:cadr] ((loop (gensym "WHILE"))) ]
-[ 4]   0 : CALL_PRIMOP	"map"
-Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
-	0	CALL_PRIMOP	"cadr"
-	1	RETURN_VAL
-
-                                      1: [ (loop (gensym "WHILE")) ]
-[ 1]   0 : CALL_PRIMOP	"cadr"
-                                      1: [ (gensym "WHILE") ]
-[ 1]   1 : RETURN_VAL
-                                      3: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) [R5/30] ((gensym "WHILE")) ]
-[ 3]   1 : RETURN_VAL
-                                      2: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ((gensym "WHILE")) ]
-[ 2]  30 : LABEL	"R5"
-                                      2: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ((gensym "WHILE")) ]
-[ 2]  31 : GLOBAL_GET	append
-                                      3: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ((gensym "WHILE")) [Closure/core:append] ]
-[ 3]  32 : JMP_CLOSURE	2
-                                      2: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))) ((gensym "WHILE")) ]
-[ 2]   0 : CALL_PRIMOP	"append"
-                                      1: [ ((lambda (loop) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))) (gensym "WHILE")) ]
-[ 1]   1 : RETURN_VAL
-Executing:  
-	CODE BLOCK # 66 ; () => ((defmacro while (test . body) (let ((loop (gensym "WHILE"))) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))))
-	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	()
-	2	RETURN_VAL
-
-                                      0: [  ]
-[ 0]   0 : MAKE_ENV	0	; ()
-                                      0: [  ]
-[ 0]   1 : PUSH_CONST	()
-                                      1: [ () ]
-[ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 Executing:  
 	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
@@ -908,7 +747,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))) (car test) (cadr test) (caddr test) (car (cdddr test))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 69 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK # 66 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -1087,7 +926,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)) (car pars) (cadr pars)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 72 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK # 69 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -1248,7 +1087,7 @@ Executing:
                                       1: [ (begin (set! first car) (quote first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 73 ; () => ((define first car))
+	CODE BLOCK # 70 ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -1418,7 +1257,7 @@ Executing:
                                       1: [ (begin (set! second cadr) (quote second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 74 ; () => ((define second cadr))
+	CODE BLOCK # 71 ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -1588,7 +1427,7 @@ Executing:
                                       1: [ (begin (set! third caddr) (quote third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 75 ; () => ((define third caddr))
+	CODE BLOCK # 72 ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -1758,7 +1597,7 @@ Executing:
                                       1: [ (begin (set! rest cdr) (quote rest)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 76 ; () => ((define rest cdr))
+	CODE BLOCK # 73 ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -1928,7 +1767,7 @@ Executing:
                                       1: [ (begin (set! after-first cdr) (quote after-first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 77 ; () => ((define after-first cdr))
+	CODE BLOCK # 74 ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -2098,7 +1937,7 @@ Executing:
                                       1: [ (begin (set! after-second cddr) (quote after-second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 78 ; () => ((define after-second cddr))
+	CODE BLOCK # 75 ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -2268,7 +2107,7 @@ Executing:
                                       1: [ (begin (set! after-third cdddr) (quote after-third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 79 ; () => ((define after-third cdddr))
+	CODE BLOCK # 76 ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -2598,9 +2437,9 @@ Executing:
                                       1: [ (begin (set! fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) (quote fold-left)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 81 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK # 78 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #80 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
@@ -2609,7 +2448,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #80 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-left
                                       1: [ [Closure] ]
@@ -2928,9 +2767,9 @@ Executing:
                                       1: [ (begin (set! fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) (quote fold-right)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 83 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK # 80 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #82 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
@@ -2939,7 +2778,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #82 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-right
                                       1: [ [Closure] ]
@@ -3122,9 +2961,9 @@ Executing:
 	2	GLOBAL_GET	package-set
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	(let let* letrec define and or cond case while for dotimes first second third rest after-first after-second after-third fold-left fold-right)
+	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
 	3	JMP_CLOSURE	1
 
@@ -3612,73 +3451,7 @@ Executing:
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 64 ; (loop) => ((list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))
-	0	MAKE_ENV	1	; (loop)
-	1	PUSH_CONST	letrec
-	2	SAVE_RETURN	"R1"	41
-	3	SAVE_RETURN	"R2"	38
-	4	LOCAL_GET	0	0	; loop
-	5	SAVE_RETURN	"R3"	35
-	6	PUSH_CONST	lambda
-	7	PUSH_CONST	()
-	8	SAVE_RETURN	"R4"	32
-	9	PUSH_CONST	if
-	10	LOCAL_GET	1	0	; test
-	11	SAVE_RETURN	"R5"	29
-	12	SAVE_RETURN	"R6"	16
-	13	PUSH_CONST	begin
-	14	GLOBAL_GET	list
-	15	JMP_CLOSURE	1
-16	LABEL	"R6"
-	17	LOCAL_GET	1	1	; body
-	18	SAVE_RETURN	"R7"	26
-	19	SAVE_RETURN	"R8"	23
-	20	LOCAL_GET	0	0	; loop
-	21	GLOBAL_GET	list
-	22	JMP_CLOSURE	1
-23	LABEL	"R8"
-	24	GLOBAL_GET	list
-	25	JMP_CLOSURE	1
-26	LABEL	"R7"
-	27	GLOBAL_GET	append
-	28	JMP_CLOSURE	3
-29	LABEL	"R5"
-	30	GLOBAL_GET	list
-	31	JMP_CLOSURE	3
-32	LABEL	"R4"
-	33	GLOBAL_GET	list
-	34	JMP_CLOSURE	3
-35	LABEL	"R3"
-	36	GLOBAL_GET	list
-	37	JMP_CLOSURE	2
-38	LABEL	"R2"
-	39	GLOBAL_GET	list
-	40	JMP_CLOSURE	1
-41	LABEL	"R1"
-	42	SAVE_RETURN	"R9"	46
-	43	LOCAL_GET	0	0	; loop
-	44	GLOBAL_GET	list
-	45	JMP_CLOSURE	1
-46	LABEL	"R9"
-	47	GLOBAL_GET	list
-	48	JMP_CLOSURE	3
-
-	CODE BLOCK # 65 ; (test body) => ((let ((loop (gensym "WHILE"))) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop))))
-	0	MAKE_ENVDOT	1	; (test body)
-	1	SAVE_RETURN	"R0"	5
-	2	PUSH_CONST	"WHILE"
-	3	GLOBAL_GET	gensym
-	4	JMP_CLOSURE	1
-5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #64 : ((list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))
-	7	JMP_CLOSURE	1
-
-	CODE BLOCK # 66 ; () => ((defmacro while (test . body) (let ((loop (gensym "WHILE"))) (list (quote letrec) (list (list loop (list (quote lambda) (quote ()) (list (quote if) test (append (list (quote begin)) body (list (list loop))))))) (list loop)))))
-	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	()
-	2	RETURN_VAL
-
-	CODE BLOCK # 67 ; (varname init-value predicate step-value) => ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	CODE BLOCK # 64 ; (varname init-value predicate step-value) => ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	0	MAKE_ENV	4	; (varname init-value predicate step-value)
 	1	PUSH_CONST	let
 	2	SAVE_RETURN	"R5"	11
@@ -3720,7 +3493,7 @@ Executing:
 	38	GLOBAL_GET	list
 	39	JMP_CLOSURE	3
 
-	CODE BLOCK # 68 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
+	CODE BLOCK # 65 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 	0	MAKE_ENVDOT	1	; (test body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; test
@@ -3746,15 +3519,15 @@ Executing:
 	22	GLOBAL_GET	car
 	23	JMP_CLOSURE	1
 24	LABEL	"R3"
-	25	MAKE_CLOSURE	[Closure]	; #67 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	25	MAKE_CLOSURE	[Closure]	; #64 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	26	JMP_CLOSURE	4
 
-	CODE BLOCK # 69 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK # 66 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 70 ; (varname count) => ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+	CODE BLOCK # 67 ; (varname count) => ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
 	0	MAKE_ENV	2	; (varname count)
 	1	SAVE_RETURN	"R2"	5
 	2	PUSH_CONST	for
@@ -3789,7 +3562,7 @@ Executing:
 	31	GLOBAL_GET	append
 	32	JMP_CLOSURE	3
 
-	CODE BLOCK # 71 ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
+	CODE BLOCK # 68 ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 	0	MAKE_ENVDOT	1	; (pars body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; pars
@@ -3801,15 +3574,15 @@ Executing:
 	8	GLOBAL_GET	cadr
 	9	JMP_CLOSURE	1
 10	LABEL	"R1"
-	11	MAKE_CLOSURE	[Closure]	; #70 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+	11	MAKE_CLOSURE	[Closure]	; #67 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
 	12	JMP_CLOSURE	2
 
-	CODE BLOCK # 72 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK # 69 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 73 ; () => ((define first car))
+	CODE BLOCK # 70 ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -3817,7 +3590,7 @@ Executing:
 	4	PUSH_CONST	first
 	5	RETURN_VAL
 
-	CODE BLOCK # 74 ; () => ((define second cadr))
+	CODE BLOCK # 71 ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -3825,7 +3598,7 @@ Executing:
 	4	PUSH_CONST	second
 	5	RETURN_VAL
 
-	CODE BLOCK # 75 ; () => ((define third caddr))
+	CODE BLOCK # 72 ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -3833,7 +3606,7 @@ Executing:
 	4	PUSH_CONST	third
 	5	RETURN_VAL
 
-	CODE BLOCK # 76 ; () => ((define rest cdr))
+	CODE BLOCK # 73 ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -3841,7 +3614,7 @@ Executing:
 	4	PUSH_CONST	rest
 	5	RETURN_VAL
 
-	CODE BLOCK # 77 ; () => ((define after-first cdr))
+	CODE BLOCK # 74 ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -3849,7 +3622,7 @@ Executing:
 	4	PUSH_CONST	after-first
 	5	RETURN_VAL
 
-	CODE BLOCK # 78 ; () => ((define after-second cddr))
+	CODE BLOCK # 75 ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -3857,7 +3630,7 @@ Executing:
 	4	PUSH_CONST	after-second
 	5	RETURN_VAL
 
-	CODE BLOCK # 79 ; () => ((define after-third cdddr))
+	CODE BLOCK # 76 ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -3865,7 +3638,7 @@ Executing:
 	4	PUSH_CONST	after-third
 	5	RETURN_VAL
 
-	CODE BLOCK # 80 ; (fn base lst) => ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	CODE BLOCK # 77 ; (fn base lst) => ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	0	MAKE_ENV	3	; (fn base lst)
 	1	SAVE_RETURN	"R0"	10
 	2	SAVE_RETURN	"R1"	6
@@ -3900,15 +3673,15 @@ Executing:
 	31	GLOBAL_GET	fold-left
 	32	JMP_CLOSURE	3
 
-	CODE BLOCK # 81 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK # 78 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #80 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
 	5	RETURN_VAL
 
-	CODE BLOCK # 82 ; (fn base lst) => ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	CODE BLOCK # 79 ; (fn base lst) => ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	0	MAKE_ENV	3	; (fn base lst)
 	1	SAVE_RETURN	"R0"	10
 	2	SAVE_RETURN	"R1"	6
@@ -3943,9 +3716,9 @@ Executing:
 	31	LOCAL_GET	0	0	; fn
 	32	JMP_CLOSURE	2
 
-	CODE BLOCK # 83 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK # 80 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #82 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right

@@ -44,14 +44,15 @@ Values are of type `Val` and can be of the following types:
 -  ReturnAddress - non-inspectable saved continuation
 
 Small set of reserved keywords - everything else is a valid symbol
--  quote
--  begin
--  set!
--  if
--  if*
--  lambda
--  defmacro
--  .
+-  `begin` - used for a block of expressions, the result of the last one is returned
+-  `set!` - destructively reassigns the specified local or global symbol
+-  `if` - standard if statement, evaluates a predicate and then/else clauses
+-  `if*` - disjunctive test, evaluates a predicate and if the result is false, evaluates the rest
+-  `while` - standard while loop, unlike in other lisps this one is promoted to a reserved keyword and produces optimized bytecode
+-  `lambda` - standard closure definition
+-  `defmacro` - macros which are lisp snippets that are evaluated at compilation time, and produce more code
+-  `quote` - a quoted expression evaluates to itself
+-  `.`
 
 Tail calls get optimized during compilation, without any language hints
 ```lisp
@@ -59,8 +60,14 @@ Tail calls get optimized during compilation, without any language hints
   (rec 1000000) ;; look ma, no stack overflow!
 ```
 
-Quotes, quasiquotes and unquotes are supported in the Lisp fashion:
+But of course you can also do standard boring iteration
+```lisp
+  (define (iter x) (while (> x 0) (set! x (- x 1))))
+  (iter 1000000) ;; no malloc, no stack pressure
 ```
+
+Quotes, quasiquotes and unquotes are supported in the Lisp fashion:
+```lisp
   'x                 ;; => 'x
   `x                 ;; => 'x
   `,x                ;; => x
@@ -120,7 +127,8 @@ Built-in primitives are very bare bones (for now):
 -  Macros
   -  let let* letrec define
   -  and or cond case
-
+  -  for dotimes
+  
 
 
 ##### TODOS
