@@ -14,7 +14,7 @@ namespace CSLisp.Data
     /// By using a tagged struct we avoid the need to box value types.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public struct Val : IEquatable<Val>
+    public readonly struct Val : IEquatable<Val>
     {
         public enum Type : int
         {
@@ -34,21 +34,23 @@ namespace CSLisp.Data
         }
 
         // value types need to live at a separate offset from reference types
-        [FieldOffset(0)] public ulong rawvalue;
-        [FieldOffset(0)] public bool vbool;
-        [FieldOffset(0)] public int vint;
-        [FieldOffset(0)] public float vfloat;
+        [FieldOffset(0)] public readonly ulong rawvalue;
+        [FieldOffset(0)] public readonly bool vbool;
+        [FieldOffset(0)] public readonly int vint;
+        [FieldOffset(0)] public readonly float vfloat;
 
-        [FieldOffset(8)] public string vstring;
-        [FieldOffset(8)] public object rawobject;
-        [FieldOffset(8)] public Symbol vsymbol;
-        [FieldOffset(8)] public Cons vcons;
-        [FieldOffset(8)] public Closure vclosure;
-        [FieldOffset(8)] public ReturnAddress vreturn;
+        [FieldOffset(8)] public readonly string vstring;
+        [FieldOffset(8)] public readonly object rawobject;
+        [FieldOffset(8)] public readonly Symbol vsymbol;
+        [FieldOffset(8)] public readonly Cons vcons;
+        [FieldOffset(8)] public readonly Closure vclosure;
+        [FieldOffset(8)] public readonly ReturnAddress vreturn;
 
-        [FieldOffset(16)] public Type type;
+        [FieldOffset(16)] public readonly Type type;
 
-        public static readonly Val NIL = new Val() { type = Type.Nil };
+        public static readonly Val NIL = new Val(Type.Nil);
+
+        private Val (Type type) : this() { this.type = type; }
 
         public Val (bool value) : this() { type = Type.Bool; vbool = value; }
         public Val (int value) : this() { type = Type.Int; vint = value; }

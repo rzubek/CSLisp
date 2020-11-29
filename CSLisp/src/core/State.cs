@@ -8,7 +8,7 @@ namespace CSLisp.Core
     /// <summary>
     /// Virtual machine state
     /// </summary>
-    public class State
+    public sealed class State
     {
         /// <summary> Closure containing current code block </summary>
         public Closure fn = null;
@@ -39,14 +39,23 @@ namespace CSLisp.Core
         public void Push (Val v) => stack.Add(v);
 
         public Val Pop () {
-            Val result = Peek();
-            stack.RemoveAt(stack.Count - 1);
-            return result;
+            var count = stack.Count;
+            if (count > 0) {
+                var result = stack[count - 1];
+                stack.RemoveAt(count - 1);
+                return result;
+            }
+
+            throw new LanguageError("Stack underflow!");
         }
 
         public Val Peek () {
-            if (stack.Count == 0) { throw new LanguageError("Stack underflow!"); }
-            return stack[stack.Count - 1];
+            var count = stack.Count;
+            if (count > 0) {
+                return stack[count - 1];
+            }
+
+            throw new LanguageError("Stack underflow!");
         }
 
         internal static string PrintStack (State st) =>
