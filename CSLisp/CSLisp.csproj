@@ -56,6 +56,7 @@
     <Compile Include="src\core\Primitives.cs" />
     <Compile Include="src\core\ReturnAddress.cs" />
     <Compile Include="src\core\State.cs" />
+    <Compile Include="src\core\TypeUtils.cs" />
     <Compile Include="src\data\Val.cs" />
     <Compile Include="src\data\Closure.cs" />
     <Compile Include="src\data\Cons.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="src\data\Packages.cs" />
     <Compile Include="src\data\Symbol.cs" />
     <Compile Include="src\error\CompilerError.cs" />
+    <Compile Include="src\error\InteropError.cs" />
     <Compile Include="src\error\LanguageError.cs" />
     <Compile Include="src\error\ParserError.cs" />
     <Compile Include="src\libs\Libraries.cs" />

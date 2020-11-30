@@ -1,5 +1,6 @@
 using CSLisp.Data;
 using CSLisp.Error;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,24 +9,6 @@ namespace CSLisp.Core
     public class Primitives
     {
         private static int _gensymIndex = 1;
-
-        ///// <summary> Performs a left fold on the array: +, 0, [1, 2, 3] => (((0 + 1) + 2) + 3) </summary>
-        private static Val FoldLeft (System.Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
-            var result = baseElement;
-            for (int i = 0, len = elements.Count; i < len; i++) {
-                result = fn(result, elements[i]);
-            }
-            return result;
-        }
-
-        ///// <summary> Performs a right fold on the array: +, 0, [1, 2, 3] => (1 + (2 + (3 + 0))) </summary>
-        private static Val FoldRight (System.Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
-            var result = baseElement;
-            for (int i = elements.Count - 1; i >= 0; i--) {
-                result = fn(elements[i], result);
-            }
-            return result;
-        }
 
         private static Dictionary<string, List<Primitive>> ALL_PRIMITIVES_DICT = new Dictionary<string, List<Primitive>>();
         private static readonly List<Primitive> ALL_PRIMITIVES_VECTOR = new List<Primitive>() {
@@ -87,7 +70,7 @@ namespace CSLisp.Core
 			
 			// helpers
 			new Primitive("trace", 1, new Function((Context ctx, List<Val> args) => {
-                System.Console.WriteLine(string.Join(" ", args.Select(val => Val.Print(val))));
+                Console.WriteLine(string.Join(" ", args.Select(val => Val.Print(val))));
                 return Val.NIL;
             }), FnType.VarArgs, SideFx.Possible),
 
@@ -133,6 +116,29 @@ namespace CSLisp.Core
                 return Cons.MakeList(exports);
             }), sideFx: SideFx.Possible),
 
+            // .net interop
+
+            // (find-type 'System.Random) or (find-type "System.Random")
+            new Primitive("find-type", 1, new Function((Context ctx, Val name) => {
+                string fullname = GetStringOrSymbolName(name);
+                return MakeValOrNil(TypeUtils.GetType(fullname));
+            })),
+
+            // (find-members 'System.Random 'NextDouble) or (find-members (find-type 'System.Random) 'NextDouble)
+            // or strings instead of symbols. 
+            new Primitive("find-methods", 3, new Function((Context ctx, Val nameOrType, Val memberName, Val argCount) => {
+                Type type = ParseNameOrType(nameOrType);
+                string member = GetStringOrSymbolName(memberName);
+                var methods = TypeUtils.GetMethodsByArgCount(type, member, argCount.AsInt);
+                return Cons.MakeListFromNative(methods);
+            })),
+
+            // (make-instance 'System.Random) or (make-instance "System.Random" 0) etc
+            new Primitive("make-instance", 1, new Function((Context ctx, List<Val> args) => {
+                ParseArgsForInterop(args, out Val nameOrType, out object[] varargs);
+                var type = ParseNameOrType(nameOrType);
+                return MakeValOrNil(TypeUtils.Instantiate(type, varargs));
+            }), FnType.VarArgs, SideFx.Possible),
         };
 
 
@@ -140,9 +146,10 @@ namespace CSLisp.Core
         /// If f is a symbol that refers to a primitive, and it's not shadowed in the local environment,
         /// returns an appropriate instance of Primitive for that argument count.
         /// </summary>
-        public static Primitive FindGlobal (Val f, Environment env, int nargs) => (f.IsSymbol && (Environment.GetVariable(f.AsSymbol, env).IsNotValid))
-                ? FindNary(f.AsSymbol.name, nargs)
-                : null;
+        public static Primitive FindGlobal (Val f, Data.Environment env, int nargs) =>
+            (f.IsSymbol && Data.Environment.GetVariable(f.AsSymbol, env).IsNotValid) ?
+            FindNary(f.AsSymbol.name, nargs) :
+            null;
 
         /// <summary> Helper function, searches based on name and argument count </summary>
         public static Primitive FindNary (string symbol, int nargs) {
@@ -243,17 +250,22 @@ namespace CSLisp.Core
             return head;
         }
 
-        /// <summary> Collapses a native path (expressed as a Cons list) into a fully qualified name </summary>
-        private static string CollapseIntoNativeName (Cons path) {
-            string name = "";
-            while (path != null) {
-                if (name.Length > 0) {
-                    name += ".";
-                }
-                name += (path.first.AsSymbol).name;
-                path = path.rest.AsCons;
+        ///// <summary> Performs a left fold on the array: +, 0, [1, 2, 3] => (((0 + 1) + 2) + 3) </summary>
+        private static Val FoldLeft (Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
+            var result = baseElement;
+            for (int i = 0, len = elements.Count; i < len; i++) {
+                result = fn(result, elements[i]);
             }
-            return name;
+            return result;
+        }
+
+        ///// <summary> Performs a right fold on the array: +, 0, [1, 2, 3] => (1 + (2 + (3 + 0))) </summary>
+        private static Val FoldRight (Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
+            var result = baseElement;
+            for (int i = elements.Count - 1; i >= 0; i--) {
+                result = fn(elements[i], result);
+            }
+            return result;
         }
 
         private static Val ValAdd (Val a, Val b) {
@@ -284,5 +296,47 @@ namespace CSLisp.Core
         private static Val ValLTE (Val a, Val b) => a.CastToFloat <= b.CastToFloat;
         private static Val ValGT (Val a, Val b) => a.CastToFloat > b.CastToFloat;
         private static Val ValGTE (Val a, Val b) => a.CastToFloat >= b.CastToFloat;
+
+        //
+        // helpers for .net interop
+
+        /// <summary> Convert an object to a val, or to a nil </summary>
+        private static Val MakeValOrNil (object value) => value == null ? Val.NIL : new Val(value);
+
+        /// <summary> Extract a name from either the symbol or the string value of a val </summary>
+        private static string GetStringOrSymbolName (Val v) => v.AsStringOrNull ?? v.AsSymbolOrNull?.name;
+
+        /// <summary>
+        /// Extract a .net type descriptor from the argument, which could be either the type itself
+        /// wrapped in a val, or a fully-qualified name, either as a symbol or a string
+        /// </summary>
+        private static Type ParseNameOrType (Val nameOrType) {
+            if (nameOrType.IsObject && nameOrType.AsObject is Type t) { return t; }
+            return TypeUtils.GetType(GetStringOrSymbolName(nameOrType));
+        }
+
+        /// <summary>
+        /// Given a list of args (during a function call), parse out the first one as the name,
+        /// and convert the rest into an object array suitable for passing through reflection.
+        /// </summary>
+        private static void ParseArgsForInterop (List<Val> args, out Val first, out object[] varargs) {
+            Cons list = Cons.MakeList(args).AsConsOrNull;
+            first = list?.first ?? Val.NIL;
+
+            Cons varArgsList = list?.rest.AsConsOrNull;
+            varargs = varArgsList?.ToNativeList().Select(v => v.AsBoxedValue).ToArray() ?? new object[0];
+        }
+
+        /// <summary> Collapses a native path (expressed as a Cons list) into a fully qualified name </summary>
+        private static string CollapseIntoNativeName (Cons path) {
+            string name = "";
+            while (path != null) {
+                if (name.Length > 0) { name += "."; }
+                name += (path.first.AsSymbol).name;
+                path = path.rest.AsCons;
+            }
+            return name;
+        }
+
     }
 }

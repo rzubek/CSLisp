@@ -93,6 +93,25 @@ namespace CSLisp.Data
         public Cons AsConsOrNull => type == Type.Cons ? vcons : null;
         public Closure AsClosureOrNull => type == Type.Closure ? vclosure : null;
 
+        public object AsBoxedValue {
+            get {
+                switch (type) {
+                    case Type.Nil: return null;
+                    case Type.Bool: return vbool;
+                    case Type.Int: return vint;
+                    case Type.Float: return vfloat;
+                    case Type.String: return vstring;
+                    case Type.Symbol: return vsymbol;
+                    case Type.Cons: return vcons;
+                    case Type.Closure: return vclosure;
+                    case Type.ReturnAddress: return vreturn;
+                    case Type.Object: return rawobject;
+                    default:
+                        throw new LanguageError("Unexpected value type: " + type);
+                }
+            }
+        }
+
         public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil);
         public float CastToFloat =>
             (type == Type.Int) ? vint :
@@ -154,8 +173,11 @@ namespace CSLisp.Data
                     return string.IsNullOrEmpty(val.vclosure.name) ? "[Closure]" : $"[Closure/{val.vclosure.name}]";
                 case Type.ReturnAddress:
                     return $"[{val.vreturn.debug}/{val.vreturn.pc}]";
-                case Type.Object:
-                    return $"[Native {val.rawobject}]";
+                case Type.Object: {
+                        var typedesc = val.rawobject == null ? "null" :
+                            val.rawobject.GetType().ToString() + " " + val.rawobject.ToString();
+                        return $"[Native {typedesc}]";
+                    }
                 default:
                     throw new CompilerError("Unexpected value type: " + val.type);
             }

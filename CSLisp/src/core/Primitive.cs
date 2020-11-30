@@ -7,6 +7,7 @@ namespace CSLisp.Core
     public delegate Val FnThunk (Context ctx);
     public delegate Val FnUnary (Context ctx, Val a);
     public delegate Val FnBinary (Context ctx, Val a, Val b);
+    public delegate Val FnTernary (Context ctx, Val a, Val b, Val c);
     public delegate Val FnVarArg (Context ctx, List<Val> args);
 
     /// <summary>
@@ -19,11 +20,13 @@ namespace CSLisp.Core
         public FnThunk fnThunk;
         public FnUnary fnUnary;
         public FnBinary fnBinary;
+        public FnTernary fnTernary;
         public FnVarArg fnVarArg;
 
         public Function (FnThunk fn) { fnThunk = fn; }
         public Function (FnUnary fn) { fnUnary = fn; }
         public Function (FnBinary fn) { fnBinary = fn; }
+        public Function (FnTernary fn) { fnTernary = fn; }
         public Function (FnVarArg fn) { fnVarArg = fn; }
 
         public Val Call (Context ctx) {
@@ -51,6 +54,16 @@ namespace CSLisp.Core
                 return fnBinary(ctx, a, b);
             } else if (fnVarArg != null) {
                 return fnVarArg(ctx, new List<Val>() { a, b });
+            } else {
+                throw new LanguageError("Primitive function call of incorrect binary arity");
+            }
+        }
+
+        public Val Call (Context ctx, Val a, Val b, Val c) {
+            if (fnTernary != null) {
+                return fnTernary(ctx, a, b, c);
+            } else if (fnVarArg != null) {
+                return fnVarArg(ctx, new List<Val>() { a, b, c });
             } else {
                 throw new LanguageError("Primitive function call of incorrect binary arity");
             }
@@ -116,6 +129,12 @@ namespace CSLisp.Core
                         Val second = state.Pop();
                         Val first = state.Pop();
                         return fn.Call(ctx, first, second);
+                    }
+                case 3: {
+                        Val third = state.Pop();
+                        Val second = state.Pop();
+                        Val first = state.Pop();
+                        return fn.Call(ctx, first, second, third);
                     }
                 default: {
                         List<Val> args = RemoveArgsFromStack(state, argn);

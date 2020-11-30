@@ -55,6 +55,9 @@ namespace CSLisp.Data
         /// List must have enough elements, otherwise an error will be thrown. </summary>
         public Val GetNthTail (int n) => GetNthCons(n).rest;
 
+        /// <summary> Helper function: converts a cons list into a native list </summary>
+        public List<Val> ToNativeList () => ToNativeList(new Val(this));
+
 
         /// <summary> 
 		/// Helper function: converts an array of arguments to a cons list.
@@ -75,6 +78,24 @@ namespace CSLisp.Data
                 result = new Cons(values[i], result);
             }
             return result;
+        }
+
+        /// <summary> 
+        /// Helper function: converts an enumeration of native values to a proper (nil-terminated) cons list
+        /// </summary>
+        public static Val MakeListFromNative<T> (IEnumerable<T> values) {
+            Cons first = null, last = null;
+            foreach (T value in values) {
+                var newcell = new Cons(new Val(value), Val.NIL);
+                if (first == null) {
+                    first = newcell;
+                } else {
+                    last.rest = newcell;
+                }
+                last = newcell;
+            }
+
+            return first ?? Val.NIL;
         }
 
         /// <summary> Helper function: converts a single value to a cons list. </summary>
