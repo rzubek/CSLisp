@@ -3,6 +3,7 @@ using CSLisp.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace CSLisp.Core
 {
@@ -124,19 +125,31 @@ namespace CSLisp.Core
                 return MakeValOrNil(TypeUtils.GetType(fullname));
             })),
 
-            // (find-members 'System.Random 'NextDouble) or (find-members (find-type 'System.Random) 'NextDouble)
-            // or strings instead of symbols. 
-            new Primitive("find-methods", 3, new Function((Context ctx, Val nameOrType, Val memberName, Val argCount) => {
-                Type type = ParseNameOrType(nameOrType);
-                string member = GetStringOrSymbolName(memberName);
-                var methods = TypeUtils.GetMethodsByArgCount(type, member, argCount.AsInt);
-                return Cons.MakeListFromNative(methods);
-            })),
+            // (find-method 'System.Random 'Next 1 2)  or (find-method "System.Random" "NextDouble")
+            // or (find-method (find-type 'System.Random) 'Next) etc
+            new Primitive("find-method", 2, new Function((Context ctx, List<Val> args) => {
+                if (args.Count < 2) { return Val.NIL; }
+                ParseArgsForMethodSearch(args, out Type type, out string member, out object[] varargs);
+                
+                var method = TypeUtils.GetMethodByArgs(type, member, varargs);
+                return new Val(method);
+
+            }), FnType.VarArgs, SideFx.Possible),
+
+            // (call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random) 1 32)
+            new Primitive ("call-method", 2, new Function((Context ctx, List<Val> args) => {
+                ParseArgsForMethodCall(args, out MethodInfo method, out object instance, out object[] varargs);
+
+                if (method == null) { return Val.NIL; }
+                var result = method.Invoke(instance, varargs);
+
+                return new Val(result);
+
+            }), FnType.VarArgs, SideFx.Possible),
 
             // (make-instance 'System.Random) or (make-instance "System.Random" 0) etc
             new Primitive("make-instance", 1, new Function((Context ctx, List<Val> args) => {
-                ParseArgsForInterop(args, out Val nameOrType, out object[] varargs);
-                var type = ParseNameOrType(nameOrType);
+                ParseArgsForConstructorInterop(args, out Type type, out object[] varargs);
                 return MakeValOrNil(TypeUtils.Instantiate(type, varargs));
             }), FnType.VarArgs, SideFx.Possible),
         };
@@ -316,23 +329,54 @@ namespace CSLisp.Core
         }
 
         /// <summary>
-        /// Given a list of args (during a function call), parse out the first one as the name,
+        /// Given a list of args (during a new instance call), parse out the first one as the class name,
         /// and convert the rest into an object array suitable for passing through reflection.
         /// </summary>
-        private static void ParseArgsForInterop (List<Val> args, out Val first, out object[] varargs) {
+        private static void ParseArgsForConstructorInterop (List<Val> args, out Type type, out object[] varargs) {
             Cons list = Cons.MakeList(args).AsConsOrNull;
-            first = list?.first ?? Val.NIL;
+            Val first = list?.first ?? Val.NIL;
 
-            Cons varArgsList = list?.rest.AsConsOrNull;
-            varargs = varArgsList?.ToNativeList().Select(v => v.AsBoxedValue).ToArray() ?? new object[0];
+            type = ParseNameOrType(first);
+            varargs = TurnConsIntoBoxedArray(list?.rest);
         }
+
+        /// <summary>
+        /// Given a list of args (during a method search), parse out the first one as the name class,
+        /// second as method name, and convert the rest into an object array suitable for passing through reflection.
+        /// </summary>
+        private static void ParseArgsForMethodSearch (List<Val> args, out Type type, out string member, out object[] varargs) {
+            Cons list = Cons.MakeList(args).AsConsOrNull;
+            Val first = list?.first ?? Val.NIL;
+            Val second = list?.second ?? Val.NIL;
+
+            type = ParseNameOrType(first);
+            member = GetStringOrSymbolName(second);
+            varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+        }
+
+        /// <summary>
+        /// Given a list of args (for a function call), parse out the first one as the name class,
+        /// second as method name, and convert the rest into an object array suitable for passing through reflection.
+        /// </summary>
+        private static void ParseArgsForMethodCall (List<Val> args, out MethodInfo method, out object instance, out object[] varargs) {
+            Cons list = Cons.MakeList(args).AsConsOrNull;
+            Val first = list?.first ?? Val.NIL;
+            Val second = list?.second ?? Val.NIL;
+
+            method = first.GetObjectOrNull<MethodInfo>();
+            instance = second.AsObjectOrNull;
+            varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+        }
+
+        private static object[] TurnConsIntoBoxedArray (Val? cons) =>
+            cons?.AsConsOrNull?.ToNativeList().Select(v => v.AsBoxedValue).ToArray() ?? new object[0];
 
         /// <summary> Collapses a native path (expressed as a Cons list) into a fully qualified name </summary>
         private static string CollapseIntoNativeName (Cons path) {
             string name = "";
             while (path != null) {
                 if (name.Length > 0) { name += "."; }
-                name += (path.first.AsSymbol).name;
+                name += path.first.AsSymbol.name;
                 path = path.rest.AsCons;
             }
             return name;

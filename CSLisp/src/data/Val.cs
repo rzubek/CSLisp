@@ -1,6 +1,7 @@
 ﻿using CSLisp.Core;
 using CSLisp.Error;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -13,6 +14,7 @@ namespace CSLisp.Data
     ///
     /// By using a tagged struct we avoid the need to box value types.
     /// </summary>
+    [DebuggerDisplay("{DebugString}")]
     [StructLayout(LayoutKind.Explicit)]
     public readonly struct Val : IEquatable<Val>
     {
@@ -92,6 +94,10 @@ namespace CSLisp.Data
         public Symbol AsSymbolOrNull => type == Type.Symbol ? vsymbol : null;
         public Cons AsConsOrNull => type == Type.Cons ? vcons : null;
         public Closure AsClosureOrNull => type == Type.Closure ? vclosure : null;
+        public object AsObjectOrNull => type == Type.Object ? rawobject : null;
+
+        public T GetObjectOrNull<T> () where T : class =>
+            type == Type.Object && rawobject is T obj ? obj : null;
 
         public object AsBoxedValue {
             get {
@@ -148,6 +154,7 @@ namespace CSLisp.Data
         public override bool Equals (object obj) => (obj is Val val) && Equals(val, this);
         public override int GetHashCode () => (int) type ^ (rawobject != null ? rawobject.GetHashCode() : ((int) rawvalue));
 
+        private string DebugString => $"{Print(this, false)} [{type}]";
         public override string ToString () => Print(this, true);
 
         public static string DebugPrint (Val val) => Print(val, false);

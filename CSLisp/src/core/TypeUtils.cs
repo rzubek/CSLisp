@@ -1,4 +1,5 @@
-﻿using CSLisp.Error;
+﻿using CSLisp.Data;
+using CSLisp.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,35 +126,18 @@ namespace CSLisp.Core
         /// <summary>
         /// Returns public methods on a type that match a specific name and signature
         /// </summary>
-        public static IEnumerable<MethodInfo> GetMethodsBySig (Type type, string name, params Type[] args) =>
-            GetMembers(type)
+        public static MethodBase GetMethodByArgs (Type type, string name, object[] varargs) {
+            var varargTypes = varargs.Select(a => a?.GetType() ?? typeof(object)).ToArray();
+            var methods = GetMembers(type)
                 .OfType<MethodInfo>()
-                .Where(m => {
-                    if (m.Name != name) { return false; }
+                .Where(m => m.Name == name)
+                .ToArray();
 
-                    var parameters = m.GetParameters();
-                    int argCount = args?.Length ?? 0, methodCount = parameters?.Length ?? 0;
+            var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.CreateInstance;
 
-                    if (argCount != methodCount) { return false; }
+            var result = Type.DefaultBinder.SelectMethod(flags, methods, varargTypes, null);
 
-                    for (int i = 0; i < argCount; i++) {
-                        if (parameters[i].ParameterType != args[i]) { return false; }
-                    }
-
-                    return true;
-                });
-
-        /// <summary>
-        /// Returns public methods on a type that match a specific name and signature
-        /// </summary>
-        public static IEnumerable<MethodInfo> GetMethodsByArgCount (Type type, string name, int argCount) =>
-            GetMembers(type)
-                .OfType<MethodInfo>()
-                .Where(m => {
-                    if (m.Name != name) { return false; }
-                    if (m.GetParameters().Length != argCount) { return false; }
-
-                    return true;
-                });
+            return result;
+        }
     }
 }
