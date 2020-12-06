@@ -1,14 +1,35 @@
 using CSLisp.Data;
 using CSLisp.Error;
+using System;
 using System.Collections.Generic;
 
 namespace CSLisp.Core
 {
+    /// <summary>
+    /// Special wrapper around cons for primitive invocations,
+    /// so that we avoid ambiguiting with passing in Vals
+    /// </summary>
+    public struct VarArgs
+    {
+        public Cons cons;
+
+        public VarArgs (Cons cons) { this.cons = cons; }
+
+        public bool IsCons => cons != null;
+        public bool IsNull => cons == null;
+
+        public Val AsVal => cons != null ? cons : Val.NIL;
+
+        public List<Val> ToNativeList () => Cons.ToNativeList(AsVal);
+
+        public static implicit operator VarArgs (Cons c) => new VarArgs(c);
+    }
+
     public delegate Val FnThunk (Context ctx);
     public delegate Val FnUnary (Context ctx, Val a);
     public delegate Val FnBinary (Context ctx, Val a, Val b);
     public delegate Val FnTernary (Context ctx, Val a, Val b, Val c);
-    public delegate Val FnVarArg (Context ctx, List<Val> args);
+    public delegate Val FnVarArg (Context ctx, VarArgs args);
 
     /// <summary>
     /// Holds a reference to a primitive function.
@@ -33,7 +54,7 @@ namespace CSLisp.Core
             if (fnThunk != null) {
                 return fnThunk(ctx);
             } else if (fnVarArg != null) {
-                return fnVarArg(ctx, new List<Val>());
+                return fnVarArg(ctx, null);
             } else {
                 throw new LanguageError("Primitive function call of incorrect zero arity");
             }
@@ -43,7 +64,7 @@ namespace CSLisp.Core
             if (fnUnary != null) {
                 return fnUnary(ctx, a);
             } else if (fnVarArg != null) {
-                return fnVarArg(ctx, new List<Val>() { a });
+                return fnVarArg(ctx, Cons.MakeList(a));
             } else {
                 throw new LanguageError("Primitive function call of incorrect unary arity");
             }
@@ -53,7 +74,7 @@ namespace CSLisp.Core
             if (fnBinary != null) {
                 return fnBinary(ctx, a, b);
             } else if (fnVarArg != null) {
-                return fnVarArg(ctx, new List<Val>() { a, b });
+                return fnVarArg(ctx, Cons.MakeList(a, b));
             } else {
                 throw new LanguageError("Primitive function call of incorrect binary arity");
             }
@@ -63,13 +84,13 @@ namespace CSLisp.Core
             if (fnTernary != null) {
                 return fnTernary(ctx, a, b, c);
             } else if (fnVarArg != null) {
-                return fnVarArg(ctx, new List<Val>() { a, b, c });
+                return fnVarArg(ctx, Cons.MakeList(a, b, c));
             } else {
                 throw new LanguageError("Primitive function call of incorrect binary arity");
             }
         }
 
-        public Val Call (Context ctx, List<Val> args) {
+        public Val Call (Context ctx, Cons args) {
             if (fnVarArg != null) {
                 return fnVarArg(ctx, args);
             } else {
@@ -100,8 +121,7 @@ namespace CSLisp.Core
         public readonly FnType argsType; // is this a function with exact or variable number of arguments?
         public readonly SideFx sideFx;   // does this primitive cause side effects? if so, it should never be optimized away
 
-        public Primitive (string name, int minargs, Function fn, FnType argsType = FnType.ConstArgs, SideFx sideFx = SideFx.None)
-        {
+        public Primitive (string name, int minargs, Function fn, FnType argsType = FnType.ConstArgs, SideFx sideFx = SideFx.None) {
             this.name = name;
             this.minargs = minargs;
             this.fn = fn;
@@ -137,19 +157,18 @@ namespace CSLisp.Core
                         return fn.Call(ctx, first, second, third);
                     }
                 default: {
-                        List<Val> args = RemoveArgsFromStack(state, argn);
+                        Cons args = RemoveArgsFromStack(state, argn);
                         return fn.Call(ctx, args);
                     }
             }
         }
 
-        private List<Val> RemoveArgsFromStack (State state, int count) {
-            List<Val> result = new List<Val>();
+        private Cons RemoveArgsFromStack (State state, int count) {
+            Val result = Val.NIL;
             for (int i = 0; i < count; i++) {
-                result.Add(state.Pop());
+                result = new Cons(state.Pop(), result);
             }
-            result.Reverse();
-            return result;
+            return result.AsConsOrNull;
         }
     }
 

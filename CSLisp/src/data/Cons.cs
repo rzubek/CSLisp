@@ -1,4 +1,5 @@
 using CSLisp.Error;
+using System;
 using System.Collections.Generic;
 
 namespace CSLisp.Data
@@ -101,8 +102,11 @@ namespace CSLisp.Data
         /// <summary> Helper function: converts a single value to a cons list. </summary>
         public static Cons MakeList (Val first) => new Cons(first, Val.NIL);
 
-        /// <summary> Helper function: converts a two-value pair to a cons list. </summary>
+        /// <summary> Helper function: converts two values to a cons list. </summary>
         public static Cons MakeList (Val first, Val second) => new Cons(first, new Cons(second, Val.NIL));
+
+        /// <summary> Helper function: converts three values to a cons list. </summary>
+        public static Cons MakeList (Val first, Val second, Val third) => new Cons(first, new Cons(second, new Cons(third, Val.NIL)));
 
         /// <summary> Helper function: converts a cons list into a native list </summary>
         public static List<Val> ToNativeList (Val element) {
@@ -126,6 +130,10 @@ namespace CSLisp.Data
 
         /// <summary> Returns true if the value is nil </summary>
         public static bool IsNil (Val value) => value.IsNil;
+
+        internal static object ToNativeList (object asVal) {
+            throw new NotImplementedException();
+        }
 
         /// <summary> Returns true if the value is a properly nil-terminated cons list </summary>
         public static bool IsList (Val value) {

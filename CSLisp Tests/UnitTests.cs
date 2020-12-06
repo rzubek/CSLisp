@@ -442,6 +442,15 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 (inc1 (inc1 1))))", "4");
             CompileAndRun(ctx, "(begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))", "(core:+ 1 (add 2 3))");
 
+            // test dot net interop
+            CompileAndRun(ctx, "(find-type 'System.Random)", "[Native System.RuntimeType System.Random]");
+            CompileAndRun(ctx, "(make-instance 'System.Random)", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(make-instance 'System.Random 0)", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(find-method 'System.Random 'Next)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]");
+            CompileAndRun(ctx, "(find-method 'System.Random 'Next 1)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]");
+            CompileAndRun(ctx, "(find-method 'System.Random 'Next 1 32)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]");
+            CompileAndRun(ctx, "(call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random 0) 1 32)", "23");
+
             //DumpCodeBlocks(ctx);
         }
 

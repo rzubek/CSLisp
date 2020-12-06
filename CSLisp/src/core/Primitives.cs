@@ -13,53 +13,54 @@ namespace CSLisp.Core
 
         private static Dictionary<string, List<Primitive>> ALL_PRIMITIVES_DICT = new Dictionary<string, List<Primitive>>();
         private static readonly List<Primitive> ALL_PRIMITIVES_VECTOR = new List<Primitive>() {
-            new Primitive("+", 2, new Function((ctx, a, b) => ValAdd(a, b))),
-            new Primitive("-", 2, new Function((ctx, a, b) => ValSub(a, b))),
-            new Primitive("*", 2, new Function((ctx, a, b) => ValMul(a, b))),
-            new Primitive("/", 2, new Function((ctx, a, b) => ValDiv(a, b))),
+            new Primitive("+", 2, new Function((Context ctx, Val a, Val b) => ValAdd(a, b))),
+            new Primitive("-", 2, new Function((Context ctx, Val a, Val b) => ValSub(a, b))),
+            new Primitive("*", 2, new Function((Context ctx, Val a, Val b) => ValMul(a, b))),
+            new Primitive("/", 2, new Function((Context ctx, Val a, Val b) => ValDiv(a, b))),
 
-            new Primitive("+", 3, new Function((Context ctx, List<Val> args) =>
+            new Primitive("+", 3, new Function((Context ctx, VarArgs args) =>
                 FoldLeft((a, b) => ValAdd(a, b), 0, args)), FnType.VarArgs),
-            new Primitive("*", 3, new Function((Context ctx, List<Val> args) =>
+            new Primitive("*", 3, new Function((Context ctx, VarArgs args) =>
                 FoldLeft((a, b) => ValMul(a, b), 1, args)), FnType.VarArgs),
 
-            new Primitive("=",  2, new Function((ctx, a, b) => Val.Equals(a, b))),
-            new Primitive("!=", 2, new Function((ctx, a, b) => ! Val.Equals(a, b))),
-            new Primitive("<",  2, new Function((ctx, a, b) => ValLT(a, b))),
-            new Primitive("<=", 2, new Function((ctx, a, b) => ValLTE(a, b))),
-            new Primitive(">",  2, new Function((ctx, a, b) => ValGT(a, b))),
-            new Primitive(">=", 2, new Function((ctx, a, b) => ValGTE(a, b))),
+            new Primitive("=",  2, new Function((Context ctx, Val a, Val b) => Val.Equals(a, b))),
+            new Primitive("!=", 2, new Function((Context ctx, Val a, Val b) => ! Val.Equals(a, b))),
+            new Primitive("<",  2, new Function((Context ctx, Val a, Val b) => ValLT(a, b))),
+            new Primitive("<=", 2, new Function((Context ctx, Val a, Val b) => ValLTE(a, b))),
+            new Primitive(">",  2, new Function((Context ctx, Val a, Val b) => ValGT(a, b))),
+            new Primitive(">=", 2, new Function((Context ctx, Val a, Val b) => ValGTE(a, b))),
 
-            new Primitive("cons", 2, new Function((ctx, a, b) => new Cons(a, b))),
+            new Primitive("cons", 2, new Function((Context ctx, Val a, Val b) => new Cons(a, b))),
             new Primitive("list", 0, new Function((ctx) => Val.NIL)),
-            new Primitive("list", 1, new Function((ctx, a) => new Cons(a, Val.NIL))),
-            new Primitive("list", 2, new Function((ctx, a, b) => new Cons(a, new Cons(b, Val.NIL)))),
-            new Primitive("list", 3, new Function((Context ctx, List<Val> args) => Cons.MakeList(args)), FnType.VarArgs),
+            new Primitive("list", 1, new Function((Context ctx, Val a) => new Cons(a, Val.NIL))),
+            new Primitive("list", 2, new Function((Context ctx, Val a, Val b) => new Cons(a, new Cons(b, Val.NIL)))),
+            new Primitive("list", 3, new Function((Context ctx, VarArgs args) => args.AsVal), FnType.VarArgs),
 
-            new Primitive("append", 1, new Function((Context ctx, List<Val> args) => FoldRight(AppendHelper, Val.NIL, args)), FnType.VarArgs),
+            new Primitive("append", 1, new Function((Context ctx, VarArgs args) =>
+                FoldRight(AppendHelper, Val.NIL, args)), FnType.VarArgs),
 
-            new Primitive("length", 1, new Function((ctx, a) => Cons.Length(a))),
+            new Primitive("length", 1, new Function((Context ctx, Val a) => Cons.Length(a))),
 
-            new Primitive("not", 1, new Function((ctx, a) => !a.CastToBool)),
-            new Primitive("null?", 1, new Function((ctx, a) => a.IsNil)),
-            new Primitive("cons?", 1, new Function((ctx, a) => a.IsCons)),
-            new Primitive("string?", 1, new Function((ctx, a) => a.IsString)),
-            new Primitive("number?", 1, new Function((ctx, a) => a.IsNumber)),
-            new Primitive("boolean?", 1, new Function((ctx, a) => a.IsBool)),
-            new Primitive("atom?", 1, new Function((ctx, a) => !a.IsCons)),
+            new Primitive("not", 1, new Function((Context ctx, Val a) => !a.CastToBool)),
+            new Primitive("null?", 1, new Function((Context ctx, Val a) => a.IsNil)),
+            new Primitive("cons?", 1, new Function((Context ctx, Val a) => a.IsCons)),
+            new Primitive("string?", 1, new Function((Context ctx, Val a) => a.IsString)),
+            new Primitive("number?", 1, new Function((Context ctx, Val a) => a.IsNumber)),
+            new Primitive("boolean?", 1, new Function((Context ctx, Val a) => a.IsBool)),
+            new Primitive("atom?", 1, new Function((Context ctx, Val a) => !a.IsCons)),
 
-            new Primitive("car", 1, new Function((ctx, a) => a.AsCons.first)),
-            new Primitive("cdr", 1, new Function((ctx, a) => a.AsCons.rest)),
-            new Primitive("cadr", 1, new Function((ctx, a) => a.AsCons.second)),
-            new Primitive("cddr", 1, new Function((ctx, a) => a.AsCons.afterSecond)),
-            new Primitive("caddr", 1, new Function((ctx, a) => a.AsCons.third)),
-            new Primitive("cdddr", 1, new Function((ctx, a) => a.AsCons.afterThird)),
+            new Primitive("car", 1, new Function((Context ctx, Val a) => a.AsCons.first)),
+            new Primitive("cdr", 1, new Function((Context ctx, Val a) => a.AsCons.rest)),
+            new Primitive("cadr", 1, new Function((Context ctx, Val a) => a.AsCons.second)),
+            new Primitive("cddr", 1, new Function((Context ctx, Val a) => a.AsCons.afterSecond)),
+            new Primitive("caddr", 1, new Function((Context ctx, Val a) => a.AsCons.third)),
+            new Primitive("cdddr", 1, new Function((Context ctx, Val a) => a.AsCons.afterThird)),
 
-            new Primitive("nth", 2, new Function((ctx, a, n) => a.AsCons.GetNth(n.AsInt))),
-            new Primitive("nth-tail", 2, new Function((ctx, a, n) => a.AsCons.GetNthTail(n.AsInt))),
-            new Primitive("nth-cons", 2, new Function((ctx, a, n) => a.AsCons.GetNthCons(n.AsInt))),
+            new Primitive("nth", 2, new Function((Context ctx, Val a, Val n) => a.AsCons.GetNth(n.AsInt))),
+            new Primitive("nth-tail", 2, new Function((Context ctx, Val a, Val n) => a.AsCons.GetNthTail(n.AsInt))),
+            new Primitive("nth-cons", 2, new Function((Context ctx, Val a, Val n) => a.AsCons.GetNthCons(n.AsInt))),
 
-            new Primitive("map", 2, new Function((ctx, a, b) => {
+            new Primitive("map", 2, new Function((Context ctx, Val a, Val b) => {
                 Closure fn = a.AsClosure;
                 Cons list = b.AsCons;
                 return new Val(MapHelper(ctx, fn, list));
@@ -70,16 +71,17 @@ namespace CSLisp.Core
             new Primitive("mx", 1, new Function((ctx, exp) => ctx.compiler.MacroExpandFull(exp))),
 			
 			// helpers
-			new Primitive("trace", 1, new Function((Context ctx, List<Val> args) => {
-                Console.WriteLine(string.Join(" ", args.Select(val => Val.Print(val))));
+			new Primitive("trace", 1, new Function((Context ctx, VarArgs args) => {
+                var arglist = args.ToNativeList();
+                Console.WriteLine(string.Join(" ", arglist.Select(val => Val.Print(val))));
                 return Val.NIL;
             }), FnType.VarArgs, SideFx.Possible),
 
             new Primitive("gensym", 0, new Function((ctx) => GensymHelper(ctx, "GENSYM-"))),
-            new Primitive("gensym", 1, new Function((ctx, a) => GensymHelper(ctx, a.AsStringOrNull))),
+            new Primitive("gensym", 1, new Function((Context ctx, Val a) => GensymHelper(ctx, a.AsStringOrNull))),
 			
 			// packages
-			new Primitive("package-set", 1, new Function((ctx, a) => {
+			new Primitive("package-set", 1, new Function((Context ctx, Val a) => {
                 string name = a.IsNil ? null : a.AsString; // nil package name == global package
                 Package pkg = ctx.packages.Intern(name);
                 ctx.packages.current = pkg;
@@ -89,8 +91,8 @@ namespace CSLisp.Core
             new Primitive("package-get", 0, new Function (ctx => new Val(ctx.packages.current.name)),
                 sideFx: SideFx.Possible),
 
-            new Primitive("package-import", 1, new Function ((Context ctx, List<Val> names) => {
-                foreach (Val a in names) {
+            new Primitive("package-import", 1, new Function ((Context ctx, VarArgs names) => {
+                foreach (Val a in names.ToNativeList()) {
                     string name = a.IsNil ? null : a.AsString;
                     ctx.packages.current.AddImport(ctx.packages.Intern(name));
                 }
@@ -122,35 +124,37 @@ namespace CSLisp.Core
             // (find-type 'System.Random) or (find-type "System.Random")
             new Primitive("find-type", 1, new Function((Context ctx, Val name) => {
                 string fullname = GetStringOrSymbolName(name);
-                return MakeValOrNil(TypeUtils.GetType(fullname));
+                return Val.TryUnbox(TypeUtils.GetType(fullname));
             })),
 
             // (find-method 'System.Random 'Next 1 2)  or (find-method "System.Random" "NextDouble")
             // or (find-method (find-type 'System.Random) 'Next) etc
-            new Primitive("find-method", 2, new Function((Context ctx, List<Val> args) => {
-                if (args.Count < 2) { return Val.NIL; }
-                ParseArgsForMethodSearch(args, out Type type, out string member, out object[] varargs);
-                
+            new Primitive("find-method", 2, new Function((Context ctx, VarArgs args) => {
+                var (type, member, varargs) = ParseArgsForMethodSearch(args);
+                if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
+
                 var method = TypeUtils.GetMethodByArgs(type, member, varargs);
                 return new Val(method);
 
             }), FnType.VarArgs, SideFx.Possible),
 
             // (call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random) 1 32)
-            new Primitive ("call-method", 2, new Function((Context ctx, List<Val> args) => {
-                ParseArgsForMethodCall(args, out MethodInfo method, out object instance, out object[] varargs);
+            new Primitive ("call-method", 2, new Function((Context ctx, VarArgs args) => {
+                var (method, instance, varargs) = ParseArgsForMethodCall(args);
 
                 if (method == null) { return Val.NIL; }
                 var result = method.Invoke(instance, varargs);
 
-                return new Val(result);
+                return Val.TryUnbox(result);
 
             }), FnType.VarArgs, SideFx.Possible),
 
             // (make-instance 'System.Random) or (make-instance "System.Random" 0) etc
-            new Primitive("make-instance", 1, new Function((Context ctx, List<Val> args) => {
-                ParseArgsForConstructorInterop(args, out Type type, out object[] varargs);
-                return MakeValOrNil(TypeUtils.Instantiate(type, varargs));
+            new Primitive("make-instance", 1, new Function((Context ctx, VarArgs args) => {
+                var (type, varargs) = ParseArgsForConstructorInterop(args);
+                if (type == null) { return Val.NIL; }
+
+                return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
             }), FnType.VarArgs, SideFx.Possible),
         };
 
@@ -264,8 +268,9 @@ namespace CSLisp.Core
         }
 
         ///// <summary> Performs a left fold on the array: +, 0, [1, 2, 3] => (((0 + 1) + 2) + 3) </summary>
-        private static Val FoldLeft (Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
+        private static Val FoldLeft (Func<Val, Val, Val> fn, Val baseElement, VarArgs args) {
             var result = baseElement;
+            var elements = args.ToNativeList();
             for (int i = 0, len = elements.Count; i < len; i++) {
                 result = fn(result, elements[i]);
             }
@@ -273,8 +278,9 @@ namespace CSLisp.Core
         }
 
         ///// <summary> Performs a right fold on the array: +, 0, [1, 2, 3] => (1 + (2 + (3 + 0))) </summary>
-        private static Val FoldRight (Func<Val, Val, Val> fn, Val baseElement, List<Val> elements) {
+        private static Val FoldRight (Func<Val, Val, Val> fn, Val baseElement, VarArgs args) {
             var result = baseElement;
+            var elements = args.ToNativeList();
             for (int i = elements.Count - 1; i >= 0; i--) {
                 result = fn(elements[i], result);
             }
@@ -313,9 +319,6 @@ namespace CSLisp.Core
         //
         // helpers for .net interop
 
-        /// <summary> Convert an object to a val, or to a nil </summary>
-        private static Val MakeValOrNil (object value) => value == null ? Val.NIL : new Val(value);
-
         /// <summary> Extract a name from either the symbol or the string value of a val </summary>
         private static string GetStringOrSymbolName (Val v) => v.AsStringOrNull ?? v.AsSymbolOrNull?.name;
 
@@ -332,40 +335,43 @@ namespace CSLisp.Core
         /// Given a list of args (during a new instance call), parse out the first one as the class name,
         /// and convert the rest into an object array suitable for passing through reflection.
         /// </summary>
-        private static void ParseArgsForConstructorInterop (List<Val> args, out Type type, out object[] varargs) {
-            Cons list = Cons.MakeList(args).AsConsOrNull;
+        private static (Type type, object[] varargs) ParseArgsForConstructorInterop (VarArgs args) {
+            Cons list = args.cons;
             Val first = list?.first ?? Val.NIL;
 
-            type = ParseNameOrType(first);
-            varargs = TurnConsIntoBoxedArray(list?.rest);
+            Type type = ParseNameOrType(first);
+            object[] varargs = TurnConsIntoBoxedArray(list?.rest);
+            return (type, varargs);
         }
 
         /// <summary>
         /// Given a list of args (during a method search), parse out the first one as the name class,
         /// second as method name, and convert the rest into an object array suitable for passing through reflection.
         /// </summary>
-        private static void ParseArgsForMethodSearch (List<Val> args, out Type type, out string member, out object[] varargs) {
-            Cons list = Cons.MakeList(args).AsConsOrNull;
+        private static (Type type, string member, object[] varargs) ParseArgsForMethodSearch (VarArgs args) {
+            Cons list = args.cons;
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
 
-            type = ParseNameOrType(first);
-            member = GetStringOrSymbolName(second);
-            varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+            Type type = ParseNameOrType(first);
+            string member = GetStringOrSymbolName(second);
+            object[] varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+            return (type, member, varargs);
         }
 
         /// <summary>
         /// Given a list of args (for a function call), parse out the first one as the name class,
         /// second as method name, and convert the rest into an object array suitable for passing through reflection.
         /// </summary>
-        private static void ParseArgsForMethodCall (List<Val> args, out MethodInfo method, out object instance, out object[] varargs) {
-            Cons list = Cons.MakeList(args).AsConsOrNull;
+        private static (MethodInfo method, object instance, object[] varargs) ParseArgsForMethodCall (VarArgs args) {
+            Cons list = args.cons;
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
 
-            method = first.GetObjectOrNull<MethodInfo>();
-            instance = second.AsObjectOrNull;
-            varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+            MethodInfo method = first.GetObjectOrNull<MethodInfo>();
+            object instance = second.AsObjectOrNull;
+            object[] varargs = TurnConsIntoBoxedArray(list?.afterSecond);
+            return (method, instance, varargs);
         }
 
         private static object[] TurnConsIntoBoxedArray (Val? cons) =>

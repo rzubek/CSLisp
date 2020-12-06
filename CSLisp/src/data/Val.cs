@@ -118,6 +118,21 @@ namespace CSLisp.Data
             }
         }
 
+        public static Val TryUnbox (object boxed) {
+            switch (boxed) {
+                case null: return NIL;
+                case bool bval: return bval;
+                case int ival: return ival;
+                case float fval: return fval;
+                case string sval: return sval;
+                case Symbol symval: return symval;
+                case Cons cval: return cval;
+                case Closure closval: return closval;
+                default:
+                    return new Val(boxed);
+            }
+        }
+
         public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil);
         public float CastToFloat =>
             (type == Type.Int) ? vint :
