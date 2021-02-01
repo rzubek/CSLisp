@@ -1,5 +1,4 @@
-﻿using CSLisp.Data;
-using CSLisp.Error;
+﻿using CSLisp.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +15,21 @@ namespace CSLisp.Core
         public static Dictionary<string, Type> NameToTypeCache { get; private set; }
 
         /// <summary>
-        /// Maps from a type, to a filtered list of serializable members of this type.
+        /// Maps from a type, to a filtered list of instance members of this type.
         /// This cache can be cleared as needed (eg. when reloading assemblies)
         /// </summary>
-        public static Dictionary<Type, List<MemberInfo>> TypeToMemberCache { get; private set; }
+        public static Dictionary<Type, List<MemberInfo>> InstanceMemberCache { get; private set; }
+
+        /// <summary>
+        /// Maps from a type, to a filtered list of static members of this type.
+        /// This cache can be cleared as needed (eg. when reloading assemblies)
+        /// </summary>
+        public static Dictionary<Type, List<MemberInfo>> StaticMemberCache { get; private set; }
 
         static TypeUtils () {
             NameToTypeCache = new Dictionary<string, Type>();
-            TypeToMemberCache = new Dictionary<Type, List<MemberInfo>>();
+            InstanceMemberCache = new Dictionary<Type, List<MemberInfo>>();
+            StaticMemberCache = new Dictionary<Type, List<MemberInfo>>();
         }
 
 
@@ -101,23 +107,36 @@ namespace CSLisp.Core
         /// <summary>
         /// Returns all members from the given object
         /// </summary>
-        public static IEnumerable<MemberInfo> GetMembers (object obj) =>
-            GetMembers(obj.GetType());
+        public static IEnumerable<MemberInfo> GetInstanceMembers (object obj) =>
+            GetInstanceMembers(obj.GetType());
 
         /// <summary>
         /// Returns all members from a type descriptor, with a given member name
         /// </summary>
-        public static IEnumerable<MemberInfo> GetMembers (Type t, string name) =>
-            GetMembers(t).Where(m => m.Name == name);
+        public static IEnumerable<MemberInfo> GetInstanceMembers (Type t, string name) =>
+            GetInstanceMembers(t).Where(m => m.Name == name);
 
         /// <summary>
-        /// Returns all members from a type descriptor, including instance 
+        /// Returns all public instance members from a type descriptor
         /// </summary>
-        public static IEnumerable<MemberInfo> GetMembers (Type t) {
-            var found = TypeToMemberCache.TryGetValue(t, out List<MemberInfo> result);
+        public static IEnumerable<MemberInfo> GetInstanceMembers (Type t) {
+            var found = InstanceMemberCache.TryGetValue(t, out List<MemberInfo> result);
             if (!found) {
-                result = TypeToMemberCache[t] =
+                result = InstanceMemberCache[t] =
                     t.GetMembers(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy)
+                    .ToList();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Returns all public static members from a type descriptor
+        /// </summary>
+        public static IEnumerable<MemberInfo> GetStaticMembers (Type t) {
+            var found = StaticMemberCache.TryGetValue(t, out List<MemberInfo> result);
+            if (!found) {
+                result = StaticMemberCache[t] =
+                    t.GetMembers(BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy)
                     .ToList();
             }
             return result;
@@ -128,7 +147,7 @@ namespace CSLisp.Core
         /// </summary>
         public static MethodBase GetMethodByArgs (Type type, string name, object[] varargs) {
             var varargTypes = varargs.Select(a => a?.GetType() ?? typeof(object)).ToArray();
-            var methods = GetMembers(type)
+            var methods = GetInstanceMembers(type)
                 .OfType<MethodInfo>()
                 .Where(m => m.Name == name)
                 .ToArray();
@@ -144,8 +163,8 @@ namespace CSLisp.Core
         /// Returns a public member field or property, suitable for setting or getting.
         /// In this iteration we don't support accessing non-public ones.
         /// <returns></returns>
-        internal static MemberInfo GetMemberFieldOrProp (Type type, string member) {
-            var fields = GetMembers(type)
+        public static MemberInfo GetMemberFieldOrProp (Type type, string member) {
+            var fields = GetInstanceMembers(type)
                 .Where(m => m.Name == member)
                 .Where(m => m is FieldInfo || m is PropertyInfo)
                 .ToArray(); // there should be at most one

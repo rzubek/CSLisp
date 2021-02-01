@@ -121,33 +121,49 @@ namespace CSLisp.Core
 
             // .net interop
 
-            // (find-type 'System.Random) or (find-type "System.Random")
+            // (find-type 'System.Random)
+            // (find-type "System.Random")
             new Primitive("find-type", 1, new Function((Context ctx, Val name) => {
                 string fullname = GetStringOrSymbolName(name);
                 return Val.TryUnbox(TypeUtils.GetType(fullname));
             })),
 
-            // (find-method 'System.Random 'Next 1 2)  or (find-method "System.Random" "NextDouble")
-            // or (find-method (find-type 'System.Random) 'Next) etc
+            // (make-instance 'System.Random)
+            // (make-instance (find-type 'System.Random))
+            // (make-instance "System.Random" 42) etc
+            new Primitive("make-instance", 1, new Function((Context ctx, VarArgs args) => {
+                var (type, varargs) = ParseArgsForConstructorInterop(args);
+                if (type == null) { return Val.NIL; }
+
+                return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
+            }), FnType.VarArgs, SideFx.Possible),
+
+            // (find-method 'System.Random 'Next 1 2)
+            // (find-method "System.Random" "NextDouble")
+            // (find-method (find-type 'System.Random) 'Next)
+            // (find-method my-rng 'Next) etc
             new Primitive("find-method", 2, new Function((Context ctx, VarArgs args) => {
                 var (type, member, varargs) = ParseArgsForMethodSearch(args);
                 if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
 
                 var method = TypeUtils.GetMethodByArgs(type, member, varargs);
-                return new Val(method);
+                return Val.TryUnbox(method);
 
             }), FnType.VarArgs, SideFx.Possible),
 
             // (find-member 'MyClass 'IntField)
+            // (find-method 'MyClass "IntField")
+            // (find-method my-class-instance 'IntField) etc
             new Primitive("find-member", 2, new Function((Context ctx, VarArgs args) => {
                 var (type, member) = ParseArgsForMemberSearch(args);
                 if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
 
                 var method = TypeUtils.GetMemberFieldOrProp(type, member);
-                return new Val(method);
+                return Val.TryUnbox(method);
             })),
 
-            // (call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random) 1 32)
+            // (call-method (make-instance 'System.Random) (find-method 'System.Random 'Next 1 32) 1 32)
+            // (call-method my-rng (find-method rng 'Next 1 32) 1 32) etc
             new Primitive ("call-method", 2, new Function((Context ctx, VarArgs args) => {
                 var (method, instance, varargs) = ParseArgsForMethodCall(args);
 
@@ -158,15 +174,27 @@ namespace CSLisp.Core
 
             }), FnType.VarArgs, SideFx.Possible),
 
-            // (make-instance 'System.Random) or (make-instance "System.Random" 0) etc
-            new Primitive("make-instance", 1, new Function((Context ctx, VarArgs args) => {
-                var (type, varargs) = ParseArgsForConstructorInterop(args);
-                if (type == null) { return Val.NIL; }
+            // (get-member-value some-instance 'FieldName)
+            // (get-member-value some-instance "PropertyName") etc
+            new Primitive ("get-member-value", 2, new Function((Context ctx, VarArgs args) => {
+                var (instance, type, memberName, _) = ParseMemberFromInstance(args, false);
 
-                return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
-            }), FnType.VarArgs, SideFx.Possible),
+                var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
+                var result = TypeUtils.GetValue(member, instance);
+                return Val.TryUnbox(result);
 
-            // (get-value some-instance 'FieldName) or (get-value some-instance 'PropertyName) or "PropertyName"
+            }), sideFx: SideFx.Possible),
+
+            // (set-member-value some-instance 'FieldName 42)
+            // (set-member-value some-instance "PropertyName" "hello") etc
+            new Primitive ("set-member-value", 3, new Function((Context ctx, VarArgs args) => {
+                var (instance, type, memberName, targetValue) = ParseMemberFromInstance(args, true);
+
+                var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
+                TypeUtils.SetValue(member, instance, targetValue.AsBoxedValue);
+                return targetValue;
+
+            }), sideFx: SideFx.Possible),
         };
 
 
@@ -335,11 +363,16 @@ namespace CSLisp.Core
 
         /// <summary>
         /// Extract a .net type descriptor from the argument, which could be either the type itself
-        /// wrapped in a val, or a fully-qualified name, either as a symbol or a string
+        /// wrapped in a val, or a fully-qualified name, either as a symbol or a string,
+        /// or finally an object and we need to look up its type at runtime.
         /// </summary>
-        private static Type ParseNameOrType (Val nameOrType) {
-            if (nameOrType.IsObject && nameOrType.AsObject is Type t) { return t; }
-            return TypeUtils.GetType(GetStringOrSymbolName(nameOrType));
+        private static Type GetTypeFromNameOrObject (Val value) {
+            if (value.IsObject && value.AsObject is Type t) { return t; }
+
+            var name = GetStringOrSymbolName(value);
+            if (name != null) { return TypeUtils.GetType(name); }
+
+            return value.AsBoxedValue?.GetType();
         }
 
         /// <summary>
@@ -350,7 +383,7 @@ namespace CSLisp.Core
             Cons list = args.cons;
             Val first = list?.first ?? Val.NIL;
 
-            Type type = ParseNameOrType(first);
+            Type type = GetTypeFromNameOrObject(first);
             object[] varargs = TurnConsIntoBoxedArray(list?.rest);
             return (type, varargs);
         }
@@ -364,14 +397,14 @@ namespace CSLisp.Core
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
 
-            Type type = ParseNameOrType(first);
+            Type type = GetTypeFromNameOrObject(first);
             string member = GetStringOrSymbolName(second);
             object[] varargs = TurnConsIntoBoxedArray(list?.afterSecond);
             return (type, member, varargs);
         }
 
         /// <summary>
-        /// Given a list of args (for a function call), parse out the first one as the name class,
+        /// Given a list of args (for a function call), parse out the first one as the type we're referring to,
         /// second as method name, and convert the rest into an object array suitable for passing through reflection.
         /// </summary>
         private static (MethodInfo method, object instance, object[] varargs) ParseArgsForMethodCall (VarArgs args) {
@@ -379,14 +412,14 @@ namespace CSLisp.Core
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
 
-            MethodInfo method = first.GetObjectOrNull<MethodInfo>();
-            object instance = second.AsObjectOrNull;
+            object instance = first.AsObjectOrNull;
+            MethodInfo method = second.GetObjectOrNull<MethodInfo>();
             object[] varargs = TurnConsIntoBoxedArray(list?.afterSecond);
             return (method, instance, varargs);
         }
 
         /// <summary>
-        /// Given a list of args (for a function call), parse out the first one as the name class,
+        /// Parse out the first argument as a type based on name or instance,
         /// and the second as a member that's either a field or a property field.
         /// </summary>
         private static (Type type, string member) ParseArgsForMemberSearch (VarArgs args) {
@@ -394,9 +427,26 @@ namespace CSLisp.Core
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
 
-            Type type = ParseNameOrType(first);
+            Type type = GetTypeFromNameOrObject(first);
             string member = GetStringOrSymbolName(second);
             return (type, member);
+        }
+
+        /// <summary>
+        /// Given an instance as the first argument, parse out its type, 
+        /// and parse the second arg as a member that's either a field or a property field.
+        /// If the setter flag is set, it also parses out the third element as the new value.
+        /// </summary>
+        private static (object instance, Type type, string member, Val third) ParseMemberFromInstance (VarArgs args, bool setter) {
+            Cons list = args.cons;
+            Val first = list?.first ?? Val.NIL;
+            Val second = list?.second ?? Val.NIL;
+            Val third = (setter && list != null) ? list.third : Val.NIL;
+
+            var instance = first.AsBoxedValue;
+            Type type = instance?.GetType();
+            string member = GetStringOrSymbolName(second);
+            return (instance, type, member, third);
         }
 
         private static object[] TurnConsIntoBoxedArray (Val? cons) =>
