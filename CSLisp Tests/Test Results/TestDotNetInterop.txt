@@ -1,0 +1,510 @@
+TEST TestDotNetInterop : 7:04:39 PM
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-type 'System.Random)
+ParseNext ==>  (find-type (quote System.Random))
+Parsed:  (core:find-type (quote System.Random))
+Compiled:
+	CODE BLOCK # 47 ; () => ((find-type (quote System.Random)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	GLOBAL_GET	find-type
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 47 ; () => ((find-type (quote System.Random)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	GLOBAL_GET	find-type
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : GLOBAL_GET	find-type
+                                      2: [ System.Random [Closure/core:find-type] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ System.Random ]
+[ 1]   0 : CALL_PRIMOP	"find-type"
+                                      1: [ [Native System.RuntimeType System.Random] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.RuntimeType System.Random]"  - expected "[Native System.RuntimeType System.Random]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (make-instance 'System.Random)
+ParseNext ==>  (make-instance (quote System.Random))
+Parsed:  (core:make-instance (quote System.Random))
+Compiled:
+	CODE BLOCK # 48 ; () => ((make-instance (quote System.Random)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	GLOBAL_GET	make-instance
+	3	JMP_CLOSURE	1
+
+Running...
+Executing:  
+	CODE BLOCK # 48 ; () => ((make-instance (quote System.Random)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	GLOBAL_GET	make-instance
+	3	JMP_CLOSURE	1
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : GLOBAL_GET	make-instance
+                                      2: [ System.Random [Closure/core:make-instance] ]
+[ 2]   3 : JMP_CLOSURE	1
+                                      1: [ System.Random ]
+[ 1]   0 : CALL_PRIMOP	"make-instance"
+                                      1: [ [Native System.Random System.Random] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Random System.Random]"  - expected "[Native System.Random System.Random]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (make-instance 'System.Random 0)
+ParseNext ==>  (make-instance (quote System.Random) 0)
+Parsed:  (core:make-instance (quote System.Random) 0)
+Compiled:
+	CODE BLOCK # 49 ; () => ((make-instance (quote System.Random) 0))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	0
+	3	GLOBAL_GET	make-instance
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 49 ; () => ((make-instance (quote System.Random) 0))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	0
+	3	GLOBAL_GET	make-instance
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : PUSH_CONST	0
+                                      2: [ System.Random 0 ]
+[ 2]   3 : GLOBAL_GET	make-instance
+                                      3: [ System.Random 0 [Closure/core:make-instance] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ System.Random 0 ]
+[ 2]   0 : CALL_PRIMOP	"make-instance"
+                                      1: [ [Native System.Random System.Random] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Random System.Random]"  - expected "[Native System.Random System.Random]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntField)
+ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntField))
+Parsed:  (core:find-member (quote CSLisp.TestClass) (quote MyIntField))
+Compiled:
+	CODE BLOCK # 50 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntField
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 50 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntField
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	CSLisp.TestClass
+                                      1: [ CSLisp.TestClass ]
+[ 1]   2 : PUSH_CONST	MyIntField
+                                      2: [ CSLisp.TestClass MyIntField ]
+[ 2]   3 : GLOBAL_GET	find-member
+                                      3: [ CSLisp.TestClass MyIntField [Closure/core:find-member] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ CSLisp.TestClass MyIntField ]
+[ 2]   0 : CALL_PRIMOP	"find-member"
+                                      1: [ [Native System.Reflection.RtFieldInfo Int32 MyIntField] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RtFieldInfo Int32 MyIntField]"  - expected "[Native System.Reflection.RtFieldInfo Int32 MyIntField]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntProperty)
+ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntProperty))
+Parsed:  (core:find-member (quote CSLisp.TestClass) (quote MyIntProperty))
+Compiled:
+	CODE BLOCK # 51 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntProperty
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 51 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntProperty
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	CSLisp.TestClass
+                                      1: [ CSLisp.TestClass ]
+[ 1]   2 : PUSH_CONST	MyIntProperty
+                                      2: [ CSLisp.TestClass MyIntProperty ]
+[ 2]   3 : GLOBAL_GET	find-member
+                                      3: [ CSLisp.TestClass MyIntProperty [Closure/core:find-member] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ CSLisp.TestClass MyIntProperty ]
+[ 2]   0 : CALL_PRIMOP	"find-member"
+                                      1: [ [Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty]"  - expected "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntGetter)
+ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntGetter))
+Parsed:  (core:find-member (quote CSLisp.TestClass) (quote MyIntGetter))
+Compiled:
+	CODE BLOCK # 52 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntGetter
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 52 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	MyIntGetter
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	CSLisp.TestClass
+                                      1: [ CSLisp.TestClass ]
+[ 1]   2 : PUSH_CONST	MyIntGetter
+                                      2: [ CSLisp.TestClass MyIntGetter ]
+[ 2]   3 : GLOBAL_GET	find-member
+                                      3: [ CSLisp.TestClass MyIntGetter [Closure/core:find-member] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ CSLisp.TestClass MyIntGetter ]
+[ 2]   0 : CALL_PRIMOP	"find-member"
+                                      1: [ [Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]"  - expected "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'DoesNotExist)
+ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote DoesNotExist))
+Parsed:  (core:find-member (quote CSLisp.TestClass) (quote DoesNotExist))
+Compiled:
+	CODE BLOCK # 53 ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	DoesNotExist
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 53 ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	CSLisp.TestClass
+	2	PUSH_CONST	DoesNotExist
+	3	GLOBAL_GET	find-member
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	CSLisp.TestClass
+                                      1: [ CSLisp.TestClass ]
+[ 1]   2 : PUSH_CONST	DoesNotExist
+                                      2: [ CSLisp.TestClass DoesNotExist ]
+[ 2]   3 : GLOBAL_GET	find-member
+                                      3: [ CSLisp.TestClass DoesNotExist [Closure/core:find-member] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ CSLisp.TestClass DoesNotExist ]
+[ 2]   0 : CALL_PRIMOP	"find-member"
+                                      1: [ [Native null] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native null]"  - expected "[Native null]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-method 'System.Random 'Next)
+ParseNext ==>  (find-method (quote System.Random) (quote Next))
+Parsed:  (core:find-method (quote System.Random) (quote Next))
+Compiled:
+	CODE BLOCK # 54 ; () => ((find-method (quote System.Random) (quote Next)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	GLOBAL_GET	find-method
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK # 54 ; () => ((find-method (quote System.Random) (quote Next)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	GLOBAL_GET	find-method
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : PUSH_CONST	Next
+                                      2: [ System.Random Next ]
+[ 2]   3 : GLOBAL_GET	find-method
+                                      3: [ System.Random Next [Closure/core:find-method] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ System.Random Next ]
+[ 2]   0 : CALL_PRIMOP	"find-method"
+                                      1: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next()] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]"  - expected "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-method 'System.Random 'Next 1)
+ParseNext ==>  (find-method (quote System.Random) (quote Next) 1)
+Parsed:  (core:find-method (quote System.Random) (quote Next) 1)
+Compiled:
+	CODE BLOCK # 55 ; () => ((find-method (quote System.Random) (quote Next) 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	find-method
+	5	JMP_CLOSURE	3
+
+Running...
+Executing:  
+	CODE BLOCK # 55 ; () => ((find-method (quote System.Random) (quote Next) 1))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	PUSH_CONST	1
+	4	GLOBAL_GET	find-method
+	5	JMP_CLOSURE	3
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : PUSH_CONST	Next
+                                      2: [ System.Random Next ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ System.Random Next 1 ]
+[ 3]   4 : GLOBAL_GET	find-method
+                                      4: [ System.Random Next 1 [Closure/core:find-method] ]
+[ 4]   5 : JMP_CLOSURE	3
+                                      3: [ System.Random Next 1 ]
+[ 3]   0 : CALL_PRIMOP	"find-method"
+                                      1: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]"  - expected "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (find-method 'System.Random 'Next 1 32)
+ParseNext ==>  (find-method (quote System.Random) (quote Next) 1 32)
+Parsed:  (core:find-method (quote System.Random) (quote Next) 1 32)
+Compiled:
+	CODE BLOCK # 56 ; () => ((find-method (quote System.Random) (quote Next) 1 32))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	PUSH_CONST	1
+	4	PUSH_CONST	32
+	5	GLOBAL_GET	find-method
+	6	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 56 ; () => ((find-method (quote System.Random) (quote Next) 1 32))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	System.Random
+	2	PUSH_CONST	Next
+	3	PUSH_CONST	1
+	4	PUSH_CONST	32
+	5	GLOBAL_GET	find-method
+	6	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	System.Random
+                                      1: [ System.Random ]
+[ 1]   2 : PUSH_CONST	Next
+                                      2: [ System.Random Next ]
+[ 2]   3 : PUSH_CONST	1
+                                      3: [ System.Random Next 1 ]
+[ 3]   4 : PUSH_CONST	32
+                                      4: [ System.Random Next 1 32 ]
+[ 4]   5 : GLOBAL_GET	find-method
+                                      5: [ System.Random Next 1 32 [Closure/core:find-method] ]
+[ 5]   6 : JMP_CLOSURE	4
+                                      4: [ System.Random Next 1 32 ]
+[ 4]   0 : CALL_PRIMOP	"find-method"
+                                      1: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] ]
+[ 1]   1 : RETURN_VAL
+test: got "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]"  - expected "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random 0) 1 32)
+ParseNext ==>  (call-method (find-method (quote System.Random) (quote Next) 1 32) (make-instance (quote System.Random) 0) 1 32)
+Parsed:  (core:call-method (core:find-method (quote System.Random) (quote Next) 1 32) (core:make-instance (quote System.Random) 0) 1 32)
+Compiled:
+	CODE BLOCK # 57 ; () => ((call-method (find-method (quote System.Random) (quote Next) 1 32) (make-instance (quote System.Random) 0) 1 32))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	8
+	2	PUSH_CONST	System.Random
+	3	PUSH_CONST	Next
+	4	PUSH_CONST	1
+	5	PUSH_CONST	32
+	6	GLOBAL_GET	find-method
+	7	JMP_CLOSURE	4
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	14
+	10	PUSH_CONST	System.Random
+	11	PUSH_CONST	0
+	12	GLOBAL_GET	make-instance
+	13	JMP_CLOSURE	2
+14	LABEL	"R1"
+	15	PUSH_CONST	1
+	16	PUSH_CONST	32
+	17	GLOBAL_GET	call-method
+	18	JMP_CLOSURE	4
+
+Running...
+Executing:  
+	CODE BLOCK # 57 ; () => ((call-method (find-method (quote System.Random) (quote Next) 1 32) (make-instance (quote System.Random) 0) 1 32))
+	0	MAKE_ENV	0	; ()
+	1	SAVE_RETURN	"R0"	8
+	2	PUSH_CONST	System.Random
+	3	PUSH_CONST	Next
+	4	PUSH_CONST	1
+	5	PUSH_CONST	32
+	6	GLOBAL_GET	find-method
+	7	JMP_CLOSURE	4
+8	LABEL	"R0"
+	9	SAVE_RETURN	"R1"	14
+	10	PUSH_CONST	System.Random
+	11	PUSH_CONST	0
+	12	GLOBAL_GET	make-instance
+	13	JMP_CLOSURE	2
+14	LABEL	"R1"
+	15	PUSH_CONST	1
+	16	PUSH_CONST	32
+	17	GLOBAL_GET	call-method
+	18	JMP_CLOSURE	4
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	8
+                                      1: [ [R0/8] ]
+[ 1]   2 : PUSH_CONST	System.Random
+                                      2: [ [R0/8] System.Random ]
+[ 2]   3 : PUSH_CONST	Next
+                                      3: [ [R0/8] System.Random Next ]
+[ 3]   4 : PUSH_CONST	1
+                                      4: [ [R0/8] System.Random Next 1 ]
+[ 4]   5 : PUSH_CONST	32
+                                      5: [ [R0/8] System.Random Next 1 32 ]
+[ 5]   6 : GLOBAL_GET	find-method
+                                      6: [ [R0/8] System.Random Next 1 32 [Closure/core:find-method] ]
+[ 6]   7 : JMP_CLOSURE	4
+                                      5: [ [R0/8] System.Random Next 1 32 ]
+[ 5]   0 : CALL_PRIMOP	"find-method"
+                                      2: [ [R0/8] [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] ]
+[ 1]   8 : LABEL	"R0"
+                                      1: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] ]
+[ 1]   9 : SAVE_RETURN	"R1"	14
+                                      2: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] ]
+[ 2]  10 : PUSH_CONST	System.Random
+                                      3: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] System.Random ]
+[ 3]  11 : PUSH_CONST	0
+                                      4: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] System.Random 0 ]
+[ 4]  12 : GLOBAL_GET	make-instance
+                                      5: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] System.Random 0 [Closure/core:make-instance] ]
+[ 5]  13 : JMP_CLOSURE	2
+                                      4: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] System.Random 0 ]
+[ 4]   0 : CALL_PRIMOP	"make-instance"
+                                      3: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [R1/14] [Native System.Random System.Random] ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] ]
+[ 2]  14 : LABEL	"R1"
+                                      2: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] ]
+[ 2]  15 : PUSH_CONST	1
+                                      3: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] 1 ]
+[ 3]  16 : PUSH_CONST	32
+                                      4: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] 1 32 ]
+[ 4]  17 : GLOBAL_GET	call-method
+                                      5: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] 1 32 [Closure/core:call-method] ]
+[ 5]  18 : JMP_CLOSURE	4
+                                      4: [ [Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)] [Native System.Random System.Random] 1 32 ]
+[ 4]   0 : CALL_PRIMOP	"call-method"
+                                      1: [ 23 ]
+[ 1]   1 : RETURN_VAL
+test: got "23"  - expected "23"
+SUCCESS

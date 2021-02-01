@@ -134,4 +134,16 @@ namespace CSLisp
             repl.Run();
         }
     }
+
+    /// <summary>
+    /// This class is purely for testing .net interop during development, and may be removed later
+    /// </summary>
+    public class TestClass
+    {
+        public int MyIntField;
+        public int MyIntGetter => MyIntField;
+        public int MyIntProperty { get; set; }
+
+        public string MyStringField;
+    }
 }

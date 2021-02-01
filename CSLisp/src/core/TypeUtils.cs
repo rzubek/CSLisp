@@ -111,7 +111,7 @@ namespace CSLisp.Core
             GetMembers(t).Where(m => m.Name == name);
 
         /// <summary>
-        /// Returns all members from a type descriptor
+        /// Returns all members from a type descriptor, including instance 
         /// </summary>
         public static IEnumerable<MemberInfo> GetMembers (Type t) {
             var found = TypeToMemberCache.TryGetValue(t, out List<MemberInfo> result);
@@ -137,6 +137,20 @@ namespace CSLisp.Core
 
             var result = Type.DefaultBinder.SelectMethod(flags, methods, varargTypes, null);
 
+            return result;
+        }
+
+        /// <summary>
+        /// Returns a public member field or property, suitable for setting or getting.
+        /// In this iteration we don't support accessing non-public ones.
+        /// <returns></returns>
+        internal static MemberInfo GetMemberFieldOrProp (Type type, string member) {
+            var fields = GetMembers(type)
+                .Where(m => m.Name == member)
+                .Where(m => m is FieldInfo || m is PropertyInfo)
+                .ToArray(); // there should be at most one
+
+            var result = fields.Length > 0 ? fields[0] : null;
             return result;
         }
     }

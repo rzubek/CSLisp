@@ -9,6 +9,15 @@ using System.Reflection;
 
 namespace CSLisp
 {
+    public class TestClass
+    {
+        public int MyIntField;
+        public int MyIntGetter => MyIntField;
+        public int MyIntProperty { get; set; }
+
+        public string MyStringField;
+    }
+
     [TestClass]
     public class UnitTests
     {
@@ -106,6 +115,7 @@ namespace CSLisp
             Run(PrintSampleCompilations);
             Run(TestVMNoCoreLib);
             Run(TestVMPrimitives);
+            Run(TestDotNetInterop);
             Run(TestPackages);
             Run(TestStandardLibs);
 
@@ -441,11 +451,22 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (defmacro lettest (bindings . body) `((lambda ,(map car bindings) ,@body) ,@(map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y)))", "3");
             CompileAndRun(ctx, "(begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 (inc1 (inc1 1))))", "4");
             CompileAndRun(ctx, "(begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))", "(core:+ 1 (add 2 3))");
+        }
+
+        public void TestDotNetInterop () {
+            // first without the standard library
+            Context ctx = new Context(false, _logger);
 
             // test dot net interop
             CompileAndRun(ctx, "(find-type 'System.Random)", "[Native System.RuntimeType System.Random]");
             CompileAndRun(ctx, "(make-instance 'System.Random)", "[Native System.Random System.Random]");
             CompileAndRun(ctx, "(make-instance 'System.Random 0)", "[Native System.Random System.Random]");
+
+            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntField)", "[Native System.Reflection.RtFieldInfo Int32 MyIntField]");
+            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntProperty)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty]");
+            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntGetter)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]");
+            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'DoesNotExist)", "[Native null]");
+
             CompileAndRun(ctx, "(find-method 'System.Random 'Next)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]");
             CompileAndRun(ctx, "(find-method 'System.Random 'Next 1)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]");
             CompileAndRun(ctx, "(find-method 'System.Random 'Next 1 32)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]");

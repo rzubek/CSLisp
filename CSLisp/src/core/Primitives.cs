@@ -138,6 +138,15 @@ namespace CSLisp.Core
 
             }), FnType.VarArgs, SideFx.Possible),
 
+            // (find-member 'MyClass 'IntField)
+            new Primitive("find-member", 2, new Function((Context ctx, VarArgs args) => {
+                var (type, member) = ParseArgsForMemberSearch(args);
+                if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
+
+                var method = TypeUtils.GetMemberFieldOrProp(type, member);
+                return new Val(method);
+            })),
+
             // (call-method (find-method 'System.Random 'Next 1 32) (make-instance 'System.Random) 1 32)
             new Primitive ("call-method", 2, new Function((Context ctx, VarArgs args) => {
                 var (method, instance, varargs) = ParseArgsForMethodCall(args);
@@ -156,6 +165,8 @@ namespace CSLisp.Core
 
                 return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
             }), FnType.VarArgs, SideFx.Possible),
+
+            // (get-value some-instance 'FieldName) or (get-value some-instance 'PropertyName) or "PropertyName"
         };
 
 
@@ -372,6 +383,20 @@ namespace CSLisp.Core
             object instance = second.AsObjectOrNull;
             object[] varargs = TurnConsIntoBoxedArray(list?.afterSecond);
             return (method, instance, varargs);
+        }
+
+        /// <summary>
+        /// Given a list of args (for a function call), parse out the first one as the name class,
+        /// and the second as a member that's either a field or a property field.
+        /// </summary>
+        private static (Type type, string member) ParseArgsForMemberSearch (VarArgs args) {
+            Cons list = args.cons;
+            Val first = list?.first ?? Val.NIL;
+            Val second = list?.second ?? Val.NIL;
+
+            Type type = ParseNameOrType(first);
+            string member = GetStringOrSymbolName(second);
+            return (type, member);
         }
 
         private static object[] TurnConsIntoBoxedArray (Val? cons) =>
