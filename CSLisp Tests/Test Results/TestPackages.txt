@@ -1,4 +1,4 @@
-TEST TestPackages : 8:08:13 PM
+TEST TestPackages : 8:44:23 PM
 
 
 -------------------------------------------------------------------------
@@ -8,7 +8,7 @@ COMPILE AND RUN inputs:  (package-set "foo") (package-get)
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 42 ; () => ((package-set "foo"))
+	CODE BLOCK # 49 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -16,7 +16,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 42 ; () => ((package-set "foo"))
+	CODE BLOCK # 49 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -38,14 +38,14 @@ test: got ""foo""  - expected ""foo""
 ParseNext ==>  (package-get)
 Parsed:  (core:package-get)
 Compiled:
-	CODE BLOCK # 43 ; () => ((package-get))
+	CODE BLOCK # 50 ; () => ((package-get))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	package-get
 	2	JMP_CLOSURE	0
 
 Running...
 Executing:  
-	CODE BLOCK # 43 ; () => ((package-get))
+	CODE BLOCK # 50 ; () => ((package-get))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	package-get
 	2	JMP_CLOSURE	0
@@ -70,7 +70,7 @@ COMPILE AND RUN inputs:  (package-set "foo") (package-import "core") (car '(1 2)
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 44 ; () => ((package-set "foo"))
+	CODE BLOCK # 51 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -78,7 +78,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 44 ; () => ((package-set "foo"))
+	CODE BLOCK # 51 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -100,7 +100,7 @@ test: got ""foo""  - expected ""foo""
 ParseNext ==>  (package-import "core")
 Parsed:  (core:package-import "core")
 Compiled:
-	CODE BLOCK # 45 ; () => ((package-import "core"))
+	CODE BLOCK # 52 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -108,7 +108,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 45 ; () => ((package-import "core"))
+	CODE BLOCK # 52 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -130,7 +130,7 @@ test: got "()"  - expected "()"
 ParseNext ==>  (car (quote (1 2)))
 Parsed:  (core:car (quote (1 2)))
 Compiled:
-	CODE BLOCK # 46 ; () => ((car (quote (1 2))))
+	CODE BLOCK # 53 ; () => ((car (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2)
 	2	GLOBAL_GET	car
@@ -138,7 +138,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 46 ; () => ((car (quote (1 2))))
+	CODE BLOCK # 53 ; () => ((car (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2)
 	2	GLOBAL_GET	car
@@ -166,7 +166,7 @@ COMPILE AND RUN inputs:  (package-set nil) (set! x 5) (package-set "foo") (packa
 ParseNext ==>  (package-set nil)
 Parsed:  (core:package-set foo:nil)
 Compiled:
-	CODE BLOCK # 47 ; () => ((package-set nil))
+	CODE BLOCK # 54 ; () => ((package-set nil))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	nil
 	2	GLOBAL_GET	package-set
@@ -174,7 +174,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 47 ; () => ((package-set nil))
+	CODE BLOCK # 54 ; () => ((package-set nil))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	nil
 	2	GLOBAL_GET	package-set
@@ -196,7 +196,7 @@ test: got "()"  - expected "()"
 ParseNext ==>  (set! x 5)
 Parsed:  (set! x 5)
 Compiled:
-	CODE BLOCK # 48 ; () => ((set! x 5))
+	CODE BLOCK # 55 ; () => ((set! x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_SET	x
@@ -204,7 +204,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 48 ; () => ((set! x 5))
+	CODE BLOCK # 55 ; () => ((set! x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_SET	x
@@ -222,7 +222,7 @@ test: got "5"  - expected "5"
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 49 ; () => ((package-set "foo"))
+	CODE BLOCK # 56 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -230,7 +230,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 49 ; () => ((package-set "foo"))
+	CODE BLOCK # 56 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -252,7 +252,7 @@ test: got ""foo""  - expected ""foo""
 ParseNext ==>  (package-import "core")
 Parsed:  (core:package-import "core")
 Compiled:
-	CODE BLOCK # 50 ; () => ((package-import "core"))
+	CODE BLOCK # 57 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -260,7 +260,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 50 ; () => ((package-import "core"))
+	CODE BLOCK # 57 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -282,7 +282,7 @@ test: got "()"  - expected "()"
 ParseNext ==>  (set! x (+ 1 5))
 Parsed:  (set! foo:x (core:+ 1 5))
 Compiled:
-	CODE BLOCK # 51 ; () => ((set! x (+ 1 5)))
+	CODE BLOCK # 58 ; () => ((set! x (+ 1 5)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -295,7 +295,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 51 ; () => ((set! x (+ 1 5)))
+	CODE BLOCK # 58 ; () => ((set! x (+ 1 5)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -332,7 +332,7 @@ test: got "6"  - expected "6"
 ParseNext ==>  (package-set nil)
 Parsed:  (core:package-set foo:nil)
 Compiled:
-	CODE BLOCK # 52 ; () => ((package-set nil))
+	CODE BLOCK # 59 ; () => ((package-set nil))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	nil
 	2	GLOBAL_GET	package-set
@@ -340,7 +340,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 52 ; () => ((package-set nil))
+	CODE BLOCK # 59 ; () => ((package-set nil))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	nil
 	2	GLOBAL_GET	package-set
@@ -362,14 +362,14 @@ test: got "()"  - expected "()"
 ParseNext ==>  x
 Parsed:  x
 Compiled:
-	CODE BLOCK # 53 ; () => (x)
+	CODE BLOCK # 60 ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 53 ; () => (x)
+	CODE BLOCK # 60 ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
@@ -390,7 +390,7 @@ COMPILE AND RUN inputs:  (package-set "foo") (package-import "core") (set! first
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 54 ; () => ((package-set "foo"))
+	CODE BLOCK # 61 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -398,7 +398,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 54 ; () => ((package-set "foo"))
+	CODE BLOCK # 61 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -420,7 +420,7 @@ test: got ""foo""  - expected ""foo""
 ParseNext ==>  (package-import "core")
 Parsed:  (core:package-import "core")
 Compiled:
-	CODE BLOCK # 55 ; () => ((package-import "core"))
+	CODE BLOCK # 62 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -428,7 +428,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 55 ; () => ((package-import "core"))
+	CODE BLOCK # 62 ; () => ((package-import "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-import
@@ -450,7 +450,7 @@ test: got "()"  - expected "()"
 ParseNext ==>  (set! first car)
 Parsed:  (set! foo:first core:car)
 Compiled:
-	CODE BLOCK # 56 ; () => ((set! first car))
+	CODE BLOCK # 63 ; () => ((set! first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -458,7 +458,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 56 ; () => ((set! first car))
+	CODE BLOCK # 63 ; () => ((set! first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -476,7 +476,7 @@ test: got "[Closure/core:car]"  - expected "[Closure/core:car]"
 ParseNext ==>  (first (quote (1 2)))
 Parsed:  (foo:first (quote (1 2)))
 Compiled:
-	CODE BLOCK # 57 ; () => ((first (quote (1 2))))
+	CODE BLOCK # 64 ; () => ((first (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2)
 	2	GLOBAL_GET	first
@@ -484,7 +484,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 57 ; () => ((first (quote (1 2))))
+	CODE BLOCK # 64 ; () => ((first (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2)
 	2	GLOBAL_GET	first
@@ -512,7 +512,7 @@ COMPILE AND RUN inputs:  (package-set "a") (package-export '(afoo)) (set! afoo 1
 ParseNext ==>  (package-set "a")
 Parsed:  (core:package-set "a")
 Compiled:
-	CODE BLOCK # 58 ; () => ((package-set "a"))
+	CODE BLOCK # 65 ; () => ((package-set "a"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"a"
 	2	GLOBAL_GET	package-set
@@ -520,7 +520,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 58 ; () => ((package-set "a"))
+	CODE BLOCK # 65 ; () => ((package-set "a"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"a"
 	2	GLOBAL_GET	package-set
@@ -542,7 +542,7 @@ test: got ""a""  - expected ""a""
 ParseNext ==>  (package-export (quote (afoo)))
 Parsed:  (core:package-export (quote (a:afoo)))
 Compiled:
-	CODE BLOCK # 59 ; () => ((package-export (quote (afoo))))
+	CODE BLOCK # 66 ; () => ((package-export (quote (afoo))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(afoo)
 	2	GLOBAL_GET	package-export
@@ -550,7 +550,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 59 ; () => ((package-export (quote (afoo))))
+	CODE BLOCK # 66 ; () => ((package-export (quote (afoo))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(afoo)
 	2	GLOBAL_GET	package-export
@@ -572,7 +572,7 @@ test: got "()"  - expected "()"
 ParseNext ==>  (set! afoo 1)
 Parsed:  (set! a:afoo 1)
 Compiled:
-	CODE BLOCK # 60 ; () => ((set! afoo 1))
+	CODE BLOCK # 67 ; () => ((set! afoo 1))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	GLOBAL_SET	afoo
@@ -580,7 +580,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 60 ; () => ((set! afoo 1))
+	CODE BLOCK # 67 ; () => ((set! afoo 1))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	GLOBAL_SET	afoo
@@ -598,7 +598,7 @@ test: got "1"  - expected "1"
 ParseNext ==>  (package-set "b")
 Parsed:  (core:package-set "b")
 Compiled:
-	CODE BLOCK # 61 ; () => ((package-set "b"))
+	CODE BLOCK # 68 ; () => ((package-set "b"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"b"
 	2	GLOBAL_GET	package-set
@@ -606,7 +606,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 61 ; () => ((package-set "b"))
+	CODE BLOCK # 68 ; () => ((package-set "b"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"b"
 	2	GLOBAL_GET	package-set
@@ -628,7 +628,7 @@ test: got ""b""  - expected ""b""
 ParseNext ==>  (package-import "a")
 Parsed:  (core:package-import "a")
 Compiled:
-	CODE BLOCK # 62 ; () => ((package-import "a"))
+	CODE BLOCK # 69 ; () => ((package-import "a"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"a"
 	2	GLOBAL_GET	package-import
@@ -636,7 +636,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 62 ; () => ((package-import "a"))
+	CODE BLOCK # 69 ; () => ((package-import "a"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"a"
 	2	GLOBAL_GET	package-import
@@ -658,14 +658,14 @@ test: got "()"  - expected "()"
 ParseNext ==>  afoo
 Parsed:  a:afoo
 Compiled:
-	CODE BLOCK # 63 ; () => (afoo)
+	CODE BLOCK # 70 ; () => (afoo)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	afoo
 	2	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 63 ; () => (afoo)
+	CODE BLOCK # 70 ; () => (afoo)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	afoo
 	2	RETURN_VAL
@@ -686,7 +686,7 @@ COMPILE AND RUN inputs:  (package-set "foo")
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 64 ; () => ((package-set "foo"))
+	CODE BLOCK # 71 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -694,7 +694,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 64 ; () => ((package-set "foo"))
+	CODE BLOCK # 71 ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -722,7 +722,7 @@ COMPILE AND RUN inputs:  (begin (+ (+ 1 2) 3) 4)
 ParseNext ==>  (begin (+ (+ 1 2) 3) 4)
 Parsed:  (begin (core:+ (core:+ 1 2) 3) 4)
 Compiled:
-	CODE BLOCK # 65 ; () => ((begin (+ (+ 1 2) 3) 4))
+	CODE BLOCK # 72 ; () => ((begin (+ (+ 1 2) 3) 4))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	11
 	2	SAVE_RETURN	"R1"	7
@@ -741,7 +741,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 65 ; () => ((begin (+ (+ 1 2) 3) 4))
+	CODE BLOCK # 72 ; () => ((begin (+ (+ 1 2) 3) 4))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	11
 	2	SAVE_RETURN	"R1"	7
@@ -806,16 +806,16 @@ COMPILE AND RUN inputs:  (begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))
 ParseNext ==>  (begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5)))
 Parsed:  (begin (set! foo:incf (lambda (foo:x) (core:+ foo:x 1))) (foo:incf (foo:incf 5)))
 Compiled:
-	CODE BLOCK # 66 ; (x) => ((+ x 1))
+	CODE BLOCK # 73 ; (x) => ((+ x 1))
 	0	MAKE_ENV	1	; (x)
 	1	LOCAL_GET	0	0	; x
 	2	PUSH_CONST	1
 	3	GLOBAL_GET	+
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 67 ; () => ((begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))))
+	CODE BLOCK # 74 ; () => ((begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #66 : ((+ x 1))
+	1	MAKE_CLOSURE	[Closure]	; #73 : ((+ x 1))
 	2	GLOBAL_SET	incf
 	3	STACK_POP
 	4	SAVE_RETURN	"R0"	8
@@ -828,9 +828,9 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 67 ; () => ((begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))))
+	CODE BLOCK # 74 ; () => ((begin (set! incf (lambda (x) (+ x 1))) (incf (incf 5))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #66 : ((+ x 1))
+	1	MAKE_CLOSURE	[Closure]	; #73 : ((+ x 1))
 	2	GLOBAL_SET	incf
 	3	STACK_POP
 	4	SAVE_RETURN	"R0"	8
@@ -844,7 +844,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #66 : ((+ x 1))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #73 : ((+ x 1))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	incf
                                       1: [ [Closure] ]
@@ -901,7 +901,7 @@ COMPILE AND RUN inputs:  (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1
 ParseNext ==>  (set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1))))))
 Parsed:  (set! foo:fact (lambda (foo:x) (if (core:<= foo:x 1) 1 (core:* foo:x (foo:fact (core:- foo:x 1))))))
 Compiled:
-	CODE BLOCK # 68 ; (x) => ((if (<= x 1) 1 (* x (fact (- x 1)))))
+	CODE BLOCK # 75 ; (x) => ((if (<= x 1) 1 (* x (fact (- x 1)))))
 	0	MAKE_ENV	1	; (x)
 	1	SAVE_RETURN	"R0"	6
 	2	LOCAL_GET	0	0	; x
@@ -927,24 +927,24 @@ Compiled:
 	22	GLOBAL_GET	*
 	23	JMP_CLOSURE	2
 
-	CODE BLOCK # 69 ; () => ((set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))))
+	CODE BLOCK # 76 ; () => ((set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #68 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
+	1	MAKE_CLOSURE	[Closure]	; #75 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
 	2	GLOBAL_SET	fact
 	3	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 69 ; () => ((set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))))
+	CODE BLOCK # 76 ; () => ((set! fact (lambda (x) (if (<= x 1) 1 (* x (fact (- x 1)))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #68 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
+	1	MAKE_CLOSURE	[Closure]	; #75 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
 	2	GLOBAL_SET	fact
 	3	RETURN_VAL
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #68 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #75 : ((if (<= x 1) 1 (* x (fact (- x 1)))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fact
                                       1: [ [Closure] ]
@@ -953,7 +953,7 @@ test: got "[Closure]"  - expected "[Closure]"
 ParseNext ==>  (fact 5)
 Parsed:  (foo:fact 5)
 Compiled:
-	CODE BLOCK # 70 ; () => ((fact 5))
+	CODE BLOCK # 77 ; () => ((fact 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	fact
@@ -961,7 +961,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 70 ; () => ((fact 5))
+	CODE BLOCK # 77 ; () => ((fact 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	fact
@@ -1233,7 +1233,7 @@ COMPILE AND RUN inputs:  (set! fact-helper (lambda (x prod) (if (<= x 1) prod (f
 ParseNext ==>  (set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod)))))
 Parsed:  (set! foo:fact-helper (lambda (foo:x foo:prod) (if (core:<= foo:x 1) foo:prod (foo:fact-helper (core:- foo:x 1) (core:* foo:x foo:prod)))))
 Compiled:
-	CODE BLOCK # 71 ; (x prod) => ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+	CODE BLOCK # 78 ; (x prod) => ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
 	0	MAKE_ENV	2	; (x prod)
 	1	SAVE_RETURN	"R0"	6
 	2	LOCAL_GET	0	0	; x
@@ -1260,24 +1260,24 @@ Compiled:
 	23	GLOBAL_GET	fact-helper
 	24	JMP_CLOSURE	2
 
-	CODE BLOCK # 72 ; () => ((set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))))
+	CODE BLOCK # 79 ; () => ((set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #71 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+	1	MAKE_CLOSURE	[Closure]	; #78 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
 	2	GLOBAL_SET	fact-helper
 	3	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 72 ; () => ((set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))))
+	CODE BLOCK # 79 ; () => ((set! fact-helper (lambda (x prod) (if (<= x 1) prod (fact-helper (- x 1) (* x prod))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #71 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+	1	MAKE_CLOSURE	[Closure]	; #78 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
 	2	GLOBAL_SET	fact-helper
 	3	RETURN_VAL
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #71 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #78 : ((if (<= x 1) prod (fact-helper (- x 1) (* x prod))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fact-helper
                                       1: [ [Closure] ]
@@ -1286,31 +1286,31 @@ test: got "[Closure]"  - expected "[Closure]"
 ParseNext ==>  (set! fact (lambda (x) (fact-helper x 1)))
 Parsed:  (set! foo:fact (lambda (foo:x) (foo:fact-helper foo:x 1)))
 Compiled:
-	CODE BLOCK # 73 ; (x) => ((fact-helper x 1))
+	CODE BLOCK # 80 ; (x) => ((fact-helper x 1))
 	0	MAKE_ENV	1	; (x)
 	1	LOCAL_GET	0	0	; x
 	2	PUSH_CONST	1
 	3	GLOBAL_GET	fact-helper
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 74 ; () => ((set! fact (lambda (x) (fact-helper x 1))))
+	CODE BLOCK # 81 ; () => ((set! fact (lambda (x) (fact-helper x 1))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #73 : ((fact-helper x 1))
+	1	MAKE_CLOSURE	[Closure]	; #80 : ((fact-helper x 1))
 	2	GLOBAL_SET	fact
 	3	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 74 ; () => ((set! fact (lambda (x) (fact-helper x 1))))
+	CODE BLOCK # 81 ; () => ((set! fact (lambda (x) (fact-helper x 1))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #73 : ((fact-helper x 1))
+	1	MAKE_CLOSURE	[Closure]	; #80 : ((fact-helper x 1))
 	2	GLOBAL_SET	fact
 	3	RETURN_VAL
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #73 : ((fact-helper x 1))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #80 : ((fact-helper x 1))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fact
                                       1: [ [Closure] ]
@@ -1319,7 +1319,7 @@ test: got "[Closure]"  - expected "[Closure]"
 ParseNext ==>  (fact 5)
 Parsed:  (foo:fact 5)
 Compiled:
-	CODE BLOCK # 75 ; () => ((fact 5))
+	CODE BLOCK # 82 ; () => ((fact 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	fact
@@ -1327,7 +1327,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 75 ; () => ((fact 5))
+	CODE BLOCK # 82 ; () => ((fact 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	fact
@@ -1617,7 +1617,7 @@ COMPILE AND RUN inputs:  (begin (set! add +) (add 3 (add 2 1)))
 ParseNext ==>  (begin (set! add +) (add 3 (add 2 1)))
 Parsed:  (begin (set! foo:add core:+) (foo:add 3 (foo:add 2 1)))
 Compiled:
-	CODE BLOCK # 76 ; () => ((begin (set! add +) (add 3 (add 2 1))))
+	CODE BLOCK # 83 ; () => ((begin (set! add +) (add 3 (add 2 1))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	+
 	2	GLOBAL_SET	add
@@ -1634,7 +1634,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 76 ; () => ((begin (set! add +) (add 3 (add 2 1))))
+	CODE BLOCK # 83 ; () => ((begin (set! add +) (add 3 (add 2 1))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	+
 	2	GLOBAL_SET	add
@@ -1693,7 +1693,7 @@ COMPILE AND RUN inputs:  (begin (set! kar car) (set! car cdr) (set! result (car 
 ParseNext ==>  (begin (set! kar car) (set! car cdr) (set! result (car (quote (1 2 3)))) (set! car kar) result)
 Parsed:  (begin (set! foo:kar core:car) (set! core:car core:cdr) (set! foo:result (core:car (quote (1 2 3)))) (set! core:car foo:kar) foo:result)
 Compiled:
-	CODE BLOCK # 77 ; () => ((begin (set! kar car) (set! car cdr) (set! result (car (quote (1 2 3)))) (set! car kar) result))
+	CODE BLOCK # 84 ; () => ((begin (set! kar car) (set! car cdr) (set! result (car (quote (1 2 3)))) (set! car kar) result))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	kar
@@ -1716,7 +1716,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 77 ; () => ((begin (set! kar car) (set! car cdr) (set! result (car (quote (1 2 3)))) (set! car kar) result))
+	CODE BLOCK # 84 ; () => ((begin (set! kar car) (set! car cdr) (set! result (car (quote (1 2 3)))) (set! car kar) result))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	kar
@@ -1789,7 +1789,7 @@ COMPILE AND RUN inputs:  ((lambda (x) (set! x 5) x) 6)
 ParseNext ==>  ((lambda (x) (set! x 5) x) 6)
 Parsed:  ((lambda (foo:x) (set! foo:x 5) foo:x) 6)
 Compiled:
-	CODE BLOCK # 78 ; (x) => ((set! x 5) x)
+	CODE BLOCK # 85 ; (x) => ((set! x 5) x)
 	0	MAKE_ENV	1	; (x)
 	1	PUSH_CONST	5
 	2	LOCAL_SET	0	0	; x
@@ -1797,18 +1797,18 @@ Compiled:
 	4	LOCAL_GET	0	0	; x
 	5	RETURN_VAL
 
-	CODE BLOCK # 79 ; () => (((lambda (x) (set! x 5) x) 6))
+	CODE BLOCK # 86 ; () => (((lambda (x) (set! x 5) x) 6))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	6
-	2	MAKE_CLOSURE	[Closure]	; #78 : ((set! x 5) x)
+	2	MAKE_CLOSURE	[Closure]	; #85 : ((set! x 5) x)
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 79 ; () => (((lambda (x) (set! x 5) x) 6))
+	CODE BLOCK # 86 ; () => (((lambda (x) (set! x 5) x) 6))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	6
-	2	MAKE_CLOSURE	[Closure]	; #78 : ((set! x 5) x)
+	2	MAKE_CLOSURE	[Closure]	; #85 : ((set! x 5) x)
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -1816,7 +1816,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	6
                                       1: [ 6 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #78 : ((set! x 5) x)
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; #85 : ((set! x 5) x)
                                       2: [ 6 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 6 ]

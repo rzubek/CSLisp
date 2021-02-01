@@ -1,56 +1,56 @@
-TEST PrintSampleCompilations : 8:08:13 PM
+TEST PrintSampleCompilations : 8:44:22 PM
 COMPILE inputs:  5
 ParseNext ==>  5
-	CODE BLOCK # 42 ; () => (5)
+	CODE BLOCK # 49 ; () => (5)
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	RETURN_VAL
 
 COMPILE inputs:  "foo"
 ParseNext ==>  "foo"
-	CODE BLOCK # 43 ; () => ("foo")
+	CODE BLOCK # 50 ; () => ("foo")
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	RETURN_VAL
 
 COMPILE inputs:  #t
 ParseNext ==>  #t
-	CODE BLOCK # 44 ; () => (#t)
+	CODE BLOCK # 51 ; () => (#t)
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	#t
 	2	RETURN_VAL
 
 COMPILE inputs:  'foo
 ParseNext ==>  (quote foo)
-	CODE BLOCK # 45 ; () => ((quote foo))
+	CODE BLOCK # 52 ; () => ((quote foo))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	foo
 	2	RETURN_VAL
 
 COMPILE inputs:  (begin 1)
 ParseNext ==>  (begin 1)
-	CODE BLOCK # 46 ; () => ((begin 1))
+	CODE BLOCK # 53 ; () => ((begin 1))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	RETURN_VAL
 
 COMPILE inputs:  (begin 1 2 3)
 ParseNext ==>  (begin 1 2 3)
-	CODE BLOCK # 47 ; () => ((begin 1 2 3))
+	CODE BLOCK # 54 ; () => ((begin 1 2 3))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	3
 	2	RETURN_VAL
 
 COMPILE inputs:  x
 ParseNext ==>  x
-	CODE BLOCK # 48 ; () => (x)
+	CODE BLOCK # 55 ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
 
 COMPILE inputs:  (set! x (begin 1 2 3))
 ParseNext ==>  (set! x (begin 1 2 3))
-	CODE BLOCK # 49 ; () => ((set! x (begin 1 2 3)))
+	CODE BLOCK # 56 ; () => ((set! x (begin 1 2 3)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	3
 	2	GLOBAL_SET	x
@@ -58,7 +58,7 @@ ParseNext ==>  (set! x (begin 1 2 3))
 
 COMPILE inputs:  (begin (set! x (begin 1 2 3)) x)
 ParseNext ==>  (begin (set! x (begin 1 2 3)) x)
-	CODE BLOCK # 50 ; () => ((begin (set! x (begin 1 2 3)) x))
+	CODE BLOCK # 57 ; () => ((begin (set! x (begin 1 2 3)) x))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	3
 	2	GLOBAL_SET	x
@@ -68,7 +68,7 @@ ParseNext ==>  (begin (set! x (begin 1 2 3)) x)
 
 COMPILE inputs:  (if p x y)
 ParseNext ==>  (if p x y)
-	CODE BLOCK # 51 ; () => ((if p x y))
+	CODE BLOCK # 58 ; () => ((if p x y))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	p
 	2	JMP_IF_FALSE	"L0"	5
@@ -80,28 +80,28 @@ ParseNext ==>  (if p x y)
 
 COMPILE inputs:  (begin (if p x y) z)
 ParseNext ==>  (begin (if p x y) z)
-	CODE BLOCK # 52 ; () => ((begin (if p x y) z))
+	CODE BLOCK # 59 ; () => ((begin (if p x y) z))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	z
 	2	RETURN_VAL
 
 COMPILE inputs:  (if 5 x y)
 ParseNext ==>  (if 5 x y)
-	CODE BLOCK # 53 ; () => ((if 5 x y))
+	CODE BLOCK # 60 ; () => ((if 5 x y))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
 
 COMPILE inputs:  (if #f x y)
 ParseNext ==>  (if #f x y)
-	CODE BLOCK # 54 ; () => ((if #f x y))
+	CODE BLOCK # 61 ; () => ((if #f x y))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	y
 	2	RETURN_VAL
 
 COMPILE inputs:  (if x y)
 ParseNext ==>  (if x y)
-	CODE BLOCK # 55 ; () => ((if x y))
+	CODE BLOCK # 62 ; () => ((if x y))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	JMP_IF_FALSE	"L0"	5
@@ -113,14 +113,14 @@ ParseNext ==>  (if x y)
 
 COMPILE inputs:  (if p x (begin 1 2 x))
 ParseNext ==>  (if p x (begin 1 2 x))
-	CODE BLOCK # 56 ; () => ((if p x (begin 1 2 x)))
+	CODE BLOCK # 63 ; () => ((if p x (begin 1 2 x)))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
 
 COMPILE inputs:  (if (not p) x y)
 ParseNext ==>  (if (not p) x y)
-	CODE BLOCK # 57 ; () => ((if (not p) x y))
+	CODE BLOCK # 64 ; () => ((if (not p) x y))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	GLOBAL_GET	p
@@ -136,7 +136,7 @@ ParseNext ==>  (if (not p) x y)
 
 COMPILE inputs:  (if (if a b c) x y)
 ParseNext ==>  (if (if a b c) x y)
-	CODE BLOCK # 58 ; () => ((if (if a b c) x y))
+	CODE BLOCK # 65 ; () => ((if (if a b c) x y))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	a
 	2	JMP_IF_FALSE	"L0"	5
@@ -154,81 +154,81 @@ ParseNext ==>  (if (if a b c) x y)
 
 COMPILE inputs:  (lambda () 5)
 ParseNext ==>  (lambda () 5)
-	CODE BLOCK # 59 ; () => (5)
+	CODE BLOCK # 66 ; () => (5)
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	RETURN_VAL
 
-	CODE BLOCK # 60 ; () => ((lambda () 5))
+	CODE BLOCK # 67 ; () => ((lambda () 5))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #59 : (5)
+	1	MAKE_CLOSURE	[Closure]	; #66 : (5)
 	2	RETURN_VAL
 
 COMPILE inputs:  ((lambda () 5))
 ParseNext ==>  ((lambda () 5))
-	CODE BLOCK # 61 ; () => (((lambda () 5)))
+	CODE BLOCK # 68 ; () => (((lambda () 5)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	RETURN_VAL
 
 COMPILE inputs:  (lambda (a) a)
 ParseNext ==>  (lambda (a) a)
-	CODE BLOCK # 62 ; (a) => (a)
-	0	MAKE_ENV	1	; (a)
-	1	LOCAL_GET	0	0	; a
-	2	RETURN_VAL
-
-	CODE BLOCK # 63 ; () => ((lambda (a) a))
-	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #62 : (a)
-	2	RETURN_VAL
-
-COMPILE inputs:  (lambda (a) (lambda (b) a))
-ParseNext ==>  (lambda (a) (lambda (b) a))
-	CODE BLOCK # 64 ; (b) => (a)
-	0	MAKE_ENV	1	; (b)
-	1	LOCAL_GET	1	0	; a
-	2	RETURN_VAL
-
-	CODE BLOCK # 65 ; (a) => ((lambda (b) a))
-	0	MAKE_ENV	1	; (a)
-	1	MAKE_CLOSURE	[Closure]	; #64 : (a)
-	2	RETURN_VAL
-
-	CODE BLOCK # 66 ; () => ((lambda (a) (lambda (b) a)))
-	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #65 : ((lambda (b) a))
-	2	RETURN_VAL
-
-COMPILE inputs:  (set! x (lambda (a) a))
-ParseNext ==>  (set! x (lambda (a) a))
-	CODE BLOCK # 67 ; (a) => (a)
-	0	MAKE_ENV	1	; (a)
-	1	LOCAL_GET	0	0	; a
-	2	RETURN_VAL
-
-	CODE BLOCK # 68 ; () => ((set! x (lambda (a) a)))
-	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #67 : (a)
-	2	GLOBAL_SET	x
-	3	RETURN_VAL
-
-COMPILE inputs:  ((lambda (a) a) 5)
-ParseNext ==>  ((lambda (a) a) 5)
 	CODE BLOCK # 69 ; (a) => (a)
 	0	MAKE_ENV	1	; (a)
 	1	LOCAL_GET	0	0	; a
 	2	RETURN_VAL
 
-	CODE BLOCK # 70 ; () => (((lambda (a) a) 5))
+	CODE BLOCK # 70 ; () => ((lambda (a) a))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; #69 : (a)
+	2	RETURN_VAL
+
+COMPILE inputs:  (lambda (a) (lambda (b) a))
+ParseNext ==>  (lambda (a) (lambda (b) a))
+	CODE BLOCK # 71 ; (b) => (a)
+	0	MAKE_ENV	1	; (b)
+	1	LOCAL_GET	1	0	; a
+	2	RETURN_VAL
+
+	CODE BLOCK # 72 ; (a) => ((lambda (b) a))
+	0	MAKE_ENV	1	; (a)
+	1	MAKE_CLOSURE	[Closure]	; #71 : (a)
+	2	RETURN_VAL
+
+	CODE BLOCK # 73 ; () => ((lambda (a) (lambda (b) a)))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; #72 : ((lambda (b) a))
+	2	RETURN_VAL
+
+COMPILE inputs:  (set! x (lambda (a) a))
+ParseNext ==>  (set! x (lambda (a) a))
+	CODE BLOCK # 74 ; (a) => (a)
+	0	MAKE_ENV	1	; (a)
+	1	LOCAL_GET	0	0	; a
+	2	RETURN_VAL
+
+	CODE BLOCK # 75 ; () => ((set! x (lambda (a) a)))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; #74 : (a)
+	2	GLOBAL_SET	x
+	3	RETURN_VAL
+
+COMPILE inputs:  ((lambda (a) a) 5)
+ParseNext ==>  ((lambda (a) a) 5)
+	CODE BLOCK # 76 ; (a) => (a)
+	0	MAKE_ENV	1	; (a)
+	1	LOCAL_GET	0	0	; a
+	2	RETURN_VAL
+
+	CODE BLOCK # 77 ; () => (((lambda (a) a) 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
-	2	MAKE_CLOSURE	[Closure]	; #69 : (a)
+	2	MAKE_CLOSURE	[Closure]	; #76 : (a)
 	3	JMP_CLOSURE	1
 
 COMPILE inputs:  ((lambda (x) ((lambda (y z) (f x y z)) 3 x)) 4)
 ParseNext ==>  ((lambda (x) ((lambda (y z) (f x y z)) 3 x)) 4)
-	CODE BLOCK # 71 ; (y z) => ((f x y z))
+	CODE BLOCK # 78 ; (y z) => ((f x y z))
 	0	MAKE_ENV	2	; (y z)
 	1	LOCAL_GET	1	0	; x
 	2	LOCAL_GET	0	0	; y
@@ -236,22 +236,22 @@ ParseNext ==>  ((lambda (x) ((lambda (y z) (f x y z)) 3 x)) 4)
 	4	GLOBAL_GET	f
 	5	JMP_CLOSURE	3
 
-	CODE BLOCK # 72 ; (x) => (((lambda (y z) (f x y z)) 3 x))
+	CODE BLOCK # 79 ; (x) => (((lambda (y z) (f x y z)) 3 x))
 	0	MAKE_ENV	1	; (x)
 	1	PUSH_CONST	3
 	2	LOCAL_GET	0	0	; x
-	3	MAKE_CLOSURE	[Closure]	; #71 : ((f x y z))
+	3	MAKE_CLOSURE	[Closure]	; #78 : ((f x y z))
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 73 ; () => (((lambda (x) ((lambda (y z) (f x y z)) 3 x)) 4))
+	CODE BLOCK # 80 ; () => (((lambda (x) ((lambda (y z) (f x y z)) 3 x)) 4))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	4
-	2	MAKE_CLOSURE	[Closure]	; #72 : (((lambda (y z) (f x y z)) 3 x))
+	2	MAKE_CLOSURE	[Closure]	; #79 : (((lambda (y z) (f x y z)) 3 x))
 	3	JMP_CLOSURE	1
 
 COMPILE inputs:  (if a b (f c))
 ParseNext ==>  (if a b (f c))
-	CODE BLOCK # 74 ; () => ((if a b (f c)))
+	CODE BLOCK # 81 ; () => ((if a b (f c)))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	a
 	2	JMP_IF_FALSE	"L0"	5
@@ -264,7 +264,7 @@ ParseNext ==>  (if a b (f c))
 
 COMPILE inputs:  (if* (+ 1 2) b)
 ParseNext ==>  (if* (+ 1 2) b)
-	CODE BLOCK # 75 ; () => ((if* (+ 1 2) b))
+	CODE BLOCK # 82 ; () => ((if* (+ 1 2) b))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -282,14 +282,14 @@ ParseNext ==>  (if* (+ 1 2) b)
 
 COMPILE inputs:  (if* #f b)
 ParseNext ==>  (if* #f b)
-	CODE BLOCK # 76 ; () => ((if* #f b))
+	CODE BLOCK # 83 ; () => ((if* #f b))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	b
 	2	RETURN_VAL
 
 COMPILE inputs:  (begin (- 2 3) (+ 2 3))
 ParseNext ==>  (begin (- 2 3) (+ 2 3))
-	CODE BLOCK # 77 ; () => ((begin (- 2 3) (+ 2 3)))
+	CODE BLOCK # 84 ; () => ((begin (- 2 3) (+ 2 3)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	2

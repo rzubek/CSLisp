@@ -1,7 +1,7 @@
-TEST PrintAllStandardLibraries : 8:08:13 PM
+TEST PrintAllStandardLibraries : 8:44:23 PM
 ParseNext ==>  (package-set "core")
 Executing:  
-	CODE BLOCK # 42 ; () => ((package-set "core"))
+	CODE BLOCK # 49 ; () => ((package-set "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-set
@@ -21,7 +21,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
 Executing:  
-	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK # 50 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
@@ -41,7 +41,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 Executing:  
-	CODE BLOCK # 45 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
+	CODE BLOCK # 52 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -54,7 +54,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 Executing:  
-	CODE BLOCK # 47 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
+	CODE BLOCK # 54 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -67,7 +67,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 Executing:  
-	CODE BLOCK # 51 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
+	CODE BLOCK # 58 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -80,7 +80,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 Executing:  
-	CODE BLOCK # 53 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
+	CODE BLOCK # 60 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -93,7 +93,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 Executing:  
-	CODE BLOCK # 55 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
+	CODE BLOCK # 62 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -106,7 +106,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 Executing:  
-	CODE BLOCK # 57 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
+	CODE BLOCK # 64 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -119,7 +119,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 Executing:  
-	CODE BLOCK # 59 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
+	CODE BLOCK # 66 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -132,7 +132,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 Executing:  
-	CODE BLOCK # 46 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -292,7 +292,7 @@ Executing:
                                       1: [ (let ((keyval (gensym "CASE"))) (let* () (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 46 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -384,7 +384,7 @@ Executing:
                                       1: [ (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -532,7 +532,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (keyval) (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) (gensym "CASE")) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 63 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
+	CODE BLOCK # 70 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -545,7 +545,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 Executing:  
-	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -747,7 +747,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))) (car test) (cadr test) (caddr test) (car (cdddr test))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 66 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK # 73 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -760,7 +760,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 Executing:  
-	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -926,7 +926,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)) (car pars) (cadr pars)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 69 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK # 76 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -939,7 +939,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (define first car)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1087,7 +1087,7 @@ Executing:
                                       1: [ (begin (set! first car) (quote first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 70 ; () => ((define first car))
+	CODE BLOCK # 77 ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -1109,7 +1109,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define second cadr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1257,7 +1257,7 @@ Executing:
                                       1: [ (begin (set! second cadr) (quote second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 71 ; () => ((define second cadr))
+	CODE BLOCK # 78 ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -1279,7 +1279,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define third caddr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1427,7 +1427,7 @@ Executing:
                                       1: [ (begin (set! third caddr) (quote third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 72 ; () => ((define third caddr))
+	CODE BLOCK # 79 ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -1449,7 +1449,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define rest cdr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1597,7 +1597,7 @@ Executing:
                                       1: [ (begin (set! rest cdr) (quote rest)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 73 ; () => ((define rest cdr))
+	CODE BLOCK # 80 ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -1619,7 +1619,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-first cdr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1767,7 +1767,7 @@ Executing:
                                       1: [ (begin (set! after-first cdr) (quote after-first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 74 ; () => ((define after-first cdr))
+	CODE BLOCK # 81 ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -1789,7 +1789,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-second cddr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1937,7 +1937,7 @@ Executing:
                                       1: [ (begin (set! after-second cddr) (quote after-second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 75 ; () => ((define after-second cddr))
+	CODE BLOCK # 82 ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -1959,7 +1959,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-third cdddr)
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2107,7 +2107,7 @@ Executing:
                                       1: [ (begin (set! after-third cdddr) (quote after-third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 76 ; () => ((define after-third cdddr))
+	CODE BLOCK # 83 ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -2129,7 +2129,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2289,7 +2289,7 @@ Executing:
                                       1: [ (define fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2437,9 +2437,9 @@ Executing:
                                       1: [ (begin (set! fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) (quote fold-left)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 78 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK # 85 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
@@ -2448,7 +2448,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-left
                                       1: [ [Closure] ]
@@ -2459,7 +2459,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2619,7 +2619,7 @@ Executing:
                                       1: [ (define fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2767,9 +2767,9 @@ Executing:
                                       1: [ (begin (set! fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) (quote fold-right)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 80 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK # 87 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
@@ -2778,7 +2778,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-right
                                       1: [ [Closure] ]
@@ -2955,19 +2955,47 @@ Executing:
 	0	CALL_PRIMOP	"package-exports"
 	1	RETURN_VAL
 
-	CODE BLOCK # 42 ; () => ((package-set "core"))
+	CODE BLOCK # 42 ; core:find-type
+	0	CALL_PRIMOP	"find-type"
+	1	RETURN_VAL
+
+	CODE BLOCK # 43 ; core:make-instance
+	0	CALL_PRIMOP	"make-instance"
+	1	RETURN_VAL
+
+	CODE BLOCK # 44 ; core:find-method
+	0	CALL_PRIMOP	"find-method"
+	1	RETURN_VAL
+
+	CODE BLOCK # 45 ; core:find-member
+	0	CALL_PRIMOP	"find-member"
+	1	RETURN_VAL
+
+	CODE BLOCK # 46 ; core:call-method
+	0	CALL_PRIMOP	"call-method"
+	1	RETURN_VAL
+
+	CODE BLOCK # 47 ; core:get-member-value
+	0	CALL_PRIMOP	"get-member-value"
+	1	RETURN_VAL
+
+	CODE BLOCK # 48 ; core:set-member-value
+	0	CALL_PRIMOP	"set-member-value"
+	1	RETURN_VAL
+
+	CODE BLOCK # 49 ; () => ((package-set "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-set
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK # 43 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK # 50 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK # 44 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -3002,12 +3030,12 @@ Executing:
 	31	GLOBAL_GET	append
 	32	JMP_CLOSURE	2
 
-	CODE BLOCK # 45 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
+	CODE BLOCK # 52 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 46 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -3056,12 +3084,12 @@ Executing:
 	45	GLOBAL_GET	list
 	46	JMP_CLOSURE	3
 
-	CODE BLOCK # 47 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
+	CODE BLOCK # 54 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 48 ; (v) => ((list (car v) nil))
+	CODE BLOCK # 55 ; (v) => ((list (car v) nil))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R3"	5
 	2	LOCAL_GET	0	0	; v
@@ -3072,7 +3100,7 @@ Executing:
 	7	GLOBAL_GET	list
 	8	JMP_CLOSURE	2
 
-	CODE BLOCK # 49 ; (v) => ((append (list (quote set!)) v))
+	CODE BLOCK # 56 ; (v) => ((append (list (quote set!)) v))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R5"	5
 	2	PUSH_CONST	set!
@@ -3083,7 +3111,7 @@ Executing:
 	7	GLOBAL_GET	append
 	8	JMP_CLOSURE	2
 
-	CODE BLOCK # 50 ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
+	CODE BLOCK # 57 ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	let
@@ -3092,7 +3120,7 @@ Executing:
 5	LABEL	"R0"
 	6	SAVE_RETURN	"R1"	15
 	7	SAVE_RETURN	"R2"	12
-	8	MAKE_CLOSURE	[Closure]	; #48 : ((list (car v) nil))
+	8	MAKE_CLOSURE	[Closure]	; #55 : ((list (car v) nil))
 	9	LOCAL_GET	0	0	; bindings
 	10	GLOBAL_GET	map
 	11	JMP_CLOSURE	2
@@ -3101,7 +3129,7 @@ Executing:
 	14	JMP_CLOSURE	1
 15	LABEL	"R1"
 	16	SAVE_RETURN	"R4"	21
-	17	MAKE_CLOSURE	[Closure]	; #49 : ((append (list (quote set!)) v))
+	17	MAKE_CLOSURE	[Closure]	; #56 : ((append (list (quote set!)) v))
 	18	LOCAL_GET	0	0	; bindings
 	19	GLOBAL_GET	map
 	20	JMP_CLOSURE	2
@@ -3110,12 +3138,12 @@ Executing:
 	23	GLOBAL_GET	append
 	24	JMP_CLOSURE	4
 
-	CODE BLOCK # 51 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
+	CODE BLOCK # 58 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 52 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -3176,12 +3204,12 @@ Executing:
 	57	GLOBAL_GET	list
 	58	JMP_CLOSURE	3
 
-	CODE BLOCK # 53 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
+	CODE BLOCK # 60 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 54 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -3243,12 +3271,12 @@ Executing:
 	58	GLOBAL_GET	list
 	59	JMP_CLOSURE	4
 
-	CODE BLOCK # 55 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
+	CODE BLOCK # 62 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 56 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -3304,12 +3332,12 @@ Executing:
 	52	GLOBAL_GET	list
 	53	JMP_CLOSURE	3
 
-	CODE BLOCK # 57 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
+	CODE BLOCK # 64 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 58 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -3370,12 +3398,12 @@ Executing:
 	57	GLOBAL_GET	list
 	58	JMP_CLOSURE	4
 
-	CODE BLOCK # 59 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
+	CODE BLOCK # 66 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 60 ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+	CODE BLOCK # 67 ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
 	0	MAKE_ENV	1	; (elt)
 	1	SAVE_RETURN	"R6"	5
 	2	LOCAL_GET	0	0	; elt
@@ -3405,7 +3433,7 @@ Executing:
 	26	LOCAL_GET	0	0	; elt
 	27	RETURN_VAL
 
-	CODE BLOCK # 61 ; (keyval) => ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+	CODE BLOCK # 68 ; (keyval) => ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 	0	MAKE_ENV	1	; (keyval)
 	1	PUSH_CONST	let
 	2	SAVE_RETURN	"R1"	11
@@ -3425,7 +3453,7 @@ Executing:
 	16	JMP_CLOSURE	1
 17	LABEL	"R4"
 	18	SAVE_RETURN	"R5"	23
-	19	MAKE_CLOSURE	[Closure]	; #60 : ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+	19	MAKE_CLOSURE	[Closure]	; #67 : ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
 	20	LOCAL_GET	1	1	; rest
 	21	GLOBAL_GET	map
 	22	JMP_CLOSURE	2
@@ -3436,22 +3464,22 @@ Executing:
 	27	GLOBAL_GET	list
 	28	JMP_CLOSURE	3
 
-	CODE BLOCK # 62 ; (key rest) => ((let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+	CODE BLOCK # 69 ; (key rest) => ((let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 	0	MAKE_ENVDOT	1	; (key rest)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	"CASE"
 	3	GLOBAL_GET	gensym
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #61 : ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+	6	MAKE_CLOSURE	[Closure]	; #68 : ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 	7	JMP_CLOSURE	1
 
-	CODE BLOCK # 63 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
+	CODE BLOCK # 70 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 64 ; (varname init-value predicate step-value) => ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	CODE BLOCK # 71 ; (varname init-value predicate step-value) => ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	0	MAKE_ENV	4	; (varname init-value predicate step-value)
 	1	PUSH_CONST	let
 	2	SAVE_RETURN	"R5"	11
@@ -3493,7 +3521,7 @@ Executing:
 	38	GLOBAL_GET	list
 	39	JMP_CLOSURE	3
 
-	CODE BLOCK # 65 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
+	CODE BLOCK # 72 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 	0	MAKE_ENVDOT	1	; (test body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; test
@@ -3519,15 +3547,15 @@ Executing:
 	22	GLOBAL_GET	car
 	23	JMP_CLOSURE	1
 24	LABEL	"R3"
-	25	MAKE_CLOSURE	[Closure]	; #64 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	25	MAKE_CLOSURE	[Closure]	; #71 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	26	JMP_CLOSURE	4
 
-	CODE BLOCK # 66 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK # 73 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 67 ; (varname count) => ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+	CODE BLOCK # 74 ; (varname count) => ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
 	0	MAKE_ENV	2	; (varname count)
 	1	SAVE_RETURN	"R2"	5
 	2	PUSH_CONST	for
@@ -3562,7 +3590,7 @@ Executing:
 	31	GLOBAL_GET	append
 	32	JMP_CLOSURE	3
 
-	CODE BLOCK # 68 ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
+	CODE BLOCK # 75 ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 	0	MAKE_ENVDOT	1	; (pars body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; pars
@@ -3574,15 +3602,15 @@ Executing:
 	8	GLOBAL_GET	cadr
 	9	JMP_CLOSURE	1
 10	LABEL	"R1"
-	11	MAKE_CLOSURE	[Closure]	; #67 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+	11	MAKE_CLOSURE	[Closure]	; #74 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
 	12	JMP_CLOSURE	2
 
-	CODE BLOCK # 69 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK # 76 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
 
-	CODE BLOCK # 70 ; () => ((define first car))
+	CODE BLOCK # 77 ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -3590,7 +3618,7 @@ Executing:
 	4	PUSH_CONST	first
 	5	RETURN_VAL
 
-	CODE BLOCK # 71 ; () => ((define second cadr))
+	CODE BLOCK # 78 ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -3598,7 +3626,7 @@ Executing:
 	4	PUSH_CONST	second
 	5	RETURN_VAL
 
-	CODE BLOCK # 72 ; () => ((define third caddr))
+	CODE BLOCK # 79 ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -3606,7 +3634,7 @@ Executing:
 	4	PUSH_CONST	third
 	5	RETURN_VAL
 
-	CODE BLOCK # 73 ; () => ((define rest cdr))
+	CODE BLOCK # 80 ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -3614,7 +3642,7 @@ Executing:
 	4	PUSH_CONST	rest
 	5	RETURN_VAL
 
-	CODE BLOCK # 74 ; () => ((define after-first cdr))
+	CODE BLOCK # 81 ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -3622,7 +3650,7 @@ Executing:
 	4	PUSH_CONST	after-first
 	5	RETURN_VAL
 
-	CODE BLOCK # 75 ; () => ((define after-second cddr))
+	CODE BLOCK # 82 ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -3630,7 +3658,7 @@ Executing:
 	4	PUSH_CONST	after-second
 	5	RETURN_VAL
 
-	CODE BLOCK # 76 ; () => ((define after-third cdddr))
+	CODE BLOCK # 83 ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -3638,7 +3666,7 @@ Executing:
 	4	PUSH_CONST	after-third
 	5	RETURN_VAL
 
-	CODE BLOCK # 77 ; (fn base lst) => ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	CODE BLOCK # 84 ; (fn base lst) => ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	0	MAKE_ENV	3	; (fn base lst)
 	1	SAVE_RETURN	"R0"	10
 	2	SAVE_RETURN	"R1"	6
@@ -3673,15 +3701,15 @@ Executing:
 	31	GLOBAL_GET	fold-left
 	32	JMP_CLOSURE	3
 
-	CODE BLOCK # 78 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK # 85 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #77 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
 	5	RETURN_VAL
 
-	CODE BLOCK # 79 ; (fn base lst) => ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	CODE BLOCK # 86 ; (fn base lst) => ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	0	MAKE_ENV	3	; (fn base lst)
 	1	SAVE_RETURN	"R0"	10
 	2	SAVE_RETURN	"R1"	6
@@ -3716,9 +3744,9 @@ Executing:
 	31	LOCAL_GET	0	0	; fn
 	32	JMP_CLOSURE	2
 
-	CODE BLOCK # 80 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK # 87 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #79 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
