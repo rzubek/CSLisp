@@ -90,7 +90,8 @@ namespace CSLisp.Core
             StringBuilder sb = new StringBuilder();
 
             sb.Append('\t', indentLevel);
-            sb.AppendLine($"CODE BLOCK # {block.handle.index} ; {block.debug}");
+            //sb.AppendLine($"CODE BLOCK # {block.handle.index} ; {block.debug}");
+            sb.AppendLine($"CODE BLOCK ; {block.debug}");
 
             for (int i = 0, count = block.instructions.Count; i < count; i++) {
                 Instruction instruction = block.instructions[i];

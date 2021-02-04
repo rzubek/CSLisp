@@ -1,7 +1,7 @@
-TEST TestStandardLibs : 8:44:23 PM
+TEST TestStandardLibs : 8:57:42 PM
 ParseNext ==>  (package-set "core")
 Executing:  
-	CODE BLOCK # 49 ; () => ((package-set "core"))
+	CODE BLOCK ; () => ((package-set "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-set
@@ -21,7 +21,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
 Executing:  
-	CODE BLOCK # 50 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
@@ -41,7 +41,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 Executing:  
-	CODE BLOCK # 52 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
+	CODE BLOCK ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -54,7 +54,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 Executing:  
-	CODE BLOCK # 54 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
+	CODE BLOCK ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -67,7 +67,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 Executing:  
-	CODE BLOCK # 58 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
+	CODE BLOCK ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -80,7 +80,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 Executing:  
-	CODE BLOCK # 60 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
+	CODE BLOCK ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -93,7 +93,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 Executing:  
-	CODE BLOCK # 62 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
+	CODE BLOCK ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -106,7 +106,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 Executing:  
-	CODE BLOCK # 64 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
+	CODE BLOCK ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -119,7 +119,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 Executing:  
-	CODE BLOCK # 66 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
+	CODE BLOCK ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -132,7 +132,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -292,7 +292,7 @@ Executing:
                                       1: [ (let ((keyval (gensym "CASE"))) (let* () (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -384,7 +384,7 @@ Executing:
                                       1: [ (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -454,7 +454,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((keyval (gensym "CASE"))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -511,7 +511,7 @@ Executing:  core:car
                                       4: [ ((lambda (keyval) (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))) [R5/30] [Closure/core:cadr] ((keyval (gensym "CASE"))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -532,7 +532,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (keyval) (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) (gensym "CASE")) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 70 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
+	CODE BLOCK ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -545,7 +545,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -615,7 +615,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -624,7 +624,7 @@ Executing:  core:car
                                       1: [ varname ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -633,7 +633,7 @@ Executing:  core:car
                                       1: [ init-value ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -642,7 +642,7 @@ Executing:  core:car
                                       1: [ predicate ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -699,7 +699,7 @@ Executing:  core:car
                                       4: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))) [R5/30] [Closure/core:cadr] ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -708,7 +708,7 @@ Executing:  core:cadr
                                       1: [ (car test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -717,7 +717,7 @@ Executing:  core:cadr
                                       1: [ (cadr test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -726,7 +726,7 @@ Executing:  core:cadr
                                       1: [ (caddr test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -747,7 +747,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))) (car test) (cadr test) (caddr test) (car (cdddr test))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 73 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -760,7 +760,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -830,7 +830,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((varname (car pars)) (count (cadr pars))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -839,7 +839,7 @@ Executing:  core:car
                                       1: [ varname ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -896,7 +896,7 @@ Executing:  core:car
                                       4: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))) [R5/30] [Closure/core:cadr] ((varname (car pars)) (count (cadr pars))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -905,7 +905,7 @@ Executing:  core:cadr
                                       1: [ (car pars) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -926,7 +926,168 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)) (car pars) (cadr pars)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 76 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	()
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
+ParseNext ==>  (defmacro apply (fn args) (let ((arglist (eval args))) (append (list fn) arglist)))
+Executing:  
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((arglist (eval args))) (append (list fn) arglist) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (arglist (eval args)) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ arglist ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (arglist) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((arglist)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((arglist)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((arglist)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (arglist) (append (list fn) arglist)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (arglist) (append (list fn) arglist))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (arglist) (append (list fn) arglist))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (arglist) (append (list fn) arglist))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (arglist (eval args)) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ (eval args) ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] ((eval args)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (arglist) (append (list fn) arglist)) (eval args)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; () => ((defmacro apply (fn args) (let ((arglist (eval args))) (append (list fn) arglist))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -939,7 +1100,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (define first car)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1087,7 +1248,7 @@ Executing:
                                       1: [ (begin (set! first car) (quote first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 77 ; () => ((define first car))
+	CODE BLOCK ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -1109,7 +1270,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define second cadr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1257,7 +1418,7 @@ Executing:
                                       1: [ (begin (set! second cadr) (quote second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 78 ; () => ((define second cadr))
+	CODE BLOCK ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -1279,7 +1440,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define third caddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1427,7 +1588,7 @@ Executing:
                                       1: [ (begin (set! third caddr) (quote third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 79 ; () => ((define third caddr))
+	CODE BLOCK ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -1449,7 +1610,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define rest cdr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1597,7 +1758,7 @@ Executing:
                                       1: [ (begin (set! rest cdr) (quote rest)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 80 ; () => ((define rest cdr))
+	CODE BLOCK ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -1619,7 +1780,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-first cdr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1767,7 +1928,7 @@ Executing:
                                       1: [ (begin (set! after-first cdr) (quote after-first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 81 ; () => ((define after-first cdr))
+	CODE BLOCK ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -1789,7 +1950,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-second cddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1937,7 +2098,7 @@ Executing:
                                       1: [ (begin (set! after-second cddr) (quote after-second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 82 ; () => ((define after-second cddr))
+	CODE BLOCK ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -1959,7 +2120,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-third cdddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2107,7 +2268,7 @@ Executing:
                                       1: [ (begin (set! after-third cdddr) (quote after-third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 83 ; () => ((define after-third cdddr))
+	CODE BLOCK ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -2129,7 +2290,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2289,7 +2450,7 @@ Executing:
                                       1: [ (define fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2437,9 +2598,9 @@ Executing:
                                       1: [ (begin (set! fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) (quote fold-left)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 85 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
@@ -2448,7 +2609,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-left
                                       1: [ [Closure] ]
@@ -2459,7 +2620,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2619,7 +2780,7 @@ Executing:
                                       1: [ (define fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2767,9 +2928,9 @@ Executing:
                                       1: [ (begin (set! fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) (quote fold-right)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 87 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
@@ -2778,7 +2939,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-right
                                       1: [ [Closure] ]
@@ -2796,7 +2957,7 @@ COMPILE AND RUN inputs:  (map number? '(a 2 "foo"))
 ParseNext ==>  (map number? (quote (a 2 "foo")))
 Parsed:  (core:map core:number? (quote (core:a 2 "foo")))
 Compiled:
-	CODE BLOCK # 88 ; () => ((map number? (quote (a 2 "foo"))))
+	CODE BLOCK ; () => ((map number? (quote (a 2 "foo"))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	number?
 	2	PUSH_CONST	(a 2 "foo")
@@ -2805,7 +2966,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 88 ; () => ((map number? (quote (a 2 "foo"))))
+	CODE BLOCK ; () => ((map number? (quote (a 2 "foo"))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	number?
 	2	PUSH_CONST	(a 2 "foo")
@@ -2825,7 +2986,7 @@ Executing:
                                       2: [ [Closure/core:number?] (a 2 "foo") ]
 [ 2]   0 : CALL_PRIMOP	"map"
 Executing:  core:number?
-	CODE BLOCK # 19 ; core:number?
+	CODE BLOCK ; core:number?
 	0	CALL_PRIMOP	"number?"
 	1	RETURN_VAL
 
@@ -2834,7 +2995,7 @@ Executing:  core:number?
                                       1: [ #f ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:number?
-	CODE BLOCK # 19 ; core:number?
+	CODE BLOCK ; core:number?
 	0	CALL_PRIMOP	"number?"
 	1	RETURN_VAL
 
@@ -2843,7 +3004,7 @@ Executing:  core:number?
                                       1: [ #t ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:number?
-	CODE BLOCK # 19 ; core:number?
+	CODE BLOCK ; core:number?
 	0	CALL_PRIMOP	"number?"
 	1	RETURN_VAL
 
@@ -2863,7 +3024,7 @@ COMPILE AND RUN inputs:  (package-set "foo")
 ParseNext ==>  (package-set "foo")
 Parsed:  (core:package-set "foo")
 Compiled:
-	CODE BLOCK # 89 ; () => ((package-set "foo"))
+	CODE BLOCK ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -2871,7 +3032,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 89 ; () => ((package-set "foo"))
+	CODE BLOCK ; () => ((package-set "foo"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"foo"
 	2	GLOBAL_GET	package-set
@@ -2899,7 +3060,7 @@ COMPILE AND RUN inputs:  (mx1 '(let ((x 1)) x))
 ParseNext ==>  (mx1 (quote (let ((x 1)) x)))
 Parsed:  (core:mx1 (quote (core:let ((foo:x 1)) foo:x)))
 Compiled:
-	CODE BLOCK # 90 ; () => ((mx1 (quote (let ((x 1)) x))))
+	CODE BLOCK ; () => ((mx1 (quote (let ((x 1)) x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let ((x 1)) x)
 	2	GLOBAL_GET	mx1
@@ -2907,7 +3068,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 90 ; () => ((mx1 (quote (let ((x 1)) x))))
+	CODE BLOCK ; () => ((mx1 (quote (let ((x 1)) x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let ((x 1)) x)
 	2	GLOBAL_GET	mx1
@@ -2924,7 +3085,7 @@ Executing:
                                       1: [ (let ((x 1)) x) ]
 [ 1]   0 : CALL_PRIMOP	"mx1"
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -2994,7 +3155,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -3051,7 +3212,7 @@ Executing:  core:car
                                       4: [ ((lambda (x) x)) [R5/30] [Closure/core:cadr] ((x 1)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -3083,7 +3244,7 @@ COMPILE AND RUN inputs:  (mx1 '(let ((x 1) (y 2)) (set! y 42) (+ x y)))
 ParseNext ==>  (mx1 (quote (let ((x 1) (y 2)) (set! y 42) (+ x y))))
 Parsed:  (core:mx1 (quote (core:let ((foo:x 1) (foo:y 2)) (set! foo:y 42) (core:+ foo:x foo:y))))
 Compiled:
-	CODE BLOCK # 91 ; () => ((mx1 (quote (let ((x 1) (y 2)) (set! y 42) (+ x y)))))
+	CODE BLOCK ; () => ((mx1 (quote (let ((x 1) (y 2)) (set! y 42) (+ x y)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let ((x 1) (y 2)) (set! y 42) (+ x y))
 	2	GLOBAL_GET	mx1
@@ -3091,7 +3252,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 91 ; () => ((mx1 (quote (let ((x 1) (y 2)) (set! y 42) (+ x y)))))
+	CODE BLOCK ; () => ((mx1 (quote (let ((x 1) (y 2)) (set! y 42) (+ x y)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let ((x 1) (y 2)) (set! y 42) (+ x y))
 	2	GLOBAL_GET	mx1
@@ -3108,7 +3269,7 @@ Executing:
                                       1: [ (let ((x 1) (y 2)) (set! y 42) (+ x y)) ]
 [ 1]   0 : CALL_PRIMOP	"mx1"
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -3178,7 +3339,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1) (y 2)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -3187,7 +3348,7 @@ Executing:  core:car
                                       1: [ x ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -3244,7 +3405,7 @@ Executing:  core:car
                                       4: [ ((lambda (x y) (set! y 42) (+ x y))) [R5/30] [Closure/core:cadr] ((x 1) (y 2)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -3253,7 +3414,7 @@ Executing:  core:cadr
                                       1: [ 1 ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -3285,7 +3446,7 @@ COMPILE AND RUN inputs:  (mx1 '(let* ((x 1) (y 2)) (+ x y)))
 ParseNext ==>  (mx1 (quote (let* ((x 1) (y 2)) (+ x y))))
 Parsed:  (core:mx1 (quote (core:let* ((foo:x 1) (foo:y 2)) (core:+ foo:x foo:y))))
 Compiled:
-	CODE BLOCK # 92 ; () => ((mx1 (quote (let* ((x 1) (y 2)) (+ x y)))))
+	CODE BLOCK ; () => ((mx1 (quote (let* ((x 1) (y 2)) (+ x y)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let* ((x 1) (y 2)) (+ x y))
 	2	GLOBAL_GET	mx1
@@ -3293,7 +3454,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 92 ; () => ((mx1 (quote (let* ((x 1) (y 2)) (+ x y)))))
+	CODE BLOCK ; () => ((mx1 (quote (let* ((x 1) (y 2)) (+ x y)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let* ((x 1) (y 2)) (+ x y))
 	2	GLOBAL_GET	mx1
@@ -3310,7 +3471,7 @@ Executing:
                                       1: [ (let* ((x 1) (y 2)) (+ x y)) ]
 [ 1]   0 : CALL_PRIMOP	"mx1"
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -3481,7 +3642,7 @@ COMPILE AND RUN inputs:  (mx1 '(define x 5))
 ParseNext ==>  (mx1 (quote (define x 5)))
 Parsed:  (core:mx1 (quote (core:define foo:x 5)))
 Compiled:
-	CODE BLOCK # 93 ; () => ((mx1 (quote (define x 5))))
+	CODE BLOCK ; () => ((mx1 (quote (define x 5))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(define x 5)
 	2	GLOBAL_GET	mx1
@@ -3489,7 +3650,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 93 ; () => ((mx1 (quote (define x 5))))
+	CODE BLOCK ; () => ((mx1 (quote (define x 5))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(define x 5)
 	2	GLOBAL_GET	mx1
@@ -3506,7 +3667,7 @@ Executing:
                                       1: [ (define x 5) ]
 [ 1]   0 : CALL_PRIMOP	"mx1"
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -3665,7 +3826,7 @@ COMPILE AND RUN inputs:  (mx1 '(define (x y) 5))
 ParseNext ==>  (mx1 (quote (define (x y) 5)))
 Parsed:  (core:mx1 (quote (core:define (foo:x foo:y) 5)))
 Compiled:
-	CODE BLOCK # 94 ; () => ((mx1 (quote (define (x y) 5))))
+	CODE BLOCK ; () => ((mx1 (quote (define (x y) 5))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(define (x y) 5)
 	2	GLOBAL_GET	mx1
@@ -3673,7 +3834,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 94 ; () => ((mx1 (quote (define (x y) 5))))
+	CODE BLOCK ; () => ((mx1 (quote (define (x y) 5))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(define (x y) 5)
 	2	GLOBAL_GET	mx1
@@ -3690,7 +3851,7 @@ Executing:
                                       1: [ (define (x y) 5) ]
 [ 1]   0 : CALL_PRIMOP	"mx1"
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -3861,7 +4022,7 @@ COMPILE AND RUN inputs:  (list (gensym) (gensym) (gensym "bar_"))
 ParseNext ==>  (list (gensym) (gensym) (gensym "bar_"))
 Parsed:  (core:list (core:gensym) (core:gensym) (core:gensym "bar_"))
 Compiled:
-	CODE BLOCK # 95 ; () => ((list (gensym) (gensym) (gensym "bar_")))
+	CODE BLOCK ; () => ((list (gensym) (gensym) (gensym "bar_")))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	4
 	2	GLOBAL_GET	gensym
@@ -3881,7 +4042,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 95 ; () => ((list (gensym) (gensym) (gensym "bar_")))
+	CODE BLOCK ; () => ((list (gensym) (gensym) (gensym "bar_")))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	4
 	2	GLOBAL_GET	gensym
@@ -3957,7 +4118,7 @@ COMPILE AND RUN inputs:  (let ((x 1)) (+ x 1))
 ParseNext ==>  (let ((x 1)) (+ x 1))
 Parsed:  (core:let ((foo:x 1)) (core:+ foo:x 1))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4027,7 +4188,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4084,7 +4245,7 @@ Executing:  core:car
                                       4: [ ((lambda (x) (+ x 1))) [R5/30] [Closure/core:cadr] ((x 1)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4105,25 +4266,25 @@ Executing:  core:cadr
                                       1: [ ((lambda (x) (+ x 1)) 1) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 96 ; (x) => ((+ x 1))
+	CODE BLOCK ; (x) => ((+ x 1))
 	0	MAKE_ENV	1	; (x)
 	1	LOCAL_GET	0	0	; x
 	2	PUSH_CONST	1
 	3	GLOBAL_GET	+
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 97 ; () => ((let ((x 1)) (+ x 1)))
+	CODE BLOCK ; () => ((let ((x 1)) (+ x 1)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #96 : ((+ x 1))
+	2	MAKE_CLOSURE	[Closure]	; ((+ x 1))
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 97 ; () => ((let ((x 1)) (+ x 1)))
+	CODE BLOCK ; () => ((let ((x 1)) (+ x 1)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #96 : ((+ x 1))
+	2	MAKE_CLOSURE	[Closure]	; ((+ x 1))
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -4131,7 +4292,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	1
                                       1: [ 1 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #96 : ((+ x 1))
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((+ x 1))
                                       2: [ 1 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 1 ]
@@ -4158,7 +4319,7 @@ COMPILE AND RUN inputs:  (let ((x 1) (y 2)) (set! y 42) (+ x y))
 ParseNext ==>  (let ((x 1) (y 2)) (set! y 42) (+ x y))
 Parsed:  (core:let ((foo:x 1) (foo:y 2)) (set! foo:y 42) (core:+ foo:x foo:y))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4228,7 +4389,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1) (y 2)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4237,7 +4398,7 @@ Executing:  core:car
                                       1: [ x ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4294,7 +4455,7 @@ Executing:  core:car
                                       4: [ ((lambda (x y) (set! y 42) (+ x y))) [R5/30] [Closure/core:cadr] ((x 1) (y 2)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4303,7 +4464,7 @@ Executing:  core:cadr
                                       1: [ 1 ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4324,7 +4485,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (x y) (set! y 42) (+ x y)) 1 2) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 98 ; (x y) => ((set! y 42) (+ x y))
+	CODE BLOCK ; (x y) => ((set! y 42) (+ x y))
 	0	MAKE_ENV	2	; (x y)
 	1	PUSH_CONST	42
 	2	LOCAL_SET	0	1	; y
@@ -4334,20 +4495,20 @@ Compiled:
 	6	GLOBAL_GET	+
 	7	JMP_CLOSURE	2
 
-	CODE BLOCK # 99 ; () => ((let ((x 1) (y 2)) (set! y 42) (+ x y)))
+	CODE BLOCK ; () => ((let ((x 1) (y 2)) (set! y 42) (+ x y)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
-	3	MAKE_CLOSURE	[Closure]	; #98 : ((set! y 42) (+ x y))
+	3	MAKE_CLOSURE	[Closure]	; ((set! y 42) (+ x y))
 	4	JMP_CLOSURE	2
 
 Running...
 Executing:  
-	CODE BLOCK # 99 ; () => ((let ((x 1) (y 2)) (set! y 42) (+ x y)))
+	CODE BLOCK ; () => ((let ((x 1) (y 2)) (set! y 42) (+ x y)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
-	3	MAKE_CLOSURE	[Closure]	; #98 : ((set! y 42) (+ x y))
+	3	MAKE_CLOSURE	[Closure]	; ((set! y 42) (+ x y))
 	4	JMP_CLOSURE	2
 
                                       0: [  ]
@@ -4357,7 +4518,7 @@ Executing:
                                       1: [ 1 ]
 [ 1]   2 : PUSH_CONST	2
                                       2: [ 1 2 ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #98 : ((set! y 42) (+ x y))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((set! y 42) (+ x y))
                                       3: [ 1 2 [Closure] ]
 [ 3]   4 : JMP_CLOSURE	2
                                       2: [ 1 2 ]
@@ -4390,7 +4551,7 @@ COMPILE AND RUN inputs:  (let* ((x 1) (y x)) (+ x y))
 ParseNext ==>  (let* ((x 1) (y x)) (+ x y))
 Parsed:  (core:let* ((foo:x 1) (foo:y foo:x)) (core:+ foo:x foo:y))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4550,7 +4711,7 @@ Executing:
                                       1: [ (let ((x 1)) (let* ((y x)) (+ x y))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4710,7 +4871,7 @@ Executing:
                                       1: [ (let ((y x)) (let* () (+ x y))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4802,7 +4963,7 @@ Executing:
                                       1: [ (begin (+ x y)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4872,7 +5033,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4929,7 +5090,7 @@ Executing:  core:car
                                       4: [ ((lambda (x) (let ((y x)) (begin (+ x y))))) [R5/30] [Closure/core:cadr] ((x 1)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4950,7 +5111,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (x) (let ((y x)) (begin (+ x y)))) 1) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -5020,7 +5181,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((y x)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -5077,7 +5238,7 @@ Executing:  core:car
                                       4: [ ((lambda (y) (begin (+ x y)))) [R5/30] [Closure/core:cadr] ((y x)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5098,31 +5259,31 @@ Executing:  core:cadr
                                       1: [ ((lambda (y) (begin (+ x y))) x) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 100 ; (y) => ((begin (+ x y)))
+	CODE BLOCK ; (y) => ((begin (+ x y)))
 	0	MAKE_ENV	1	; (y)
 	1	LOCAL_GET	1	0	; x
 	2	LOCAL_GET	0	0	; y
 	3	GLOBAL_GET	+
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 101 ; (x) => ((let ((y x)) (begin (+ x y))))
+	CODE BLOCK ; (x) => ((let ((y x)) (begin (+ x y))))
 	0	MAKE_ENV	1	; (x)
 	1	LOCAL_GET	0	0	; x
-	2	MAKE_CLOSURE	[Closure]	; #100 : ((begin (+ x y)))
+	2	MAKE_CLOSURE	[Closure]	; ((begin (+ x y)))
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK # 102 ; () => ((let* ((x 1) (y x)) (+ x y)))
+	CODE BLOCK ; () => ((let* ((x 1) (y x)) (+ x y)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #101 : ((let ((y x)) (begin (+ x y))))
+	2	MAKE_CLOSURE	[Closure]	; ((let ((y x)) (begin (+ x y))))
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 102 ; () => ((let* ((x 1) (y x)) (+ x y)))
+	CODE BLOCK ; () => ((let* ((x 1) (y x)) (+ x y)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #101 : ((let ((y x)) (begin (+ x y))))
+	2	MAKE_CLOSURE	[Closure]	; ((let ((y x)) (begin (+ x y))))
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -5130,7 +5291,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	1
                                       1: [ 1 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #101 : ((let ((y x)) (begin (+ x y))))
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((let ((y x)) (begin (+ x y))))
                                       2: [ 1 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 1 ]
@@ -5138,7 +5299,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : LOCAL_GET	0	0	; x
                                       1: [ 1 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #100 : ((begin (+ x y)))
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((begin (+ x y)))
                                       2: [ 1 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 1 ]
@@ -5165,7 +5326,7 @@ COMPILE AND RUN inputs:  (let ((x 1)) (let ((y x)) (+ x y)))
 ParseNext ==>  (let ((x 1)) (let ((y x)) (+ x y)))
 Parsed:  (core:let ((foo:x 1)) (core:let ((foo:y foo:x)) (core:+ foo:x foo:y)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -5235,7 +5396,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 1)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -5292,7 +5453,7 @@ Executing:  core:car
                                       4: [ ((lambda (x) (let ((y x)) (+ x y)))) [R5/30] [Closure/core:cadr] ((x 1)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5313,7 +5474,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (x) (let ((y x)) (+ x y))) 1) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -5383,7 +5544,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((y x)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -5440,7 +5601,7 @@ Executing:  core:car
                                       4: [ ((lambda (y) (+ x y))) [R5/30] [Closure/core:cadr] ((y x)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5461,31 +5622,31 @@ Executing:  core:cadr
                                       1: [ ((lambda (y) (+ x y)) x) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 103 ; (y) => ((+ x y))
+	CODE BLOCK ; (y) => ((+ x y))
 	0	MAKE_ENV	1	; (y)
 	1	LOCAL_GET	1	0	; x
 	2	LOCAL_GET	0	0	; y
 	3	GLOBAL_GET	+
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 104 ; (x) => ((let ((y x)) (+ x y)))
+	CODE BLOCK ; (x) => ((let ((y x)) (+ x y)))
 	0	MAKE_ENV	1	; (x)
 	1	LOCAL_GET	0	0	; x
-	2	MAKE_CLOSURE	[Closure]	; #103 : ((+ x y))
+	2	MAKE_CLOSURE	[Closure]	; ((+ x y))
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK # 105 ; () => ((let ((x 1)) (let ((y x)) (+ x y))))
+	CODE BLOCK ; () => ((let ((x 1)) (let ((y x)) (+ x y))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #104 : ((let ((y x)) (+ x y)))
+	2	MAKE_CLOSURE	[Closure]	; ((let ((y x)) (+ x y)))
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 105 ; () => ((let ((x 1)) (let ((y x)) (+ x y))))
+	CODE BLOCK ; () => ((let ((x 1)) (let ((y x)) (+ x y))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
-	2	MAKE_CLOSURE	[Closure]	; #104 : ((let ((y x)) (+ x y)))
+	2	MAKE_CLOSURE	[Closure]	; ((let ((y x)) (+ x y)))
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -5493,7 +5654,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	1
                                       1: [ 1 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #104 : ((let ((y x)) (+ x y)))
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((let ((y x)) (+ x y)))
                                       2: [ 1 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 1 ]
@@ -5501,7 +5662,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : LOCAL_GET	0	0	; x
                                       1: [ 1 ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #103 : ((+ x y))
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((+ x y))
                                       2: [ 1 [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ 1 ]
@@ -5528,7 +5689,7 @@ COMPILE AND RUN inputs:  (letrec ((x (lambda () y)) (y 1)) (x))
 ParseNext ==>  (letrec ((x (lambda () y)) (y 1)) (x))
 Parsed:  (core:letrec ((foo:x (lambda () foo:y)) (foo:y 1)) (foo:x))
 Executing:  
-	CODE BLOCK # 57 ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
+	CODE BLOCK ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	let
@@ -5537,7 +5698,7 @@ Executing:
 5	LABEL	"R0"
 	6	SAVE_RETURN	"R1"	15
 	7	SAVE_RETURN	"R2"	12
-	8	MAKE_CLOSURE	[Closure]	; #55 : ((list (car v) nil))
+	8	MAKE_CLOSURE	[Closure]	; ((list (car v) nil))
 	9	LOCAL_GET	0	0	; bindings
 	10	GLOBAL_GET	map
 	11	JMP_CLOSURE	2
@@ -5546,7 +5707,7 @@ Executing:
 	14	JMP_CLOSURE	1
 15	LABEL	"R1"
 	16	SAVE_RETURN	"R4"	21
-	17	MAKE_CLOSURE	[Closure]	; #56 : ((append (list (quote set!)) v))
+	17	MAKE_CLOSURE	[Closure]	; ((append (list (quote set!)) v))
 	18	LOCAL_GET	0	0	; bindings
 	19	GLOBAL_GET	map
 	20	JMP_CLOSURE	2
@@ -5576,7 +5737,7 @@ Executing:
                                       2: [ (let) [R1/15] ]
 [ 2]   7 : SAVE_RETURN	"R2"	12
                                       3: [ (let) [R1/15] [R2/12] ]
-[ 3]   8 : MAKE_CLOSURE	[Closure]	; #55 : ((list (car v) nil))
+[ 3]   8 : MAKE_CLOSURE	[Closure]	; ((list (car v) nil))
                                       4: [ (let) [R1/15] [R2/12] [Closure] ]
 [ 4]   9 : LOCAL_GET	0	0	; bindings
                                       5: [ (let) [R1/15] [R2/12] [Closure] ((x (lambda () y)) (y 1)) ]
@@ -5586,7 +5747,7 @@ Executing:
                                       5: [ (let) [R1/15] [R2/12] [Closure] ((x (lambda () y)) (y 1)) ]
 [ 5]   0 : CALL_PRIMOP	"map"
 Executing:  
-	CODE BLOCK # 55 ; (v) => ((list (car v) nil))
+	CODE BLOCK ; (v) => ((list (car v) nil))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R3"	5
 	2	LOCAL_GET	0	0	; v
@@ -5624,7 +5785,7 @@ Executing:
                                       1: [ (x ()) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 55 ; (v) => ((list (car v) nil))
+	CODE BLOCK ; (v) => ((list (car v) nil))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R3"	5
 	2	LOCAL_GET	0	0	; v
@@ -5678,7 +5839,7 @@ Executing:
                                       2: [ (let) (((x ()) (y ()))) ]
 [ 2]  16 : SAVE_RETURN	"R4"	21
                                       3: [ (let) (((x ()) (y ()))) [R4/21] ]
-[ 3]  17 : MAKE_CLOSURE	[Closure]	; #56 : ((append (list (quote set!)) v))
+[ 3]  17 : MAKE_CLOSURE	[Closure]	; ((append (list (quote set!)) v))
                                       4: [ (let) (((x ()) (y ()))) [R4/21] [Closure] ]
 [ 4]  18 : LOCAL_GET	0	0	; bindings
                                       5: [ (let) (((x ()) (y ()))) [R4/21] [Closure] ((x (lambda () y)) (y 1)) ]
@@ -5688,7 +5849,7 @@ Executing:
                                       5: [ (let) (((x ()) (y ()))) [R4/21] [Closure] ((x (lambda () y)) (y 1)) ]
 [ 5]   0 : CALL_PRIMOP	"map"
 Executing:  
-	CODE BLOCK # 56 ; (v) => ((append (list (quote set!)) v))
+	CODE BLOCK ; (v) => ((append (list (quote set!)) v))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R5"	5
 	2	PUSH_CONST	set!
@@ -5726,7 +5887,7 @@ Executing:
                                       1: [ (set! x (lambda () y)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 56 ; (v) => ((append (list (quote set!)) v))
+	CODE BLOCK ; (v) => ((append (list (quote set!)) v))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R5"	5
 	2	PUSH_CONST	set!
@@ -5778,7 +5939,7 @@ Executing:
                                       1: [ (let ((x ()) (y ())) (set! x (lambda () y)) (set! y 1) (x)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -5848,7 +6009,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x ()) (y ())) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -5857,7 +6018,7 @@ Executing:  core:car
                                       1: [ x ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -5914,7 +6075,7 @@ Executing:  core:car
                                       4: [ ((lambda (x y) (set! x (lambda () y)) (set! y 1) (x))) [R5/30] [Closure/core:cadr] ((x ()) (y ())) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5923,7 +6084,7 @@ Executing:  core:cadr
                                       1: [ () ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5944,14 +6105,14 @@ Executing:  core:cadr
                                       1: [ ((lambda (x y) (set! x (lambda () y)) (set! y 1) (x)) () ()) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 106 ; () => (y)
+	CODE BLOCK ; () => (y)
 	0	MAKE_ENV	0	; ()
 	1	LOCAL_GET	1	1	; y
 	2	RETURN_VAL
 
-	CODE BLOCK # 107 ; (x y) => ((set! x (lambda () y)) (set! y 1) (x))
+	CODE BLOCK ; (x y) => ((set! x (lambda () y)) (set! y 1) (x))
 	0	MAKE_ENV	2	; (x y)
-	1	MAKE_CLOSURE	[Closure]	; #106 : (y)
+	1	MAKE_CLOSURE	[Closure]	; (y)
 	2	LOCAL_SET	0	0	; x
 	3	STACK_POP
 	4	PUSH_CONST	1
@@ -5960,20 +6121,20 @@ Compiled:
 	7	LOCAL_GET	0	0	; x
 	8	JMP_CLOSURE	0
 
-	CODE BLOCK # 108 ; () => ((letrec ((x (lambda () y)) (y 1)) (x)))
+	CODE BLOCK ; () => ((letrec ((x (lambda () y)) (y 1)) (x)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	PUSH_CONST	()
-	3	MAKE_CLOSURE	[Closure]	; #107 : ((set! x (lambda () y)) (set! y 1) (x))
+	3	MAKE_CLOSURE	[Closure]	; ((set! x (lambda () y)) (set! y 1) (x))
 	4	JMP_CLOSURE	2
 
 Running...
 Executing:  
-	CODE BLOCK # 108 ; () => ((letrec ((x (lambda () y)) (y 1)) (x)))
+	CODE BLOCK ; () => ((letrec ((x (lambda () y)) (y 1)) (x)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	PUSH_CONST	()
-	3	MAKE_CLOSURE	[Closure]	; #107 : ((set! x (lambda () y)) (set! y 1) (x))
+	3	MAKE_CLOSURE	[Closure]	; ((set! x (lambda () y)) (set! y 1) (x))
 	4	JMP_CLOSURE	2
 
                                       0: [  ]
@@ -5983,13 +6144,13 @@ Executing:
                                       1: [ () ]
 [ 1]   2 : PUSH_CONST	()
                                       2: [ () () ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #107 : ((set! x (lambda () y)) (set! y 1) (x))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((set! x (lambda () y)) (set! y 1) (x))
                                       3: [ () () [Closure] ]
 [ 3]   4 : JMP_CLOSURE	2
                                       2: [ () () ]
 [ 2]   0 : MAKE_ENV	2	; (x y)
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #106 : (y)
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; (y)
                                       1: [ [Closure] ]
 [ 1]   2 : LOCAL_SET	0	0	; x
                                       1: [ [Closure] ]
@@ -6020,7 +6181,7 @@ COMPILE AND RUN inputs:  (begin (let ((x 0)) (define (set v) (set! x v)) (define
 ParseNext ==>  (begin (let ((x 0)) (define (set v) (set! x v)) (define (get) x)) (set 5) (get))
 Parsed:  (begin (core:let ((foo:x 0)) (core:define (foo:set core:v) (set! foo:x core:v)) (core:define (foo:get) foo:x)) (foo:set 5) (foo:get))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -6090,7 +6251,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((x 0)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -6147,7 +6308,7 @@ Executing:  core:car
                                       4: [ ((lambda (x) (define (set v) (set! x v)) (define (get) x))) [R5/30] [Closure/core:cadr] ((x 0)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -6168,7 +6329,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (x) (define (set v) (set! x v)) (define (get) x)) 0) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -6328,7 +6489,7 @@ Executing:
                                       1: [ (define set (lambda (v) (set! x v))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -6476,7 +6637,7 @@ Executing:
                                       1: [ (begin (set! set (lambda (v) (set! x v))) (quote set)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -6636,7 +6797,7 @@ Executing:
                                       1: [ (define get (lambda () x)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -6784,33 +6945,33 @@ Executing:
                                       1: [ (begin (set! get (lambda () x)) (quote get)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 109 ; (v) => ((set! x v))
+	CODE BLOCK ; (v) => ((set! x v))
 	0	MAKE_ENV	1	; (v)
 	1	LOCAL_GET	0	0	; v
 	2	LOCAL_SET	1	0	; x
 	3	RETURN_VAL
 
-	CODE BLOCK # 110 ; () => (x)
+	CODE BLOCK ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	LOCAL_GET	1	0	; x
 	2	RETURN_VAL
 
-	CODE BLOCK # 111 ; (x) => ((define (set v) (set! x v)) (define (get) x))
+	CODE BLOCK ; (x) => ((define (set v) (set! x v)) (define (get) x))
 	0	MAKE_ENV	1	; (x)
-	1	MAKE_CLOSURE	[Closure]	; #109 : ((set! x v))
+	1	MAKE_CLOSURE	[Closure]	; ((set! x v))
 	2	GLOBAL_SET	set
 	3	STACK_POP
-	4	MAKE_CLOSURE	[Closure]	; #110 : (x)
+	4	MAKE_CLOSURE	[Closure]	; (x)
 	5	GLOBAL_SET	get
 	6	STACK_POP
 	7	PUSH_CONST	get
 	8	RETURN_VAL
 
-	CODE BLOCK # 112 ; () => ((begin (let ((x 0)) (define (set v) (set! x v)) (define (get) x)) (set 5) (get)))
+	CODE BLOCK ; () => ((begin (let ((x 0)) (define (set v) (set! x v)) (define (get) x)) (set 5) (get)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #111 : ((define (set v) (set! x v)) (define (get) x))
+	3	MAKE_CLOSURE	[Closure]	; ((define (set v) (set! x v)) (define (get) x))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	STACK_POP
@@ -6825,11 +6986,11 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 112 ; () => ((begin (let ((x 0)) (define (set v) (set! x v)) (define (get) x)) (set 5) (get)))
+	CODE BLOCK ; () => ((begin (let ((x 0)) (define (set v) (set! x v)) (define (get) x)) (set 5) (get)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #111 : ((define (set v) (set! x v)) (define (get) x))
+	3	MAKE_CLOSURE	[Closure]	; ((define (set v) (set! x v)) (define (get) x))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	STACK_POP
@@ -6849,19 +7010,19 @@ Executing:
                                       1: [ [R0/5] ]
 [ 1]   2 : PUSH_CONST	0
                                       2: [ [R0/5] 0 ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #111 : ((define (set v) (set! x v)) (define (get) x))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((define (set v) (set! x v)) (define (get) x))
                                       3: [ [R0/5] 0 [Closure] ]
 [ 3]   4 : JMP_CLOSURE	1
                                       2: [ [R0/5] 0 ]
 [ 2]   0 : MAKE_ENV	1	; (x)
                                       1: [ [R0/5] ]
-[ 1]   1 : MAKE_CLOSURE	[Closure]	; #109 : ((set! x v))
+[ 1]   1 : MAKE_CLOSURE	[Closure]	; ((set! x v))
                                       2: [ [R0/5] [Closure] ]
 [ 2]   2 : GLOBAL_SET	set
                                       2: [ [R0/5] [Closure] ]
 [ 2]   3 : STACK_POP
                                       1: [ [R0/5] ]
-[ 1]   4 : MAKE_CLOSURE	[Closure]	; #110 : (x)
+[ 1]   4 : MAKE_CLOSURE	[Closure]	; (x)
                                       2: [ [R0/5] [Closure] ]
 [ 2]   5 : GLOBAL_SET	get
                                       2: [ [R0/5] [Closure] ]
@@ -6914,7 +7075,7 @@ COMPILE AND RUN inputs:  (define x 5) x
 ParseNext ==>  (define x 5)
 Parsed:  (core:define foo:x 5)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -7062,7 +7223,7 @@ Executing:
                                       1: [ (begin (set! x 5) (quote x)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 113 ; () => ((define x 5))
+	CODE BLOCK ; () => ((define x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_SET	x
@@ -7072,7 +7233,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 113 ; () => ((define x 5))
+	CODE BLOCK ; () => ((define x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_SET	x
@@ -7096,14 +7257,14 @@ test: got "foo:x"  - expected "foo:x"
 ParseNext ==>  x
 Parsed:  foo:x
 Compiled:
-	CODE BLOCK # 114 ; () => (x)
+	CODE BLOCK ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
 
 Running...
 Executing:  
-	CODE BLOCK # 114 ; () => (x)
+	CODE BLOCK ; () => (x)
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	x
 	2	RETURN_VAL
@@ -7124,7 +7285,7 @@ COMPILE AND RUN inputs:  (define (x y) y) (x 5)
 ParseNext ==>  (define (x y) y)
 Parsed:  (core:define (foo:x foo:y) foo:y)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -7284,7 +7445,7 @@ Executing:
                                       1: [ (define x (lambda (y) y)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -7432,14 +7593,14 @@ Executing:
                                       1: [ (begin (set! x (lambda (y) y)) (quote x)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 115 ; (y) => (y)
+	CODE BLOCK ; (y) => (y)
 	0	MAKE_ENV	1	; (y)
 	1	LOCAL_GET	0	0	; y
 	2	RETURN_VAL
 
-	CODE BLOCK # 116 ; () => ((define (x y) y))
+	CODE BLOCK ; () => ((define (x y) y))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #115 : (y)
+	1	MAKE_CLOSURE	[Closure]	; (y)
 	2	GLOBAL_SET	x
 	3	STACK_POP
 	4	PUSH_CONST	x
@@ -7447,9 +7608,9 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 116 ; () => ((define (x y) y))
+	CODE BLOCK ; () => ((define (x y) y))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #115 : (y)
+	1	MAKE_CLOSURE	[Closure]	; (y)
 	2	GLOBAL_SET	x
 	3	STACK_POP
 	4	PUSH_CONST	x
@@ -7458,7 +7619,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #115 : (y)
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; (y)
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	x
                                       1: [ [Closure] ]
@@ -7471,7 +7632,7 @@ test: got "foo:x"  - expected "foo:x"
 ParseNext ==>  (x 5)
 Parsed:  (foo:x 5)
 Compiled:
-	CODE BLOCK # 117 ; () => ((x 5))
+	CODE BLOCK ; () => ((x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	x
@@ -7479,7 +7640,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 117 ; () => ((x 5))
+	CODE BLOCK ; () => ((x 5))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	5
 	2	GLOBAL_GET	x
@@ -7509,7 +7670,7 @@ COMPILE AND RUN inputs:  (cons (first '(1 2 3)) (rest '(1 2 3)))
 ParseNext ==>  (cons (first (quote (1 2 3))) (rest (quote (1 2 3))))
 Parsed:  (core:cons (core:first (quote (1 2 3))) (core:rest (quote (1 2 3))))
 Compiled:
-	CODE BLOCK # 118 ; () => ((cons (first (quote (1 2 3))) (rest (quote (1 2 3)))))
+	CODE BLOCK ; () => ((cons (first (quote (1 2 3))) (rest (quote (1 2 3)))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	(1 2 3)
@@ -7526,7 +7687,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 118 ; () => ((cons (first (quote (1 2 3))) (rest (quote (1 2 3)))))
+	CODE BLOCK ; () => ((cons (first (quote (1 2 3))) (rest (quote (1 2 3)))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	(1 2 3)
@@ -7589,7 +7750,7 @@ COMPILE AND RUN inputs:  (list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3))
 ParseNext ==>  (list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3))
 Parsed:  (core:list (core:and 1) (core:and 1 2) (core:and 1 2 3) (core:and 1 #f 2 3))
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -7692,7 +7853,7 @@ Executing:
                                       1: [ 1 ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -7857,7 +8018,7 @@ Executing:
                                       1: [ (if 1 2 #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8014,7 +8175,7 @@ Executing:
                                       1: [ (if 1 (and 2 3) #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8179,7 +8340,7 @@ Executing:
                                       1: [ (if 2 3 #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8336,7 +8497,7 @@ Executing:
                                       1: [ (if 1 (and #f 2 3) #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8493,7 +8654,7 @@ Executing:
                                       1: [ (if #f (and 2 3) #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 61 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8658,7 +8819,7 @@ Executing:
                                       1: [ (if 2 3 #f) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 119 ; () => ((list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3)))
+	CODE BLOCK ; () => ((list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
@@ -8669,7 +8830,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 119 ; () => ((list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3)))
+	CODE BLOCK ; () => ((list (and 1) (and 1 2) (and 1 2 3) (and 1 #f 2 3)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
@@ -8706,7 +8867,7 @@ COMPILE AND RUN inputs:  (list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0
 ParseNext ==>  (list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0) (< 2 0)))
 Parsed:  (core:list (core:or 1) (core:or 2 1) (core:or (core:< 1 0) (core:< 2 0) 3) (core:or (core:< 1 0) (core:< 2 0)))
 Executing:  
-	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8803,7 +8964,7 @@ Executing:
                                       1: [ 1 ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -8948,7 +9109,7 @@ Executing:
                                       1: [ (if* 2 1) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -9097,7 +9258,7 @@ Executing:
                                       1: [ (if* (< 1 0) (or (< 2 0) 3)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -9242,7 +9403,7 @@ Executing:
                                       1: [ (if* (< 2 0) 3) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 63 ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -9387,7 +9548,7 @@ Executing:
                                       1: [ (if* (< 1 0) (< 2 0)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 120 ; () => ((list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0) (< 2 0))))
+	CODE BLOCK ; () => ((list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0) (< 2 0))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
@@ -9438,7 +9599,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 120 ; () => ((list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0) (< 2 0))))
+	CODE BLOCK ; () => ((list (or 1) (or 2 1) (or (< 1 0) (< 2 0) 3) (or (< 1 0) (< 2 0))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	1
 	2	PUSH_CONST	2
@@ -9607,7 +9768,7 @@ COMPILE AND RUN inputs:  (cond ((= 1 2) 2) ((= 1 4) 4) 0)
 ParseNext ==>  (cond ((= 1 2) 2) ((= 1 4) 4) 0)
 Parsed:  (core:cond ((core:= 1 2) 2) ((core:= 1 4) 4) 0)
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -9781,7 +9942,7 @@ Executing:
                                       1: [ (if (= 1 2) (begin 2) (cond ((= 1 4) 4) 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -9955,7 +10116,7 @@ Executing:
                                       1: [ (if (= 1 4) (begin 4) (cond 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -10065,7 +10226,7 @@ Executing:
                                       1: [ (begin 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 121 ; () => ((cond ((= 1 2) 2) ((= 1 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 1 2) 2) ((= 1 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -10092,7 +10253,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 121 ; () => ((cond ((= 1 2) 2) ((= 1 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 1 2) 2) ((= 1 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -10173,7 +10334,7 @@ COMPILE AND RUN inputs:  (cond ((= 2 2) 2) ((= 1 4) 4) 0)
 ParseNext ==>  (cond ((= 2 2) 2) ((= 1 4) 4) 0)
 Parsed:  (core:cond ((core:= 2 2) 2) ((core:= 1 4) 4) 0)
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -10347,7 +10508,7 @@ Executing:
                                       1: [ (if (= 2 2) (begin 2) (cond ((= 1 4) 4) 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -10521,7 +10682,7 @@ Executing:
                                       1: [ (if (= 1 4) (begin 4) (cond 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -10631,7 +10792,7 @@ Executing:
                                       1: [ (begin 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 122 ; () => ((cond ((= 2 2) 2) ((= 1 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 2 2) 2) ((= 1 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	2
@@ -10658,7 +10819,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 122 ; () => ((cond ((= 2 2) 2) ((= 1 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 2 2) 2) ((= 1 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	2
@@ -10717,7 +10878,7 @@ COMPILE AND RUN inputs:  (cond ((= 1 2) 2) ((= 4 4) 4) 0)
 ParseNext ==>  (cond ((= 1 2) 2) ((= 4 4) 4) 0)
 Parsed:  (core:cond ((core:= 1 2) 2) ((core:= 4 4) 4) 0)
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -10891,7 +11052,7 @@ Executing:
                                       1: [ (if (= 1 2) (begin 2) (cond ((= 4 4) 4) 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -11065,7 +11226,7 @@ Executing:
                                       1: [ (if (= 4 4) (begin 4) (cond 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -11175,7 +11336,7 @@ Executing:
                                       1: [ (begin 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 123 ; () => ((cond ((= 1 2) 2) ((= 4 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 1 2) 2) ((= 4 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -11202,7 +11363,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 123 ; () => ((cond ((= 1 2) 2) ((= 4 4) 4) 0))
+	CODE BLOCK ; () => ((cond ((= 1 2) 2) ((= 4 4) 4) 0))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -11281,14 +11442,14 @@ COMPILE AND RUN inputs:  (case (+ 1 2) (2 #f) (3 #t) 'error)
 ParseNext ==>  (case (+ 1 2) (2 #f) (3 #t) (quote error))
 Parsed:  (core:case (core:+ 1 2) (2 #f) (3 #t) (quote foo:error))
 Executing:  
-	CODE BLOCK # 69 ; (key rest) => ((let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+	CODE BLOCK ; (key rest) => ((let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 	0	MAKE_ENVDOT	1	; (key rest)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	"CASE"
 	3	GLOBAL_GET	gensym
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #68 : ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+	6	MAKE_CLOSURE	[Closure]	; ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 	7	JMP_CLOSURE	1
 
                                       4: [ (+ 1 2) (2 #f) (3 #t) (quote error) ]
@@ -11308,7 +11469,7 @@ Executing:
                                       1: [ CASE4 ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ CASE4 ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #68 : ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
                                       2: [ CASE4 [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ CASE4 ]
@@ -11362,7 +11523,7 @@ Executing:
                                       4: [ let ((CASE4 (+ 1 2))) [R3/26] (cond) ]
 [ 4]  18 : SAVE_RETURN	"R5"	23
                                       5: [ let ((CASE4 (+ 1 2))) [R3/26] (cond) [R5/23] ]
-[ 5]  19 : MAKE_CLOSURE	[Closure]	; #67 : ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+[ 5]  19 : MAKE_CLOSURE	[Closure]	; ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
                                       6: [ let ((CASE4 (+ 1 2))) [R3/26] (cond) [R5/23] [Closure] ]
 [ 6]  20 : LOCAL_GET	1	1	; rest
                                       7: [ let ((CASE4 (+ 1 2))) [R3/26] (cond) [R5/23] [Closure] ((2 #f) (3 #t) (quote error)) ]
@@ -11372,7 +11533,7 @@ Executing:
                                       7: [ let ((CASE4 (+ 1 2))) [R3/26] (cond) [R5/23] [Closure] ((2 #f) (3 #t) (quote error)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  
-	CODE BLOCK # 67 ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+	CODE BLOCK ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
 	0	MAKE_ENV	1	; (elt)
 	1	SAVE_RETURN	"R6"	5
 	2	LOCAL_GET	0	0	; elt
@@ -11473,7 +11634,7 @@ Executing:
                                       1: [ ((= CASE4 2) #f) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 67 ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+	CODE BLOCK ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
 	0	MAKE_ENV	1	; (elt)
 	1	SAVE_RETURN	"R6"	5
 	2	LOCAL_GET	0	0	; elt
@@ -11574,7 +11735,7 @@ Executing:
                                       1: [ ((= CASE4 3) #t) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 67 ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
+	CODE BLOCK ; (elt) => ((if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt))
 	0	MAKE_ENV	1	; (elt)
 	1	SAVE_RETURN	"R6"	5
 	2	LOCAL_GET	0	0	; elt
@@ -11697,7 +11858,7 @@ Executing:
                                       1: [ (let ((CASE4 (+ 1 2))) (cond ((= CASE4 2) #f) ((= CASE4 3) #t) ((= CASE4 quote) error))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -11871,7 +12032,7 @@ Executing:
                                       1: [ (if (= CASE4 2) (begin #f) (cond ((= CASE4 3) #t) ((= CASE4 quote) error))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -12045,7 +12206,7 @@ Executing:
                                       1: [ (if (= CASE4 3) (begin #t) (cond ((= CASE4 quote) error))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 65 ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
+	CODE BLOCK ; (first rest) => ((if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 	0	MAKE_ENVDOT	1	; (first rest)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	1	; rest
@@ -12165,7 +12326,7 @@ Executing:
                                       1: [ (begin (= CASE4 quote) error) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -12235,7 +12396,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((CASE4 (+ 1 2))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -12292,7 +12453,7 @@ Executing:  core:car
                                       4: [ ((lambda (CASE4) (if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))) [R5/30] [Closure/core:cadr] ((CASE4 (+ 1 2))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -12313,7 +12474,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (CASE4) (if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error)))) (+ 1 2)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 124 ; (CASE4) => ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
+	CODE BLOCK ; (CASE4) => ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
 	0	MAKE_ENV	1	; (CASE4)
 	1	SAVE_RETURN	"R1"	6
 	2	LOCAL_GET	0	0	; CASE4
@@ -12345,7 +12506,7 @@ Compiled:
 	28	GLOBAL_GET	error
 	29	RETURN_VAL
 
-	CODE BLOCK # 125 ; () => ((case (+ 1 2) (2 #f) (3 #t) (quote error)))
+	CODE BLOCK ; () => ((case (+ 1 2) (2 #f) (3 #t) (quote error)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -12353,12 +12514,12 @@ Compiled:
 	4	GLOBAL_GET	+
 	5	JMP_CLOSURE	2
 6	LABEL	"R0"
-	7	MAKE_CLOSURE	[Closure]	; #124 : ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
+	7	MAKE_CLOSURE	[Closure]	; ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
 	8	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 125 ; () => ((case (+ 1 2) (2 #f) (3 #t) (quote error)))
+	CODE BLOCK ; () => ((case (+ 1 2) (2 #f) (3 #t) (quote error)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	1
@@ -12366,7 +12527,7 @@ Executing:
 	4	GLOBAL_GET	+
 	5	JMP_CLOSURE	2
 6	LABEL	"R0"
-	7	MAKE_CLOSURE	[Closure]	; #124 : ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
+	7	MAKE_CLOSURE	[Closure]	; ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
 	8	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -12388,7 +12549,7 @@ Executing:
                                       1: [ 3 ]
 [ 1]   6 : LABEL	"R0"
                                       1: [ 3 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #124 : ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((if (= CASE4 2) (begin #f) (if (= CASE4 3) (begin #t) (begin (= CASE4 quote) error))))
                                       2: [ 3 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 3 ]
@@ -12445,7 +12606,7 @@ COMPILE AND RUN inputs:  (let ((r '())) (for (i 0 (< i 3) (+ i 1)) (set! r (cons
 ParseNext ==>  (let ((r (quote ()))) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
 Parsed:  (core:let ((foo:r (quote ()))) (core:for (foo:i 0 (core:< foo:i 3) (core:+ foo:i 1)) (set! foo:r (core:cons foo:i foo:r))) foo:r)
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -12515,7 +12676,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((r (quote ()))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -12572,7 +12733,7 @@ Executing:  core:car
                                       4: [ ((lambda (r) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)) [R5/30] [Closure/core:cadr] ((r (quote ()))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -12593,7 +12754,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (r) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r) (quote ())) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 72 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
+	CODE BLOCK ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 	0	MAKE_ENVDOT	1	; (test body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; test
@@ -12619,7 +12780,7 @@ Executing:
 	22	GLOBAL_GET	car
 	23	JMP_CLOSURE	1
 24	LABEL	"R3"
-	25	MAKE_CLOSURE	[Closure]	; #71 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	25	MAKE_CLOSURE	[Closure]	; ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	26	JMP_CLOSURE	4
 
                                       2: [ (i 0 (< i 3) (+ i 1)) (set! r (cons i r)) ]
@@ -12693,7 +12854,7 @@ Executing:
                                       4: [ i 0 (< i 3) (+ i 1) ]
 [ 4]  24 : LABEL	"R3"
                                       4: [ i 0 (< i 3) (+ i 1) ]
-[ 4]  25 : MAKE_CLOSURE	[Closure]	; #71 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+[ 4]  25 : MAKE_CLOSURE	[Closure]	; ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
                                       5: [ i 0 (< i 3) (+ i 1) [Closure] ]
 [ 5]  26 : JMP_CLOSURE	4
                                       4: [ i 0 (< i 3) (+ i 1) ]
@@ -12809,7 +12970,7 @@ Executing:
                                       1: [ (let ((i 0)) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1)))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -12879,7 +13040,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((i 0)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -12936,7 +13097,7 @@ Executing:  core:car
                                       4: [ ((lambda (i) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))) [R5/30] [Closure/core:cadr] ((i 0)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -12957,7 +13118,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (i) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1)))) 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 126 ; (i) => ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+	CODE BLOCK ; (i) => ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
 	0	MAKE_ENV	1	; (i)
 	1	PUSH_CONST	()
 2	LABEL	"L4"
@@ -12988,29 +13149,29 @@ Compiled:
 27	LABEL	"L5"
 	28	RETURN_VAL
 
-	CODE BLOCK # 127 ; (r) => ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
+	CODE BLOCK ; (r) => ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
 	0	MAKE_ENV	1	; (r)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #126 : ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+	3	MAKE_CLOSURE	[Closure]	; ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	STACK_POP
 	7	LOCAL_GET	0	0	; r
 	8	RETURN_VAL
 
-	CODE BLOCK # 128 ; () => ((let ((r (quote ()))) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r))
+	CODE BLOCK ; () => ((let ((r (quote ()))) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
-	2	MAKE_CLOSURE	[Closure]	; #127 : ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
+	2	MAKE_CLOSURE	[Closure]	; ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 128 ; () => ((let ((r (quote ()))) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r))
+	CODE BLOCK ; () => ((let ((r (quote ()))) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
-	2	MAKE_CLOSURE	[Closure]	; #127 : ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
+	2	MAKE_CLOSURE	[Closure]	; ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -13018,7 +13179,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	()
                                       1: [ () ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #127 : ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)
                                       2: [ () [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ () ]
@@ -13028,7 +13189,7 @@ Executing:
                                       1: [ [R0/5] ]
 [ 1]   2 : PUSH_CONST	0
                                       2: [ [R0/5] 0 ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #126 : ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
                                       3: [ [R0/5] 0 [Closure] ]
 [ 3]   4 : JMP_CLOSURE	1
                                       2: [ [R0/5] 0 ]
@@ -13263,7 +13424,7 @@ COMPILE AND RUN inputs:  (let ((r '())) (dotimes (i 3) (set! r (cons i r))) r)
 ParseNext ==>  (let ((r (quote ()))) (dotimes (i 3) (set! r (cons i r))) r)
 Parsed:  (core:let ((foo:r (quote ()))) (core:dotimes (foo:i 3) (set! foo:r (core:cons foo:i foo:r))) foo:r)
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -13333,7 +13494,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((r (quote ()))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -13390,7 +13551,7 @@ Executing:  core:car
                                       4: [ ((lambda (r) (dotimes (i 3) (set! r (cons i r))) r)) [R5/30] [Closure/core:cadr] ((r (quote ()))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -13411,7 +13572,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (r) (dotimes (i 3) (set! r (cons i r))) r) (quote ())) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 75 ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
+	CODE BLOCK ; (pars body) => ((let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 	0	MAKE_ENVDOT	1	; (pars body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; pars
@@ -13423,7 +13584,7 @@ Executing:
 	8	GLOBAL_GET	cadr
 	9	JMP_CLOSURE	1
 10	LABEL	"R1"
-	11	MAKE_CLOSURE	[Closure]	; #74 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+	11	MAKE_CLOSURE	[Closure]	; ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
 	12	JMP_CLOSURE	2
 
                                       2: [ (i 3) (set! r (cons i r)) ]
@@ -13457,7 +13618,7 @@ Executing:
                                       2: [ i 3 ]
 [ 2]  10 : LABEL	"R1"
                                       2: [ i 3 ]
-[ 2]  11 : MAKE_CLOSURE	[Closure]	; #74 : ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
+[ 2]  11 : MAKE_CLOSURE	[Closure]	; ((append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))
                                       3: [ i 3 [Closure] ]
 [ 3]  12 : JMP_CLOSURE	2
                                       2: [ i 3 ]
@@ -13551,7 +13712,7 @@ Executing:
                                       1: [ (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 72 ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
+	CODE BLOCK ; (test body) => ((let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 	0	MAKE_ENVDOT	1	; (test body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; test
@@ -13577,7 +13738,7 @@ Executing:
 	22	GLOBAL_GET	car
 	23	JMP_CLOSURE	1
 24	LABEL	"R3"
-	25	MAKE_CLOSURE	[Closure]	; #71 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+	25	MAKE_CLOSURE	[Closure]	; ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
 	26	JMP_CLOSURE	4
 
                                       2: [ (i 0 (< i 3) (+ i 1)) (set! r (cons i r)) ]
@@ -13651,7 +13812,7 @@ Executing:
                                       4: [ i 0 (< i 3) (+ i 1) ]
 [ 4]  24 : LABEL	"R3"
                                       4: [ i 0 (< i 3) (+ i 1) ]
-[ 4]  25 : MAKE_CLOSURE	[Closure]	; #71 : ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
+[ 4]  25 : MAKE_CLOSURE	[Closure]	; ((list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))
                                       5: [ i 0 (< i 3) (+ i 1) [Closure] ]
 [ 5]  26 : JMP_CLOSURE	4
                                       4: [ i 0 (< i 3) (+ i 1) ]
@@ -13767,7 +13928,7 @@ Executing:
                                       1: [ (let ((i 0)) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1)))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -13837,7 +13998,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((i 0)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -13894,7 +14055,7 @@ Executing:  core:car
                                       4: [ ((lambda (i) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))) [R5/30] [Closure/core:cadr] ((i 0)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -13915,7 +14076,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (i) (while (< i 3) (set! r (cons i r)) (set! i (+ i 1)))) 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 129 ; (i) => ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+	CODE BLOCK ; (i) => ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
 	0	MAKE_ENV	1	; (i)
 	1	PUSH_CONST	()
 2	LABEL	"L4"
@@ -13946,29 +14107,29 @@ Compiled:
 27	LABEL	"L5"
 	28	RETURN_VAL
 
-	CODE BLOCK # 130 ; (r) => ((dotimes (i 3) (set! r (cons i r))) r)
+	CODE BLOCK ; (r) => ((dotimes (i 3) (set! r (cons i r))) r)
 	0	MAKE_ENV	1	; (r)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #129 : ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+	3	MAKE_CLOSURE	[Closure]	; ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	STACK_POP
 	7	LOCAL_GET	0	0	; r
 	8	RETURN_VAL
 
-	CODE BLOCK # 131 ; () => ((let ((r (quote ()))) (dotimes (i 3) (set! r (cons i r))) r))
+	CODE BLOCK ; () => ((let ((r (quote ()))) (dotimes (i 3) (set! r (cons i r))) r))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
-	2	MAKE_CLOSURE	[Closure]	; #130 : ((dotimes (i 3) (set! r (cons i r))) r)
+	2	MAKE_CLOSURE	[Closure]	; ((dotimes (i 3) (set! r (cons i r))) r)
 	3	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 131 ; () => ((let ((r (quote ()))) (dotimes (i 3) (set! r (cons i r))) r))
+	CODE BLOCK ; () => ((let ((r (quote ()))) (dotimes (i 3) (set! r (cons i r))) r))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
-	2	MAKE_CLOSURE	[Closure]	; #130 : ((dotimes (i 3) (set! r (cons i r))) r)
+	2	MAKE_CLOSURE	[Closure]	; ((dotimes (i 3) (set! r (cons i r))) r)
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -13976,7 +14137,7 @@ Executing:
                                       0: [  ]
 [ 0]   1 : PUSH_CONST	()
                                       1: [ () ]
-[ 1]   2 : MAKE_CLOSURE	[Closure]	; #130 : ((dotimes (i 3) (set! r (cons i r))) r)
+[ 1]   2 : MAKE_CLOSURE	[Closure]	; ((dotimes (i 3) (set! r (cons i r))) r)
                                       2: [ () [Closure] ]
 [ 2]   3 : JMP_CLOSURE	1
                                       1: [ () ]
@@ -13986,7 +14147,7 @@ Executing:
                                       1: [ [R0/5] ]
 [ 1]   2 : PUSH_CONST	0
                                       2: [ [R0/5] 0 ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #129 : ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((while (< i 3) (set! r (cons i r)) (set! i (+ i 1))))
                                       3: [ [R0/5] 0 [Closure] ]
 [ 3]   4 : JMP_CLOSURE	1
                                       2: [ [R0/5] 0 ]
@@ -14217,11 +14378,239 @@ test: got "(2 1 0)"  - expected "(2 1 0)"
 -------------------------------------------------------------------------
 
 
+COMPILE AND RUN inputs:  (apply + '(1 2))
+ParseNext ==>  (apply + (quote (1 2)))
+Parsed:  (core:apply core:+ (quote (1 2)))
+Executing:  
+	CODE BLOCK ; (fn args) => ((let ((arglist (eval args))) (append (list fn) arglist)))
+	0	MAKE_ENV	2	; (fn args)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	1	; args
+	3	GLOBAL_GET	eval
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	MAKE_CLOSURE	[Closure]	; ((append (list fn) arglist))
+	7	JMP_CLOSURE	1
+
+                                      2: [ + (quote (1 2)) ]
+[ 2]   0 : MAKE_ENV	2	; (fn args)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	1	; args
+                                      2: [ [R0/5] (quote (1 2)) ]
+[ 2]   3 : GLOBAL_GET	eval
+                                      3: [ [R0/5] (quote (1 2)) [Closure/core:eval] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] (quote (1 2)) ]
+[ 2]   0 : CALL_PRIMOP	"eval"
+Executing:  
+	CODE BLOCK ; () => ((quote (1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2)
+                                      1: [ (1 2) ]
+[ 1]   2 : RETURN_VAL
+                                      2: [ [R0/5] (1 2) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (1 2) ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ (1 2) ]
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((append (list fn) arglist))
+                                      2: [ (1 2) [Closure] ]
+[ 2]   7 : JMP_CLOSURE	1
+                                      1: [ (1 2) ]
+[ 1]   0 : MAKE_ENV	1	; (arglist)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R1"	5
+                                      1: [ [R1/5] ]
+[ 1]   2 : LOCAL_GET	1	0	; fn
+                                      2: [ [R1/5] + ]
+[ 2]   3 : GLOBAL_GET	list
+                                      3: [ [R1/5] + [Closure/core:list] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R1/5] + ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R1/5] (+) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (+) ]
+[ 1]   5 : LABEL	"R1"
+                                      1: [ (+) ]
+[ 1]   6 : LOCAL_GET	0	0	; arglist
+                                      2: [ (+) (1 2) ]
+[ 2]   7 : GLOBAL_GET	append
+                                      3: [ (+) (1 2) [Closure/core:append] ]
+[ 3]   8 : JMP_CLOSURE	2
+                                      2: [ (+) (1 2) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ (+ 1 2) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK ; () => ((quote (1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	RETURN_VAL
+
+	CODE BLOCK ; () => ((apply + (quote (1 2))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK ; () => ((apply + (quote (1 2))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	+
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	+
+                                      3: [ 1 2 [Closure/core:+] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"+"
+                                      1: [ 3 ]
+[ 1]   1 : RETURN_VAL
+test: got "3"  - expected "3"
+
+
+-------------------------------------------------------------------------
+
+
+COMPILE AND RUN inputs:  (apply cons '(1 2))
+ParseNext ==>  (apply cons (quote (1 2)))
+Parsed:  (core:apply core:cons (quote (1 2)))
+Executing:  
+	CODE BLOCK ; (fn args) => ((let ((arglist (eval args))) (append (list fn) arglist)))
+	0	MAKE_ENV	2	; (fn args)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	1	; args
+	3	GLOBAL_GET	eval
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	MAKE_CLOSURE	[Closure]	; ((append (list fn) arglist))
+	7	JMP_CLOSURE	1
+
+                                      2: [ cons (quote (1 2)) ]
+[ 2]   0 : MAKE_ENV	2	; (fn args)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	1	; args
+                                      2: [ [R0/5] (quote (1 2)) ]
+[ 2]   3 : GLOBAL_GET	eval
+                                      3: [ [R0/5] (quote (1 2)) [Closure/core:eval] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] (quote (1 2)) ]
+[ 2]   0 : CALL_PRIMOP	"eval"
+Executing:  
+	CODE BLOCK ; () => ((quote (1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	(1 2)
+                                      1: [ (1 2) ]
+[ 1]   2 : RETURN_VAL
+                                      2: [ [R0/5] (1 2) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (1 2) ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ (1 2) ]
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((append (list fn) arglist))
+                                      2: [ (1 2) [Closure] ]
+[ 2]   7 : JMP_CLOSURE	1
+                                      1: [ (1 2) ]
+[ 1]   0 : MAKE_ENV	1	; (arglist)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R1"	5
+                                      1: [ [R1/5] ]
+[ 1]   2 : LOCAL_GET	1	0	; fn
+                                      2: [ [R1/5] cons ]
+[ 2]   3 : GLOBAL_GET	list
+                                      3: [ [R1/5] cons [Closure/core:list] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R1/5] cons ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R1/5] (cons) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (cons) ]
+[ 1]   5 : LABEL	"R1"
+                                      1: [ (cons) ]
+[ 1]   6 : LOCAL_GET	0	0	; arglist
+                                      2: [ (cons) (1 2) ]
+[ 2]   7 : GLOBAL_GET	append
+                                      3: [ (cons) (1 2) [Closure/core:append] ]
+[ 3]   8 : JMP_CLOSURE	2
+                                      2: [ (cons) (1 2) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ (cons 1 2) ]
+[ 1]   1 : RETURN_VAL
+Compiled:
+	CODE BLOCK ; () => ((quote (1 2)))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	(1 2)
+	2	RETURN_VAL
+
+	CODE BLOCK ; () => ((apply cons (quote (1 2))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	cons
+	4	JMP_CLOSURE	2
+
+Running...
+Executing:  
+	CODE BLOCK ; () => ((apply cons (quote (1 2))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	1
+	2	PUSH_CONST	2
+	3	GLOBAL_GET	cons
+	4	JMP_CLOSURE	2
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	1
+                                      1: [ 1 ]
+[ 1]   2 : PUSH_CONST	2
+                                      2: [ 1 2 ]
+[ 2]   3 : GLOBAL_GET	cons
+                                      3: [ 1 2 [Closure/core:cons] ]
+[ 3]   4 : JMP_CLOSURE	2
+                                      2: [ 1 2 ]
+[ 2]   0 : CALL_PRIMOP	"cons"
+                                      1: [ (1 . 2) ]
+[ 1]   1 : RETURN_VAL
+test: got "(1 . 2)"  - expected "(1 . 2)"
+
+
+-------------------------------------------------------------------------
+
+
 COMPILE AND RUN inputs:  (fold-left cons '() '(1 2))
 ParseNext ==>  (fold-left cons (quote ()) (quote (1 2)))
 Parsed:  (core:fold-left core:cons (quote ()) (quote (1 2)))
 Compiled:
-	CODE BLOCK # 132 ; () => ((fold-left cons (quote ()) (quote (1 2))))
+	CODE BLOCK ; () => ((fold-left cons (quote ()) (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cons
 	2	PUSH_CONST	()
@@ -14231,7 +14620,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 132 ; () => ((fold-left cons (quote ()) (quote (1 2))))
+	CODE BLOCK ; () => ((fold-left cons (quote ()) (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cons
 	2	PUSH_CONST	()
@@ -14461,7 +14850,7 @@ COMPILE AND RUN inputs:  (fold-right cons '() '(1 2))
 ParseNext ==>  (fold-right cons (quote ()) (quote (1 2)))
 Parsed:  (core:fold-right core:cons (quote ()) (quote (1 2)))
 Compiled:
-	CODE BLOCK # 133 ; () => ((fold-right cons (quote ()) (quote (1 2))))
+	CODE BLOCK ; () => ((fold-right cons (quote ()) (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cons
 	2	PUSH_CONST	()
@@ -14471,7 +14860,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 133 ; () => ((fold-right cons (quote ()) (quote (1 2))))
+	CODE BLOCK ; () => ((fold-right cons (quote ()) (quote (1 2))))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cons
 	2	PUSH_CONST	()
@@ -14701,7 +15090,7 @@ COMPILE AND RUN inputs:  (begin (set! x '(1 2 3 4 5)) (list (first x) (second x)
 ParseNext ==>  (begin (set! x (quote (1 2 3 4 5))) (list (first x) (second x) (third x)))
 Parsed:  (begin (set! foo:x (quote (1 2 3 4 5))) (core:list (core:first foo:x) (core:second foo:x) (core:third foo:x)))
 Compiled:
-	CODE BLOCK # 134 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (first x) (second x) (third x))))
+	CODE BLOCK ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (first x) (second x) (third x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2 3 4 5)
 	2	GLOBAL_SET	x
@@ -14726,7 +15115,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 134 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (first x) (second x) (third x))))
+	CODE BLOCK ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (first x) (second x) (third x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2 3 4 5)
 	2	GLOBAL_SET	x
@@ -14817,7 +15206,7 @@ COMPILE AND RUN inputs:  (begin (set! x '(1 2 3 4 5)) (list (after-first x) (aft
 ParseNext ==>  (begin (set! x (quote (1 2 3 4 5))) (list (after-first x) (after-second x) (after-third x)))
 Parsed:  (begin (set! foo:x (quote (1 2 3 4 5))) (core:list (core:after-first foo:x) (core:after-second foo:x) (core:after-third foo:x)))
 Compiled:
-	CODE BLOCK # 135 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (after-first x) (after-second x) (after-third x))))
+	CODE BLOCK ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (after-first x) (after-second x) (after-third x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2 3 4 5)
 	2	GLOBAL_SET	x
@@ -14842,7 +15231,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 135 ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (after-first x) (after-second x) (after-third x))))
+	CODE BLOCK ; () => ((begin (set! x (quote (1 2 3 4 5))) (list (after-first x) (after-second x) (after-third x))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(1 2 3 4 5)
 	2	GLOBAL_SET	x
@@ -14933,7 +15322,7 @@ COMPILE AND RUN inputs:  (set! add (let ((sum 0)) (lambda (delta) (set! sum (+ s
 ParseNext ==>  (set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum)))
 Parsed:  (set! foo:add (core:let ((foo:sum 0)) (lambda (foo:delta) (set! foo:sum (core:+ foo:sum foo:delta)) foo:sum)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -15003,7 +15392,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((sum 0)) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -15060,7 +15449,7 @@ Executing:  core:car
                                       4: [ ((lambda (sum) (lambda (delta) (set! sum (+ sum delta)) sum))) [R5/30] [Closure/core:cadr] ((sum 0)) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -15081,7 +15470,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (sum) (lambda (delta) (set! sum (+ sum delta)) sum)) 0) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 136 ; (delta) => ((set! sum (+ sum delta)) sum)
+	CODE BLOCK ; (delta) => ((set! sum (+ sum delta)) sum)
 	0	MAKE_ENV	1	; (delta)
 	1	SAVE_RETURN	"R1"	6
 	2	LOCAL_GET	1	0	; sum
@@ -15094,16 +15483,16 @@ Compiled:
 	9	LOCAL_GET	1	0	; sum
 	10	RETURN_VAL
 
-	CODE BLOCK # 137 ; (sum) => ((lambda (delta) (set! sum (+ sum delta)) sum))
+	CODE BLOCK ; (sum) => ((lambda (delta) (set! sum (+ sum delta)) sum))
 	0	MAKE_ENV	1	; (sum)
-	1	MAKE_CLOSURE	[Closure]	; #136 : ((set! sum (+ sum delta)) sum)
+	1	MAKE_CLOSURE	[Closure]	; ((set! sum (+ sum delta)) sum)
 	2	RETURN_VAL
 
-	CODE BLOCK # 138 ; () => ((set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))))
+	CODE BLOCK ; () => ((set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #137 : ((lambda (delta) (set! sum (+ sum delta)) sum))
+	3	MAKE_CLOSURE	[Closure]	; ((lambda (delta) (set! sum (+ sum delta)) sum))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	GLOBAL_SET	add
@@ -15111,11 +15500,11 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 138 ; () => ((set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))))
+	CODE BLOCK ; () => ((set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	0
-	3	MAKE_CLOSURE	[Closure]	; #137 : ((lambda (delta) (set! sum (+ sum delta)) sum))
+	3	MAKE_CLOSURE	[Closure]	; ((lambda (delta) (set! sum (+ sum delta)) sum))
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	GLOBAL_SET	add
@@ -15128,13 +15517,13 @@ Executing:
                                       1: [ [R0/5] ]
 [ 1]   2 : PUSH_CONST	0
                                       2: [ [R0/5] 0 ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #137 : ((lambda (delta) (set! sum (+ sum delta)) sum))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((lambda (delta) (set! sum (+ sum delta)) sum))
                                       3: [ [R0/5] 0 [Closure] ]
 [ 3]   4 : JMP_CLOSURE	1
                                       2: [ [R0/5] 0 ]
 [ 2]   0 : MAKE_ENV	1	; (sum)
                                       1: [ [R0/5] ]
-[ 1]   1 : MAKE_CLOSURE	[Closure]	; #136 : ((set! sum (+ sum delta)) sum)
+[ 1]   1 : MAKE_CLOSURE	[Closure]	; ((set! sum (+ sum delta)) sum)
                                       2: [ [R0/5] [Closure] ]
 [ 2]   2 : RETURN_VAL
                                       1: [ [Closure] ]
@@ -15147,7 +15536,7 @@ test: got "[Closure]"  - expected "[Closure]"
 ParseNext ==>  (add 0)
 Parsed:  (foo:add 0)
 Compiled:
-	CODE BLOCK # 139 ; () => ((add 0))
+	CODE BLOCK ; () => ((add 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	0
 	2	GLOBAL_GET	add
@@ -15155,7 +15544,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 139 ; () => ((add 0))
+	CODE BLOCK ; () => ((add 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	0
 	2	GLOBAL_GET	add
@@ -15199,7 +15588,7 @@ test: got "0"  - expected "0"
 ParseNext ==>  (add 100)
 Parsed:  (foo:add 100)
 Compiled:
-	CODE BLOCK # 140 ; () => ((add 100))
+	CODE BLOCK ; () => ((add 100))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	100
 	2	GLOBAL_GET	add
@@ -15207,7 +15596,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 140 ; () => ((add 100))
+	CODE BLOCK ; () => ((add 100))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	100
 	2	GLOBAL_GET	add
@@ -15251,7 +15640,7 @@ test: got "100"  - expected "100"
 ParseNext ==>  (add 0)
 Parsed:  (foo:add 0)
 Compiled:
-	CODE BLOCK # 141 ; () => ((add 0))
+	CODE BLOCK ; () => ((add 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	0
 	2	GLOBAL_GET	add
@@ -15259,7 +15648,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 141 ; () => ((add 0))
+	CODE BLOCK ; () => ((add 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	0
 	2	GLOBAL_GET	add

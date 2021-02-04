@@ -160,7 +160,8 @@ namespace CSLisp.Core
                 } else {
                     Cons body = cons.afterSecond.AsConsOrNull;
                     Closure f = CompileLambda(cons.second, body, env);
-                    string debug = $"#{f.code.index} : " + Val.DebugPrint(cons.afterSecond);
+                    //string debug = $"#{f.code.index} : " + Val.DebugPrint(cons.afterSecond);
+                    string debug = Val.DebugPrint(cons.afterSecond);
                     return Merge(
                         Emit(Opcode.MAKE_CLOSURE, new Val(f), Val.NIL, debug),
                         EmitIf(st.IsFinal, Emit(Opcode.RETURN_VAL)));

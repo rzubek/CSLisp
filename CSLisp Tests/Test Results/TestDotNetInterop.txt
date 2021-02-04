@@ -1,7 +1,7 @@
-TEST TestDotNetInterop : 8:44:23 PM
+TEST TestDotNetInterop : 8:57:42 PM
 ParseNext ==>  (package-set "core")
 Executing:  
-	CODE BLOCK # 49 ; () => ((package-set "core"))
+	CODE BLOCK ; () => ((package-set "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-set
@@ -21,7 +21,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
 Executing:  
-	CODE BLOCK # 50 ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
 	2	GLOBAL_GET	package-export
@@ -41,7 +41,7 @@ Executing:
 [ 1]   1 : RETURN_VAL
 ParseNext ==>  (defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 Executing:  
-	CODE BLOCK # 52 ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
+	CODE BLOCK ; () => ((defmacro let (bindings . body) (append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -54,7 +54,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 Executing:  
-	CODE BLOCK # 54 ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
+	CODE BLOCK ; () => ((defmacro let* (bindings . body) (if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -67,7 +67,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 Executing:  
-	CODE BLOCK # 58 ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
+	CODE BLOCK ; () => ((defmacro letrec (bindings . body) (append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -80,7 +80,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 Executing:  
-	CODE BLOCK # 60 ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
+	CODE BLOCK ; () => ((defmacro define (name . body) (if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -93,7 +93,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f)))))
 Executing:  
-	CODE BLOCK # 62 ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
+	CODE BLOCK ; () => ((defmacro and (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if)) (list first) rest (list (quote #f))) (list (quote if) first (append (list (quote and)) rest) (quote #f))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -106,7 +106,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest)))))
 Executing:  
-	CODE BLOCK # 64 ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
+	CODE BLOCK ; () => ((defmacro or (first . rest) (if (null? rest) (car (list first)) (if (= (length rest) 1) (append (list (quote if*)) (list first) rest) (list (quote if*) first (append (list (quote or)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -119,7 +119,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest))))
 Executing:  
-	CODE BLOCK # 66 ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
+	CODE BLOCK ; () => ((defmacro cond (first . rest) (if (null? rest) (if (cons? first) (append (list (quote begin)) first) (list (quote begin) first)) (list (quote if) (car first) (append (list (quote begin)) (cdr first)) (append (list (quote cond)) rest)))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -132,7 +132,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -292,7 +292,7 @@ Executing:
                                       1: [ (let ((keyval (gensym "CASE"))) (let* () (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -384,7 +384,7 @@ Executing:
                                       1: [ (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -454,7 +454,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((keyval (gensym "CASE"))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -511,7 +511,7 @@ Executing:  core:car
                                       4: [ ((lambda (keyval) (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest)))))) [R5/30] [Closure/core:cadr] ((keyval (gensym "CASE"))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -532,7 +532,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (keyval) (begin (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))) (gensym "CASE")) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 70 ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
+	CODE BLOCK ; () => ((defmacro case (key . rest) (let* ((keyval (gensym "CASE"))) (list (quote let) (list (list keyval key)) (append (list (quote cond)) (map (lambda (elt) (if (cons? elt) (cons (list (quote =) keyval (car elt)) (cdr elt)) elt)) rest))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -545,7 +545,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -615,7 +615,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -624,7 +624,7 @@ Executing:  core:car
                                       1: [ varname ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -633,7 +633,7 @@ Executing:  core:car
                                       1: [ init-value ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -642,7 +642,7 @@ Executing:  core:car
                                       1: [ predicate ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -699,7 +699,7 @@ Executing:  core:car
                                       4: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))) [R5/30] [Closure/core:cadr] ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -708,7 +708,7 @@ Executing:  core:cadr
                                       1: [ (car test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -717,7 +717,7 @@ Executing:  core:cadr
                                       1: [ (cadr test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -726,7 +726,7 @@ Executing:  core:cadr
                                       1: [ (caddr test) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -747,7 +747,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname init-value predicate step-value) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value))))) (car test) (cadr test) (caddr test) (car (cdddr test))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 73 ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
+	CODE BLOCK ; () => ((defmacro for (test . body) (let ((varname (car test)) (init-value (cadr test)) (predicate (caddr test)) (step-value (car (cdddr test)))) (list (quote let) (list (list varname init-value)) (append (list (quote while)) (list predicate) body (list (list (quote set!) varname step-value)))))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -760,7 +760,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -830,7 +830,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((varname (car pars)) (count (cadr pars))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -839,7 +839,7 @@ Executing:  core:car
                                       1: [ varname ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -896,7 +896,7 @@ Executing:  core:car
                                       4: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))) [R5/30] [Closure/core:cadr] ((varname (car pars)) (count (cadr pars))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -905,7 +905,7 @@ Executing:  core:cadr
                                       1: [ (car pars) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -926,7 +926,168 @@ Executing:  core:cadr
                                       1: [ ((lambda (varname count) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body)) (car pars) (cadr pars)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 76 ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	CODE BLOCK ; () => ((defmacro dotimes (pars . body) (let ((varname (car pars)) (count (cadr pars))) (append (list (quote for)) (list (list varname (quote 0) (list (quote <) varname count) (list (quote +) varname (quote 1)))) body))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	()
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
+ParseNext ==>  (defmacro apply (fn args) (let ((arglist (eval args))) (append (list fn) arglist)))
+Executing:  
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((arglist (eval args))) (append (list fn) arglist) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((arglist (eval args))) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (arglist (eval args)) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ arglist ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (arglist) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (arglist) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((arglist)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((arglist)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((arglist)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((arglist)) ((append (list fn) arglist)) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (arglist) (append (list fn) arglist)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (arglist) (append (list fn) arglist)) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (arglist) (append (list fn) arglist))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (arglist) (append (list fn) arglist))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (arglist) (append (list fn) arglist))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] [Closure/core:cadr] ((arglist (eval args))) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (arglist (eval args)) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ (eval args) ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) [R5/30] ((eval args)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (arglist) (append (list fn) arglist))) ((eval args)) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (arglist) (append (list fn) arglist)) (eval args)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; () => ((defmacro apply (fn args) (let ((arglist (eval args))) (append (list fn) arglist))))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	RETURN_VAL
@@ -939,7 +1100,7 @@ Executing:
 [ 1]   2 : RETURN_VAL
 ParseNext ==>  (define first car)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1087,7 +1248,7 @@ Executing:
                                       1: [ (begin (set! first car) (quote first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 77 ; () => ((define first car))
+	CODE BLOCK ; () => ((define first car))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	car
 	2	GLOBAL_SET	first
@@ -1109,7 +1270,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define second cadr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1257,7 +1418,7 @@ Executing:
                                       1: [ (begin (set! second cadr) (quote second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 78 ; () => ((define second cadr))
+	CODE BLOCK ; () => ((define second cadr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cadr
 	2	GLOBAL_SET	second
@@ -1279,7 +1440,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define third caddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1427,7 +1588,7 @@ Executing:
                                       1: [ (begin (set! third caddr) (quote third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 79 ; () => ((define third caddr))
+	CODE BLOCK ; () => ((define third caddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	caddr
 	2	GLOBAL_SET	third
@@ -1449,7 +1610,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define rest cdr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1597,7 +1758,7 @@ Executing:
                                       1: [ (begin (set! rest cdr) (quote rest)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 80 ; () => ((define rest cdr))
+	CODE BLOCK ; () => ((define rest cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	rest
@@ -1619,7 +1780,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-first cdr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1767,7 +1928,7 @@ Executing:
                                       1: [ (begin (set! after-first cdr) (quote after-first)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 81 ; () => ((define after-first cdr))
+	CODE BLOCK ; () => ((define after-first cdr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdr
 	2	GLOBAL_SET	after-first
@@ -1789,7 +1950,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-second cddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -1937,7 +2098,7 @@ Executing:
                                       1: [ (begin (set! after-second cddr) (quote after-second)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 82 ; () => ((define after-second cddr))
+	CODE BLOCK ; () => ((define after-second cddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cddr
 	2	GLOBAL_SET	after-second
@@ -1959,7 +2120,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define after-third cdddr)
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2107,7 +2268,7 @@ Executing:
                                       1: [ (begin (set! after-third cdddr) (quote after-third)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 83 ; () => ((define after-third cdddr))
+	CODE BLOCK ; () => ((define after-third cdddr))
 	0	MAKE_ENV	0	; ()
 	1	GLOBAL_GET	cdddr
 	2	GLOBAL_SET	after-third
@@ -2129,7 +2290,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2289,7 +2450,7 @@ Executing:
                                       1: [ (define fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2437,9 +2598,9 @@ Executing:
                                       1: [ (begin (set! fold-left (lambda (fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))) (quote fold-left)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 85 ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
+	CODE BLOCK ; () => ((define (fold-left fn base lst) (if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst)))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+	1	MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
 	2	GLOBAL_SET	fold-left
 	3	STACK_POP
 	4	PUSH_CONST	fold-left
@@ -2448,7 +2609,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #84 : ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fold-left fn (fn base (car lst)) (cdr lst))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-left
                                       1: [ [Closure] ]
@@ -2459,7 +2620,7 @@ Executing:
 [ 1]   5 : RETURN_VAL
 ParseNext ==>  (define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2619,7 +2780,7 @@ Executing:
                                       1: [ (define fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 59 ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
 	0	MAKE_ENVDOT	1	; (name body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; name
@@ -2767,9 +2928,9 @@ Executing:
                                       1: [ (begin (set! fold-right (lambda (fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))) (quote fold-right)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 87 ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
+	CODE BLOCK ; () => ((define (fold-right fn base lst) (if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst))))))
 	0	MAKE_ENV	0	; ()
-	1	MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+	1	MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
 	2	GLOBAL_SET	fold-right
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
@@ -2778,7 +2939,7 @@ Executing:
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : MAKE_CLOSURE	[Closure]	; #86 : ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((if (= (length lst) 0) base (fn (car lst) (fold-right fn base (cdr lst)))))
                                       1: [ [Closure] ]
 [ 1]   2 : GLOBAL_SET	fold-right
                                       1: [ [Closure] ]
@@ -2796,7 +2957,7 @@ COMPILE AND RUN inputs:  (find-type 'System.Random)
 ParseNext ==>  (find-type (quote System.Random))
 Parsed:  (core:find-type (quote core:System.Random))
 Compiled:
-	CODE BLOCK # 88 ; () => ((find-type (quote System.Random)))
+	CODE BLOCK ; () => ((find-type (quote System.Random)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	GLOBAL_GET	find-type
@@ -2804,7 +2965,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 88 ; () => ((find-type (quote System.Random)))
+	CODE BLOCK ; () => ((find-type (quote System.Random)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	GLOBAL_GET	find-type
@@ -2832,7 +2993,7 @@ COMPILE AND RUN inputs:  (make-instance 'System.Random)
 ParseNext ==>  (make-instance (quote System.Random))
 Parsed:  (core:make-instance (quote core:System.Random))
 Compiled:
-	CODE BLOCK # 89 ; () => ((make-instance (quote System.Random)))
+	CODE BLOCK ; () => ((make-instance (quote System.Random)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	GLOBAL_GET	make-instance
@@ -2840,7 +3001,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 89 ; () => ((make-instance (quote System.Random)))
+	CODE BLOCK ; () => ((make-instance (quote System.Random)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	GLOBAL_GET	make-instance
@@ -2868,7 +3029,7 @@ COMPILE AND RUN inputs:  (make-instance 'System.Random 0)
 ParseNext ==>  (make-instance (quote System.Random) 0)
 Parsed:  (core:make-instance (quote core:System.Random) 0)
 Compiled:
-	CODE BLOCK # 90 ; () => ((make-instance (quote System.Random) 0))
+	CODE BLOCK ; () => ((make-instance (quote System.Random) 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	0
@@ -2877,7 +3038,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 90 ; () => ((make-instance (quote System.Random) 0))
+	CODE BLOCK ; () => ((make-instance (quote System.Random) 0))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	0
@@ -2908,7 +3069,7 @@ COMPILE AND RUN inputs:  (make-instance (find-type 'System.Random))
 ParseNext ==>  (make-instance (find-type (quote System.Random)))
 Parsed:  (core:make-instance (core:find-type (quote core:System.Random)))
 Compiled:
-	CODE BLOCK # 91 ; () => ((make-instance (find-type (quote System.Random))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote System.Random))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	System.Random
@@ -2920,7 +3081,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 91 ; () => ((make-instance (find-type (quote System.Random))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote System.Random))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	System.Random
@@ -2964,7 +3125,7 @@ COMPILE AND RUN inputs:  (make-instance (find-type 'CSLisp.TestClass))
 ParseNext ==>  (make-instance (find-type (quote CSLisp.TestClass)))
 Parsed:  (core:make-instance (core:find-type (quote core:CSLisp.TestClass)))
 Compiled:
-	CODE BLOCK # 92 ; () => ((make-instance (find-type (quote CSLisp.TestClass))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote CSLisp.TestClass))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
@@ -2976,7 +3137,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 92 ; () => ((make-instance (find-type (quote CSLisp.TestClass))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote CSLisp.TestClass))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
@@ -3020,7 +3181,7 @@ COMPILE AND RUN inputs:  (make-instance (find-type 'CSLisp.TestStruct))
 ParseNext ==>  (make-instance (find-type (quote CSLisp.TestStruct)))
 Parsed:  (core:make-instance (core:find-type (quote core:CSLisp.TestStruct)))
 Compiled:
-	CODE BLOCK # 93 ; () => ((make-instance (find-type (quote CSLisp.TestStruct))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote CSLisp.TestStruct))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestStruct
@@ -3032,7 +3193,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 93 ; () => ((make-instance (find-type (quote CSLisp.TestStruct))))
+	CODE BLOCK ; () => ((make-instance (find-type (quote CSLisp.TestStruct))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestStruct
@@ -3076,7 +3237,7 @@ COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntField)
 ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntField))
 Parsed:  (core:find-member (quote core:CSLisp.TestClass) (quote core:MyIntField))
 Compiled:
-	CODE BLOCK # 94 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntField
@@ -3085,7 +3246,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 94 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntField)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntField
@@ -3116,7 +3277,7 @@ COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntProperty)
 ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntProperty))
 Parsed:  (core:find-member (quote core:CSLisp.TestClass) (quote core:MyIntProperty))
 Compiled:
-	CODE BLOCK # 95 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntProperty
@@ -3125,7 +3286,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 95 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntProperty)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntProperty
@@ -3156,7 +3317,7 @@ COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'MyIntGetter)
 ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote MyIntGetter))
 Parsed:  (core:find-member (quote core:CSLisp.TestClass) (quote core:MyIntGetter))
 Compiled:
-	CODE BLOCK # 96 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntGetter
@@ -3165,7 +3326,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 96 ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote MyIntGetter)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	MyIntGetter
@@ -3196,7 +3357,7 @@ COMPILE AND RUN inputs:  (find-member 'CSLisp.TestClass 'DoesNotExist)
 ParseNext ==>  (find-member (quote CSLisp.TestClass) (quote DoesNotExist))
 Parsed:  (core:find-member (quote core:CSLisp.TestClass) (quote core:DoesNotExist))
 Compiled:
-	CODE BLOCK # 97 ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	DoesNotExist
@@ -3205,7 +3366,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 97 ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
+	CODE BLOCK ; () => ((find-member (quote CSLisp.TestClass) (quote DoesNotExist)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	CSLisp.TestClass
 	2	PUSH_CONST	DoesNotExist
@@ -3236,7 +3397,7 @@ COMPILE AND RUN inputs:  (let ((test (make-instance 'CSLisp.TestClass)))   (find
 ParseNext ==>  (let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntField)))
 Parsed:  (core:let ((core:test (core:make-instance (quote core:CSLisp.TestClass)))) (core:find-member core:test (quote core:MyIntField)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -3306,7 +3467,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -3363,7 +3524,7 @@ Executing:  core:car
                                       4: [ ((lambda (test) (find-member test (quote MyIntField)))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -3384,33 +3545,33 @@ Executing:  core:cadr
                                       1: [ ((lambda (test) (find-member test (quote MyIntField))) (make-instance (quote CSLisp.TestClass))) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 98 ; (test) => ((find-member test (quote MyIntField)))
+	CODE BLOCK ; (test) => ((find-member test (quote MyIntField)))
 	0	MAKE_ENV	1	; (test)
 	1	LOCAL_GET	0	0	; test
 	2	PUSH_CONST	MyIntField
 	3	GLOBAL_GET	find-member
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 99 ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntField))))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntField))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #98 : ((find-member test (quote MyIntField)))
+	6	MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntField)))
 	7	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 99 ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntField))))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntField))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #98 : ((find-member test (quote MyIntField)))
+	6	MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntField)))
 	7	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -3430,7 +3591,7 @@ Executing:
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #98 : ((find-member test (quote MyIntField)))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntField)))
                                       2: [ [Native CSLisp.TestClass CSLisp.TestClass] [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
@@ -3457,7 +3618,7 @@ COMPILE AND RUN inputs:  (let ((test (make-instance 'CSLisp.TestClass)))   (find
 ParseNext ==>  (let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntGetter)))
 Parsed:  (core:let ((core:test (core:make-instance (quote core:CSLisp.TestClass)))) (core:find-member core:test (quote core:MyIntGetter)))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -3527,7 +3688,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -3584,7 +3745,7 @@ Executing:  core:car
                                       4: [ ((lambda (test) (find-member test (quote MyIntGetter)))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -3605,33 +3766,33 @@ Executing:  core:cadr
                                       1: [ ((lambda (test) (find-member test (quote MyIntGetter))) (make-instance (quote CSLisp.TestClass))) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 100 ; (test) => ((find-member test (quote MyIntGetter)))
+	CODE BLOCK ; (test) => ((find-member test (quote MyIntGetter)))
 	0	MAKE_ENV	1	; (test)
 	1	LOCAL_GET	0	0	; test
 	2	PUSH_CONST	MyIntGetter
 	3	GLOBAL_GET	find-member
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 101 ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntGetter))))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntGetter))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #100 : ((find-member test (quote MyIntGetter)))
+	6	MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntGetter)))
 	7	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 101 ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntGetter))))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote CSLisp.TestClass)))) (find-member test (quote MyIntGetter))))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #100 : ((find-member test (quote MyIntGetter)))
+	6	MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntGetter)))
 	7	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -3651,7 +3812,7 @@ Executing:
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #100 : ((find-member test (quote MyIntGetter)))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((find-member test (quote MyIntGetter)))
                                       2: [ [Native CSLisp.TestClass CSLisp.TestClass] [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
@@ -3678,7 +3839,7 @@ COMPILE AND RUN inputs:  (let* ((test (make-instance 'CSLisp.TestClass))       (
 ParseNext ==>  (let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c))
 Parsed:  (core:let* ((core:test (core:make-instance (quote core:CSLisp.TestClass))) (core:a (core:get-member-value core:test (quote core:MyIntProperty))) (core:b (core:set-member-value core:test (quote core:MyIntProperty) 42)) (core:c (core:get-member-value core:test (quote core:MyIntProperty)))) (core:list core:a core:b core:c))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -3838,7 +3999,7 @@ Executing:
                                       1: [ (let ((test (make-instance (quote CSLisp.TestClass)))) (let* ((a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -3998,7 +4159,7 @@ Executing:
                                       1: [ (let ((a (get-member-value test (quote MyIntProperty)))) (let* ((b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4158,7 +4319,7 @@ Executing:
                                       1: [ (let ((b (set-member-value test (quote MyIntProperty) 42))) (let* ((c (get-member-value test (quote MyIntProperty)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4318,7 +4479,7 @@ Executing:
                                       1: [ (let ((c (get-member-value test (quote MyIntProperty)))) (let* () (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -4410,7 +4571,7 @@ Executing:
                                       1: [ (begin (list a b c)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4480,7 +4641,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4537,7 +4698,7 @@ Executing:  core:car
                                       4: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4558,7 +4719,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))) (make-instance (quote CSLisp.TestClass))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4628,7 +4789,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((a (get-member-value test (quote MyIntProperty)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4685,7 +4846,7 @@ Executing:  core:car
                                       4: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))) [R5/30] [Closure/core:cadr] ((a (get-member-value test (quote MyIntProperty)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4706,7 +4867,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))) (get-member-value test (quote MyIntProperty))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4776,7 +4937,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((b (set-member-value test (quote MyIntProperty) 42))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4833,7 +4994,7 @@ Executing:  core:car
                                       4: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))) [R5/30] [Closure/core:cadr] ((b (set-member-value test (quote MyIntProperty) 42))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -4854,7 +5015,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))) (set-member-value test (quote MyIntProperty) 42)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -4924,7 +5085,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((c (get-member-value test (quote MyIntProperty)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -4981,7 +5142,7 @@ Executing:  core:car
                                       4: [ ((lambda (c) (begin (list a b c)))) [R5/30] [Closure/core:cadr] ((c (get-member-value test (quote MyIntProperty)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -5002,7 +5163,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (c) (begin (list a b c))) (get-member-value test (quote MyIntProperty))) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 102 ; (c) => ((begin (list a b c)))
+	CODE BLOCK ; (c) => ((begin (list a b c)))
 	0	MAKE_ENV	1	; (c)
 	1	LOCAL_GET	2	0	; a
 	2	LOCAL_GET	1	0	; b
@@ -5010,7 +5171,7 @@ Compiled:
 	4	GLOBAL_GET	list
 	5	JMP_CLOSURE	3
 
-	CODE BLOCK # 103 ; (b) => ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
+	CODE BLOCK ; (b) => ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
 	0	MAKE_ENV	1	; (b)
 	1	SAVE_RETURN	"R3"	6
 	2	LOCAL_GET	2	0	; test
@@ -5018,10 +5179,10 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R3"
-	7	MAKE_CLOSURE	[Closure]	; #102 : ((begin (list a b c)))
+	7	MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 104 ; (a) => ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
+	CODE BLOCK ; (a) => ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
 	0	MAKE_ENV	1	; (a)
 	1	SAVE_RETURN	"R2"	7
 	2	LOCAL_GET	1	0	; test
@@ -5030,10 +5191,10 @@ Compiled:
 	5	GLOBAL_GET	set-member-value
 	6	JMP_CLOSURE	3
 7	LABEL	"R2"
-	8	MAKE_CLOSURE	[Closure]	; #103 : ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
+	8	MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
 	9	JMP_CLOSURE	1
 
-	CODE BLOCK # 105 ; (test) => ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
+	CODE BLOCK ; (test) => ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
 	0	MAKE_ENV	1	; (test)
 	1	SAVE_RETURN	"R1"	6
 	2	LOCAL_GET	0	0	; test
@@ -5041,29 +5202,29 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R1"
-	7	MAKE_CLOSURE	[Closure]	; #104 : ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
+	7	MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 106 ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #105 : ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 106 ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntProperty))) (b (set-member-value test (quote MyIntProperty) 42)) (c (get-member-value test (quote MyIntProperty)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #105 : ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -5083,7 +5244,7 @@ Executing:
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #105 : ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntProperty)))) (let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))))
                                       2: [ [Native CSLisp.TestClass CSLisp.TestClass] [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
@@ -5105,7 +5266,7 @@ Executing:
                                       1: [ 0 ]
 [ 1]   6 : LABEL	"R1"
                                       1: [ 0 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #104 : ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntProperty) 42))) (let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c)))))
                                       2: [ 0 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 0 ]
@@ -5129,7 +5290,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   7 : LABEL	"R2"
                                       1: [ 42 ]
-[ 1]   8 : MAKE_CLOSURE	[Closure]	; #103 : ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
+[ 1]   8 : MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntProperty)))) (begin (list a b c))))
                                       2: [ 42 [Closure] ]
 [ 2]   9 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -5151,7 +5312,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   6 : LABEL	"R3"
                                       1: [ 42 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #102 : ((begin (list a b c)))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
                                       2: [ 42 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -5180,7 +5341,7 @@ COMPILE AND RUN inputs:  (let* ((test (make-instance 'CSLisp.TestClass))       (
 ParseNext ==>  (let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))
 Parsed:  (core:let* ((core:test (core:make-instance (quote core:CSLisp.TestClass))) (core:a (core:get-member-value core:test (quote core:MyIntField))) (core:b (core:set-member-value core:test (quote core:MyIntField) 42)) (core:c (core:get-member-value core:test (quote core:MyIntGetter)))) (core:list core:a core:b core:c))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -5340,7 +5501,7 @@ Executing:
                                       1: [ (let ((test (make-instance (quote CSLisp.TestClass)))) (let* ((a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -5500,7 +5661,7 @@ Executing:
                                       1: [ (let ((a (get-member-value test (quote MyIntField)))) (let* ((b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -5660,7 +5821,7 @@ Executing:
                                       1: [ (let ((b (set-member-value test (quote MyIntField) 42))) (let* ((c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -5820,7 +5981,7 @@ Executing:
                                       1: [ (let ((c (get-member-value test (quote MyIntGetter)))) (let* () (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -5912,7 +6073,7 @@ Executing:
                                       1: [ (begin (list a b c)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -5982,7 +6143,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -6039,7 +6200,7 @@ Executing:  core:car
                                       4: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote CSLisp.TestClass)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -6060,7 +6221,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))) (make-instance (quote CSLisp.TestClass))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -6130,7 +6291,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((a (get-member-value test (quote MyIntField)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -6187,7 +6348,7 @@ Executing:  core:car
                                       4: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))) [R5/30] [Closure/core:cadr] ((a (get-member-value test (quote MyIntField)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -6208,7 +6369,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))) (get-member-value test (quote MyIntField))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -6278,7 +6439,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((b (set-member-value test (quote MyIntField) 42))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -6335,7 +6496,7 @@ Executing:  core:car
                                       4: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))) [R5/30] [Closure/core:cadr] ((b (set-member-value test (quote MyIntField) 42))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -6356,7 +6517,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))) (set-member-value test (quote MyIntField) 42)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -6426,7 +6587,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((c (get-member-value test (quote MyIntGetter)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -6483,7 +6644,7 @@ Executing:  core:car
                                       4: [ ((lambda (c) (begin (list a b c)))) [R5/30] [Closure/core:cadr] ((c (get-member-value test (quote MyIntGetter)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -6504,7 +6665,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (c) (begin (list a b c))) (get-member-value test (quote MyIntGetter))) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 107 ; (c) => ((begin (list a b c)))
+	CODE BLOCK ; (c) => ((begin (list a b c)))
 	0	MAKE_ENV	1	; (c)
 	1	LOCAL_GET	2	0	; a
 	2	LOCAL_GET	1	0	; b
@@ -6512,7 +6673,7 @@ Compiled:
 	4	GLOBAL_GET	list
 	5	JMP_CLOSURE	3
 
-	CODE BLOCK # 108 ; (b) => ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+	CODE BLOCK ; (b) => ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
 	0	MAKE_ENV	1	; (b)
 	1	SAVE_RETURN	"R3"	6
 	2	LOCAL_GET	2	0	; test
@@ -6520,10 +6681,10 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R3"
-	7	MAKE_CLOSURE	[Closure]	; #107 : ((begin (list a b c)))
+	7	MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 109 ; (a) => ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+	CODE BLOCK ; (a) => ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
 	0	MAKE_ENV	1	; (a)
 	1	SAVE_RETURN	"R2"	7
 	2	LOCAL_GET	1	0	; test
@@ -6532,10 +6693,10 @@ Compiled:
 	5	GLOBAL_GET	set-member-value
 	6	JMP_CLOSURE	3
 7	LABEL	"R2"
-	8	MAKE_CLOSURE	[Closure]	; #108 : ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+	8	MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
 	9	JMP_CLOSURE	1
 
-	CODE BLOCK # 110 ; (test) => ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	CODE BLOCK ; (test) => ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	0	MAKE_ENV	1	; (test)
 	1	SAVE_RETURN	"R1"	6
 	2	LOCAL_GET	0	0	; test
@@ -6543,29 +6704,29 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R1"
-	7	MAKE_CLOSURE	[Closure]	; #109 : ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+	7	MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 111 ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #110 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 111 ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestClass))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestClass
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #110 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -6585,7 +6746,7 @@ Executing:
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #110 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
                                       2: [ [Native CSLisp.TestClass CSLisp.TestClass] [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ [Native CSLisp.TestClass CSLisp.TestClass] ]
@@ -6607,7 +6768,7 @@ Executing:
                                       1: [ 0 ]
 [ 1]   6 : LABEL	"R1"
                                       1: [ 0 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #109 : ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
                                       2: [ 0 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 0 ]
@@ -6631,7 +6792,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   7 : LABEL	"R2"
                                       1: [ 42 ]
-[ 1]   8 : MAKE_CLOSURE	[Closure]	; #108 : ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+[ 1]   8 : MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
                                       2: [ 42 [Closure] ]
 [ 2]   9 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -6653,7 +6814,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   6 : LABEL	"R3"
                                       1: [ 42 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #107 : ((begin (list a b c)))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
                                       2: [ 42 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -6682,7 +6843,7 @@ COMPILE AND RUN inputs:  (let* ((test (make-instance 'CSLisp.TestStruct))       
 ParseNext ==>  (let* ((test (make-instance (quote CSLisp.TestStruct))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))
 Parsed:  (core:let* ((core:test (core:make-instance (quote core:CSLisp.TestStruct))) (core:a (core:get-member-value core:test (quote core:MyIntField))) (core:b (core:set-member-value core:test (quote core:MyIntField) 42)) (core:c (core:get-member-value core:test (quote core:MyIntGetter)))) (core:list core:a core:b core:c))
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -6842,7 +7003,7 @@ Executing:
                                       1: [ (let ((test (make-instance (quote CSLisp.TestStruct)))) (let* ((a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -7002,7 +7163,7 @@ Executing:
                                       1: [ (let ((a (get-member-value test (quote MyIntField)))) (let* ((b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -7162,7 +7323,7 @@ Executing:
                                       1: [ (let ((b (set-member-value test (quote MyIntField) 42))) (let* ((c (get-member-value test (quote MyIntGetter)))) (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -7322,7 +7483,7 @@ Executing:
                                       1: [ (let ((c (get-member-value test (quote MyIntGetter)))) (let* () (list a b c))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 53 ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	LOCAL_GET	0	0	; bindings
@@ -7414,7 +7575,7 @@ Executing:
                                       1: [ (begin (list a b c)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -7484,7 +7645,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote CSLisp.TestStruct)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -7541,7 +7702,7 @@ Executing:  core:car
                                       4: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote CSLisp.TestStruct)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -7562,7 +7723,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (test) (let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))) (make-instance (quote CSLisp.TestStruct))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -7632,7 +7793,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((a (get-member-value test (quote MyIntField)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -7689,7 +7850,7 @@ Executing:  core:car
                                       4: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))) [R5/30] [Closure/core:cadr] ((a (get-member-value test (quote MyIntField)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -7710,7 +7871,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (a) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))) (get-member-value test (quote MyIntField))) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -7780,7 +7941,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((b (set-member-value test (quote MyIntField) 42))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -7837,7 +7998,7 @@ Executing:  core:car
                                       4: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))) [R5/30] [Closure/core:cadr] ((b (set-member-value test (quote MyIntField) 42))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -7858,7 +8019,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (b) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))) (set-member-value test (quote MyIntField) 42)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -7928,7 +8089,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((c (get-member-value test (quote MyIntGetter)))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -7985,7 +8146,7 @@ Executing:  core:car
                                       4: [ ((lambda (c) (begin (list a b c)))) [R5/30] [Closure/core:cadr] ((c (get-member-value test (quote MyIntGetter)))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -8006,7 +8167,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (c) (begin (list a b c))) (get-member-value test (quote MyIntGetter))) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 112 ; (c) => ((begin (list a b c)))
+	CODE BLOCK ; (c) => ((begin (list a b c)))
 	0	MAKE_ENV	1	; (c)
 	1	LOCAL_GET	2	0	; a
 	2	LOCAL_GET	1	0	; b
@@ -8014,7 +8175,7 @@ Compiled:
 	4	GLOBAL_GET	list
 	5	JMP_CLOSURE	3
 
-	CODE BLOCK # 113 ; (b) => ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+	CODE BLOCK ; (b) => ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
 	0	MAKE_ENV	1	; (b)
 	1	SAVE_RETURN	"R3"	6
 	2	LOCAL_GET	2	0	; test
@@ -8022,10 +8183,10 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R3"
-	7	MAKE_CLOSURE	[Closure]	; #112 : ((begin (list a b c)))
+	7	MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 114 ; (a) => ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+	CODE BLOCK ; (a) => ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
 	0	MAKE_ENV	1	; (a)
 	1	SAVE_RETURN	"R2"	7
 	2	LOCAL_GET	1	0	; test
@@ -8034,10 +8195,10 @@ Compiled:
 	5	GLOBAL_GET	set-member-value
 	6	JMP_CLOSURE	3
 7	LABEL	"R2"
-	8	MAKE_CLOSURE	[Closure]	; #113 : ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+	8	MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
 	9	JMP_CLOSURE	1
 
-	CODE BLOCK # 115 ; (test) => ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	CODE BLOCK ; (test) => ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	0	MAKE_ENV	1	; (test)
 	1	SAVE_RETURN	"R1"	6
 	2	LOCAL_GET	0	0	; test
@@ -8045,29 +8206,29 @@ Compiled:
 	4	GLOBAL_GET	get-member-value
 	5	JMP_CLOSURE	2
 6	LABEL	"R1"
-	7	MAKE_CLOSURE	[Closure]	; #114 : ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+	7	MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
 	8	JMP_CLOSURE	1
 
-	CODE BLOCK # 116 ; () => ((let* ((test (make-instance (quote CSLisp.TestStruct))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestStruct))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestStruct
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #115 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
 Running...
 Executing:  
-	CODE BLOCK # 116 ; () => ((let* ((test (make-instance (quote CSLisp.TestStruct))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
+	CODE BLOCK ; () => ((let* ((test (make-instance (quote CSLisp.TestStruct))) (a (get-member-value test (quote MyIntField))) (b (set-member-value test (quote MyIntField) 42)) (c (get-member-value test (quote MyIntGetter)))) (list a b c)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	CSLisp.TestStruct
 	3	GLOBAL_GET	make-instance
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
-	6	MAKE_CLOSURE	[Closure]	; #115 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+	6	MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
 	7	JMP_CLOSURE	1
 
                                       0: [  ]
@@ -8087,7 +8248,7 @@ Executing:
                                       1: [ [Native CSLisp.TestStruct CSLisp.TestStruct] ]
 [ 1]   5 : LABEL	"R0"
                                       1: [ [Native CSLisp.TestStruct CSLisp.TestStruct] ]
-[ 1]   6 : MAKE_CLOSURE	[Closure]	; #115 : ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
+[ 1]   6 : MAKE_CLOSURE	[Closure]	; ((let ((a (get-member-value test (quote MyIntField)))) (let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))))
                                       2: [ [Native CSLisp.TestStruct CSLisp.TestStruct] [Closure] ]
 [ 2]   7 : JMP_CLOSURE	1
                                       1: [ [Native CSLisp.TestStruct CSLisp.TestStruct] ]
@@ -8109,7 +8270,7 @@ Executing:
                                       1: [ 0 ]
 [ 1]   6 : LABEL	"R1"
                                       1: [ 0 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #114 : ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((let ((b (set-member-value test (quote MyIntField) 42))) (let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c)))))
                                       2: [ 0 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 0 ]
@@ -8133,7 +8294,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   7 : LABEL	"R2"
                                       1: [ 42 ]
-[ 1]   8 : MAKE_CLOSURE	[Closure]	; #113 : ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
+[ 1]   8 : MAKE_CLOSURE	[Closure]	; ((let ((c (get-member-value test (quote MyIntGetter)))) (begin (list a b c))))
                                       2: [ 42 [Closure] ]
 [ 2]   9 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -8155,7 +8316,7 @@ Executing:
                                       1: [ 42 ]
 [ 1]   6 : LABEL	"R3"
                                       1: [ 42 ]
-[ 1]   7 : MAKE_CLOSURE	[Closure]	; #112 : ((begin (list a b c)))
+[ 1]   7 : MAKE_CLOSURE	[Closure]	; ((begin (list a b c)))
                                       2: [ 42 [Closure] ]
 [ 2]   8 : JMP_CLOSURE	1
                                       1: [ 42 ]
@@ -8184,7 +8345,7 @@ COMPILE AND RUN inputs:  (find-method 'System.Random 'Next)
 ParseNext ==>  (find-method (quote System.Random) (quote Next))
 Parsed:  (core:find-method (quote core:System.Random) (quote core:Next))
 Compiled:
-	CODE BLOCK # 117 ; () => ((find-method (quote System.Random) (quote Next)))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8193,7 +8354,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 117 ; () => ((find-method (quote System.Random) (quote Next)))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8224,7 +8385,7 @@ COMPILE AND RUN inputs:  (find-method 'System.Random 'Next 1)
 ParseNext ==>  (find-method (quote System.Random) (quote Next) 1)
 Parsed:  (core:find-method (quote core:System.Random) (quote core:Next) 1)
 Compiled:
-	CODE BLOCK # 118 ; () => ((find-method (quote System.Random) (quote Next) 1))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next) 1))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8234,7 +8395,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 118 ; () => ((find-method (quote System.Random) (quote Next) 1))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next) 1))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8268,7 +8429,7 @@ COMPILE AND RUN inputs:  (find-method 'System.Random 'Next 1 32)
 ParseNext ==>  (find-method (quote System.Random) (quote Next) 1 32)
 Parsed:  (core:find-method (quote core:System.Random) (quote core:Next) 1 32)
 Compiled:
-	CODE BLOCK # 119 ; () => ((find-method (quote System.Random) (quote Next) 1 32))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next) 1 32))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8279,7 +8440,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 119 ; () => ((find-method (quote System.Random) (quote Next) 1 32))
+	CODE BLOCK ; () => ((find-method (quote System.Random) (quote Next) 1 32))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	System.Random
 	2	PUSH_CONST	Next
@@ -8316,7 +8477,7 @@ COMPILE AND RUN inputs:  (let ((test (make-instance 'System.Random)) (name 'Next
 ParseNext ==>  (let ((test (make-instance (quote System.Random))) (name (quote Next))) (find-method test name))
 Parsed:  (core:let ((core:test (core:make-instance (quote core:System.Random))) (core:name (quote core:Next))) (core:find-method core:test core:name))
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -8386,7 +8547,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((test (make-instance (quote System.Random))) (name (quote Next))) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -8395,7 +8556,7 @@ Executing:  core:car
                                       1: [ test ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -8452,7 +8613,7 @@ Executing:  core:car
                                       4: [ ((lambda (test name) (find-method test name))) [R5/30] [Closure/core:cadr] ((test (make-instance (quote System.Random))) (name (quote Next))) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -8461,7 +8622,7 @@ Executing:  core:cadr
                                       1: [ (make-instance (quote System.Random)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -8482,14 +8643,14 @@ Executing:  core:cadr
                                       1: [ ((lambda (test name) (find-method test name)) (make-instance (quote System.Random)) (quote Next)) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 120 ; (test name) => ((find-method test name))
+	CODE BLOCK ; (test name) => ((find-method test name))
 	0	MAKE_ENV	2	; (test name)
 	1	LOCAL_GET	0	0	; test
 	2	LOCAL_GET	0	1	; name
 	3	GLOBAL_GET	find-method
 	4	JMP_CLOSURE	2
 
-	CODE BLOCK # 121 ; () => ((let ((test (make-instance (quote System.Random))) (name (quote Next))) (find-method test name)))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote System.Random))) (name (quote Next))) (find-method test name)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	System.Random
@@ -8497,12 +8658,12 @@ Compiled:
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	PUSH_CONST	Next
-	7	MAKE_CLOSURE	[Closure]	; #120 : ((find-method test name))
+	7	MAKE_CLOSURE	[Closure]	; ((find-method test name))
 	8	JMP_CLOSURE	2
 
 Running...
 Executing:  
-	CODE BLOCK # 121 ; () => ((let ((test (make-instance (quote System.Random))) (name (quote Next))) (find-method test name)))
+	CODE BLOCK ; () => ((let ((test (make-instance (quote System.Random))) (name (quote Next))) (find-method test name)))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	System.Random
@@ -8510,7 +8671,7 @@ Executing:
 	4	JMP_CLOSURE	1
 5	LABEL	"R0"
 	6	PUSH_CONST	Next
-	7	MAKE_CLOSURE	[Closure]	; #120 : ((find-method test name))
+	7	MAKE_CLOSURE	[Closure]	; ((find-method test name))
 	8	JMP_CLOSURE	2
 
                                       0: [  ]
@@ -8532,7 +8693,7 @@ Executing:
                                       1: [ [Native System.Random System.Random] ]
 [ 1]   6 : PUSH_CONST	Next
                                       2: [ [Native System.Random System.Random] Next ]
-[ 2]   7 : MAKE_CLOSURE	[Closure]	; #120 : ((find-method test name))
+[ 2]   7 : MAKE_CLOSURE	[Closure]	; ((find-method test name))
                                       3: [ [Native System.Random System.Random] Next [Closure] ]
 [ 3]   8 : JMP_CLOSURE	2
                                       2: [ [Native System.Random System.Random] Next ]
@@ -8559,7 +8720,7 @@ COMPILE AND RUN inputs:  (call-method (make-instance 'System.Random 0) (find-met
 ParseNext ==>  (call-method (make-instance (quote System.Random) 0) (find-method (quote System.Random) (quote Next) 1 32) 1 32)
 Parsed:  (core:call-method (core:make-instance (quote core:System.Random) 0) (core:find-method (quote core:System.Random) (quote core:Next) 1 32) 1 32)
 Compiled:
-	CODE BLOCK # 122 ; () => ((call-method (make-instance (quote System.Random) 0) (find-method (quote System.Random) (quote Next) 1 32) 1 32))
+	CODE BLOCK ; () => ((call-method (make-instance (quote System.Random) 0) (find-method (quote System.Random) (quote Next) 1 32) 1 32))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	System.Random
@@ -8582,7 +8743,7 @@ Compiled:
 
 Running...
 Executing:  
-	CODE BLOCK # 122 ; () => ((call-method (make-instance (quote System.Random) 0) (find-method (quote System.Random) (quote Next) 1 32) 1 32))
+	CODE BLOCK ; () => ((call-method (make-instance (quote System.Random) 0) (find-method (quote System.Random) (quote Next) 1 32) 1 32))
 	0	MAKE_ENV	0	; ()
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	System.Random
@@ -8663,7 +8824,7 @@ COMPILE AND RUN inputs:  (letrec ((rng (make-instance 'System.Random 0))        
 ParseNext ==>  (letrec ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) (call-method rng next 1 32))
 Parsed:  (core:letrec ((core:rng (core:make-instance (quote core:System.Random) 0)) (core:next (core:find-method core:rng (quote core:Next) 1 32))) (core:call-method core:rng core:next 1 32))
 Executing:  
-	CODE BLOCK # 57 ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
+	CODE BLOCK ; (bindings body) => ((append (list (quote let)) (list (map (lambda (v) (list (car v) nil)) bindings)) (map (lambda (v) (append (list (quote set!)) v)) bindings) body))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	5
 	2	PUSH_CONST	let
@@ -8672,7 +8833,7 @@ Executing:
 5	LABEL	"R0"
 	6	SAVE_RETURN	"R1"	15
 	7	SAVE_RETURN	"R2"	12
-	8	MAKE_CLOSURE	[Closure]	; #55 : ((list (car v) nil))
+	8	MAKE_CLOSURE	[Closure]	; ((list (car v) nil))
 	9	LOCAL_GET	0	0	; bindings
 	10	GLOBAL_GET	map
 	11	JMP_CLOSURE	2
@@ -8681,7 +8842,7 @@ Executing:
 	14	JMP_CLOSURE	1
 15	LABEL	"R1"
 	16	SAVE_RETURN	"R4"	21
-	17	MAKE_CLOSURE	[Closure]	; #56 : ((append (list (quote set!)) v))
+	17	MAKE_CLOSURE	[Closure]	; ((append (list (quote set!)) v))
 	18	LOCAL_GET	0	0	; bindings
 	19	GLOBAL_GET	map
 	20	JMP_CLOSURE	2
@@ -8711,7 +8872,7 @@ Executing:
                                       2: [ (let) [R1/15] ]
 [ 2]   7 : SAVE_RETURN	"R2"	12
                                       3: [ (let) [R1/15] [R2/12] ]
-[ 3]   8 : MAKE_CLOSURE	[Closure]	; #55 : ((list (car v) nil))
+[ 3]   8 : MAKE_CLOSURE	[Closure]	; ((list (car v) nil))
                                       4: [ (let) [R1/15] [R2/12] [Closure] ]
 [ 4]   9 : LOCAL_GET	0	0	; bindings
                                       5: [ (let) [R1/15] [R2/12] [Closure] ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) ]
@@ -8721,7 +8882,7 @@ Executing:
                                       5: [ (let) [R1/15] [R2/12] [Closure] ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) ]
 [ 5]   0 : CALL_PRIMOP	"map"
 Executing:  
-	CODE BLOCK # 55 ; (v) => ((list (car v) nil))
+	CODE BLOCK ; (v) => ((list (car v) nil))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R3"	5
 	2	LOCAL_GET	0	0	; v
@@ -8759,7 +8920,7 @@ Executing:
                                       1: [ (rng ()) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 55 ; (v) => ((list (car v) nil))
+	CODE BLOCK ; (v) => ((list (car v) nil))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R3"	5
 	2	LOCAL_GET	0	0	; v
@@ -8813,7 +8974,7 @@ Executing:
                                       2: [ (let) (((rng ()) (next ()))) ]
 [ 2]  16 : SAVE_RETURN	"R4"	21
                                       3: [ (let) (((rng ()) (next ()))) [R4/21] ]
-[ 3]  17 : MAKE_CLOSURE	[Closure]	; #56 : ((append (list (quote set!)) v))
+[ 3]  17 : MAKE_CLOSURE	[Closure]	; ((append (list (quote set!)) v))
                                       4: [ (let) (((rng ()) (next ()))) [R4/21] [Closure] ]
 [ 4]  18 : LOCAL_GET	0	0	; bindings
                                       5: [ (let) (((rng ()) (next ()))) [R4/21] [Closure] ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) ]
@@ -8823,7 +8984,7 @@ Executing:
                                       5: [ (let) (((rng ()) (next ()))) [R4/21] [Closure] ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) ]
 [ 5]   0 : CALL_PRIMOP	"map"
 Executing:  
-	CODE BLOCK # 56 ; (v) => ((append (list (quote set!)) v))
+	CODE BLOCK ; (v) => ((append (list (quote set!)) v))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R5"	5
 	2	PUSH_CONST	set!
@@ -8861,7 +9022,7 @@ Executing:
                                       1: [ (set! rng (make-instance (quote System.Random) 0)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 56 ; (v) => ((append (list (quote set!)) v))
+	CODE BLOCK ; (v) => ((append (list (quote set!)) v))
 	0	MAKE_ENV	1	; (v)
 	1	SAVE_RETURN	"R5"	5
 	2	PUSH_CONST	set!
@@ -8913,7 +9074,7 @@ Executing:
                                       1: [ (let ((rng ()) (next ())) (set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32)) ]
 [ 1]   1 : RETURN_VAL
 Executing:  
-	CODE BLOCK # 51 ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
 	0	MAKE_ENVDOT	1	; (bindings body)
 	1	SAVE_RETURN	"R0"	24
 	2	SAVE_RETURN	"R1"	21
@@ -8983,7 +9144,7 @@ Executing:
                                       7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((rng ()) (next ())) ]
 [ 7]   0 : CALL_PRIMOP	"map"
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -8992,7 +9153,7 @@ Executing:  core:car
                                       1: [ rng ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:car
-	CODE BLOCK # 22 ; core:car
+	CODE BLOCK ; core:car
 	0	CALL_PRIMOP	"car"
 	1	RETURN_VAL
 
@@ -9049,7 +9210,7 @@ Executing:  core:car
                                       4: [ ((lambda (rng next) (set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))) [R5/30] [Closure/core:cadr] ((rng ()) (next ())) ]
 [ 4]   0 : CALL_PRIMOP	"map"
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -9058,7 +9219,7 @@ Executing:  core:cadr
                                       1: [ () ]
 [ 1]   1 : RETURN_VAL
 Executing:  core:cadr
-	CODE BLOCK # 24 ; core:cadr
+	CODE BLOCK ; core:cadr
 	0	CALL_PRIMOP	"cadr"
 	1	RETURN_VAL
 
@@ -9079,7 +9240,7 @@ Executing:  core:cadr
                                       1: [ ((lambda (rng next) (set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32)) () ()) ]
 [ 1]   1 : RETURN_VAL
 Compiled:
-	CODE BLOCK # 123 ; (rng next) => ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
+	CODE BLOCK ; (rng next) => ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
 	0	MAKE_ENV	2	; (rng next)
 	1	SAVE_RETURN	"R0"	6
 	2	PUSH_CONST	System.Random
@@ -9106,20 +9267,20 @@ Compiled:
 	23	GLOBAL_GET	call-method
 	24	JMP_CLOSURE	4
 
-	CODE BLOCK # 124 ; () => ((letrec ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) (call-method rng next 1 32)))
+	CODE BLOCK ; () => ((letrec ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) (call-method rng next 1 32)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	PUSH_CONST	()
-	3	MAKE_CLOSURE	[Closure]	; #123 : ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
+	3	MAKE_CLOSURE	[Closure]	; ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
 	4	JMP_CLOSURE	2
 
 Running...
 Executing:  
-	CODE BLOCK # 124 ; () => ((letrec ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) (call-method rng next 1 32)))
+	CODE BLOCK ; () => ((letrec ((rng (make-instance (quote System.Random) 0)) (next (find-method rng (quote Next) 1 32))) (call-method rng next 1 32)))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	()
 	2	PUSH_CONST	()
-	3	MAKE_CLOSURE	[Closure]	; #123 : ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
+	3	MAKE_CLOSURE	[Closure]	; ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
 	4	JMP_CLOSURE	2
 
                                       0: [  ]
@@ -9129,7 +9290,7 @@ Executing:
                                       1: [ () ]
 [ 1]   2 : PUSH_CONST	()
                                       2: [ () () ]
-[ 2]   3 : MAKE_CLOSURE	[Closure]	; #123 : ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
+[ 2]   3 : MAKE_CLOSURE	[Closure]	; ((set! rng (make-instance (quote System.Random) 0)) (set! next (find-method rng (quote Next) 1 32)) (call-method rng next 1 32))
                                       3: [ () () [Closure] ]
 [ 3]   4 : JMP_CLOSURE	2
                                       2: [ () () ]

@@ -1,4 +1,4 @@
-TEST TestPackagesAndSymbols : 8:44:22 PM
+TEST TestPackagesAndSymbols : 8:57:42 PM
 test: got "foo"  - expected "foo"
 test: got [Native CSLisp.Data.Package CSLisp.Data.Package]  - expected [Native CSLisp.Data.Package CSLisp.Data.Package]
 test: got "foo"  - expected "foo"

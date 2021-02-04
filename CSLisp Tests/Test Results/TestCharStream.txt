@@ -1,4 +1,4 @@
-TEST TestCharStream : 8:44:22 PM
+TEST TestCharStream : 8:57:42 PM
 test: got #t  - expected #t
 test: got 102  - expected 102
 test: got 102  - expected 102
