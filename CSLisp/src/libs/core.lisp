@@ -137,6 +137,14 @@
 	      (count (cadr pars)))
         `(for (,varname 0 (< ,varname ,count) (+ ,varname 1))
 		    ,@body)))
+
+;; (apply + '(1 2))
+;; =>
+;; (+ 1 2)
+(defmacro apply (fn args) 
+    (let ((arglist (eval args))) 
+	    `(,fn ,@arglist)))
+
 												
 ;; 
 ;;

@@ -79,7 +79,14 @@ namespace CSLisp.Core
 
             new Primitive("gensym", 0, new Function((ctx) => GensymHelper(ctx, "GENSYM-"))),
             new Primitive("gensym", 1, new Function((Context ctx, Val a) => GensymHelper(ctx, a.AsStringOrNull))),
-			
+
+            new Primitive("eval", 1, new Function((Context ctx, Val e) => {
+                var closure = ctx.compiler.Compile(e);
+                Val result = ctx.vm.Execute(closure.closure);
+                return result;
+
+            }), sideFx: SideFx.Possible),
+
 			// packages
 			new Primitive("package-set", 1, new Function((Context ctx, Val a) => {
                 string name = a.IsNil ? null : a.AsString; // nil package name == global package

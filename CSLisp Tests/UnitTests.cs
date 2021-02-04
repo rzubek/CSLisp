@@ -449,7 +449,7 @@ namespace CSLisp
             CompileAndRun(ctx, "(if (< 0 1) 5)", "5");
             CompileAndRun(ctx, "(if (> 0 1) 5)", "()");
 
-            // test quotes and macros
+            // test quotes, macros, and eval
             CompileAndRun(ctx, "`((list 1 2) ,(list 1 2) ,@(list 1 2))", "((list 1 2) (1 2) 1 2)");
             CompileAndRun(ctx, "(begin (set! x 5) (set! y '(a b)) `(x ,x ,y ,@y))", "(x 5 (a b) a b)");
             CompileAndRun(ctx, "(begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 2))", "3");
@@ -457,6 +457,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (defmacro lettest (bindings . body) `((lambda ,(map car bindings) ,@body) ,@(map cadr bindings))) (lettest ((x 1) (y 2)) (+ x y)))", "3");
             CompileAndRun(ctx, "(begin (defmacro inc1 (x) `(+ ,x 1)) (inc1 (inc1 (inc1 1))))", "4");
             CompileAndRun(ctx, "(begin (defmacro add (x y) `(+ ,x ,y)) (mx1 '(add 1 (add 2 3))))", "(core:+ 1 (add 2 3))");
+            CompileAndRun(ctx, "(eval '(+ 1 2 3))", "6");
+            CompileAndRun(ctx, "(eval '(inc1 1))", "2");
         }
 
         public void TestDotNetInterop () {
@@ -584,6 +586,8 @@ namespace CSLisp
             CompileAndRun(ctx, "(case (+ 1 2) (2 #f) (3 #t) 'error)", "#t");
             CompileAndRun(ctx, "(let ((r '())) (for (i 0 (< i 3) (+ i 1)) (set! r (cons i r))) r)", "(2 1 0)");
             CompileAndRun(ctx, "(let ((r '())) (dotimes (i 3) (set! r (cons i r))) r)", "(2 1 0)");
+            CompileAndRun(ctx, "(apply + '(1 2))", "3");
+            CompileAndRun(ctx, "(apply cons '(1 2))", "(1 . 2)");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
