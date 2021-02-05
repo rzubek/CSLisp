@@ -18,7 +18,7 @@ namespace CSLisp
         public string MyStringField;
     }
 
-    public struct TestStruct 
+    public struct TestStruct
     {
         public int MyIntField;
         public int MyIntGetter => MyIntField;
@@ -53,9 +53,11 @@ namespace CSLisp
                         _writer = new StreamWriter(new FileStream(filePath, FileMode.Create));
                         _writer.WriteLine($"TEST {name} : " + System.DateTime.Now.ToLongTimeString());
                         break;
+
                     case LogType.Console:
                         _writer = System.Console.Out;
                         break;
+
                     default:
                         _writer = null; // don't log
                         break;
@@ -89,8 +91,10 @@ namespace CSLisp
 
         /// <summary> Checks whether the result is equal to the expected value; if not, logs an info statement </summary>
         private void Check (bool result) => Check(new Val(result), new Val(true));
+
         //private void Check (Val result) => Check(result, new Val(true));
         private void Check (object result, object expected) => Check(new Val(result), new Val(expected));
+
         private void Check (Val result, Val expected, System.Func<Val, Val, bool> test = null) {
             Log("test: got", result, " - expected", expected);
             bool equal = (test != null) ? test(result, expected) : Val.Equals(result, expected);
@@ -101,7 +105,6 @@ namespace CSLisp
                 Assert.Fail(msg);
             }
         }
-
 
         [TestMethod]
         public void RunTests () {
@@ -132,7 +135,6 @@ namespace CSLisp
 
         /// <summary> Tests various internal classes </summary>
         public void TestConsAndAtoms () {
-
             // test cons
             Check(Val.NIL.IsAtom);
             Check(new Val("foo").IsAtom);
@@ -186,7 +188,6 @@ namespace CSLisp
 
         /// <summary> Test packages and symbols </summary>
         public void TestPackagesAndSymbols () {
-
             Packages packages = new Packages();
             Package p = packages.global;   // global package
 
@@ -247,10 +248,8 @@ namespace CSLisp
             Check(Environment.GetVariable(p.Intern("NEW_SYMBOL"), e0).symbolIndex, 0); // get symbol coord
         }
 
-
         /// <summary> Tests the character stream </summary>
         public void TestCharStream () {
-
             // first, test the stream wrapper
             InputStream stream = new InputStream();
             stream.Add("foo");
@@ -270,7 +269,6 @@ namespace CSLisp
 
         /// <summary> Tests the parser part of the system </summary>
         public void TestParser () {
-
             Packages packages = new Packages();
             Parser p = new Parser(packages, _logger);
 
@@ -293,7 +291,7 @@ namespace CSLisp
             CheckParse(p, "'(foo) '((a b) c) '()", "(quote (foo))", "(quote ((a b) c))", "(quote ())");
             CheckParse(p, "(a b ; c d)\n   e f)", "(a b e f)");
 
-            // now check backquotes 
+            // now check backquotes
             CheckParse(p, "foo 'foo `foo `,foo", "foo", "(quote foo)", "(quote foo)", "foo");
             CheckParse(p, "`(foo)", "(list (quote foo))");
             CheckParse(p, "`(foo foo)", "(list (quote foo) (quote foo))");
@@ -325,8 +323,6 @@ namespace CSLisp
                 Check(result, expected);
             }
         }
-
-
 
         /// <summary> Compiles some sample scripts and prints them out, without validation. </summary>
         public void PrintSampleCompilations () {
@@ -376,9 +372,6 @@ namespace CSLisp
                 Log(ctx.code.DebugPrint(results));
             }
         }
-
-
-
 
         /// <summary> Front-to-back test of the virtual machine </summary>
         public void TestVMNoCoreLib () {
@@ -593,6 +586,13 @@ namespace CSLisp
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
             CompileAndRun(ctx, "(set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))) (add 0) (add 100) (add 0)", "[Closure]", "0", "100", "100");
+
+            CompileAndRun(ctx, "(make-vector 3)", "()");
+            CompileAndRun(ctx, "(make-vector '(1 2))", "(1 2)");
+
+            CompileAndRun(ctx, "(get-vector-length (make-vector '(1 2)))", "2");
+            CompileAndRun(ctx, "(get-vector-element (make-vector '(1 2)) 0)", "1");
+            CompileAndRun(ctx, "(set-vector-element! (make-vector '(1 2) 0 0))", "(0 2)");
 
             //DumpCodeBlocks(ctx);
         }
