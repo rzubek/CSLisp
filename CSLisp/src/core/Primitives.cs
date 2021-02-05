@@ -230,7 +230,7 @@ namespace CSLisp.Core
                 if(v.AsObjectOrNull != null && v.AsObjectOrNull is List<Val> vector) {
                      vector[index.AsInt] = value;
 
-                      return true;
+                      return new Val(vector);
                  }
 
                 return false;
