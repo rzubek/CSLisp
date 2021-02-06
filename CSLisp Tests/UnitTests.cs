@@ -590,9 +590,13 @@ namespace CSLisp
             CompileAndRun(ctx, "(apply cons '(1 2))", "(1 . 2)");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
+            CompileAndRun(ctx, "(reverse '(1 2 3))", "(3 2 1)");
+            CompileAndRun(ctx, "(reverse '(1 (2 3 4) 5)", "(5 (2 3 4) 1)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
             CompileAndRun(ctx, "(set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))) (add 0) (add 100) (add 0)", "[Closure]", "0", "100", "100");
+            CompileAndRun(ctx, "((chain-list (list cdr cdr car)) '(1 2 3 4))", "3");
+            CompileAndRun(ctx, "((chain cdr cdr car) '(1 2 3 4))", "3");
 
             //DumpCodeBlocks(ctx);
         }

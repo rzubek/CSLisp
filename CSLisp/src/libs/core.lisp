@@ -7,7 +7,8 @@
 
 	  first second third rest
 	  after-first after-second after-third
-	  fold-left fold-right
+	  fold-left fold-right reverse
+	  chain chain-list
 	  ))
 	
 
@@ -144,6 +145,7 @@
 (defmacro apply (fn args) 
     (let ((arglist (eval args))) 
 	    `(,fn ,@arglist)))
+		   
 
 												
 ;; 
@@ -175,6 +177,41 @@
 	(if (= (length lst) 0) 
 		base
 		(fn (car lst) (fold-right fn base (cdr lst)))))
+
+;; (reverse '(1 2 3)) 
+;;   => '(3 2 1)
+(define (reverse lst)
+  (define (helper lst result)
+    (if (null? lst)
+      result
+      (helper (cdr lst) (cons (car lst) result))))
+  (helper lst '()))
+
+
+
+;;
+;; MORE MACROS THAT DEPEND ON THE ABOVE
+
+;; (chain-list (list first second third))
+;; =>
+;; (lambda (GENSYM-123) (third (second (first GENSYM-123))))
+;; 
+;; e.g. (chain-list (list cdr cdr car)) == caddr
+;;
+(defmacro chain-list (lst)
+    (let* ((var (gensym))
+	       (args (reverse (eval lst)))
+	       (bodytext (eval `(fold-right list ',var ',args))))
+	  `(lambda (,var) ,bodytext)))
+
+;; (chain first second third)
+;; =>
+;; (lambda (GENSYM-123) (third (second (first GENSYM-123))))
+;;
+;; e.g. (chain cdr cdr car) => caddr
+;;
+(defmacro chain (first . rest)
+    `(chain-list ',(cons first rest)))
 
 
 
