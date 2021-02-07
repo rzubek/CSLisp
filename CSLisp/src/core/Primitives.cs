@@ -207,7 +207,7 @@ namespace CSLisp.Core
                     return new Val( new List<Val>(a.AsCons.ToNativeList()));
                 }
 
-                return new Val((object)null);
+                return Val.NIL;
             })),
 
              new Primitive("get-vector-length", 1, new Function((Context ctx, Val a) => {
@@ -223,7 +223,7 @@ namespace CSLisp.Core
                      return vector[index.AsInt];
                  }
 
-                return 0;
+                return Val.NIL;
             })),
 
               new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val index, Val value) => {
@@ -233,7 +233,7 @@ namespace CSLisp.Core
                       return new Val(vector);
                  }
 
-                return false;
+                return Val.NIL;
             })),
         };
 
