@@ -12,6 +12,7 @@ namespace CSLisp.Core
         private static int _gensymIndex = 1;
 
         private static Dictionary<string, List<Primitive>> ALL_PRIMITIVES_DICT = new Dictionary<string, List<Primitive>>();
+
         private static readonly List<Primitive> ALL_PRIMITIVES_VECTOR = new List<Primitive>() {
             new Primitive("+", 2, new Function((Context ctx, Val a, Val b) => ValAdd(a, b))),
             new Primitive("-", 2, new Function((Context ctx, Val a, Val b) => ValSub(a, b))),
@@ -65,11 +66,11 @@ namespace CSLisp.Core
                 Cons list = b.AsCons;
                 return new Val(MapHelper(ctx, fn, list));
             }), sideFx: SideFx.Possible),
-						
+
 			// macroexpansion
 			new Primitive("mx1", 1, new Function((ctx, exp) => ctx.compiler.MacroExpand1Step(exp))),
             new Primitive("mx", 1, new Function((ctx, exp) => ctx.compiler.MacroExpandFull(exp))),
-			
+
 			// helpers
 			new Primitive("trace", 1, new Function((Context ctx, VarArgs args) => {
                 var arglist = args.ToNativeList();
@@ -84,7 +85,6 @@ namespace CSLisp.Core
                 var closure = ctx.compiler.Compile(e);
                 Val result = ctx.vm.Execute(closure.closure);
                 return result;
-
             }), sideFx: SideFx.Possible),
 
 			// packages
@@ -155,7 +155,6 @@ namespace CSLisp.Core
 
                 var method = TypeUtils.GetMethodByArgs(type, member, varargs);
                 return Val.TryUnbox(method);
-
             }), FnType.VarArgs, SideFx.Possible),
 
             // (find-member 'MyClass 'IntField)
@@ -178,7 +177,6 @@ namespace CSLisp.Core
                 var result = method.Invoke(instance, varargs);
 
                 return Val.TryUnbox(result);
-
             }), FnType.VarArgs, SideFx.Possible),
 
             // (get-member-value some-instance 'FieldName)
@@ -189,7 +187,6 @@ namespace CSLisp.Core
                 var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
                 var result = TypeUtils.GetValue(member, instance);
                 return Val.TryUnbox(result);
-
             }), sideFx: SideFx.Possible),
 
             // (set-member-value some-instance 'FieldName 42)
@@ -200,12 +197,47 @@ namespace CSLisp.Core
                 var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
                 TypeUtils.SetValue(member, instance, targetValue.AsBoxedValue);
                 return targetValue;
-
             }), sideFx: SideFx.Possible),
+
+            new Primitive("make-vector", 1, new Function((Context ctx, Val a) => {
+                if(a.IsNumber) {
+                    return new Val( new List<Val>(Enumerable.Repeat((Val)0, a.AsInt)));
+                }
+                else if(a.IsCons) {
+                    return new Val( new List<Val>(a.AsCons.ToNativeList()));
+                }
+
+                return Val.NIL;
+            })),
+
+             new Primitive("get-vector-length", 1, new Function((Context ctx, Val a) => {
+                if(a.AsObjectOrNull != null && a.AsObjectOrNull is List<Val> vector) {
+                     return vector.Count;
+                 }
+
+                return 0;
+            })),
+
+              new Primitive("get-vector-element", 2, new Function((Context ctx, Val v, Val index) => {
+                if(v.AsObjectOrNull != null && v.AsObjectOrNull is List<Val> vector) {
+                     return vector[index.AsInt];
+                 }
+
+                return Val.NIL;
+            })),
+
+              new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val index, Val value) => {
+                if(v.AsObjectOrNull != null && v.AsObjectOrNull is List<Val> vector) {
+                     vector[index.AsInt] = value;
+
+                      return new Val(vector);
+                 }
+
+                return Val.NIL;
+            })),
         };
 
-
-        /// <summary> 
+        /// <summary>
         /// If f is a symbol that refers to a primitive, and it's not shadowed in the local environment,
         /// returns an appropriate instance of Primitive for that argument count.
         /// </summary>
@@ -227,7 +259,6 @@ namespace CSLisp.Core
 
         /// <summary> Initializes the core package with stub functions for primitives </summary>
         public static void InitializeCorePackage (Context context, Package pkg) {
-
             // clear out and reinitialize the dictionary.
             // also, intern all primitives in their appropriate package
             ALL_PRIMITIVES_DICT = new Dictionary<string, List<Primitive>>();
@@ -258,7 +289,6 @@ namespace CSLisp.Core
         /// <summary> Performs the append operation on two lists, by creating a new cons
         /// list that copies elements from the first value, and its tail is the second value </summary>
         private static Val AppendHelper (Val aval, Val bval) {
-
             Cons alist = aval.AsConsOrNull;
             Cons head = null, current = null, previous = null;
 
@@ -295,7 +325,6 @@ namespace CSLisp.Core
 
         /// <summary> Maps a function over elements of the list, and returns a new list with the results </summary>
         private static Cons MapHelper (Context ctx, Closure fn, Cons list) {
-
             Cons head = null;
             Cons previous = null;
 
@@ -358,8 +387,11 @@ namespace CSLisp.Core
         }
 
         private static Val ValLT (Val a, Val b) => a.CastToFloat < b.CastToFloat;
+
         private static Val ValLTE (Val a, Val b) => a.CastToFloat <= b.CastToFloat;
+
         private static Val ValGT (Val a, Val b) => a.CastToFloat > b.CastToFloat;
+
         private static Val ValGTE (Val a, Val b) => a.CastToFloat >= b.CastToFloat;
 
         //
@@ -440,7 +472,7 @@ namespace CSLisp.Core
         }
 
         /// <summary>
-        /// Given an instance as the first argument, parse out its type, 
+        /// Given an instance as the first argument, parse out its type,
         /// and parse the second arg as a member that's either a field or a property field.
         /// If the setter flag is set, it also parses out the third element as the new value.
         /// </summary>
@@ -469,6 +501,5 @@ namespace CSLisp.Core
             }
             return name;
         }
-
     }
 }
