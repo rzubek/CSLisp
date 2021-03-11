@@ -66,6 +66,7 @@
     <Compile Include="src\data\Package.cs" />
     <Compile Include="src\data\Packages.cs" />
     <Compile Include="src\data\Symbol.cs" />
+    <Compile Include="src\data\Vector.cs" />
     <Compile Include="src\error\CompilerError.cs" />
     <Compile Include="src\error\InteropError.cs" />
     <Compile Include="src\error\LanguageError.cs" />

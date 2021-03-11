@@ -199,41 +199,44 @@ namespace CSLisp.Core
                 return targetValue;
             }), sideFx: SideFx.Possible),
 
-            new Primitive("make-vector", 1, new Function((Context ctx, Val a) => {
-                if(a.IsNumber) {
-                    return new Val( new List<Val>(Enumerable.Repeat((Val)0, a.AsInt)));
-                }
-                else if(a.IsCons) {
-                    return new Val( new List<Val>(a.AsCons.ToNativeList()));
-                }
+            //
+            // constant-time vectors
 
-                return Val.NIL;
+            // (make-vector 3)
+            // (make-vector '(1 2 3))
+            new Primitive("make-vector", 1, new Function((Context ctx, Val arg) => {
+                if (arg.IsInt) { return new Val(new Vector(Enumerable.Repeat(Val.NIL, arg.AsInt))); }
+                if (arg.IsCons) { return new Val(new Vector(arg.AsCons)); }
+                throw new LanguageError("Invalid parameter, expected size or list, got: " + arg.ToString());
             })),
 
-             new Primitive("get-vector-length", 1, new Function((Context ctx, Val a) => {
-                if(a.AsObjectOrNull != null && a.AsObjectOrNull is List<Val> vector) {
-                     return vector.Count;
-                 }
-
-                return 0;
+            // (make-vector 3 "value")
+            new Primitive("make-vector", 2, new Function((Context ctx, Val count, Val val) => {
+                if (count.IsInt) { return new Val(new Vector(Enumerable.Repeat(val, count.AsInt))); }
+                throw new LanguageError("Invalid parameter, expected size, got: " + count.ToString());
             })),
 
-              new Primitive("get-vector-element", 2, new Function((Context ctx, Val v, Val index) => {
-                if(v.AsObjectOrNull != null && v.AsObjectOrNull is List<Val> vector) {
-                     return vector[index.AsInt];
-                 }
-
-                return Val.NIL;
+            new Primitive("get-vector-length", 1, new Function((Context ctx, Val v) => {
+                var vector = v.AsVectorOrNull;
+                if (vector == null) { throw new LanguageError("Value is not a vector"); }
+                return vector.Count;
             })),
 
-              new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val index, Val value) => {
-                if(v.AsObjectOrNull != null && v.AsObjectOrNull is List<Val> vector) {
-                     vector[index.AsInt] = value;
+            new Primitive("get-vector-element", 2, new Function((Context ctx, Val v, Val i) => {
+                var vector = v.AsVectorOrNull;
+                var index = i.AsInt;
+                if (vector == null) { throw new LanguageError("Value is not a vector"); }
+                if (index < 0 || index >= vector.Count) { throw new LanguageError($"Index value {index} out of bounds"); }
+                return vector[index];
+            })),
 
-                      return new Val(vector);
-                 }
-
-                return Val.NIL;
+            new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val i, Val value) => {
+                var vector = v.AsVectorOrNull;
+                var index = i.AsInt;
+                if (vector == null) { throw new LanguageError("Value is not a vector"); }
+                if (index < 0 || index >= vector.Count) { throw new LanguageError($"Index value {index} out of bounds"); }
+                vector[index] = value;
+                return value;
             })),
         };
 

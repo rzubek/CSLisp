@@ -591,12 +591,12 @@ namespace CSLisp
             CompileAndRun(ctx, "((chain-list (list cdr cdr car)) '(1 2 3 4))", "3");
             CompileAndRun(ctx, "((chain cdr cdr car) '(1 2 3 4))", "3");
 
-            CompileAndRun(ctx, "(make-vector 3)", "()");
-            CompileAndRun(ctx, "(make-vector '(1 2))", "(1 2)");
-
+            CompileAndRun(ctx, "(make-vector 3)", "[Vector () () ()]");
+            CompileAndRun(ctx, "(make-vector 3 0)", "[Vector 0 0 0]");
+            CompileAndRun(ctx, "(make-vector '(1 2))", "[Vector 1 2]");
             CompileAndRun(ctx, "(get-vector-length (make-vector '(1 2)))", "2");
             CompileAndRun(ctx, "(get-vector-element (make-vector '(1 2)) 0)", "1");
-            CompileAndRun(ctx, "(set-vector-element! (make-vector '(1 2) 0 0))", "(0 2)");
+            CompileAndRun(ctx, "(let ((v (make-vector '(1 2)))) (set-vector-element! v 0 3) v)", "[Vector 3 2]");
 
             //DumpCodeBlocks(ctx);
         }

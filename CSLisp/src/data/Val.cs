@@ -30,6 +30,7 @@ namespace CSLisp.Data
             String,
             Symbol,
             Cons,
+            Vector,
             Closure,
             ReturnAddress,
             Object
@@ -45,6 +46,7 @@ namespace CSLisp.Data
         [FieldOffset(8)] public readonly object rawobject;
         [FieldOffset(8)] public readonly Symbol vsymbol;
         [FieldOffset(8)] public readonly Cons vcons;
+        [FieldOffset(8)] public readonly Vector vvector;
         [FieldOffset(8)] public readonly Closure vclosure;
         [FieldOffset(8)] public readonly ReturnAddress vreturn;
 
@@ -60,6 +62,7 @@ namespace CSLisp.Data
         public Val (string value) : this() { type = Type.String; vstring = value; }
         public Val (Symbol value) : this() { type = Type.Symbol; vsymbol = value; }
         public Val (Cons value) : this() { type = Type.Cons; vcons = value; }
+        public Val (Vector value) : this() { type = Type.Vector; vvector = value; }
         public Val (Closure value) : this() { type = Type.Closure; vclosure = value; }
         public Val (ReturnAddress value) : this() { type = Type.ReturnAddress; vreturn = value; }
         public Val (object value) : this() { type = Type.Object; rawobject = value; }
@@ -76,6 +79,7 @@ namespace CSLisp.Data
         public bool IsString => type == Type.String;
         public bool IsSymbol => type == Type.Symbol;
         public bool IsCons => type == Type.Cons;
+        public bool IsVector => type == Type.Vector;
         public bool IsClosure => type == Type.Closure;
         public bool IsReturnAddress => type == Type.ReturnAddress;
         public bool IsObject => type == Type.Object;
@@ -86,6 +90,7 @@ namespace CSLisp.Data
         public string AsString => type == Type.String ? vstring : throw new CompilerError("Value type was expected to be string");
         public Symbol AsSymbol => type == Type.Symbol ? vsymbol : throw new CompilerError("Value type was expected to be symbol");
         public Cons AsCons => type == Type.Cons ? vcons : throw new CompilerError("Value type was expected to be cons");
+        public Vector AsVector => type == Type.Vector ? vvector : throw new CompilerError("Value type was expected to be vector");
         public Closure AsClosure => type == Type.Closure ? vclosure : throw new CompilerError("Value type was expected to be closure");
         public ReturnAddress AsReturnAddress => type == Type.ReturnAddress ? vreturn : throw new CompilerError("Value type was expected to be ret addr");
         public object AsObject => type == Type.Object ? rawobject : throw new CompilerError("Value type was expected to be object");
@@ -93,6 +98,7 @@ namespace CSLisp.Data
         public string AsStringOrNull => type == Type.String ? vstring : null;
         public Symbol AsSymbolOrNull => type == Type.Symbol ? vsymbol : null;
         public Cons AsConsOrNull => type == Type.Cons ? vcons : null;
+        public Vector AsVectorOrNull => type == Type.Vector ? vvector : null;
         public Closure AsClosureOrNull => type == Type.Closure ? vclosure : null;
         public object AsObjectOrNull => type == Type.Object ? rawobject : null;
 
@@ -109,6 +115,7 @@ namespace CSLisp.Data
                     case Type.String: return vstring;
                     case Type.Symbol: return vsymbol;
                     case Type.Cons: return vcons;
+                    case Type.Vector: return vvector;
                     case Type.Closure: return vclosure;
                     case Type.ReturnAddress: return vreturn;
                     case Type.Object: return rawobject;
@@ -127,6 +134,7 @@ namespace CSLisp.Data
                 case string sval: return sval;
                 case Symbol symval: return symval;
                 case Cons cval: return cval;
+                case Vector vval: return vval;
                 case Closure closval: return closval;
                 default:
                     return new Val(boxed);
@@ -164,6 +172,7 @@ namespace CSLisp.Data
         public static implicit operator Val (string val) => new Val(val);
         public static implicit operator Val (Symbol val) => new Val(val);
         public static implicit operator Val (Cons val) => new Val(val);
+        public static implicit operator Val (Vector val) => new Val(val);
         public static implicit operator Val (Closure val) => new Val(val);
 
         public override bool Equals (object obj) => (obj is Val val) && Equals(val, this);
@@ -191,13 +200,16 @@ namespace CSLisp.Data
                     return fullName ? val.vsymbol.fullName : val.vsymbol.name;
                 case Type.Cons:
                     return StringifyCons(val.vcons, fullName);
+                case Type.Vector: {
+                        var elements = val.vvector.Print(" ");
+                        return $"[Vector {elements}]";
+                    }
                 case Type.Closure:
                     return string.IsNullOrEmpty(val.vclosure.name) ? "[Closure]" : $"[Closure/{val.vclosure.name}]";
                 case Type.ReturnAddress:
                     return $"[{val.vreturn.debug}/{val.vreturn.pc}]";
                 case Type.Object: {
-                        var typedesc = val.rawobject == null ? "null" :
-                            val.rawobject.GetType().ToString() + " " + val.rawobject.ToString();
+                        var typedesc = val.rawobject == null ? "null" : $"{val.rawobject.GetType()} {val.rawobject}";
                         return $"[Native {typedesc}]";
                     }
                 default:
