@@ -1,4 +1,4 @@
-TEST PrintAllStandardLibraries : 8:57:42 PM
+TEST PrintAllStandardLibraries : 6:06:29 PM
 ParseNext ==>  (package-set "core")
 Executing:  
 	CODE BLOCK ; () => ((package-set "core"))
@@ -19,23 +19,23 @@ Executing:
 [ 1]   0 : CALL_PRIMOP	"package-set"
                                       1: [ "core" ]
 [ 1]   1 : RETURN_VAL
-ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)))
+ParseNext ==>  (package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list)))
 Executing:  
-	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list))))
 	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
+	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list)
 	2	GLOBAL_GET	package-export
 	3	JMP_CLOSURE	1
 
                                       0: [  ]
 [ 0]   0 : MAKE_ENV	0	; ()
                                       0: [  ]
-[ 0]   1 : PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
-                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
+[ 0]   1 : PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list)
+                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list) ]
 [ 1]   2 : GLOBAL_GET	package-export
-                                      2: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) [Closure/core:package-export] ]
+                                      2: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list) [Closure/core:package-export] ]
 [ 2]   3 : JMP_CLOSURE	1
-                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right) ]
+                                      1: [ (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list) ]
 [ 1]   0 : CALL_PRIMOP	"package-export"
                                       1: [ () ]
 [ 1]   1 : RETURN_VAL
@@ -2948,6 +2948,1686 @@ Executing:
 [ 0]   4 : PUSH_CONST	fold-right
                                       1: [ fold-right ]
 [ 1]   5 : RETURN_VAL
+ParseNext ==>  (define (reverse lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ())))
+Executing:  
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	0	MAKE_ENVDOT	1	; (name body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; name
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L10"	31
+	7	PUSH_CONST	begin
+	8	SAVE_RETURN	"R1"	22
+	9	SAVE_RETURN	"R2"	13
+	10	PUSH_CONST	set!
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	1
+13	LABEL	"R2"
+	14	SAVE_RETURN	"R3"	18
+	15	LOCAL_GET	0	0	; name
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	1
+18	LABEL	"R3"
+	19	LOCAL_GET	0	1	; body
+	20	GLOBAL_GET	append
+	21	JMP_CLOSURE	3
+22	LABEL	"R1"
+	23	SAVE_RETURN	"R4"	28
+	24	PUSH_CONST	quote
+	25	LOCAL_GET	0	0	; name
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	2
+28	LABEL	"R4"
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	3
+31	LABEL	"L10"
+	32	PUSH_CONST	define
+	33	SAVE_RETURN	"R5"	37
+	34	LOCAL_GET	0	0	; name
+	35	GLOBAL_GET	car
+	36	JMP_CLOSURE	1
+37	LABEL	"R5"
+	38	SAVE_RETURN	"R6"	56
+	39	SAVE_RETURN	"R7"	43
+	40	PUSH_CONST	lambda
+	41	GLOBAL_GET	list
+	42	JMP_CLOSURE	1
+43	LABEL	"R7"
+	44	SAVE_RETURN	"R8"	52
+	45	SAVE_RETURN	"R9"	49
+	46	LOCAL_GET	0	0	; name
+	47	GLOBAL_GET	cdr
+	48	JMP_CLOSURE	1
+49	LABEL	"R9"
+	50	GLOBAL_GET	list
+	51	JMP_CLOSURE	1
+52	LABEL	"R8"
+	53	LOCAL_GET	0	1	; body
+	54	GLOBAL_GET	append
+	55	JMP_CLOSURE	3
+56	LABEL	"R6"
+	57	GLOBAL_GET	list
+	58	JMP_CLOSURE	3
+
+                                      3: [ (reverse lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ())) ]
+[ 3]   0 : MAKE_ENVDOT	1	; (name body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; name
+                                      2: [ [R0/5] (reverse lst) ]
+[ 2]   3 : GLOBAL_GET	atom?
+                                      3: [ [R0/5] (reverse lst) [Closure/core:atom?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] (reverse lst) ]
+[ 2]   0 : CALL_PRIMOP	"atom?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : JMP_IF_FALSE	"L10"	31
+                                      0: [  ]
+[ 0]  31 : LABEL	"L10"
+                                      0: [  ]
+[ 0]  32 : PUSH_CONST	define
+                                      1: [ define ]
+[ 1]  33 : SAVE_RETURN	"R5"	37
+                                      2: [ define [R5/37] ]
+[ 2]  34 : LOCAL_GET	0	0	; name
+                                      3: [ define [R5/37] (reverse lst) ]
+[ 3]  35 : GLOBAL_GET	car
+                                      4: [ define [R5/37] (reverse lst) [Closure/core:car] ]
+[ 4]  36 : JMP_CLOSURE	1
+                                      3: [ define [R5/37] (reverse lst) ]
+[ 3]   0 : CALL_PRIMOP	"car"
+                                      3: [ define [R5/37] reverse ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ define reverse ]
+[ 2]  37 : LABEL	"R5"
+                                      2: [ define reverse ]
+[ 2]  38 : SAVE_RETURN	"R6"	56
+                                      3: [ define reverse [R6/56] ]
+[ 3]  39 : SAVE_RETURN	"R7"	43
+                                      4: [ define reverse [R6/56] [R7/43] ]
+[ 4]  40 : PUSH_CONST	lambda
+                                      5: [ define reverse [R6/56] [R7/43] lambda ]
+[ 5]  41 : GLOBAL_GET	list
+                                      6: [ define reverse [R6/56] [R7/43] lambda [Closure/core:list] ]
+[ 6]  42 : JMP_CLOSURE	1
+                                      5: [ define reverse [R6/56] [R7/43] lambda ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ define reverse [R6/56] [R7/43] (lambda) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ define reverse [R6/56] (lambda) ]
+[ 4]  43 : LABEL	"R7"
+                                      4: [ define reverse [R6/56] (lambda) ]
+[ 4]  44 : SAVE_RETURN	"R8"	52
+                                      5: [ define reverse [R6/56] (lambda) [R8/52] ]
+[ 5]  45 : SAVE_RETURN	"R9"	49
+                                      6: [ define reverse [R6/56] (lambda) [R8/52] [R9/49] ]
+[ 6]  46 : LOCAL_GET	0	0	; name
+                                      7: [ define reverse [R6/56] (lambda) [R8/52] [R9/49] (reverse lst) ]
+[ 7]  47 : GLOBAL_GET	cdr
+                                      8: [ define reverse [R6/56] (lambda) [R8/52] [R9/49] (reverse lst) [Closure/core:cdr] ]
+[ 8]  48 : JMP_CLOSURE	1
+                                      7: [ define reverse [R6/56] (lambda) [R8/52] [R9/49] (reverse lst) ]
+[ 7]   0 : CALL_PRIMOP	"cdr"
+                                      7: [ define reverse [R6/56] (lambda) [R8/52] [R9/49] (lst) ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ define reverse [R6/56] (lambda) [R8/52] (lst) ]
+[ 6]  49 : LABEL	"R9"
+                                      6: [ define reverse [R6/56] (lambda) [R8/52] (lst) ]
+[ 6]  50 : GLOBAL_GET	list
+                                      7: [ define reverse [R6/56] (lambda) [R8/52] (lst) [Closure/core:list] ]
+[ 7]  51 : JMP_CLOSURE	1
+                                      6: [ define reverse [R6/56] (lambda) [R8/52] (lst) ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      6: [ define reverse [R6/56] (lambda) [R8/52] ((lst)) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ define reverse [R6/56] (lambda) ((lst)) ]
+[ 5]  52 : LABEL	"R8"
+                                      5: [ define reverse [R6/56] (lambda) ((lst)) ]
+[ 5]  53 : LOCAL_GET	0	1	; body
+                                      6: [ define reverse [R6/56] (lambda) ((lst)) ((define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 6]  54 : GLOBAL_GET	append
+                                      7: [ define reverse [R6/56] (lambda) ((lst)) ((define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) [Closure/core:append] ]
+[ 7]  55 : JMP_CLOSURE	3
+                                      6: [ define reverse [R6/56] (lambda) ((lst)) ((define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 6]   0 : CALL_PRIMOP	"append"
+                                      4: [ define reverse [R6/56] (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ define reverse (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 3]  56 : LABEL	"R6"
+                                      3: [ define reverse (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 3]  57 : GLOBAL_GET	list
+                                      4: [ define reverse (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) [Closure/core:list] ]
+[ 4]  58 : JMP_CLOSURE	3
+                                      3: [ define reverse (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (define reverse (lambda (lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ())))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	0	MAKE_ENVDOT	1	; (name body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; name
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L10"	31
+	7	PUSH_CONST	begin
+	8	SAVE_RETURN	"R1"	22
+	9	SAVE_RETURN	"R2"	13
+	10	PUSH_CONST	set!
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	1
+13	LABEL	"R2"
+	14	SAVE_RETURN	"R3"	18
+	15	LOCAL_GET	0	0	; name
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	1
+18	LABEL	"R3"
+	19	LOCAL_GET	0	1	; body
+	20	GLOBAL_GET	append
+	21	JMP_CLOSURE	3
+22	LABEL	"R1"
+	23	SAVE_RETURN	"R4"	28
+	24	PUSH_CONST	quote
+	25	LOCAL_GET	0	0	; name
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	2
+28	LABEL	"R4"
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	3
+31	LABEL	"L10"
+	32	PUSH_CONST	define
+	33	SAVE_RETURN	"R5"	37
+	34	LOCAL_GET	0	0	; name
+	35	GLOBAL_GET	car
+	36	JMP_CLOSURE	1
+37	LABEL	"R5"
+	38	SAVE_RETURN	"R6"	56
+	39	SAVE_RETURN	"R7"	43
+	40	PUSH_CONST	lambda
+	41	GLOBAL_GET	list
+	42	JMP_CLOSURE	1
+43	LABEL	"R7"
+	44	SAVE_RETURN	"R8"	52
+	45	SAVE_RETURN	"R9"	49
+	46	LOCAL_GET	0	0	; name
+	47	GLOBAL_GET	cdr
+	48	JMP_CLOSURE	1
+49	LABEL	"R9"
+	50	GLOBAL_GET	list
+	51	JMP_CLOSURE	1
+52	LABEL	"R8"
+	53	LOCAL_GET	0	1	; body
+	54	GLOBAL_GET	append
+	55	JMP_CLOSURE	3
+56	LABEL	"R6"
+	57	GLOBAL_GET	list
+	58	JMP_CLOSURE	3
+
+                                      2: [ (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (name body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; name
+                                      2: [ [R0/5] (helper lst result) ]
+[ 2]   3 : GLOBAL_GET	atom?
+                                      3: [ [R0/5] (helper lst result) [Closure/core:atom?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] (helper lst result) ]
+[ 2]   0 : CALL_PRIMOP	"atom?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : JMP_IF_FALSE	"L10"	31
+                                      0: [  ]
+[ 0]  31 : LABEL	"L10"
+                                      0: [  ]
+[ 0]  32 : PUSH_CONST	define
+                                      1: [ define ]
+[ 1]  33 : SAVE_RETURN	"R5"	37
+                                      2: [ define [R5/37] ]
+[ 2]  34 : LOCAL_GET	0	0	; name
+                                      3: [ define [R5/37] (helper lst result) ]
+[ 3]  35 : GLOBAL_GET	car
+                                      4: [ define [R5/37] (helper lst result) [Closure/core:car] ]
+[ 4]  36 : JMP_CLOSURE	1
+                                      3: [ define [R5/37] (helper lst result) ]
+[ 3]   0 : CALL_PRIMOP	"car"
+                                      3: [ define [R5/37] helper ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ define helper ]
+[ 2]  37 : LABEL	"R5"
+                                      2: [ define helper ]
+[ 2]  38 : SAVE_RETURN	"R6"	56
+                                      3: [ define helper [R6/56] ]
+[ 3]  39 : SAVE_RETURN	"R7"	43
+                                      4: [ define helper [R6/56] [R7/43] ]
+[ 4]  40 : PUSH_CONST	lambda
+                                      5: [ define helper [R6/56] [R7/43] lambda ]
+[ 5]  41 : GLOBAL_GET	list
+                                      6: [ define helper [R6/56] [R7/43] lambda [Closure/core:list] ]
+[ 6]  42 : JMP_CLOSURE	1
+                                      5: [ define helper [R6/56] [R7/43] lambda ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ define helper [R6/56] [R7/43] (lambda) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ define helper [R6/56] (lambda) ]
+[ 4]  43 : LABEL	"R7"
+                                      4: [ define helper [R6/56] (lambda) ]
+[ 4]  44 : SAVE_RETURN	"R8"	52
+                                      5: [ define helper [R6/56] (lambda) [R8/52] ]
+[ 5]  45 : SAVE_RETURN	"R9"	49
+                                      6: [ define helper [R6/56] (lambda) [R8/52] [R9/49] ]
+[ 6]  46 : LOCAL_GET	0	0	; name
+                                      7: [ define helper [R6/56] (lambda) [R8/52] [R9/49] (helper lst result) ]
+[ 7]  47 : GLOBAL_GET	cdr
+                                      8: [ define helper [R6/56] (lambda) [R8/52] [R9/49] (helper lst result) [Closure/core:cdr] ]
+[ 8]  48 : JMP_CLOSURE	1
+                                      7: [ define helper [R6/56] (lambda) [R8/52] [R9/49] (helper lst result) ]
+[ 7]   0 : CALL_PRIMOP	"cdr"
+                                      7: [ define helper [R6/56] (lambda) [R8/52] [R9/49] (lst result) ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ define helper [R6/56] (lambda) [R8/52] (lst result) ]
+[ 6]  49 : LABEL	"R9"
+                                      6: [ define helper [R6/56] (lambda) [R8/52] (lst result) ]
+[ 6]  50 : GLOBAL_GET	list
+                                      7: [ define helper [R6/56] (lambda) [R8/52] (lst result) [Closure/core:list] ]
+[ 7]  51 : JMP_CLOSURE	1
+                                      6: [ define helper [R6/56] (lambda) [R8/52] (lst result) ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      6: [ define helper [R6/56] (lambda) [R8/52] ((lst result)) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ define helper [R6/56] (lambda) ((lst result)) ]
+[ 5]  52 : LABEL	"R8"
+                                      5: [ define helper [R6/56] (lambda) ((lst result)) ]
+[ 5]  53 : LOCAL_GET	0	1	; body
+                                      6: [ define helper [R6/56] (lambda) ((lst result)) ((if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 6]  54 : GLOBAL_GET	append
+                                      7: [ define helper [R6/56] (lambda) ((lst result)) ((if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) [Closure/core:append] ]
+[ 7]  55 : JMP_CLOSURE	3
+                                      6: [ define helper [R6/56] (lambda) ((lst result)) ((if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 6]   0 : CALL_PRIMOP	"append"
+                                      4: [ define helper [R6/56] (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 3]  56 : LABEL	"R6"
+                                      3: [ define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 3]  57 : GLOBAL_GET	list
+                                      4: [ define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) [Closure/core:list] ]
+[ 4]  58 : JMP_CLOSURE	3
+                                      3: [ define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	0	MAKE_ENVDOT	1	; (name body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; name
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L10"	31
+	7	PUSH_CONST	begin
+	8	SAVE_RETURN	"R1"	22
+	9	SAVE_RETURN	"R2"	13
+	10	PUSH_CONST	set!
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	1
+13	LABEL	"R2"
+	14	SAVE_RETURN	"R3"	18
+	15	LOCAL_GET	0	0	; name
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	1
+18	LABEL	"R3"
+	19	LOCAL_GET	0	1	; body
+	20	GLOBAL_GET	append
+	21	JMP_CLOSURE	3
+22	LABEL	"R1"
+	23	SAVE_RETURN	"R4"	28
+	24	PUSH_CONST	quote
+	25	LOCAL_GET	0	0	; name
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	2
+28	LABEL	"R4"
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	3
+31	LABEL	"L10"
+	32	PUSH_CONST	define
+	33	SAVE_RETURN	"R5"	37
+	34	LOCAL_GET	0	0	; name
+	35	GLOBAL_GET	car
+	36	JMP_CLOSURE	1
+37	LABEL	"R5"
+	38	SAVE_RETURN	"R6"	56
+	39	SAVE_RETURN	"R7"	43
+	40	PUSH_CONST	lambda
+	41	GLOBAL_GET	list
+	42	JMP_CLOSURE	1
+43	LABEL	"R7"
+	44	SAVE_RETURN	"R8"	52
+	45	SAVE_RETURN	"R9"	49
+	46	LOCAL_GET	0	0	; name
+	47	GLOBAL_GET	cdr
+	48	JMP_CLOSURE	1
+49	LABEL	"R9"
+	50	GLOBAL_GET	list
+	51	JMP_CLOSURE	1
+52	LABEL	"R8"
+	53	LOCAL_GET	0	1	; body
+	54	GLOBAL_GET	append
+	55	JMP_CLOSURE	3
+56	LABEL	"R6"
+	57	GLOBAL_GET	list
+	58	JMP_CLOSURE	3
+
+                                      2: [ reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ()))) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (name body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; name
+                                      2: [ [R0/5] reverse ]
+[ 2]   3 : GLOBAL_GET	atom?
+                                      3: [ [R0/5] reverse [Closure/core:atom?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] reverse ]
+[ 2]   0 : CALL_PRIMOP	"atom?"
+                                      2: [ [R0/5] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   6 : JMP_IF_FALSE	"L10"	31
+                                      0: [  ]
+[ 0]   7 : PUSH_CONST	begin
+                                      1: [ begin ]
+[ 1]   8 : SAVE_RETURN	"R1"	22
+                                      2: [ begin [R1/22] ]
+[ 2]   9 : SAVE_RETURN	"R2"	13
+                                      3: [ begin [R1/22] [R2/13] ]
+[ 3]  10 : PUSH_CONST	set!
+                                      4: [ begin [R1/22] [R2/13] set! ]
+[ 4]  11 : GLOBAL_GET	list
+                                      5: [ begin [R1/22] [R2/13] set! [Closure/core:list] ]
+[ 5]  12 : JMP_CLOSURE	1
+                                      4: [ begin [R1/22] [R2/13] set! ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ begin [R1/22] [R2/13] (set!) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ begin [R1/22] (set!) ]
+[ 3]  13 : LABEL	"R2"
+                                      3: [ begin [R1/22] (set!) ]
+[ 3]  14 : SAVE_RETURN	"R3"	18
+                                      4: [ begin [R1/22] (set!) [R3/18] ]
+[ 4]  15 : LOCAL_GET	0	0	; name
+                                      5: [ begin [R1/22] (set!) [R3/18] reverse ]
+[ 5]  16 : GLOBAL_GET	list
+                                      6: [ begin [R1/22] (set!) [R3/18] reverse [Closure/core:list] ]
+[ 6]  17 : JMP_CLOSURE	1
+                                      5: [ begin [R1/22] (set!) [R3/18] reverse ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ begin [R1/22] (set!) [R3/18] (reverse) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ begin [R1/22] (set!) (reverse) ]
+[ 4]  18 : LABEL	"R3"
+                                      4: [ begin [R1/22] (set!) (reverse) ]
+[ 4]  19 : LOCAL_GET	0	1	; body
+                                      5: [ begin [R1/22] (set!) (reverse) ((lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) ]
+[ 5]  20 : GLOBAL_GET	append
+                                      6: [ begin [R1/22] (set!) (reverse) ((lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [Closure/core:append] ]
+[ 6]  21 : JMP_CLOSURE	3
+                                      5: [ begin [R1/22] (set!) (reverse) ((lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ begin [R1/22] (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) ]
+[ 2]  22 : LABEL	"R1"
+                                      2: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) ]
+[ 2]  23 : SAVE_RETURN	"R4"	28
+                                      3: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] ]
+[ 3]  24 : PUSH_CONST	quote
+                                      4: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] quote ]
+[ 4]  25 : LOCAL_GET	0	0	; name
+                                      5: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] quote reverse ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] quote reverse [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	2
+                                      5: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] quote reverse ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      4: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) [R4/28] (quote reverse) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) (quote reverse) ]
+[ 3]  28 : LABEL	"R4"
+                                      3: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) (quote reverse) ]
+[ 3]  29 : GLOBAL_GET	list
+                                      4: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) (quote reverse) [Closure/core:list] ]
+[ 4]  30 : JMP_CLOSURE	3
+                                      3: [ begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) (quote reverse) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (begin (set! reverse (lambda (lst) (define helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (helper lst (quote ())))) (quote reverse)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (name body) => ((if (atom? name) (list (quote begin) (append (list (quote set!)) (list name) body) (list (quote quote) name)) (list (quote define) (car name) (append (list (quote lambda)) (list (cdr name)) body))))
+	0	MAKE_ENVDOT	1	; (name body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; name
+	3	GLOBAL_GET	atom?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L10"	31
+	7	PUSH_CONST	begin
+	8	SAVE_RETURN	"R1"	22
+	9	SAVE_RETURN	"R2"	13
+	10	PUSH_CONST	set!
+	11	GLOBAL_GET	list
+	12	JMP_CLOSURE	1
+13	LABEL	"R2"
+	14	SAVE_RETURN	"R3"	18
+	15	LOCAL_GET	0	0	; name
+	16	GLOBAL_GET	list
+	17	JMP_CLOSURE	1
+18	LABEL	"R3"
+	19	LOCAL_GET	0	1	; body
+	20	GLOBAL_GET	append
+	21	JMP_CLOSURE	3
+22	LABEL	"R1"
+	23	SAVE_RETURN	"R4"	28
+	24	PUSH_CONST	quote
+	25	LOCAL_GET	0	0	; name
+	26	GLOBAL_GET	list
+	27	JMP_CLOSURE	2
+28	LABEL	"R4"
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	3
+31	LABEL	"L10"
+	32	PUSH_CONST	define
+	33	SAVE_RETURN	"R5"	37
+	34	LOCAL_GET	0	0	; name
+	35	GLOBAL_GET	car
+	36	JMP_CLOSURE	1
+37	LABEL	"R5"
+	38	SAVE_RETURN	"R6"	56
+	39	SAVE_RETURN	"R7"	43
+	40	PUSH_CONST	lambda
+	41	GLOBAL_GET	list
+	42	JMP_CLOSURE	1
+43	LABEL	"R7"
+	44	SAVE_RETURN	"R8"	52
+	45	SAVE_RETURN	"R9"	49
+	46	LOCAL_GET	0	0	; name
+	47	GLOBAL_GET	cdr
+	48	JMP_CLOSURE	1
+49	LABEL	"R9"
+	50	GLOBAL_GET	list
+	51	JMP_CLOSURE	1
+52	LABEL	"R8"
+	53	LOCAL_GET	0	1	; body
+	54	GLOBAL_GET	append
+	55	JMP_CLOSURE	3
+56	LABEL	"R6"
+	57	GLOBAL_GET	list
+	58	JMP_CLOSURE	3
+
+                                      2: [ helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (name body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; name
+                                      2: [ [R0/5] helper ]
+[ 2]   3 : GLOBAL_GET	atom?
+                                      3: [ [R0/5] helper [Closure/core:atom?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] helper ]
+[ 2]   0 : CALL_PRIMOP	"atom?"
+                                      2: [ [R0/5] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   6 : JMP_IF_FALSE	"L10"	31
+                                      0: [  ]
+[ 0]   7 : PUSH_CONST	begin
+                                      1: [ begin ]
+[ 1]   8 : SAVE_RETURN	"R1"	22
+                                      2: [ begin [R1/22] ]
+[ 2]   9 : SAVE_RETURN	"R2"	13
+                                      3: [ begin [R1/22] [R2/13] ]
+[ 3]  10 : PUSH_CONST	set!
+                                      4: [ begin [R1/22] [R2/13] set! ]
+[ 4]  11 : GLOBAL_GET	list
+                                      5: [ begin [R1/22] [R2/13] set! [Closure/core:list] ]
+[ 5]  12 : JMP_CLOSURE	1
+                                      4: [ begin [R1/22] [R2/13] set! ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ begin [R1/22] [R2/13] (set!) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ begin [R1/22] (set!) ]
+[ 3]  13 : LABEL	"R2"
+                                      3: [ begin [R1/22] (set!) ]
+[ 3]  14 : SAVE_RETURN	"R3"	18
+                                      4: [ begin [R1/22] (set!) [R3/18] ]
+[ 4]  15 : LOCAL_GET	0	0	; name
+                                      5: [ begin [R1/22] (set!) [R3/18] helper ]
+[ 5]  16 : GLOBAL_GET	list
+                                      6: [ begin [R1/22] (set!) [R3/18] helper [Closure/core:list] ]
+[ 6]  17 : JMP_CLOSURE	1
+                                      5: [ begin [R1/22] (set!) [R3/18] helper ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ begin [R1/22] (set!) [R3/18] (helper) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ begin [R1/22] (set!) (helper) ]
+[ 4]  18 : LABEL	"R3"
+                                      4: [ begin [R1/22] (set!) (helper) ]
+[ 4]  19 : LOCAL_GET	0	1	; body
+                                      5: [ begin [R1/22] (set!) (helper) ((lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 5]  20 : GLOBAL_GET	append
+                                      6: [ begin [R1/22] (set!) (helper) ((lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [Closure/core:append] ]
+[ 6]  21 : JMP_CLOSURE	3
+                                      5: [ begin [R1/22] (set!) (helper) ((lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ begin [R1/22] (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 2]  22 : LABEL	"R1"
+                                      2: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) ]
+[ 2]  23 : SAVE_RETURN	"R4"	28
+                                      3: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] ]
+[ 3]  24 : PUSH_CONST	quote
+                                      4: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] quote ]
+[ 4]  25 : LOCAL_GET	0	0	; name
+                                      5: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] quote helper ]
+[ 5]  26 : GLOBAL_GET	list
+                                      6: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] quote helper [Closure/core:list] ]
+[ 6]  27 : JMP_CLOSURE	2
+                                      5: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] quote helper ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      4: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) [R4/28] (quote helper) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper) ]
+[ 3]  28 : LABEL	"R4"
+                                      3: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper) ]
+[ 3]  29 : GLOBAL_GET	list
+                                      4: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper) [Closure/core:list] ]
+[ 4]  30 : JMP_CLOSURE	3
+                                      3: [ begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; () => ((define (reverse lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; ((begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper)) (helper lst (quote ())))
+	2	GLOBAL_SET	reverse
+	3	STACK_POP
+	4	PUSH_CONST	reverse
+	5	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : MAKE_CLOSURE	[Closure]	; ((begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper)) (helper lst (quote ())))
+                                      1: [ [Closure] ]
+[ 1]   2 : GLOBAL_SET	reverse
+                                      1: [ [Closure] ]
+[ 1]   3 : STACK_POP
+                                      0: [  ]
+[ 0]   4 : PUSH_CONST	reverse
+                                      1: [ reverse ]
+[ 1]   5 : RETURN_VAL
+ParseNext ==>  (defmacro chain-list (lst) (let* ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)))
+Executing:  
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; bindings
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L8"	15
+	7	SAVE_RETURN	"R1"	11
+	8	PUSH_CONST	begin
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R1"
+	12	LOCAL_GET	0	1	; body
+	13	GLOBAL_GET	append
+	14	JMP_CLOSURE	2
+15	LABEL	"L8"
+	16	PUSH_CONST	let
+	17	SAVE_RETURN	"R2"	25
+	18	SAVE_RETURN	"R3"	22
+	19	LOCAL_GET	0	0	; bindings
+	20	GLOBAL_GET	car
+	21	JMP_CLOSURE	1
+22	LABEL	"R3"
+	23	GLOBAL_GET	list
+	24	JMP_CLOSURE	1
+25	LABEL	"R2"
+	26	SAVE_RETURN	"R4"	44
+	27	SAVE_RETURN	"R5"	31
+	28	PUSH_CONST	let*
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	1
+31	LABEL	"R5"
+	32	SAVE_RETURN	"R6"	40
+	33	SAVE_RETURN	"R7"	37
+	34	LOCAL_GET	0	0	; bindings
+	35	GLOBAL_GET	cdr
+	36	JMP_CLOSURE	1
+37	LABEL	"R7"
+	38	GLOBAL_GET	list
+	39	JMP_CLOSURE	1
+40	LABEL	"R6"
+	41	LOCAL_GET	0	1	; body
+	42	GLOBAL_GET	append
+	43	JMP_CLOSURE	3
+44	LABEL	"R4"
+	45	GLOBAL_GET	list
+	46	JMP_CLOSURE	3
+
+                                      2: [ ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; bindings
+                                      2: [ [R0/5] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   3 : GLOBAL_GET	null?
+                                      3: [ [R0/5] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:null?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   0 : CALL_PRIMOP	"null?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : JMP_IF_FALSE	"L8"	15
+                                      0: [  ]
+[ 0]  15 : LABEL	"L8"
+                                      0: [  ]
+[ 0]  16 : PUSH_CONST	let
+                                      1: [ let ]
+[ 1]  17 : SAVE_RETURN	"R2"	25
+                                      2: [ let [R2/25] ]
+[ 2]  18 : SAVE_RETURN	"R3"	22
+                                      3: [ let [R2/25] [R3/22] ]
+[ 3]  19 : LOCAL_GET	0	0	; bindings
+                                      4: [ let [R2/25] [R3/22] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]  20 : GLOBAL_GET	car
+                                      5: [ let [R2/25] [R3/22] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:car] ]
+[ 5]  21 : JMP_CLOSURE	1
+                                      4: [ let [R2/25] [R3/22] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]   0 : CALL_PRIMOP	"car"
+                                      4: [ let [R2/25] [R3/22] (var (gensym)) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let [R2/25] (var (gensym)) ]
+[ 3]  22 : LABEL	"R3"
+                                      3: [ let [R2/25] (var (gensym)) ]
+[ 3]  23 : GLOBAL_GET	list
+                                      4: [ let [R2/25] (var (gensym)) [Closure/core:list] ]
+[ 4]  24 : JMP_CLOSURE	1
+                                      3: [ let [R2/25] (var (gensym)) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      3: [ let [R2/25] ((var (gensym))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ let ((var (gensym))) ]
+[ 2]  25 : LABEL	"R2"
+                                      2: [ let ((var (gensym))) ]
+[ 2]  26 : SAVE_RETURN	"R4"	44
+                                      3: [ let ((var (gensym))) [R4/44] ]
+[ 3]  27 : SAVE_RETURN	"R5"	31
+                                      4: [ let ((var (gensym))) [R4/44] [R5/31] ]
+[ 4]  28 : PUSH_CONST	let*
+                                      5: [ let ((var (gensym))) [R4/44] [R5/31] let* ]
+[ 5]  29 : GLOBAL_GET	list
+                                      6: [ let ((var (gensym))) [R4/44] [R5/31] let* [Closure/core:list] ]
+[ 6]  30 : JMP_CLOSURE	1
+                                      5: [ let ((var (gensym))) [R4/44] [R5/31] let* ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ let ((var (gensym))) [R4/44] [R5/31] (let*) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ let ((var (gensym))) [R4/44] (let*) ]
+[ 4]  31 : LABEL	"R5"
+                                      4: [ let ((var (gensym))) [R4/44] (let*) ]
+[ 4]  32 : SAVE_RETURN	"R6"	40
+                                      5: [ let ((var (gensym))) [R4/44] (let*) [R6/40] ]
+[ 5]  33 : SAVE_RETURN	"R7"	37
+                                      6: [ let ((var (gensym))) [R4/44] (let*) [R6/40] [R7/37] ]
+[ 6]  34 : LOCAL_GET	0	0	; bindings
+                                      7: [ let ((var (gensym))) [R4/44] (let*) [R6/40] [R7/37] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]  35 : GLOBAL_GET	cdr
+                                      8: [ let ((var (gensym))) [R4/44] (let*) [R6/40] [R7/37] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:cdr] ]
+[ 8]  36 : JMP_CLOSURE	1
+                                      7: [ let ((var (gensym))) [R4/44] (let*) [R6/40] [R7/37] ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   0 : CALL_PRIMOP	"cdr"
+                                      7: [ let ((var (gensym))) [R4/44] (let*) [R6/40] [R7/37] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ let ((var (gensym))) [R4/44] (let*) [R6/40] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]  37 : LABEL	"R7"
+                                      6: [ let ((var (gensym))) [R4/44] (let*) [R6/40] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]  38 : GLOBAL_GET	list
+                                      7: [ let ((var (gensym))) [R4/44] (let*) [R6/40] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:list] ]
+[ 7]  39 : JMP_CLOSURE	1
+                                      6: [ let ((var (gensym))) [R4/44] (let*) [R6/40] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      6: [ let ((var (gensym))) [R4/44] (let*) [R6/40] (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ let ((var (gensym))) [R4/44] (let*) (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 5]  40 : LABEL	"R6"
+                                      5: [ let ((var (gensym))) [R4/44] (let*) (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 5]  41 : LOCAL_GET	0	1	; body
+                                      6: [ let ((var (gensym))) [R4/44] (let*) (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]  42 : GLOBAL_GET	append
+                                      7: [ let ((var (gensym))) [R4/44] (let*) (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) [Closure/core:append] ]
+[ 7]  43 : JMP_CLOSURE	3
+                                      6: [ let ((var (gensym))) [R4/44] (let*) (((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]   0 : CALL_PRIMOP	"append"
+                                      4: [ let ((var (gensym))) [R4/44] (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let ((var (gensym))) (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]  44 : LABEL	"R4"
+                                      3: [ let ((var (gensym))) (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]  45 : GLOBAL_GET	list
+                                      4: [ let ((var (gensym))) (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) [Closure/core:list] ]
+[ 4]  46 : JMP_CLOSURE	3
+                                      3: [ let ((var (gensym))) (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (let ((var (gensym))) (let* ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; bindings
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L8"	15
+	7	SAVE_RETURN	"R1"	11
+	8	PUSH_CONST	begin
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R1"
+	12	LOCAL_GET	0	1	; body
+	13	GLOBAL_GET	append
+	14	JMP_CLOSURE	2
+15	LABEL	"L8"
+	16	PUSH_CONST	let
+	17	SAVE_RETURN	"R2"	25
+	18	SAVE_RETURN	"R3"	22
+	19	LOCAL_GET	0	0	; bindings
+	20	GLOBAL_GET	car
+	21	JMP_CLOSURE	1
+22	LABEL	"R3"
+	23	GLOBAL_GET	list
+	24	JMP_CLOSURE	1
+25	LABEL	"R2"
+	26	SAVE_RETURN	"R4"	44
+	27	SAVE_RETURN	"R5"	31
+	28	PUSH_CONST	let*
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	1
+31	LABEL	"R5"
+	32	SAVE_RETURN	"R6"	40
+	33	SAVE_RETURN	"R7"	37
+	34	LOCAL_GET	0	0	; bindings
+	35	GLOBAL_GET	cdr
+	36	JMP_CLOSURE	1
+37	LABEL	"R7"
+	38	GLOBAL_GET	list
+	39	JMP_CLOSURE	1
+40	LABEL	"R6"
+	41	LOCAL_GET	0	1	; body
+	42	GLOBAL_GET	append
+	43	JMP_CLOSURE	3
+44	LABEL	"R4"
+	45	GLOBAL_GET	list
+	46	JMP_CLOSURE	3
+
+                                      2: [ ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; bindings
+                                      2: [ [R0/5] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   3 : GLOBAL_GET	null?
+                                      3: [ [R0/5] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:null?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   0 : CALL_PRIMOP	"null?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : JMP_IF_FALSE	"L8"	15
+                                      0: [  ]
+[ 0]  15 : LABEL	"L8"
+                                      0: [  ]
+[ 0]  16 : PUSH_CONST	let
+                                      1: [ let ]
+[ 1]  17 : SAVE_RETURN	"R2"	25
+                                      2: [ let [R2/25] ]
+[ 2]  18 : SAVE_RETURN	"R3"	22
+                                      3: [ let [R2/25] [R3/22] ]
+[ 3]  19 : LOCAL_GET	0	0	; bindings
+                                      4: [ let [R2/25] [R3/22] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]  20 : GLOBAL_GET	car
+                                      5: [ let [R2/25] [R3/22] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:car] ]
+[ 5]  21 : JMP_CLOSURE	1
+                                      4: [ let [R2/25] [R3/22] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]   0 : CALL_PRIMOP	"car"
+                                      4: [ let [R2/25] [R3/22] (args (reverse (eval lst))) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let [R2/25] (args (reverse (eval lst))) ]
+[ 3]  22 : LABEL	"R3"
+                                      3: [ let [R2/25] (args (reverse (eval lst))) ]
+[ 3]  23 : GLOBAL_GET	list
+                                      4: [ let [R2/25] (args (reverse (eval lst))) [Closure/core:list] ]
+[ 4]  24 : JMP_CLOSURE	1
+                                      3: [ let [R2/25] (args (reverse (eval lst))) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      3: [ let [R2/25] ((args (reverse (eval lst)))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ let ((args (reverse (eval lst)))) ]
+[ 2]  25 : LABEL	"R2"
+                                      2: [ let ((args (reverse (eval lst)))) ]
+[ 2]  26 : SAVE_RETURN	"R4"	44
+                                      3: [ let ((args (reverse (eval lst)))) [R4/44] ]
+[ 3]  27 : SAVE_RETURN	"R5"	31
+                                      4: [ let ((args (reverse (eval lst)))) [R4/44] [R5/31] ]
+[ 4]  28 : PUSH_CONST	let*
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] [R5/31] let* ]
+[ 5]  29 : GLOBAL_GET	list
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] [R5/31] let* [Closure/core:list] ]
+[ 6]  30 : JMP_CLOSURE	1
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] [R5/31] let* ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] [R5/31] (let*) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ let ((args (reverse (eval lst)))) [R4/44] (let*) ]
+[ 4]  31 : LABEL	"R5"
+                                      4: [ let ((args (reverse (eval lst)))) [R4/44] (let*) ]
+[ 4]  32 : SAVE_RETURN	"R6"	40
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] ]
+[ 5]  33 : SAVE_RETURN	"R7"	37
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] [R7/37] ]
+[ 6]  34 : LOCAL_GET	0	0	; bindings
+                                      7: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] [R7/37] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]  35 : GLOBAL_GET	cdr
+                                      8: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] [R7/37] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:cdr] ]
+[ 8]  36 : JMP_CLOSURE	1
+                                      7: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] [R7/37] ((args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   0 : CALL_PRIMOP	"cdr"
+                                      7: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] [R7/37] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]  37 : LABEL	"R7"
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]  38 : GLOBAL_GET	list
+                                      7: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:list] ]
+[ 7]  39 : JMP_CLOSURE	1
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) [R6/40] (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] (let*) (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 5]  40 : LABEL	"R6"
+                                      5: [ let ((args (reverse (eval lst)))) [R4/44] (let*) (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ]
+[ 5]  41 : LOCAL_GET	0	1	; body
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]  42 : GLOBAL_GET	append
+                                      7: [ let ((args (reverse (eval lst)))) [R4/44] (let*) (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) [Closure/core:append] ]
+[ 7]  43 : JMP_CLOSURE	3
+                                      6: [ let ((args (reverse (eval lst)))) [R4/44] (let*) (((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))))) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]   0 : CALL_PRIMOP	"append"
+                                      4: [ let ((args (reverse (eval lst)))) [R4/44] (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let ((args (reverse (eval lst)))) (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]  44 : LABEL	"R4"
+                                      3: [ let ((args (reverse (eval lst)))) (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]  45 : GLOBAL_GET	list
+                                      4: [ let ((args (reverse (eval lst)))) (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) [Closure/core:list] ]
+[ 4]  46 : JMP_CLOSURE	3
+                                      3: [ let ((args (reverse (eval lst)))) (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (let ((args (reverse (eval lst)))) (let* ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; bindings
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L8"	15
+	7	SAVE_RETURN	"R1"	11
+	8	PUSH_CONST	begin
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R1"
+	12	LOCAL_GET	0	1	; body
+	13	GLOBAL_GET	append
+	14	JMP_CLOSURE	2
+15	LABEL	"L8"
+	16	PUSH_CONST	let
+	17	SAVE_RETURN	"R2"	25
+	18	SAVE_RETURN	"R3"	22
+	19	LOCAL_GET	0	0	; bindings
+	20	GLOBAL_GET	car
+	21	JMP_CLOSURE	1
+22	LABEL	"R3"
+	23	GLOBAL_GET	list
+	24	JMP_CLOSURE	1
+25	LABEL	"R2"
+	26	SAVE_RETURN	"R4"	44
+	27	SAVE_RETURN	"R5"	31
+	28	PUSH_CONST	let*
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	1
+31	LABEL	"R5"
+	32	SAVE_RETURN	"R6"	40
+	33	SAVE_RETURN	"R7"	37
+	34	LOCAL_GET	0	0	; bindings
+	35	GLOBAL_GET	cdr
+	36	JMP_CLOSURE	1
+37	LABEL	"R7"
+	38	GLOBAL_GET	list
+	39	JMP_CLOSURE	1
+40	LABEL	"R6"
+	41	LOCAL_GET	0	1	; body
+	42	GLOBAL_GET	append
+	43	JMP_CLOSURE	3
+44	LABEL	"R4"
+	45	GLOBAL_GET	list
+	46	JMP_CLOSURE	3
+
+                                      2: [ ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; bindings
+                                      2: [ [R0/5] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   3 : GLOBAL_GET	null?
+                                      3: [ [R0/5] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:null?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]   0 : CALL_PRIMOP	"null?"
+                                      2: [ [R0/5] #f ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #f ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #f ]
+[ 1]   6 : JMP_IF_FALSE	"L8"	15
+                                      0: [  ]
+[ 0]  15 : LABEL	"L8"
+                                      0: [  ]
+[ 0]  16 : PUSH_CONST	let
+                                      1: [ let ]
+[ 1]  17 : SAVE_RETURN	"R2"	25
+                                      2: [ let [R2/25] ]
+[ 2]  18 : SAVE_RETURN	"R3"	22
+                                      3: [ let [R2/25] [R3/22] ]
+[ 3]  19 : LOCAL_GET	0	0	; bindings
+                                      4: [ let [R2/25] [R3/22] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]  20 : GLOBAL_GET	car
+                                      5: [ let [R2/25] [R3/22] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:car] ]
+[ 5]  21 : JMP_CLOSURE	1
+                                      4: [ let [R2/25] [R3/22] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]   0 : CALL_PRIMOP	"car"
+                                      4: [ let [R2/25] [R3/22] (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let [R2/25] (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 3]  22 : LABEL	"R3"
+                                      3: [ let [R2/25] (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 3]  23 : GLOBAL_GET	list
+                                      4: [ let [R2/25] (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) [Closure/core:list] ]
+[ 4]  24 : JMP_CLOSURE	1
+                                      3: [ let [R2/25] (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      3: [ let [R2/25] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]  25 : LABEL	"R2"
+                                      2: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 2]  26 : SAVE_RETURN	"R4"	44
+                                      3: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] ]
+[ 3]  27 : SAVE_RETURN	"R5"	31
+                                      4: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] [R5/31] ]
+[ 4]  28 : PUSH_CONST	let*
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] [R5/31] let* ]
+[ 5]  29 : GLOBAL_GET	list
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] [R5/31] let* [Closure/core:list] ]
+[ 6]  30 : JMP_CLOSURE	1
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] [R5/31] let* ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] [R5/31] (let*) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) ]
+[ 4]  31 : LABEL	"R5"
+                                      4: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) ]
+[ 4]  32 : SAVE_RETURN	"R6"	40
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] ]
+[ 5]  33 : SAVE_RETURN	"R7"	37
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] [R7/37] ]
+[ 6]  34 : LOCAL_GET	0	0	; bindings
+                                      7: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] [R7/37] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]  35 : GLOBAL_GET	cdr
+                                      8: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] [R7/37] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:cdr] ]
+[ 8]  36 : JMP_CLOSURE	1
+                                      7: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] [R7/37] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   0 : CALL_PRIMOP	"cdr"
+                                      7: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] [R7/37] () ]
+[ 7]   1 : RETURN_VAL
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] () ]
+[ 6]  37 : LABEL	"R7"
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] () ]
+[ 6]  38 : GLOBAL_GET	list
+                                      7: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] () [Closure/core:list] ]
+[ 7]  39 : JMP_CLOSURE	1
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] () ]
+[ 6]   0 : CALL_PRIMOP	"list"
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) [R6/40] (()) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) (()) ]
+[ 5]  40 : LABEL	"R6"
+                                      5: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) (()) ]
+[ 5]  41 : LOCAL_GET	0	1	; body
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) (()) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]  42 : GLOBAL_GET	append
+                                      7: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) (()) ((list (quote lambda) (list var) bodytext)) [Closure/core:append] ]
+[ 7]  43 : JMP_CLOSURE	3
+                                      6: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let*) (()) ((list (quote lambda) (list var) bodytext)) ]
+[ 6]   0 : CALL_PRIMOP	"append"
+                                      4: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [R4/44] (let* () (list (quote lambda) (list var) bodytext)) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (let* () (list (quote lambda) (list var) bodytext)) ]
+[ 3]  44 : LABEL	"R4"
+                                      3: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (let* () (list (quote lambda) (list var) bodytext)) ]
+[ 3]  45 : GLOBAL_GET	list
+                                      4: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (let* () (list (quote lambda) (list var) bodytext)) [Closure/core:list] ]
+[ 4]  46 : JMP_CLOSURE	3
+                                      3: [ let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (let* () (list (quote lambda) (list var) bodytext)) ]
+[ 3]   0 : CALL_PRIMOP	"list"
+                                      1: [ (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (let* () (list (quote lambda) (list var) bodytext))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((if (null? bindings) (append (list (quote begin)) body) (list (quote let) (list (car bindings)) (append (list (quote let*)) (list (cdr bindings)) body))))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; bindings
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L8"	15
+	7	SAVE_RETURN	"R1"	11
+	8	PUSH_CONST	begin
+	9	GLOBAL_GET	list
+	10	JMP_CLOSURE	1
+11	LABEL	"R1"
+	12	LOCAL_GET	0	1	; body
+	13	GLOBAL_GET	append
+	14	JMP_CLOSURE	2
+15	LABEL	"L8"
+	16	PUSH_CONST	let
+	17	SAVE_RETURN	"R2"	25
+	18	SAVE_RETURN	"R3"	22
+	19	LOCAL_GET	0	0	; bindings
+	20	GLOBAL_GET	car
+	21	JMP_CLOSURE	1
+22	LABEL	"R3"
+	23	GLOBAL_GET	list
+	24	JMP_CLOSURE	1
+25	LABEL	"R2"
+	26	SAVE_RETURN	"R4"	44
+	27	SAVE_RETURN	"R5"	31
+	28	PUSH_CONST	let*
+	29	GLOBAL_GET	list
+	30	JMP_CLOSURE	1
+31	LABEL	"R5"
+	32	SAVE_RETURN	"R6"	40
+	33	SAVE_RETURN	"R7"	37
+	34	LOCAL_GET	0	0	; bindings
+	35	GLOBAL_GET	cdr
+	36	JMP_CLOSURE	1
+37	LABEL	"R7"
+	38	GLOBAL_GET	list
+	39	JMP_CLOSURE	1
+40	LABEL	"R6"
+	41	LOCAL_GET	0	1	; body
+	42	GLOBAL_GET	append
+	43	JMP_CLOSURE	3
+44	LABEL	"R4"
+	45	GLOBAL_GET	list
+	46	JMP_CLOSURE	3
+
+                                      2: [ () (list (quote lambda) (list var) bodytext) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	5
+                                      1: [ [R0/5] ]
+[ 1]   2 : LOCAL_GET	0	0	; bindings
+                                      2: [ [R0/5] () ]
+[ 2]   3 : GLOBAL_GET	null?
+                                      3: [ [R0/5] () [Closure/core:null?] ]
+[ 3]   4 : JMP_CLOSURE	1
+                                      2: [ [R0/5] () ]
+[ 2]   0 : CALL_PRIMOP	"null?"
+                                      2: [ [R0/5] #t ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ #t ]
+[ 1]   5 : LABEL	"R0"
+                                      1: [ #t ]
+[ 1]   6 : JMP_IF_FALSE	"L8"	15
+                                      0: [  ]
+[ 0]   7 : SAVE_RETURN	"R1"	11
+                                      1: [ [R1/11] ]
+[ 1]   8 : PUSH_CONST	begin
+                                      2: [ [R1/11] begin ]
+[ 2]   9 : GLOBAL_GET	list
+                                      3: [ [R1/11] begin [Closure/core:list] ]
+[ 3]  10 : JMP_CLOSURE	1
+                                      2: [ [R1/11] begin ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R1/11] (begin) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ (begin) ]
+[ 1]  11 : LABEL	"R1"
+                                      1: [ (begin) ]
+[ 1]  12 : LOCAL_GET	0	1	; body
+                                      2: [ (begin) ((list (quote lambda) (list var) bodytext)) ]
+[ 2]  13 : GLOBAL_GET	append
+                                      3: [ (begin) ((list (quote lambda) (list var) bodytext)) [Closure/core:append] ]
+[ 3]  14 : JMP_CLOSURE	2
+                                      2: [ (begin) ((list (quote lambda) (list var) bodytext)) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ (begin (list (quote lambda) (list var) bodytext)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((var (gensym))) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((var (gensym))) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((var (gensym))) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((var (gensym))) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (var (gensym)) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ var ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (var) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (var) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (var) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (var) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (var) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((var)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((var)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((var)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((var)) ((let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((var)) ((let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((var)) ((let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] [Closure/core:cadr] ((var (gensym))) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] [Closure/core:cadr] ((var (gensym))) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] [Closure/core:cadr] ((var (gensym))) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (var (gensym)) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ (gensym) ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) [R5/30] ((gensym)) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ((gensym)) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ((gensym)) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ((gensym)) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))) ((gensym)) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (var) (let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) (gensym)) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((args (reverse (eval lst)))) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((args (reverse (eval lst)))) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((args (reverse (eval lst)))) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (args (reverse (eval lst))) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ args ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (args) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (args) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (args) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (args) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (args) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((args)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((args)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((args)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((args)) ((let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((args)) ((let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((args)) ((let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] [Closure/core:cadr] ((args (reverse (eval lst)))) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] [Closure/core:cadr] ((args (reverse (eval lst)))) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] [Closure/core:cadr] ((args (reverse (eval lst)))) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (args (reverse (eval lst))) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ (reverse (eval lst)) ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) [R5/30] ((reverse (eval lst))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ((reverse (eval lst))) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ((reverse (eval lst))) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ((reverse (eval lst))) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))) ((reverse (eval lst))) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (args) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))) (reverse (eval lst))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; (bindings body) => ((append (list (append (list (quote lambda)) (list (map car bindings)) body)) (map cadr bindings)))
+	0	MAKE_ENVDOT	1	; (bindings body)
+	1	SAVE_RETURN	"R0"	24
+	2	SAVE_RETURN	"R1"	21
+	3	SAVE_RETURN	"R2"	7
+	4	PUSH_CONST	lambda
+	5	GLOBAL_GET	list
+	6	JMP_CLOSURE	1
+7	LABEL	"R2"
+	8	SAVE_RETURN	"R3"	17
+	9	SAVE_RETURN	"R4"	14
+	10	GLOBAL_GET	car
+	11	LOCAL_GET	0	0	; bindings
+	12	GLOBAL_GET	map
+	13	JMP_CLOSURE	2
+14	LABEL	"R4"
+	15	GLOBAL_GET	list
+	16	JMP_CLOSURE	1
+17	LABEL	"R3"
+	18	LOCAL_GET	0	1	; body
+	19	GLOBAL_GET	append
+	20	JMP_CLOSURE	3
+21	LABEL	"R1"
+	22	GLOBAL_GET	list
+	23	JMP_CLOSURE	1
+24	LABEL	"R0"
+	25	SAVE_RETURN	"R5"	30
+	26	GLOBAL_GET	cadr
+	27	LOCAL_GET	0	0	; bindings
+	28	GLOBAL_GET	map
+	29	JMP_CLOSURE	2
+30	LABEL	"R5"
+	31	GLOBAL_GET	append
+	32	JMP_CLOSURE	2
+
+                                      2: [ ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)) ]
+[ 2]   0 : MAKE_ENVDOT	1	; (bindings body)
+                                      0: [  ]
+[ 0]   1 : SAVE_RETURN	"R0"	24
+                                      1: [ [R0/24] ]
+[ 1]   2 : SAVE_RETURN	"R1"	21
+                                      2: [ [R0/24] [R1/21] ]
+[ 2]   3 : SAVE_RETURN	"R2"	7
+                                      3: [ [R0/24] [R1/21] [R2/7] ]
+[ 3]   4 : PUSH_CONST	lambda
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   5 : GLOBAL_GET	list
+                                      5: [ [R0/24] [R1/21] [R2/7] lambda [Closure/core:list] ]
+[ 5]   6 : JMP_CLOSURE	1
+                                      4: [ [R0/24] [R1/21] [R2/7] lambda ]
+[ 4]   0 : CALL_PRIMOP	"list"
+                                      4: [ [R0/24] [R1/21] [R2/7] (lambda) ]
+[ 4]   1 : RETURN_VAL
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   7 : LABEL	"R2"
+                                      3: [ [R0/24] [R1/21] (lambda) ]
+[ 3]   8 : SAVE_RETURN	"R3"	17
+                                      4: [ [R0/24] [R1/21] (lambda) [R3/17] ]
+[ 4]   9 : SAVE_RETURN	"R4"	14
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] ]
+[ 5]  10 : GLOBAL_GET	car
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ]
+[ 6]  11 : LOCAL_GET	0	0	; bindings
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]  12 : GLOBAL_GET	map
+                                      8: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:map] ]
+[ 8]  13 : JMP_CLOSURE	2
+                                      7: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] [Closure/core:car] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 7]   0 : CALL_PRIMOP	"map"
+Executing:  core:car
+	CODE BLOCK ; core:car
+	0	CALL_PRIMOP	"car"
+	1	RETURN_VAL
+
+                                      1: [ (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 1]   0 : CALL_PRIMOP	"car"
+                                      1: [ bodytext ]
+[ 1]   1 : RETURN_VAL
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] [R4/14] (bodytext) ]
+[ 6]   1 : RETURN_VAL
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (bodytext) ]
+[ 5]  14 : LABEL	"R4"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (bodytext) ]
+[ 5]  15 : GLOBAL_GET	list
+                                      6: [ [R0/24] [R1/21] (lambda) [R3/17] (bodytext) [Closure/core:list] ]
+[ 6]  16 : JMP_CLOSURE	1
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] (bodytext) ]
+[ 5]   0 : CALL_PRIMOP	"list"
+                                      5: [ [R0/24] [R1/21] (lambda) [R3/17] ((bodytext)) ]
+[ 5]   1 : RETURN_VAL
+                                      4: [ [R0/24] [R1/21] (lambda) ((bodytext)) ]
+[ 4]  17 : LABEL	"R3"
+                                      4: [ [R0/24] [R1/21] (lambda) ((bodytext)) ]
+[ 4]  18 : LOCAL_GET	0	1	; body
+                                      5: [ [R0/24] [R1/21] (lambda) ((bodytext)) ((begin (list (quote lambda) (list var) bodytext))) ]
+[ 5]  19 : GLOBAL_GET	append
+                                      6: [ [R0/24] [R1/21] (lambda) ((bodytext)) ((begin (list (quote lambda) (list var) bodytext))) [Closure/core:append] ]
+[ 6]  20 : JMP_CLOSURE	3
+                                      5: [ [R0/24] [R1/21] (lambda) ((bodytext)) ((begin (list (quote lambda) (list var) bodytext))) ]
+[ 5]   0 : CALL_PRIMOP	"append"
+                                      3: [ [R0/24] [R1/21] (lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ [R0/24] (lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) ]
+[ 2]  21 : LABEL	"R1"
+                                      2: [ [R0/24] (lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) ]
+[ 2]  22 : GLOBAL_GET	list
+                                      3: [ [R0/24] (lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) [Closure/core:list] ]
+[ 3]  23 : JMP_CLOSURE	1
+                                      2: [ [R0/24] (lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) ]
+[ 2]   0 : CALL_PRIMOP	"list"
+                                      2: [ [R0/24] ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 2]   1 : RETURN_VAL
+                                      1: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 1]  24 : LABEL	"R0"
+                                      1: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ]
+[ 1]  25 : SAVE_RETURN	"R5"	30
+                                      2: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] ]
+[ 2]  26 : GLOBAL_GET	cadr
+                                      3: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] [Closure/core:cadr] ]
+[ 3]  27 : LOCAL_GET	0	0	; bindings
+                                      4: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] [Closure/core:cadr] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]  28 : GLOBAL_GET	map
+                                      5: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] [Closure/core:cadr] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) [Closure/core:map] ]
+[ 5]  29 : JMP_CLOSURE	2
+                                      4: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] [Closure/core:cadr] ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) ]
+[ 4]   0 : CALL_PRIMOP	"map"
+Executing:  core:cadr
+	CODE BLOCK ; core:cadr
+	0	CALL_PRIMOP	"cadr"
+	1	RETURN_VAL
+
+                                      1: [ (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 1]   0 : CALL_PRIMOP	"cadr"
+                                      1: [ (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))) ]
+[ 1]   1 : RETURN_VAL
+                                      3: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) [R5/30] ((eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 3]   1 : RETURN_VAL
+                                      2: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ((eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 2]  30 : LABEL	"R5"
+                                      2: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ((eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 2]  31 : GLOBAL_GET	append
+                                      3: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ((eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) [Closure/core:append] ]
+[ 3]  32 : JMP_CLOSURE	2
+                                      2: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext)))) ((eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 2]   0 : CALL_PRIMOP	"append"
+                                      1: [ ((lambda (bodytext) (begin (list (quote lambda) (list var) bodytext))) (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args)))) ]
+[ 1]   1 : RETURN_VAL
+Executing:  
+	CODE BLOCK ; () => ((defmacro chain-list (lst) (let* ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	()
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
+ParseNext ==>  (defmacro chain (first . rest) (list (quote chain-list) (list (quote quote) (cons first rest))))
+Executing:  
+	CODE BLOCK ; () => ((defmacro chain (first . rest) (list (quote chain-list) (list (quote quote) (cons first rest)))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
+
+                                      0: [  ]
+[ 0]   0 : MAKE_ENV	0	; ()
+                                      0: [  ]
+[ 0]   1 : PUSH_CONST	()
+                                      1: [ () ]
+[ 1]   2 : RETURN_VAL
 
 
 *** ALL CODE BLOCKS
@@ -3148,15 +4828,31 @@ Executing:
 	0	CALL_PRIMOP	"set-member-value"
 	1	RETURN_VAL
 
+	CODE BLOCK ; core:make-vector
+	0	CALL_PRIMOP	"make-vector"
+	1	RETURN_VAL
+
+	CODE BLOCK ; core:get-vector-length
+	0	CALL_PRIMOP	"get-vector-length"
+	1	RETURN_VAL
+
+	CODE BLOCK ; core:get-vector-element
+	0	CALL_PRIMOP	"get-vector-element"
+	1	RETURN_VAL
+
+	CODE BLOCK ; core:set-vector-element!
+	0	CALL_PRIMOP	"set-vector-element!"
+	1	RETURN_VAL
+
 	CODE BLOCK ; () => ((package-set "core"))
 	0	MAKE_ENV	0	; ()
 	1	PUSH_CONST	"core"
 	2	GLOBAL_GET	package-set
 	3	JMP_CLOSURE	1
 
-	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right))))
+	CODE BLOCK ; () => ((package-export (quote (let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list))))
 	0	MAKE_ENV	0	; ()
-	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right)
+	1	PUSH_CONST	(let let* letrec define and or cond case for dotimes first second third rest after-first after-second after-third fold-left fold-right reverse chain chain-list)
 	2	GLOBAL_GET	package-export
 	3	JMP_CLOSURE	1
 
@@ -3942,6 +5638,142 @@ Executing:
 	3	STACK_POP
 	4	PUSH_CONST	fold-right
 	5	RETURN_VAL
+
+	CODE BLOCK ; (lst result) => ((if (null? lst) result (helper (cdr lst) (cons (car lst) result))))
+	0	MAKE_ENV	2	; (lst result)
+	1	SAVE_RETURN	"R0"	5
+	2	LOCAL_GET	0	0	; lst
+	3	GLOBAL_GET	null?
+	4	JMP_CLOSURE	1
+5	LABEL	"R0"
+	6	JMP_IF_FALSE	"L4"	9
+	7	LOCAL_GET	0	1	; result
+	8	RETURN_VAL
+9	LABEL	"L4"
+	10	SAVE_RETURN	"R1"	14
+	11	LOCAL_GET	0	0	; lst
+	12	GLOBAL_GET	cdr
+	13	JMP_CLOSURE	1
+14	LABEL	"R1"
+	15	SAVE_RETURN	"R2"	24
+	16	SAVE_RETURN	"R3"	20
+	17	LOCAL_GET	0	0	; lst
+	18	GLOBAL_GET	car
+	19	JMP_CLOSURE	1
+20	LABEL	"R3"
+	21	LOCAL_GET	0	1	; result
+	22	GLOBAL_GET	cons
+	23	JMP_CLOSURE	2
+24	LABEL	"R2"
+	25	GLOBAL_GET	helper
+	26	JMP_CLOSURE	2
+
+	CODE BLOCK ; (lst) => ((begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper)) (helper lst (quote ())))
+	0	MAKE_ENV	1	; (lst)
+	1	MAKE_CLOSURE	[Closure]	; ((if (null? lst) result (helper (cdr lst) (cons (car lst) result))))
+	2	GLOBAL_SET	helper
+	3	STACK_POP
+	4	LOCAL_GET	0	0	; lst
+	5	PUSH_CONST	()
+	6	GLOBAL_GET	helper
+	7	JMP_CLOSURE	2
+
+	CODE BLOCK ; () => ((define (reverse lst) (define (helper lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result)))) (helper lst (quote ()))))
+	0	MAKE_ENV	0	; ()
+	1	MAKE_CLOSURE	[Closure]	; ((begin (set! helper (lambda (lst result) (if (null? lst) result (helper (cdr lst) (cons (car lst) result))))) (quote helper)) (helper lst (quote ())))
+	2	GLOBAL_SET	reverse
+	3	STACK_POP
+	4	PUSH_CONST	reverse
+	5	RETURN_VAL
+
+	CODE BLOCK ; (bodytext) => ((begin (list (quote lambda) (list var) bodytext)))
+	0	MAKE_ENV	1	; (bodytext)
+	1	PUSH_CONST	lambda
+	2	SAVE_RETURN	"R7"	6
+	3	LOCAL_GET	2	0	; var
+	4	GLOBAL_GET	list
+	5	JMP_CLOSURE	1
+6	LABEL	"R7"
+	7	LOCAL_GET	0	0	; bodytext
+	8	GLOBAL_GET	list
+	9	JMP_CLOSURE	3
+
+	CODE BLOCK ; (args) => ((let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))
+	0	MAKE_ENV	1	; (args)
+	1	SAVE_RETURN	"R3"	22
+	2	SAVE_RETURN	"R4"	19
+	3	PUSH_CONST	fold-right
+	4	PUSH_CONST	list
+	5	SAVE_RETURN	"R5"	10
+	6	PUSH_CONST	quote
+	7	LOCAL_GET	1	0	; var
+	8	GLOBAL_GET	list
+	9	JMP_CLOSURE	2
+10	LABEL	"R5"
+	11	SAVE_RETURN	"R6"	16
+	12	PUSH_CONST	quote
+	13	LOCAL_GET	0	0	; args
+	14	GLOBAL_GET	list
+	15	JMP_CLOSURE	2
+16	LABEL	"R6"
+	17	GLOBAL_GET	list
+	18	JMP_CLOSURE	4
+19	LABEL	"R4"
+	20	GLOBAL_GET	eval
+	21	JMP_CLOSURE	1
+22	LABEL	"R3"
+	23	MAKE_CLOSURE	[Closure]	; ((begin (list (quote lambda) (list var) bodytext)))
+	24	JMP_CLOSURE	1
+
+	CODE BLOCK ; (var) => ((let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))
+	0	MAKE_ENV	1	; (var)
+	1	SAVE_RETURN	"R1"	9
+	2	SAVE_RETURN	"R2"	6
+	3	LOCAL_GET	1	0	; lst
+	4	GLOBAL_GET	eval
+	5	JMP_CLOSURE	1
+6	LABEL	"R2"
+	7	GLOBAL_GET	reverse
+	8	JMP_CLOSURE	1
+9	LABEL	"R1"
+	10	MAKE_CLOSURE	[Closure]	; ((let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext))))
+	11	JMP_CLOSURE	1
+
+	CODE BLOCK ; (lst) => ((let* ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext)))
+	0	MAKE_ENV	1	; (lst)
+	1	SAVE_RETURN	"R0"	4
+	2	GLOBAL_GET	gensym
+	3	JMP_CLOSURE	0
+4	LABEL	"R0"
+	5	MAKE_CLOSURE	[Closure]	; ((let ((args (reverse (eval lst)))) (let ((bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (begin (list (quote lambda) (list var) bodytext)))))
+	6	JMP_CLOSURE	1
+
+	CODE BLOCK ; () => ((defmacro chain-list (lst) (let* ((var (gensym)) (args (reverse (eval lst))) (bodytext (eval (list (quote fold-right) (quote list) (list (quote quote) var) (list (quote quote) args))))) (list (quote lambda) (list var) bodytext))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
+
+	CODE BLOCK ; (first rest) => ((list (quote chain-list) (list (quote quote) (cons first rest))))
+	0	MAKE_ENVDOT	1	; (first rest)
+	1	PUSH_CONST	chain-list
+	2	SAVE_RETURN	"R0"	12
+	3	PUSH_CONST	quote
+	4	SAVE_RETURN	"R1"	9
+	5	LOCAL_GET	0	0	; first
+	6	LOCAL_GET	0	1	; rest
+	7	GLOBAL_GET	cons
+	8	JMP_CLOSURE	2
+9	LABEL	"R1"
+	10	GLOBAL_GET	list
+	11	JMP_CLOSURE	2
+12	LABEL	"R0"
+	13	GLOBAL_GET	list
+	14	JMP_CLOSURE	2
+
+	CODE BLOCK ; () => ((defmacro chain (first . rest) (list (quote chain-list) (list (quote quote) (cons first rest)))))
+	0	MAKE_ENV	0	; ()
+	1	PUSH_CONST	()
+	2	RETURN_VAL
 
 *** END OF ALL CODE BLOCKS
 

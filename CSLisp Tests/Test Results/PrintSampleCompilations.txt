@@ -1,4 +1,4 @@
-TEST PrintSampleCompilations : 8:57:42 PM
+TEST PrintSampleCompilations : 6:06:28 PM
 COMPILE inputs:  5
 ParseNext ==>  5
 	CODE BLOCK ; () => (5)

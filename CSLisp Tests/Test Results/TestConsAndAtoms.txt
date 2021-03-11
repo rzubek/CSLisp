@@ -1,4 +1,4 @@
-TEST TestConsAndAtoms : 8:57:42 PM
+TEST TestConsAndAtoms : 6:06:28 PM
 test: got #t  - expected #t
 test: got #t  - expected #t
 test: got #t  - expected #t
