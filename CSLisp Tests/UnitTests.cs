@@ -1,7 +1,7 @@
 ﻿using CSLisp.Core;
 using CSLisp.Data;
 using CSLisp.Util;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +24,6 @@ namespace CSLisp
         public int MyIntGetter => MyIntField;
     }
 
-    [TestClass]
     public class UnitTests
     {
         public enum LogType { None, Console, TempFile };
@@ -47,7 +46,7 @@ namespace CSLisp
             public void OpenLog (string name) {
                 switch (LOG_TARGET) {
                     case LogType.TempFile:
-                        string testDir = Path.Combine("..", "..", "Test Results");
+                        string testDir = Path.Combine("..", "..", "..", "Test Results");
                         Directory.CreateDirectory(testDir);
                         string filePath = Path.Combine(testDir, $"{name}.txt");
                         _writer = new StreamWriter(new FileStream(filePath, FileMode.Create));
@@ -106,7 +105,7 @@ namespace CSLisp
             }
         }
 
-        [TestMethod]
+        [Test]
         public void RunTests () {
             void Run (System.Action fn) {
                 _logger.OpenLog(fn.GetMethodInfo().Name);

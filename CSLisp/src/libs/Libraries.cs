@@ -1,6 +1,5 @@
 using CSLisp.Core;
 using CSLisp.Data;
-using CSLisp.Properties;
 using System.Collections.Generic;
 using System.IO;
 
