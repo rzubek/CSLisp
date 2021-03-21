@@ -7,6 +7,7 @@
     <AssemblyTitle>CSLisp REPL</AssemblyTitle>
     <Copyright>Copyright (C) Robert Zubek</Copyright>
     <Version>0.8.0</Version>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <ItemGroup>

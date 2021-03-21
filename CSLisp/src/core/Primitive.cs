@@ -1,6 +1,5 @@
 using CSLisp.Data;
 using CSLisp.Error;
-using System;
 using System.Collections.Generic;
 
 namespace CSLisp.Core
@@ -18,7 +17,7 @@ namespace CSLisp.Core
         public bool IsCons => cons != null;
         public bool IsNull => cons == null;
 
-        public Val AsVal => cons != null ? cons : Val.NIL;
+        public Val AsVal => cons ?? Val.NIL;
 
         public List<Val> ToNativeList () => Cons.ToNativeList(AsVal);
 
@@ -163,7 +162,7 @@ namespace CSLisp.Core
             }
         }
 
-        private Cons RemoveArgsFromStack (State state, int count) {
+        private static Cons RemoveArgsFromStack (State state, int count) {
             Val result = Val.NIL;
             for (int i = 0; i < count; i++) {
                 result = new Cons(state.Pop(), result);

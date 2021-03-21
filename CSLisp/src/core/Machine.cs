@@ -222,7 +222,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Very naive helper function, finds the position of a given label in the instruction set </summary>
-        private int GetLabelPosition (Instruction inst) {
+        private static int GetLabelPosition (Instruction inst) {
             if (inst.second.IsInt) {
                 return inst.second.AsInt;
             } else {
@@ -231,7 +231,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> A bit of debug info </summary>
-        private string DebugRecentInstructions (State st, List<Instruction> instructions) {
+        private static string DebugRecentInstructions (State st, List<Instruction> instructions) {
             string result = $"Closure {st.fn.code}, around instr pc {st.pc - 1}:";
             for (int i = st.pc - 5; i <= st.pc; i++) {
                 if (i >= 0 && i < instructions.Count) {

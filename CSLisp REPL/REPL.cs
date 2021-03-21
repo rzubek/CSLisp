@@ -62,7 +62,7 @@ namespace CSLisp
                 () => _timeNextExecution = true)
         };
 
-        public void Run () {
+        public static void Run () {
 
             Context ctx = new Context(logger: new Logger());
             Console.WriteLine(GetInfo(ctx));
@@ -107,7 +107,7 @@ namespace CSLisp
 
         }
 
-        private void LogExecutionTime (List<Context.CompileAndExecuteResult> results, Stopwatch s) {
+        private static void LogExecutionTime (List<Context.CompileAndExecuteResult> results, Stopwatch s) {
             if (s == null) { return; }
 
             _timeNextExecution = false;
@@ -117,22 +117,19 @@ namespace CSLisp
             }
         }
 
-        private void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
+        private static void LogCompilation (Context ctx, List<Context.CompileAndExecuteResult> results) {
             if (!_logCompilation) { return; }
 
             results.ForEach(result => Console.WriteLine(ctx.code.DebugPrint(result.comp)));
         }
 
-        private string GetInfo (Context ctx) {
+        private static string GetInfo (Context ctx) {
             var manifestLocation = ctx.GetType().Assembly.Location;
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(manifestLocation);
             return $"CSLisp REPL. {info.LegalCopyright}. Version {info.ProductVersion}.";
         }
 
-        private static void Main (string[] _) {
-            REPL repl = new REPL();
-            repl.Run();
-        }
+        private static void Main (string[] _) => Run();
     }
 
     /// <summary>

@@ -179,7 +179,7 @@ namespace CSLisp.Core
         /// Min and max are inclusive; default value of max (= -1) is a special value,
         /// causes max to be treated as equal to min (ie., tests for arg count == min)
         /// </summary>
-        private void VerifyArgCount (Cons cons, int min, int max = -1) {
+        private static void VerifyArgCount (Cons cons, int min, int max = -1) {
             max = (max >= 0) ? max : min;  // default value means: max == min
             int count = Cons.Length(cons.rest);
             if (count < min || count > max) {
@@ -189,14 +189,14 @@ namespace CSLisp.Core
         }
 
         /// <summary> Verifies that the expression is true, throws the specified error otherwise. </summary>
-        private void VerifyExpression (bool condition, string message, Val? val = null) {
+        private static void VerifyExpression (bool condition, string message, Val? val = null) {
             if (!condition) {
                 throw new CompilerError(message + (val.HasValue ? (" " + val.Value.type) : ""));
             }
         }
 
         /// <summary> Returns true if the given value is a macro </summary>
-        private bool IsMacroApplication (Val x) {
+        private static bool IsMacroApplication (Val x) {
             var cons = x.AsConsOrNull;
             return
                 cons != null &&
@@ -238,7 +238,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Compiles a variable lookup </summary>
-        private List<Instruction> CompileVariable (Symbol x, Environment env, State st) {
+        private static List<Instruction> CompileVariable (Symbol x, Environment env, State st) {
             if (st.IsUnused) { return null; }
 
             var pos = Environment.GetVariable(x, env);
@@ -251,7 +251,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Compiles a constant, if it's actually used elsewhere </summary>
-        private List<Instruction> CompileConstant (Val x, State st) {
+        private static List<Instruction> CompileConstant (Val x, State st) {
             if (st.IsUnused) { return null; }
 
             return Merge(
@@ -483,15 +483,15 @@ namespace CSLisp.Core
         }
 
         /// <summary> Generates a sequence containing a single instruction </summary>
-        private List<Instruction> Emit (Opcode type, Val first, Val second, string debug = null) =>
+        private static List<Instruction> Emit (Opcode type, Val first, Val second, string debug = null) =>
             new List<Instruction>() { new Instruction(type, first, second, debug) };
 
         /// <summary> Generates a sequence containing a single instruction </summary>
-        private List<Instruction> Emit (Opcode type, Val first, string debug = null) =>
+        private static List<Instruction> Emit (Opcode type, Val first, string debug = null) =>
             new List<Instruction>() { new Instruction(type, first, debug) };
 
         /// <summary> Generates a sequence containing a single instruction with no arguments </summary>
-        private List<Instruction> Emit (Opcode type) =>
+        private static List<Instruction> Emit (Opcode type) =>
             new List<Instruction>() { new Instruction(type) };
 
 
@@ -500,17 +500,17 @@ namespace CSLisp.Core
             prefix + _labelNum++.ToString();
 
         /// <summary> Merges sequences of instructions into a single sequence </summary>
-        private List<Instruction> Merge (params List<Instruction>[] elements) =>
+        private static List<Instruction> Merge (params List<Instruction>[] elements) =>
             elements.Where(list => list != null).SelectMany(instr => instr).ToList();
 
         /// <summary> Returns the value if the condition is true, null if it's false </summary>
-        private List<Instruction> EmitIf (bool test, List<Instruction> value) => test ? value : null;
+        private static List<Instruction> EmitIf (bool test, List<Instruction> value) => test ? value : null;
 
         /// <summary> Returns the value if the condition is false, null if it's true </summary>
-        private List<Instruction> EmitIfNot (bool test, List<Instruction> value) => !test ? value : null;
+        // private List<Instruction> EmitIfNot (bool test, List<Instruction> value) => !test ? value : null;
 
         /// <summary> Compares two code sequences, and returns true if they're equal </summary>
-        private bool CodeEquals (List<Instruction> a, List<Instruction> b) {
+        private static bool CodeEquals (List<Instruction> a, List<Instruction> b) {
             if (a == null && b == null) { return true; }
             if (a == null || b == null || a.Count != b.Count) { return false; }
 
@@ -526,7 +526,7 @@ namespace CSLisp.Core
         /// "Assembles" the compiled code, by resolving label references and converting them to index offsets. 
         /// Modifies the code data structure in place, and returns it back to the caller.
         /// </summary>
-        private List<Instruction> Assemble (List<Instruction> code) {
+        private static List<Instruction> Assemble (List<Instruction> code) {
             var positions = new LabelPositions(code);
 
             for (int i = 0; i < code.Count; i++) {

@@ -492,9 +492,10 @@ namespace CSLisp.Core
         }
 
         private static object[] TurnConsIntoBoxedArray (Val? cons) =>
-            cons?.AsConsOrNull?.ToNativeList().Select(v => v.AsBoxedValue).ToArray() ?? new object[0];
+            cons?.AsConsOrNull?.ToNativeList().Select(v => v.AsBoxedValue).ToArray() ?? Array.Empty<object>();
 
         /// <summary> Collapses a native path (expressed as a Cons list) into a fully qualified name </summary>
+        /*
         private static string CollapseIntoNativeName (Cons path) {
             string name = "";
             while (path != null) {
@@ -504,5 +505,6 @@ namespace CSLisp.Core
             }
             return name;
         }
+        */
     }
 }

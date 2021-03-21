@@ -1,5 +1,4 @@
 using CSLisp.Error;
-using System;
 using System.Collections.Generic;
 
 namespace CSLisp.Data
@@ -130,10 +129,6 @@ namespace CSLisp.Data
 
         /// <summary> Returns true if the value is nil </summary>
         public static bool IsNil (Val value) => value.IsNil;
-
-        internal static object ToNativeList (object asVal) {
-            throw new NotImplementedException();
-        }
 
         /// <summary> Returns true if the value is a properly nil-terminated cons list </summary>
         public static bool IsList (Val value) {

@@ -105,41 +105,35 @@ namespace CSLisp.Data
         public T GetObjectOrNull<T> () where T : class =>
             type == Type.Object && rawobject is T obj ? obj : null;
 
-        public object AsBoxedValue {
-            get {
-                switch (type) {
-                    case Type.Nil: return null;
-                    case Type.Bool: return vbool;
-                    case Type.Int: return vint;
-                    case Type.Float: return vfloat;
-                    case Type.String: return vstring;
-                    case Type.Symbol: return vsymbol;
-                    case Type.Cons: return vcons;
-                    case Type.Vector: return vvector;
-                    case Type.Closure: return vclosure;
-                    case Type.ReturnAddress: return vreturn;
-                    case Type.Object: return rawobject;
-                    default:
-                        throw new LanguageError("Unexpected value type: " + type);
-                }
-            }
-        }
+        public object AsBoxedValue =>
+            type switch {
+                Type.Nil => null,
+                Type.Bool => vbool,
+                Type.Int => vint,
+                Type.Float => vfloat,
+                Type.String => vstring,
+                Type.Symbol => vsymbol,
+                Type.Cons => vcons,
+                Type.Vector => vvector,
+                Type.Closure => vclosure,
+                Type.ReturnAddress => vreturn,
+                Type.Object => rawobject,
+                _ => throw new LanguageError("Unexpected value type: " + type),
+            };
 
-        public static Val TryUnbox (object boxed) {
-            switch (boxed) {
-                case null: return NIL;
-                case bool bval: return bval;
-                case int ival: return ival;
-                case float fval: return fval;
-                case string sval: return sval;
-                case Symbol symval: return symval;
-                case Cons cval: return cval;
-                case Vector vval: return vval;
-                case Closure closval: return closval;
-                default:
-                    return new Val(boxed);
-            }
-        }
+        public static Val TryUnbox (object boxed) =>
+            boxed switch {
+                null => NIL,
+                bool bval => bval,
+                int ival => ival,
+                float fval => fval,
+                string sval => sval,
+                Symbol symval => symval,
+                Cons cval => cval,
+                Vector vval => vval,
+                Closure closval => closval,
+                _ => new Val(boxed),
+            };
 
         public bool CastToBool => (type == Type.Bool) ? vbool : (type != Type.Nil);
         public float CastToFloat =>
@@ -165,6 +159,9 @@ namespace CSLisp.Data
         }
 
         public bool Equals (Val other) => Equals(this, other);
+
+        public static bool operator == (Val a, Val b) => Equals(a, b);
+        public static bool operator != (Val a, Val b) => !Equals(a, b);
 
         public static implicit operator Val (bool val) => new Val(val);
         public static implicit operator Val (int val) => new Val(val);
@@ -220,7 +217,7 @@ namespace CSLisp.Data
         /// <summary> Helper function for cons cells </summary>
         private static string StringifyCons (Cons cell, bool fullName) {
             StringBuilder sb = new StringBuilder();
-            sb.Append("(");
+            sb.Append('(');
 
             Val val = new Val(cell);
             while (val.IsNotNil) {
@@ -228,7 +225,7 @@ namespace CSLisp.Data
                 if (cons != null) {
                     sb.Append(Print(cons.first, fullName));
                     if (cons.rest.IsNotNil) {
-                        sb.Append(" ");
+                        sb.Append(' ');
                     }
                     val = cons.rest;
                 } else {
@@ -238,7 +235,7 @@ namespace CSLisp.Data
                 }
             }
 
-            sb.Append(")");
+            sb.Append(')');
             return sb.ToString();
         }
 

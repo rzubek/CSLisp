@@ -17,6 +17,8 @@ namespace CSLisp.Core
         public bool IsValid => index > 0; // index at 0 is always null
 
         public static bool Equals (CodeHandle a, CodeHandle b) => a.index == b.index;
+        public static bool operator == (CodeHandle a, CodeHandle b) => Equals(a, b);
+        public static bool operator != (CodeHandle a, CodeHandle b) => !Equals(a, b);
 
         public bool Equals (CodeHandle other) => Equals(this, other);
 

@@ -155,15 +155,15 @@ namespace CSLisp.Core
         }
 
         /// <summary> Is this one of the standard whitespace characters? </summary>
-        private bool IsWhitespace (char ch) => char.IsWhiteSpace(ch);
+        private static bool IsWhitespace (char ch) => char.IsWhiteSpace(ch);
 
         /// <summary> Eats up whitespace, nom nom </summary>
-        private void ConsumeWhitespace (InputStream stream) {
+        private static void ConsumeWhitespace (InputStream stream) {
             while (IsWhitespace(stream.Peek())) { stream.Read(); }
         }
 
         /// <summary> Eats up everything till end of line </summary>
-        private void ConsumeToEndOfLine (InputStream stream) {
+        private static void ConsumeToEndOfLine (InputStream stream) {
             char c = stream.Peek();
             while (c != '\n' && c != '\r') {
                 stream.Read();
@@ -228,7 +228,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Parses as a number, an int or a float (the latter if there is a period present) </summary>
-        private Val ParseNumber (string val) {
+        private static Val ParseNumber (string val) {
             try {
                 var hasPeriod = val.Contains(".");
                 if (hasPeriod) {
@@ -274,7 +274,7 @@ namespace CSLisp.Core
         /// Starting with an opening double-quote, it will consume everything up to and including closing double quote.
         /// Any characters preceded by backslash will be escaped.
         /// </summary>
-        private Val ParseString (InputStream stream) {
+        private static Val ParseString (InputStream stream) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -431,6 +431,7 @@ namespace CSLisp.Core
         }
 
         /// <summary> Convenience function: checks if the value is of type Symbol, and has the specified name </summary>
-        private bool IsSymbolWithName (Val value, string fullName) => value.AsSymbolOrNull?.fullName == fullName;
+        private static bool IsSymbolWithName (Val value, string fullName) =>
+            value.AsSymbolOrNull?.fullName == fullName;
     }
 }
