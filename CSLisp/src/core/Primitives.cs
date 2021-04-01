@@ -126,6 +126,11 @@ namespace CSLisp.Core
                 return Cons.MakeList(exports);
             }), sideFx: SideFx.Possible),
 
+            new Primitive("error", 1, new Function ((Context ctx, VarArgs names) => {
+                var all = names.ToNativeList().Select(v => v.AsStringOrNull ?? Val.Print(v)).ToArray();
+                throw new RuntimeError(all);
+            }), argsType: FnType.VarArgs, sideFx: SideFx.Possible),
+
             // .net interop
 
             // (find-type 'System.Random)
@@ -210,19 +215,23 @@ namespace CSLisp.Core
                 throw new LanguageError("Invalid parameter, expected size or list, got: " + arg.ToString());
             })),
 
+            new Primitive("vector?", 1, new Function((Context ctx, Val arg) => {
+                return arg.IsVector;
+            })),
+
             // (make-vector 3 "value")
             new Primitive("make-vector", 2, new Function((Context ctx, Val count, Val val) => {
                 if (count.IsInt) { return new Val(new Vector(Enumerable.Repeat(val, count.AsInt))); }
                 throw new LanguageError("Invalid parameter, expected size, got: " + count.ToString());
             })),
 
-            new Primitive("get-vector-length", 1, new Function((Context ctx, Val v) => {
+            new Primitive("vector-length", 1, new Function((Context ctx, Val v) => {
                 var vector = v.AsVectorOrNull;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }
                 return vector.Count;
             })),
 
-            new Primitive("get-vector-element", 2, new Function((Context ctx, Val v, Val i) => {
+            new Primitive("vector-get", 2, new Function((Context ctx, Val v, Val i) => {
                 var vector = v.AsVectorOrNull;
                 var index = i.AsInt;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }
@@ -230,7 +239,7 @@ namespace CSLisp.Core
                 return vector[index];
             })),
 
-            new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val i, Val value) => {
+            new Primitive("vector-set!", 3, new Function((Context ctx, Val v, Val i, Val value) => {
                 var vector = v.AsVectorOrNull;
                 var index = i.AsInt;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }

@@ -71,6 +71,7 @@
     <Compile Include="src\error\InteropError.cs" />
     <Compile Include="src\error\LanguageError.cs" />
     <Compile Include="src\error\ParserError.cs" />
+    <Compile Include="src\error\RuntimeError.cs" />
     <Compile Include="src\libs\Libraries.cs" />
     <Compile Include="src\core\Context.cs" />
     <Compile Include="src\util\InputStream.cs" />
