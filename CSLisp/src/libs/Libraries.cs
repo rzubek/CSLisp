@@ -13,7 +13,7 @@ namespace CSLisp.Libs
     {
         /// <summary> All libraries as a list </summary>
         private static List<byte[]> GetAllBuiltInLibraries () =>
-            new List<byte[]>() { Resources.Core };
+            new List<byte[]>() { Resources.Core, Resources.Record, Resources.User };
 
         /// <summary> Loads all standard libraries into an initialized machine instance </summary>
         public static void LoadStandardLibraries (Context ctx) {

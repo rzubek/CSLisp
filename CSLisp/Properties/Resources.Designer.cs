@@ -69,5 +69,25 @@ namespace CSLisp.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Record {
+            get {
+                object obj = ResourceManager.GetObject("Record", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] User {
+            get {
+                object obj = ResourceManager.GetObject("User", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

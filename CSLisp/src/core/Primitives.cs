@@ -49,6 +49,7 @@ namespace CSLisp.Core
             new Primitive("number?", 1, new Function((Context ctx, Val a) => a.IsNumber)),
             new Primitive("boolean?", 1, new Function((Context ctx, Val a) => a.IsBool)),
             new Primitive("atom?", 1, new Function((Context ctx, Val a) => !a.IsCons)),
+            new Primitive("closure?", 1, new Function((Context ctx, Val a) => a.IsClosure)),
 
             new Primitive("car", 1, new Function((Context ctx, Val a) => a.AsCons.first)),
             new Primitive("cdr", 1, new Function((Context ctx, Val a) => a.AsCons.rest)),
@@ -215,14 +216,14 @@ namespace CSLisp.Core
                 throw new LanguageError("Invalid parameter, expected size or list, got: " + arg.ToString());
             })),
 
-            new Primitive("vector?", 1, new Function((Context ctx, Val arg) => {
-                return arg.IsVector;
-            })),
-
             // (make-vector 3 "value")
             new Primitive("make-vector", 2, new Function((Context ctx, Val count, Val val) => {
                 if (count.IsInt) { return new Val(new Vector(Enumerable.Repeat(val, count.AsInt))); }
                 throw new LanguageError("Invalid parameter, expected size, got: " + count.ToString());
+            })),
+
+            new Primitive("vector?", 1, new Function((Context ctx, Val arg) => {
+                return arg.IsVector;
             })),
 
             new Primitive("vector-length", 1, new Function((Context ctx, Val v) => {
@@ -246,7 +247,7 @@ namespace CSLisp.Core
                 if (index < 0 || index >= vector.Count) { throw new LanguageError($"Index value {index} out of bounds"); }
                 vector[index] = value;
                 return value;
-            })),
+            }), sideFx: SideFx.Possible),
         };
 
         /// <summary>

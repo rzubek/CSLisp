@@ -78,6 +78,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\libs\core.lisp" />
+    <None Include="src\libs\user.lisp" />
+    <None Include="src\libs\record.lisp" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
