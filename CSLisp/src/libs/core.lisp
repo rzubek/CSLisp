@@ -91,7 +91,7 @@
 ;;
 (defmacro cond (first . rest)
 	(if (null? rest)
-		(if (cons? first) `(begin ,@first) `(begin ,first))
+		`(begin ,first)
 		`(if ,(car first) 
 			(begin ,@(cdr first))
 			(cond ,@rest))))
@@ -178,14 +178,31 @@
 		base
 		(fn (car lst) (fold-right fn base (cdr lst)))))
 
+;; (zip '(1 2) '(a b)) 
+;;   => '((1 a) (2 b))
+(define (zip a b)
+	(if (or (null? a) (null? b))
+		'()
+		(cons (list (car a) (car b)) (zip (cdr a) (cdr b)))))
+
 ;; (reverse '(1 2 3)) 
 ;;   => '(3 2 1)
 (define (reverse lst)
-  (define (helper lst result)
-    (if (null? lst)
-      result
-      (helper (cdr lst) (cons (car lst) result))))
-  (helper lst '()))
+  	(define (helper lst result)
+    	(if (null? lst)
+      		result
+      		(helper (cdr lst) (cons (car lst) result))))
+  	(helper lst '()))
+
+
+;; (index-of 'b '(a b c)) => 1
+;; (index-of 'b '(1 2 3)) => ()
+(define (index-of elt lst)
+	(letrec ((helper (lambda (l e i) (cond 
+						((null? l) l)
+						((= e (first l)) i)
+						(helper (rest l) e (+ i 1))))))
+		(helper lst elt 0)))	
 
 
 
@@ -224,4 +241,3 @@
 ;;
 ;;(define (.. obj params)
 ;;	(fold-left deref obj params))
-

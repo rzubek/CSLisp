@@ -46,7 +46,7 @@ namespace CSLisp.Data
         /// Prints vector contents as a string with specified separator
         /// </summary>
         public string Print (string separator = " ") =>
-            string.Join(separator, this.Select(elt => Val.Print(elt)).ToArray());
+            string.Join(separator, this.Select(elt => (elt.AsVectorOrNull == this) ? "..." : Val.Print(elt)).ToArray());
 
 
         private string DebugString => "Vector: " + Print(", ");

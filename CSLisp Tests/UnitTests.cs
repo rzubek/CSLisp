@@ -429,6 +429,7 @@ namespace CSLisp
             CompileAndRun(ctx, "(list (null? ()) (null? '(a)) (null? 0) (null? 1) (null? #f))", "(#t #f #f #f #f)");
             CompileAndRun(ctx, "(list (cons? ()) (cons? '(a)) (cons? 0) (cons? 1) (cons? #f))", "(#f #t #f #f #f)");
             CompileAndRun(ctx, "(list (atom? ()) (atom? '(a)) (atom? 0) (atom? 1) (atom? #f))", "(#t #f #t #t #t)");
+            CompileAndRun(ctx, "(list (closure? ()) (closure? 0) (closure? 'list) (closure? list))", "(#f #f #f #t)");
             CompileAndRun(ctx, "(list (number? ()) (number? '(a)) (number? 0) (number? 1) (number? #f))", "(#f #f #t #t #f)");
             CompileAndRun(ctx, "(list (string? ()) (string? '(a)) (string? 0) (string? 1) (string? #f) (string? \"foo\"))", "(#f #f #f #f #f #t)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (car x) (cadr x) (caddr x)))", "(1 2 3)");
@@ -582,20 +583,26 @@ namespace CSLisp
             CompileAndRun(ctx, "(apply cons '(1 2))", "(1 . 2)");
             CompileAndRun(ctx, "(fold-left cons '() '(1 2))", "((() . 1) . 2)");
             CompileAndRun(ctx, "(fold-right cons '() '(1 2))", "(1 2)");
+            CompileAndRun(ctx, "(zip '(1 2) '(11 12))", "((1 11) (2 12))");
             CompileAndRun(ctx, "(reverse '(1 2 3))", "(3 2 1)");
             CompileAndRun(ctx, "(reverse '(1 (2 3 4) 5)", "(5 (2 3 4) 1)");
+            CompileAndRun(ctx, "(index-of 'a '(a b c))", "0");
+            CompileAndRun(ctx, "(index-of 'c '(a b c))", "2");
+            CompileAndRun(ctx, "(index-of 1 '(a b c))", "()");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (first x) (second x) (third x)))", "(1 2 3)");
             CompileAndRun(ctx, "(begin (set! x '(1 2 3 4 5)) (list (after-first x) (after-second x) (after-third x)))", "((2 3 4 5) (3 4 5) (4 5))");
             CompileAndRun(ctx, "(set! add (let ((sum 0)) (lambda (delta) (set! sum (+ sum delta)) sum))) (add 0) (add 100) (add 0)", "[Closure]", "0", "100", "100");
             CompileAndRun(ctx, "((chain-list (list cdr cdr car)) '(1 2 3 4))", "3");
             CompileAndRun(ctx, "((chain cdr cdr car) '(1 2 3 4))", "3");
 
+            CompileAndRun(ctx, "(vector? (make-vector 3))", "#t");
+            CompileAndRun(ctx, "(vector? 1)", "#f");
             CompileAndRun(ctx, "(make-vector 3)", "[Vector () () ()]");
             CompileAndRun(ctx, "(make-vector 3 0)", "[Vector 0 0 0]");
             CompileAndRun(ctx, "(make-vector '(1 2))", "[Vector 1 2]");
-            CompileAndRun(ctx, "(get-vector-length (make-vector '(1 2)))", "2");
-            CompileAndRun(ctx, "(get-vector-element (make-vector '(1 2)) 0)", "1");
-            CompileAndRun(ctx, "(let ((v (make-vector '(1 2)))) (set-vector-element! v 0 3) v)", "[Vector 3 2]");
+            CompileAndRun(ctx, "(vector-length (make-vector '(1 2)))", "2");
+            CompileAndRun(ctx, "(vector-get (make-vector '(1 2)) 0)", "1");
+            CompileAndRun(ctx, "(let ((v (make-vector '(1 2)))) (vector-set! v 0 3) v)", "[Vector 3 2]");
 
             //DumpCodeBlocks(ctx);
         }

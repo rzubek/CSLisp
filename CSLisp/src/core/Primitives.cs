@@ -49,6 +49,7 @@ namespace CSLisp.Core
             new Primitive("number?", 1, new Function((Context ctx, Val a) => a.IsNumber)),
             new Primitive("boolean?", 1, new Function((Context ctx, Val a) => a.IsBool)),
             new Primitive("atom?", 1, new Function((Context ctx, Val a) => !a.IsCons)),
+            new Primitive("closure?", 1, new Function((Context ctx, Val a) => a.IsClosure)),
 
             new Primitive("car", 1, new Function((Context ctx, Val a) => a.AsCons.first)),
             new Primitive("cdr", 1, new Function((Context ctx, Val a) => a.AsCons.rest)),
@@ -125,6 +126,11 @@ namespace CSLisp.Core
                 List<Val> exports = ctx.packages.current.ListExports();
                 return Cons.MakeList(exports);
             }), sideFx: SideFx.Possible),
+
+            new Primitive("error", 1, new Function ((Context ctx, VarArgs names) => {
+                var all = names.ToNativeList().Select(v => v.AsStringOrNull ?? Val.Print(v)).ToArray();
+                throw new RuntimeError(all);
+            }), argsType: FnType.VarArgs, sideFx: SideFx.Possible),
 
             // .net interop
 
@@ -216,13 +222,17 @@ namespace CSLisp.Core
                 throw new LanguageError("Invalid parameter, expected size, got: " + count.ToString());
             })),
 
-            new Primitive("get-vector-length", 1, new Function((Context ctx, Val v) => {
+            new Primitive("vector?", 1, new Function((Context ctx, Val arg) => {
+                return arg.IsVector;
+            })),
+
+            new Primitive("vector-length", 1, new Function((Context ctx, Val v) => {
                 var vector = v.AsVectorOrNull;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }
                 return vector.Count;
             })),
 
-            new Primitive("get-vector-element", 2, new Function((Context ctx, Val v, Val i) => {
+            new Primitive("vector-get", 2, new Function((Context ctx, Val v, Val i) => {
                 var vector = v.AsVectorOrNull;
                 var index = i.AsInt;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }
@@ -230,14 +240,14 @@ namespace CSLisp.Core
                 return vector[index];
             })),
 
-            new Primitive("set-vector-element!", 3, new Function((Context ctx, Val v, Val i, Val value) => {
+            new Primitive("vector-set!", 3, new Function((Context ctx, Val v, Val i, Val value) => {
                 var vector = v.AsVectorOrNull;
                 var index = i.AsInt;
                 if (vector == null) { throw new LanguageError("Value is not a vector"); }
                 if (index < 0 || index >= vector.Count) { throw new LanguageError($"Index value {index} out of bounds"); }
                 vector[index] = value;
                 return value;
-            })),
+            }), sideFx: SideFx.Possible),
         };
 
         /// <summary>
