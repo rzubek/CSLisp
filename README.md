@@ -128,6 +128,28 @@ Built-in primitives are very bare bones (for now):
   -  let let* letrec define
   -  and or cond case
   -  for dotimes
+
+*Records* are objects with named fields, inspired by SRFI-9:
+```
+  (define-record-type 
+    point                       ;; record name
+    (make-point x y)            ;; constructor for 2 fields
+    point?                      ;; predicate
+    (x getx setx!)              ;; first field: name, getter, setter
+    (y gety))                   ;; second field: name, getter, but no setter (field is read only)
+
+  (define p (make-point 1 2))   ;; => p
+  (point? p)                    ;; => #t
+  (point? 1)                    ;; => #f
+  (point? '(a b))               ;; => #f
+
+  p                             ;; => [Vector [Closure] 1 2]
+  (getx p)                      ;; => 1
+  (gety p)  ;; => 2
+
+  (setx! p 42)                  ;; => 42
+  p                             ;; => [Vector [Closure] 42 2]
+```
   
 
 

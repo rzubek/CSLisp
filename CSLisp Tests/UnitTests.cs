@@ -126,6 +126,7 @@ namespace CSLisp
             Run(TestDotNetInterop);
             Run(TestPackages);
             Run(TestStandardLibs);
+            Run(TestRecords);
 
             Run(PrintAllStandardLibraries);
         }
@@ -606,6 +607,27 @@ namespace CSLisp
 
             //DumpCodeBlocks(ctx);
         }
+
+        public void TestRecords () {
+            Context ctx = new Context(true, _logger);
+
+            // make a new point record with fields x and y (x has a getter and setter, y has a getter only)
+            CompileAndRun(ctx, "(define-record-type point (make-point x y) point? (x getx setx!) (y gety))", "()");
+
+            // test the new record
+            CompileAndRun(ctx, "(define p (make-point 1 2))", "user:p");
+
+            CompileAndRun(ctx, "(point? p)", "#t");
+            CompileAndRun(ctx, "(point? 1)", "#f");
+            CompileAndRun(ctx, "(point? '(a b))", "#f");
+
+            CompileAndRun(ctx, "p", "[Vector [Closure] 1 2]");
+            CompileAndRun(ctx, "(getx p)", "1");
+            CompileAndRun(ctx, "(setx! p 42)", "42");
+            CompileAndRun(ctx, "p", "[Vector [Closure] 42 2]");
+            CompileAndRun(ctx, "(gety p)", "2");
+        }
+
 
         public void PrintAllStandardLibraries () {
             var ctx = new Context(true, _logger);
