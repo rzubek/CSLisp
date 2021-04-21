@@ -35,13 +35,14 @@ ctx.Execute("(+ 1 2)");         // => List<Val>: [ 3 ]
 Values are of type `Val` and can be of the following types:
 -  Nil - a nil value which is the lack of anything else, as well as list terminator
 -  Boolean - #t or #f, same as .net bool
--  Int - same as .net Int32
--  Float - same as .net Single
--  String - same as .net String (immutable char sequence in double quotes)
--  Symbol - similar to Scheme
+-  Int - same as .Net Int32
+-  Float - same as .Net Single
+-  String - same as .Net String (immutable char sequence in double quotes)
+-  Symbol - similar to Scheme: unique symbols interned in packages
 -  Cons - pair of values
 -  Closure - non-inspectable pair of environment and compiled code sequence
 -  ReturnAddress - non-inspectable saved continuation
+-  Vector
 
 Small set of reserved keywords - everything else is a valid symbol
 -  `begin` - used for a block of expressions, the result of the last one is returned
@@ -116,27 +117,57 @@ Packages
 
 Built-in primitives are very bare bones (for now):
 -  Functions:
-  -  `+ - * / = != < <= > >=`
-  -  const list append length
-  -  not null? cons? atom? string? number? boolean?
-  -  car cdr cadr cddr caddr cdddr map
-  -  mx mx1 trace gensym
-  -  package-set package-get package-import package-export
-  -  first second third rest
-  -  fold-left fold-right
+    -  `+ - * / = != < <= > >=`
+    -  `const list append length`
+    -  `not null? cons? atom? string? number? boolean?`
+    -  `car cdr cadr cddr caddr cdddr map`
+    -  `mx mx1 trace gensym`
+    -  `eval`
+    -  `apply`
+    -  `package-set package-get package-import package-export`
+    -  `nth nth-tail nth-cons`
+    -  `first second third after-first after-second after-third rest`
+    -  `fold-left fold-right`
+    -  `reverse index-of zip`
+    -  `trace`
 -  Macros
-  -  let let* letrec define
-  -  and or cond case
-  -  for dotimes
+    -  `let let* letrec`
+    -  `define`
+    -  `and or`
+    -  `cond case`
+    -  `for dotimes`
+    -  `chain chain-list`
 
-*Records* are objects with named fields, inspired by SRFI-9:
+##### VECTORS
+
+*Vectors* are like .Net arrays, except they hold Lisp values and have a specific printed format. But similarly to arrays, they feature constant-time access to indexed members, and they're zero-indexed and non-resizable.
+
+```lisp
+  (set! v (make-vector 3))          ;; => [Vector () () ()]   ;; i.e. 3 nil values
+  (set! v (make-vector 3 0))        ;; => [Vector 0 0 0]
+  (set! v (make-vector '(a b c)))   ;; => [Vector a b c]
+
+  (vector-length v)                 ;; => 3
+  (vector-get v 0)                  ;; => a
+  (vector-set! v 0 42)              ;; => 42
+  v                                 ;; => [Vector 42 b c]
 ```
+
+##### RECORDS
+
+*Records* are objects with named fields, inspired by SRFI-9. They need to be defined first, in terms of fields, field accessors, constructor, and predicate. 
+
+```lisp
+  ;; define a new record:
+
   (define-record-type 
     point                       ;; record name
     (make-point x y)            ;; constructor for 2 fields
     point?                      ;; predicate
     (x getx setx!)              ;; first field: name, getter, setter
     (y gety))                   ;; second field: name, getter, but no setter (field is read only)
+
+  ;; now we can create new record instances:
 
   (define p (make-point 1 2))   ;; => p
   (point? p)                    ;; => #t
@@ -153,7 +184,7 @@ Built-in primitives are very bare bones (for now):
   
 
 
-##### TODOS
+### TODOS
 
 - Fix bugs, add documentation (hah!)
 - Build out the standard library
@@ -166,13 +197,13 @@ Built-in primitives are very bare bones (for now):
 
 - Error messages are somewhere between opaque and potentially misleading
 - Redefining a known macro as a function will fail silently in weird ways
-- Symbol / package resolution is buggy - eg. if a symbol "foo" is defined in core 
+- Symbol / package resolution - eg. if a symbol "foo" is defined in core 
   but not in the package "bar", then "bar:foo" will resolve to "core:foo" 
   even though it should resolve as undefined.
 
 
 
-#####  COMPILATION EXAMPLES
+###  COMPILATION EXAMPLES
 
 Just a few examples of the bytecode produced by the compiler. More can be found by running unit tests and inspecting their outputs - they are _quite_ verbose.
 
