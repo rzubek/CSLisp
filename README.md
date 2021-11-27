@@ -146,10 +146,10 @@ Built-in primitives are very bare bones (for now):
     the methods/properties/fields by name, and then potentially call them 
     or retrieve their values.
   - the `.!` operator similar to `set!` which sets fields and properties
-  - the `.net` operator which creates new instances of types
+  - the `.new` operator which creates new instances of types
 
 Interop is a work in progress, and you can find more details in the 
-[interop design.txt](interop design.txt) document. Meanwhile, here are some examples:
+[interop design.txt](interop%20design.txt) document. Meanwhile, here are some examples:
 
 ```lisp
 ;; simple lookups and function calls
@@ -184,7 +184,7 @@ as well as some means for limiting which types and namespaces are accessible.
 
 
 
-### Other Scheme-like goodies
+### OTHER SCHEME-LIKE GOODIES
 
 ##### VECTORS
 
@@ -261,7 +261,7 @@ in terms of fields, field accessors, constructor, and predicate.
 Just a few examples of the bytecode produced by the compiler. More can be found 
 by running unit tests and inspecting their outputs - they are _quite_ verbose.
 
-Also, see [bytecode design.txt](bytecode design.txt) for more info.
+Also, see [bytecode design.txt](bytecode%20design.txt) for more info.
 
 ```
 Inputs:  (+ 1 2)
