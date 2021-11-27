@@ -1,4 +1,4 @@
-TEST TestParser : 10:01:49 PM
+TEST TestParser
 ParseNext ==>  1
 test: got #t  - expected #t
 test: got 1  - expected 1

@@ -155,7 +155,8 @@ Built-in primitives are very bare bones (for now):
 
 ##### RECORDS
 
-*Records* are objects with named fields, inspired by SRFI-9. They need to be defined first, in terms of fields, field accessors, constructor, and predicate. 
+*Records* are objects with named fields, inspired by SRFI-9. They need to be defined first, 
+in terms of fields, field accessors, constructor, and predicate. 
 
 ```lisp
   ;; define a new record:
@@ -188,9 +189,14 @@ Built-in primitives are very bare bones (for now):
 
 - Fix bugs, add documentation (hah!)
 - Build out the standard library
-- Flesh out .NET interop - either via an easy FFI or via reflection (but with an eye on security)
+- Start on .NET interop 
+  - either via an easy FFI or via reflection (but with an eye on security)
+  - reflection would benefit from type hints to avoid runtime inspection
+  - lots of interop work needed for things like collections etc
 - Peephole optimizer; also optimize execution of built-in primitives.
 - Add better debugging: trace function calls, their args and return values, etc
+
+
 
 
 ##### KNOWN BUGS
@@ -205,7 +211,8 @@ Built-in primitives are very bare bones (for now):
 
 ###  COMPILATION EXAMPLES
 
-Just a few examples of the bytecode produced by the compiler. More can be found by running unit tests and inspecting their outputs - they are _quite_ verbose.
+Just a few examples of the bytecode produced by the compiler. More can be found 
+by running unit tests and inspecting their outputs - they are _quite_ verbose.
 
 ```
 Inputs:  (+ 1 2)

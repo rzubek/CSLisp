@@ -42,8 +42,8 @@ namespace CSLisp.Data
         [FieldOffset(0)] public readonly int vint;
         [FieldOffset(0)] public readonly float vfloat;
 
-        [FieldOffset(8)] public readonly string vstring;
         [FieldOffset(8)] public readonly object rawobject;
+        [FieldOffset(8)] public readonly string vstring;
         [FieldOffset(8)] public readonly Symbol vsymbol;
         [FieldOffset(8)] public readonly Cons vcons;
         [FieldOffset(8)] public readonly Vector vvector;

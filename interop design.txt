@@ -1,0 +1,130 @@
+# .NET Interop design
+
+In current design, interop is done mainly via runtime reflection,
+without any specialization or optimization happening at compile time.
+
+THE FOLLOWING IS NOT YET IMPLEMENTED
+
+
+## `dotdot` operator
+
+Interop is accomplished mainly via the special `..` operator which 
+uses reflection to dereference the methods/properties/fields by name,
+and then potentially call them or retrieve their values.
+
+All .net interop functions are also prefixed with `.`, e.g. `.new`
+
+```
+;; dotdot retrieves a type
+(.. 'System)                    ;; => object representing System namespace
+(.. 'System.DateTime)           ;; => object representing type DateTime
+
+;; dotdot calls an instance method
+(.. "foobar" 'ToUpper)          ;; => "FOOBAR"
+
+;; dotdot as field or property getter
+(.. "foobar" 'Length)           ;; => 6
+
+;; dotdot calls a static method 
+(.. 'System.Int32.Parse "123")  ;; => 123
+
+;; dotdot as a static field or property getter
+(.. 'System.DateTime.Now)       ;; => [new DateTime object]
+
+
+
+;; special .net interop functions
+
+;; create an instance of a type
+(.new 'System.DateTime 2021 1 1)        ;; => [new DateTime object]
+(.new (.. 'System.DateTime) 2021 1 1)   ;; => [new DateTime object]
+
+;; set field or property
+(let ((array (.new 'System.Collections.ArrayList 10)))
+  (.set! array 'Capacity 100)
+  array)                                ;; => array with capacity of 100
+
+;; indexed getter and setter field or property
+(let ((array (.new 'System.Collections.ArrayList 10)))
+  (.set! array 0 42)
+  (.. array 0))                         ;; => 42
+```
+
+
+
+### dotdot dereference chaining
+
+#### Special treatment of symbols
+
+Because .Net APIs never consume Lisp symbols, dotdot will treat any symbol 
+inside dotdot expression as a reference to a .Net name of a 
+method / property / field, and try to dereference it via reflection.
+
+If the symbol itself contains dots, dotdot flattens it out like this:
+
+```
+(.. "foobar" 'ToUpper.ToLower)  =>  (.. "foobar" 'ToUpper 'ToLower) 
+
+(.. 'System.DateTime.Now)       =>  (.. 'System 'DateTime 'Now)
+```
+
+Any arguments that are not symbols will be treated as function call arguments
+so that function calls can be inlined like so:
+
+```
+(.. "foobar" 'ToUpper 'Substring 0 3)                ;; => FOO
+(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "o")   ;; => 1
+```
+
+#### How this works
+
+Internaly dotdot scans all arguments it receives, and first splits up any composite
+symbols with dots inside them into separate ones. Second, it consumes those symbols 
+in order, also pulling in non-symbol elements as function call arguments. For example:
+
+```
+(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "o")   
+ -->
+
+C#:
+var x1 = "foobar";
+var x2 = x1.ToUpper();
+var x3 = x2.Substring(0, 3);
+var x4 = x3.IndexOf("o");
+return x4;
+```
+
+```
+(.. 'System.DateTime.Now.DayOfWeek.ToString)
+ -->
+
+ var x1 = (object representing namespace System)
+ var x2 = (get type DateTime from x1)
+ var x3 = (get value of property Now from x2)
+ var x4 = x3.DayOfWeek;
+ var x5 = x4.ToString();
+ return x5;
+```
+
+Dotdot can be embedded recursively, e.g. to process multiple arguments that require .Net,
+in which case standard lisp evaluation will process the internal expressions first
+and pass them in to the outer one:
+
+```
+(.. 123 'ToString (.. 'System.Globalization.CultureInfo.InvariantCulture))
+ -->
+ var y1 = (namespace System)
+ var y2 = (get namespace Globalization from y1)
+ var y3 = (get type CultureInfo from y2)
+ var y4 = (get value of property InvariantCulture from y3)
+
+(.. 123 'ToString y4)
+
+ var x1 = 123;
+ var x2 = x1.ToString(y4);
+```
+
+
+
+
+

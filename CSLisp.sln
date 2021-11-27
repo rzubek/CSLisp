@@ -3,19 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp", "CSLisp\CSLisp.csproj", "{01FB5D05-8391-4F21-9E77-9515CABE599E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSLisp", "CSLisp\CSLisp.csproj", "{01FB5D05-8391-4F21-9E77-9515CABE599E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp Tests", "CSLisp Tests\CSLisp Tests.csproj", "{4D0B92EB-13CF-453F-BA3A-A5BE8817C5E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSLisp Tests", "CSLisp Tests\CSLisp Tests.csproj", "{4D0B92EB-13CF-453F-BA3A-A5BE8817C5E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A34E6CC-8AA4-45BE-85FD-51327A4277EB}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		bytecode design.txt = bytecode design.txt
+		interop design.txt = interop design.txt
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSLisp REPL", "CSLisp REPL\CSLisp REPL.csproj", "{7C49CC94-8CBC-4F4B-A0D4-C0469626C851}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSLisp REPL", "CSLisp REPL\CSLisp REPL.csproj", "{7C49CC94-8CBC-4F4B-A0D4-C0469626C851}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-TEST TestRecords : 8:52:15 PM
+TEST TestRecords
 ParseNext ==>  (package-set "core")
 Executing:  
 	CODE BLOCK ; () => ((package-set "core"))

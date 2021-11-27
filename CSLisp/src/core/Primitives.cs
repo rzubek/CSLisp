@@ -134,22 +134,27 @@ namespace CSLisp.Core
 
             // .net interop
 
+            // generic dotdot function that reads fields/properties and calls functions
+            // (.. 'System.DateTime) => returns type
+            // (.. 'System.DateTime.Now) => returns value of the property
+            // (.. mydata 'ToString "D") => calls mydata.ToString("D") etc.
+            new Primitive ("..", 1, new Function(Interop.DotDot), FnType.VarArgs, SideFx.Possible),
+
+            // (.new 'System.DateTime 1999 12 31)
+            // (.new (.. 'System 'DateTime) 1999 12 31)
+            new Primitive(".new", 1, new Function((Context ctx, VarArgs args) => {
+                var (type, varargs) = ParseArgsForConstructorInterop(args);
+                if (type == null) { return Val.NIL; }
+
+                return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
+            }), FnType.VarArgs, SideFx.Possible),
+
             // (find-type 'System.Random)
             // (find-type "System.Random")
             new Primitive("find-type", 1, new Function((Context ctx, Val name) => {
                 string fullname = GetStringOrSymbolName(name);
                 return Val.TryUnbox(TypeUtils.GetType(fullname));
             })),
-
-            // (make-instance 'System.Random)
-            // (make-instance (find-type 'System.Random))
-            // (make-instance "System.Random" 42) etc
-            new Primitive("make-instance", 1, new Function((Context ctx, VarArgs args) => {
-                var (type, varargs) = ParseArgsForConstructorInterop(args);
-                if (type == null) { return Val.NIL; }
-
-                return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
-            }), FnType.VarArgs, SideFx.Possible),
 
             // (find-method 'System.Random 'Next 1 2)
             // (find-method "System.Random" "NextDouble")
@@ -159,7 +164,7 @@ namespace CSLisp.Core
                 var (type, member, varargs) = ParseArgsForMethodSearch(args);
                 if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
 
-                var method = TypeUtils.GetMethodByArgs(type, member, varargs);
+                var method = TypeUtils.GetMethodByArgs(type, member, true, varargs);
                 return Val.TryUnbox(method);
             }), FnType.VarArgs, SideFx.Possible),
 
@@ -170,7 +175,7 @@ namespace CSLisp.Core
                 var (type, member) = ParseArgsForMemberSearch(args);
                 if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
 
-                var method = TypeUtils.GetMemberFieldOrProp(type, member);
+                var method = TypeUtils.GetFieldOrProp(type, member, true);
                 return Val.TryUnbox(method);
             })),
 
@@ -190,7 +195,7 @@ namespace CSLisp.Core
             new Primitive ("get-member-value", 2, new Function((Context ctx, VarArgs args) => {
                 var (instance, type, memberName, _) = ParseMemberFromInstance(args, false);
 
-                var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
+                var member = TypeUtils.GetFieldOrProp(type, memberName, true);
                 var result = TypeUtils.GetValue(member, instance);
                 return Val.TryUnbox(result);
             }), sideFx: SideFx.Possible),
@@ -200,7 +205,7 @@ namespace CSLisp.Core
             new Primitive ("set-member-value", 3, new Function((Context ctx, VarArgs args) => {
                 var (instance, type, memberName, targetValue) = ParseMemberFromInstance(args, true);
 
-                var member = TypeUtils.GetMemberFieldOrProp(type, memberName);
+                var member = TypeUtils.GetFieldOrProp(type, memberName, true);
                 TypeUtils.SetValue(member, instance, targetValue.AsBoxedValue);
                 return targetValue;
             }), sideFx: SideFx.Possible),

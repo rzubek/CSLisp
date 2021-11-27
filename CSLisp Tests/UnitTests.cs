@@ -18,6 +18,22 @@ namespace CSLisp
         public string MyStringField;
     }
 
+    namespace Inner
+    {
+        public class TestInner
+        {
+            public static int StaticField = 42;
+
+            public static int StaticProperty {
+                get => StaticField;
+                set => StaticField = value;
+            }
+
+            public static int StaticFn (int x) => x * 10;
+        }
+    }
+
+
     public struct TestStruct
     {
         public int MyIntField;
@@ -50,7 +66,7 @@ namespace CSLisp
                         Directory.CreateDirectory(testDir);
                         string filePath = Path.Combine(testDir, $"{name}.txt");
                         _writer = new StreamWriter(new FileStream(filePath, FileMode.Create));
-                        _writer.WriteLine($"TEST {name} : " + System.DateTime.Now.ToLongTimeString());
+                        _writer.WriteLine($"TEST {name}");
                         break;
 
                     case LogType.Console:
@@ -460,29 +476,38 @@ namespace CSLisp
             Context ctx = new Context(true, _logger);
 
             // test dot net interop
-            CompileAndRun(ctx, "(find-type 'System.Random)", "[Native System.RuntimeType System.Random]");
-            CompileAndRun(ctx, "(make-instance 'System.Random)", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(make-instance 'System.Random 0)", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(make-instance (find-type 'System.Random))", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(make-instance (find-type 'CSLisp.TestClass))", "[Native CSLisp.TestClass CSLisp.TestClass]");
-            CompileAndRun(ctx, "(make-instance (find-type 'CSLisp.TestStruct))", "[Native CSLisp.TestStruct CSLisp.TestStruct]");
+            CompileAndRun(ctx, "(.new 'System.Random)", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(.new 'System.Random 0)", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(.new (.. 'System.Random) 0)", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(.new (find-type 'System.Random))", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(.new (find-type 'CSLisp.TestClass))", "[Native CSLisp.TestClass CSLisp.TestClass]");
+            CompileAndRun(ctx, "(.new (find-type 'CSLisp.TestStruct))", "[Native CSLisp.TestStruct CSLisp.TestStruct]");
 
+            CompileAndRun(ctx, "(..'CSLisp.Inner.TestInner.StaticField)", "42");
+            CompileAndRun(ctx, "(..'CSLisp.Inner.TestInner.StaticFn 2)", "20");
+            CompileAndRun(ctx, "(..(.new 'System.DateTime 1999 12 31) 'ToString)", "\"12/31/1999 12:00:00 AM\"");
+            CompileAndRun(ctx, "(..(.new 'System.DateTime 1999 12 31) 'ToString \"yyyy\")", "\"1999\"");
+
+
+
+
+            CompileAndRun(ctx, "(find-type 'System.Random)", "[Native System.RuntimeType System.Random]");
             CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntField)", "[Native System.Reflection.RtFieldInfo Int32 MyIntField]");
             CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntProperty)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty]");
             CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntGetter)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]");
             CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'DoesNotExist)", "()");
             CompileAndRun(ctx,
-                "(let ((test (make-instance 'CSLisp.TestClass))) " +
+                "(let ((test (.new 'CSLisp.TestClass))) " +
                 "  (find-member test 'MyIntField))",
                 "[Native System.Reflection.RtFieldInfo Int32 MyIntField]");
 
             CompileAndRun(ctx,
-                "(let ((test (make-instance 'CSLisp.TestClass))) " +
+                "(let ((test (.new 'CSLisp.TestClass))) " +
                 "  (find-member test 'MyIntGetter))",
                 "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]");
 
             CompileAndRun(ctx,
-                "(let* ((test (make-instance 'CSLisp.TestClass))" +
+                "(let* ((test (.new 'CSLisp.TestClass))" +
                 "       (a (get-member-value test 'MyIntProperty))" +
                 "       (b (set-member-value test 'MyIntProperty 42))" +
                 "       (c (get-member-value test 'MyIntProperty)))" +
@@ -490,7 +515,7 @@ namespace CSLisp
                 "(0 42 42)");
 
             CompileAndRun(ctx,
-                "(let* ((test (make-instance 'CSLisp.TestClass))" +
+                "(let* ((test (.new 'CSLisp.TestClass))" +
                 "       (a (get-member-value test 'MyIntField))" +
                 "       (b (set-member-value test 'MyIntField 42))" +
                 "       (c (get-member-value test 'MyIntGetter)))" +
@@ -498,7 +523,7 @@ namespace CSLisp
                 "(0 42 42)");
 
             CompileAndRun(ctx,
-                "(let* ((test (make-instance 'CSLisp.TestStruct))" +
+                "(let* ((test (.new 'CSLisp.TestStruct))" +
                 "       (a (get-member-value test 'MyIntField))" +
                 "       (b (set-member-value test 'MyIntField 42))" +
                 "       (c (get-member-value test 'MyIntGetter)))" +
@@ -509,14 +534,14 @@ namespace CSLisp
             CompileAndRun(ctx, "(find-method 'System.Random 'Next 1)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]");
             CompileAndRun(ctx, "(find-method 'System.Random 'Next 1 32)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]");
             CompileAndRun(ctx,
-                "(let ((test (make-instance 'System.Random)) (name 'Next))" +
+                "(let ((test (.new 'System.Random)) (name 'Next))" +
                 "  (find-method test name))",
                 "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]");
 
-            CompileAndRun(ctx, "(call-method (make-instance 'System.Random 0) (find-method 'System.Random 'Next 1 32) 1 32)", "23");
+            CompileAndRun(ctx, "(call-method (.new 'System.Random 0) (find-method 'System.Random 'Next 1 32) 1 32)", "23");
 
             CompileAndRun(ctx,
-                "(letrec ((rng (make-instance 'System.Random 0))" +
+                "(letrec ((rng (.new 'System.Random 0))" +
                 "         (next (find-method rng 'Next 1 32))) " +
                 "  (call-method rng next 1 32))",
                 "23");

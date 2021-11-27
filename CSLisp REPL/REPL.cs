@@ -131,16 +131,39 @@ namespace CSLisp
 
         private static void Main (string[] _) => Run();
     }
+}
 
+#pragma warning disable CA2211 // Non-constant fields should not be visible
+namespace CSLisp
+{
     /// <summary>
     /// This class is purely for testing .net interop during development, and may be removed later
     /// </summary>
     public class TestClass
     {
-        public int MyIntField;
+        public int MyIntField = 42;
         public int MyIntGetter => MyIntField;
         public int MyIntProperty { get; set; }
 
-        public string MyStringField;
+        public string MyStringField = "hello";
+    }
+
+    namespace Inner
+    {
+        /// <summary>
+        /// This class is purely for testing .net interop during development, and may be removed later
+        /// </summary>
+        public class TestInner
+        {
+            public static int StaticField = 42;
+
+            public static int StaticProperty {
+                get => StaticField;
+                set => StaticField = value;
+            }
+
+            public static int StaticFn (int x) => x + 42;
+        }
     }
 }
+#pragma warning restore CA2211 // Non-constant fields should not be visible

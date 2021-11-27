@@ -1,9 +1,12 @@
+using System.Diagnostics;
+
 namespace CSLisp.Data
 {
     /// <summary>
-	/// Immutable symbol, interned in a specific package.
-	/// Interned symbols are unique, so we can test for equality using simple ==
-	/// </summary>
+    /// Immutable symbol, interned in a specific package.
+    /// Interned symbols are unique, so we can test for equality using simple ==
+    /// </summary>
+    [DebuggerDisplay("{DebugString}")]
     public class Symbol
     {
         /// <summary> String name of this symbol </summary>
@@ -24,5 +27,8 @@ namespace CSLisp.Data
 
             this.fullName = (pkg != null && pkg.name != null) ? (pkg.name + ":" + name) : name;
         }
+
+        public override string ToString () => fullName;
+        private string DebugString => fullName;
     }
 }

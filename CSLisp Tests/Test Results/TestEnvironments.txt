@@ -1,4 +1,4 @@
-TEST TestEnvironments : 10:01:49 PM
+TEST TestEnvironments
 test: got 2  - expected 2
 test: got 0  - expected 0
 test: got 1  - expected 1

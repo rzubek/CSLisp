@@ -143,17 +143,14 @@ namespace CSLisp.Core
         }
 
         /// <summary>
-        /// Returns public methods on a type that match a specific name and signature
+        /// Returns public methods on a type that match a specific name and signature.
         /// </summary>
-        public static MethodBase GetMethodByArgs (Type type, string name, object[] varargs) {
+        public static MethodBase GetMethodByArgs (Type type, string name, bool instanced, object[] varargs) {
             var varargTypes = varargs.Select(a => a?.GetType() ?? typeof(object)).ToArray();
-            var methods = GetInstanceMembers(type)
-                .OfType<MethodInfo>()
-                .Where(m => m.Name == name)
-                .ToArray();
+            var elements = instanced ? GetInstanceMembers(type) : GetStaticMembers(type);
+            var methods = elements.OfType<MethodInfo>().Where(m => m.Name == name).ToArray();
 
             var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.CreateInstance;
-
             var result = Type.DefaultBinder.SelectMethod(flags, methods, varargTypes, null);
 
             return result;
@@ -163,8 +160,9 @@ namespace CSLisp.Core
         /// Returns a public member field or property, suitable for setting or getting.
         /// In this iteration we don't support accessing non-public ones.
         /// <returns></returns>
-        public static MemberInfo GetMemberFieldOrProp (Type type, string member) {
-            var fields = GetInstanceMembers(type)
+        public static MemberInfo GetFieldOrProp (Type type, string member, bool instanced) {
+            var elements = instanced ? GetInstanceMembers(type) : GetStaticMembers(type);
+            var fields = elements
                 .Where(m => m.Name == member)
                 .Where(m => m is FieldInfo || m is PropertyInfo)
                 .ToArray(); // there should be at most one
