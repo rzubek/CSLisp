@@ -15980,28 +15980,8 @@ Executing:
 	0	CALL_PRIMOP	".new"
 	1	RETURN_VAL
 
-	CODE BLOCK ; core:find-type
-	0	CALL_PRIMOP	"find-type"
-	1	RETURN_VAL
-
-	CODE BLOCK ; core:find-method
-	0	CALL_PRIMOP	"find-method"
-	1	RETURN_VAL
-
-	CODE BLOCK ; core:find-member
-	0	CALL_PRIMOP	"find-member"
-	1	RETURN_VAL
-
-	CODE BLOCK ; core:call-method
-	0	CALL_PRIMOP	"call-method"
-	1	RETURN_VAL
-
-	CODE BLOCK ; core:get-member-value
-	0	CALL_PRIMOP	"get-member-value"
-	1	RETURN_VAL
-
-	CODE BLOCK ; core:set-member-value
-	0	CALL_PRIMOP	"set-member-value"
+	CODE BLOCK ; core:.!
+	0	CALL_PRIMOP	".!"
 	1	RETURN_VAL
 
 	CODE BLOCK ; core:make-vector

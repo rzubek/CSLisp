@@ -11,11 +11,12 @@ namespace CSLisp
 {
     public class TestClass
     {
-        public int MyIntField;
+        public int MyIntField = 42;
         public int MyIntGetter => MyIntField;
         public int MyIntProperty { get; set; }
 
-        public string MyStringField;
+        public string MyStringField = "hello";
+        public int MyFn (int x) => x + MyIntField;
     }
 
     namespace Inner
@@ -29,7 +30,7 @@ namespace CSLisp
                 set => StaticField = value;
             }
 
-            public static int StaticFn (int x) => x * 10;
+            public static int StaticFn (int x) => x + StaticField;
         }
     }
 
@@ -476,75 +477,75 @@ namespace CSLisp
             Context ctx = new Context(true, _logger);
 
             // test dot net interop
+
+            // constructors
+            CompileAndRun(ctx, "(.new (.. 'System.Random))", "[Native System.Random System.Random]");
+            CompileAndRun(ctx, "(.new (.. 'System.Random) 0)", "[Native System.Random System.Random]");
             CompileAndRun(ctx, "(.new 'System.Random)", "[Native System.Random System.Random]");
             CompileAndRun(ctx, "(.new 'System.Random 0)", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(.new (.. 'System.Random) 0)", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(.new (find-type 'System.Random))", "[Native System.Random System.Random]");
-            CompileAndRun(ctx, "(.new (find-type 'CSLisp.TestClass))", "[Native CSLisp.TestClass CSLisp.TestClass]");
-            CompileAndRun(ctx, "(.new (find-type 'CSLisp.TestStruct))", "[Native CSLisp.TestStruct CSLisp.TestStruct]");
 
-            CompileAndRun(ctx, "(..'CSLisp.Inner.TestInner.StaticField)", "42");
-            CompileAndRun(ctx, "(..'CSLisp.Inner.TestInner.StaticFn 2)", "20");
-            CompileAndRun(ctx, "(..(.new 'System.DateTime 1999 12 31) 'ToString)", "\"12/31/1999 12:00:00 AM\"");
-            CompileAndRun(ctx, "(..(.new 'System.DateTime 1999 12 31) 'ToString \"yyyy\")", "\"1999\"");
+            // field/property lookup and function calls
+            CompileAndRun(ctx, "(.. 'System.Random)", "[Native System.RuntimeType System.Random]");
+            CompileAndRun(ctx, "(.. \"foobar\" 'ToUpper)", "\"FOOBAR\"");
+            CompileAndRun(ctx, "(.. \"foobar\" 'ToUpper.Length)", "6");
+            CompileAndRun(ctx, "(.. 'System.Int32.Parse \"123\")", "123");
+            CompileAndRun(ctx, "(.. \"foobar\" 'ToUpper 'Substring 0 3 'IndexOf \"O\")", "1");
 
+            CompileAndRun(ctx, "(.. 'CSLisp.Inner.TestInner)", "[Native System.RuntimeType CSLisp.Inner.TestInner]");
+            CompileAndRun(ctx, "(.. 'CSLisp.Inner.TestInner.StaticField)", "42");
+            CompileAndRun(ctx, "(.. 'CSLisp.Inner.TestInner.StaticFn 10)", "52");
+            CompileAndRun(ctx, "(.. (.new 'System.DateTime 1999 12 31) 'ToString)", "\"12/31/1999 12:00:00 AM\"");
+            CompileAndRun(ctx, "(.. (.new 'System.DateTime 1999 12 31) 'ToString \"yyyy\")", "\"1999\"");
 
-
-
-            CompileAndRun(ctx, "(find-type 'System.Random)", "[Native System.RuntimeType System.Random]");
-            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntField)", "[Native System.Reflection.RtFieldInfo Int32 MyIntField]");
-            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntProperty)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntProperty]");
-            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'MyIntGetter)", "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]");
-            CompileAndRun(ctx, "(find-member 'CSLisp.TestClass 'DoesNotExist)", "()");
+            // field/property setters
             CompileAndRun(ctx,
-                "(let ((test (.new 'CSLisp.TestClass))) " +
-                "  (find-member test 'MyIntField))",
-                "[Native System.Reflection.RtFieldInfo Int32 MyIntField]");
-
-            CompileAndRun(ctx,
-                "(let ((test (.new 'CSLisp.TestClass))) " +
-                "  (find-member test 'MyIntGetter))",
-                "[Native System.Reflection.RuntimePropertyInfo Int32 MyIntGetter]");
+                "(let* ((test (.new 'CSLisp.TestClass))" +
+                "       (a (.. test 'MyIntField))" +
+                "       (b (.. test 'MyIntProperty))" +
+                "       (c (.. test 'MyStringField))" +
+                "       (d (.. test 'MyFn 10)))" +
+                "  (list a b c d))",
+                "(42 0 \"hello\" 52)");
 
             CompileAndRun(ctx,
                 "(let* ((test (.new 'CSLisp.TestClass))" +
-                "       (a (get-member-value test 'MyIntProperty))" +
-                "       (b (set-member-value test 'MyIntProperty 42))" +
-                "       (c (get-member-value test 'MyIntProperty)))" +
+                "       (a (.. test 'MyIntProperty))" +
+                "       (b (.! test 'MyIntProperty 42))" +
+                "       (c (.. test 'MyIntProperty)))" +
                 "  (list a b c))",
                 "(0 42 42)");
 
             CompileAndRun(ctx,
                 "(let* ((test (.new 'CSLisp.TestClass))" +
-                "       (a (get-member-value test 'MyIntField))" +
-                "       (b (set-member-value test 'MyIntField 42))" +
-                "       (c (get-member-value test 'MyIntGetter)))" +
+                "       (a (.. test 'MyIntField))" +
+                "       (b (.! test 'MyIntField 43))" +
+                "       (c (.. test 'MyIntGetter)))" +
                 "  (list a b c))",
-                "(0 42 42)");
+                "(42 43 43)");
 
             CompileAndRun(ctx,
                 "(let* ((test (.new 'CSLisp.TestStruct))" +
-                "       (a (get-member-value test 'MyIntField))" +
-                "       (b (set-member-value test 'MyIntField 42))" +
-                "       (c (get-member-value test 'MyIntGetter)))" +
+                "       (a (.. test 'MyIntField))" +
+                "       (b (.! test 'MyIntField 42))" +
+                "       (c (.. test 'MyIntGetter)))" +
                 "  (list a b c))",
                 "(0 42 42)");
 
-            CompileAndRun(ctx, "(find-method 'System.Random 'Next)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]");
-            CompileAndRun(ctx, "(find-method 'System.Random 'Next 1)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32)]");
-            CompileAndRun(ctx, "(find-method 'System.Random 'Next 1 32)", "[Native System.Reflection.RuntimeMethodInfo Int32 Next(Int32, Int32)]");
-            CompileAndRun(ctx,
-                "(let ((test (.new 'System.Random)) (name 'Next))" +
-                "  (find-method test name))",
-                "[Native System.Reflection.RuntimeMethodInfo Int32 Next()]");
-
-            CompileAndRun(ctx, "(call-method (.new 'System.Random 0) (find-method 'System.Random 'Next 1 32) 1 32)", "23");
+            // indexed getters/setters (e.g. on arrays or dictionaries)
 
             CompileAndRun(ctx,
-                "(letrec ((rng (.new 'System.Random 0))" +
-                "         (next (find-method rng 'Next 1 32))) " +
-                "  (call-method rng next 1 32))",
-                "23");
+                "(let* ((test (.new 'System.Collections.ArrayList 10)))" +
+                "   (.. test 'Add 42)" +
+                "   (.. test 'Item 0))",
+                "42");
+
+            CompileAndRun(ctx,
+                "(let* ((test (.new 'System.Collections.ArrayList 10)))" +
+                "   (.. test 'Add 42)" +
+                "   (.! test 'Item 0 43)" +
+                "   (.. test 'Item 0))",
+                "43");
+
 
             //DumpCodeBlocks(ctx);
         }

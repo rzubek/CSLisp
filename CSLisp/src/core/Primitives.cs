@@ -135,9 +135,11 @@ namespace CSLisp.Core
             // .net interop
 
             // generic dotdot function that reads fields/properties and calls functions
-            // (.. 'System.DateTime) => returns type
-            // (.. 'System.DateTime.Now) => returns value of the property
-            // (.. mydata 'ToString "D") => calls mydata.ToString("D") etc.
+            // (.. 'System.DateTime)     => returns type
+            // (.. 'System.DateTime.Now) => returns value of the property or field
+            // (.. mydata 'ToString "D") => calls mydata.ToString("D")
+            // (.. myarray 'Item 0)      => returns 0th item etc.
+            // (.. mydata 'ToString "D" 'Length 'ToString) => calls mydata.ToString("D").Length.ToString()
             new Primitive ("..", 1, new Function(Interop.DotDot), FnType.VarArgs, SideFx.Possible),
 
             // (.new 'System.DateTime 1999 12 31)
@@ -149,66 +151,24 @@ namespace CSLisp.Core
                 return Val.TryUnbox(TypeUtils.Instantiate(type, varargs));
             }), FnType.VarArgs, SideFx.Possible),
 
-            // (find-type 'System.Random)
-            // (find-type "System.Random")
-            new Primitive("find-type", 1, new Function((Context ctx, Val name) => {
-                string fullname = GetStringOrSymbolName(name);
-                return Val.TryUnbox(TypeUtils.GetType(fullname));
-            })),
-
-            // (find-method 'System.Random 'Next 1 2)
-            // (find-method "System.Random" "NextDouble")
-            // (find-method (find-type 'System.Random) 'Next)
-            // (find-method my-rng 'Next) etc
-            new Primitive("find-method", 2, new Function((Context ctx, VarArgs args) => {
-                var (type, member, varargs) = ParseArgsForMethodSearch(args);
-                if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
-
-                var method = TypeUtils.GetMethodByArgs(type, member, true, varargs);
-                return Val.TryUnbox(method);
-            }), FnType.VarArgs, SideFx.Possible),
-
-            // (find-member 'MyClass 'IntField)
-            // (find-method 'MyClass "IntField")
-            // (find-method my-class-instance 'IntField) etc
-            new Primitive("find-member", 2, new Function((Context ctx, VarArgs args) => {
-                var (type, member) = ParseArgsForMemberSearch(args);
-                if (type == null || string.IsNullOrEmpty(member)) { return Val.NIL; }
-
-                var method = TypeUtils.GetFieldOrProp(type, member, true);
-                return Val.TryUnbox(method);
-            })),
-
-            // (call-method (make-instance 'System.Random) (find-method 'System.Random 'Next 1 32) 1 32)
-            // (call-method my-rng (find-method rng 'Next 1 32) 1 32) etc
-            new Primitive ("call-method", 2, new Function((Context ctx, VarArgs args) => {
-                var (method, instance, varargs) = ParseArgsForMethodCall(args);
-
-                if (method == null) { return Val.NIL; }
-                var result = method.Invoke(instance, varargs);
-
-                return Val.TryUnbox(result);
-            }), FnType.VarArgs, SideFx.Possible),
-
-            // (get-member-value some-instance 'FieldName)
-            // (get-member-value some-instance "PropertyName") etc
-            new Primitive ("get-member-value", 2, new Function((Context ctx, VarArgs args) => {
-                var (instance, type, memberName, _) = ParseMemberFromInstance(args, false);
-
-                var member = TypeUtils.GetFieldOrProp(type, memberName, true);
-                var result = TypeUtils.GetValue(member, instance);
-                return Val.TryUnbox(result);
-            }), sideFx: SideFx.Possible),
-
-            // (set-member-value some-instance 'FieldName 42)
-            // (set-member-value some-instance "PropertyName" "hello") etc
-            new Primitive ("set-member-value", 3, new Function((Context ctx, VarArgs args) => {
-                var (instance, type, memberName, targetValue) = ParseMemberFromInstance(args, true);
+            // (.! some-instance 'FieldName 42)
+            new Primitive (".!", 3, new Function((Context ctx, VarArgs args) => {
+                var (instance, type, memberName, targetValue, _) = ParseSetterArgs(args, true);
 
                 var member = TypeUtils.GetFieldOrProp(type, memberName, true);
                 TypeUtils.SetValue(member, instance, targetValue.AsBoxedValue);
                 return targetValue;
             }), sideFx: SideFx.Possible),
+
+            // (.! some-instance 'Item 0 "hello") sets 0th item etc
+            new Primitive (".!", 4, new Function((Context ctx, VarArgs args) => {
+                var (instance, type, memberName, index, targetValue) = ParseSetterArgs(args, true);
+
+                var member = TypeUtils.GetFieldOrProp(type, memberName, true);
+                TypeUtils.SetValue(member, instance, targetValue.AsBoxedValue, new object[] { index.AsBoxedValue });
+                return targetValue;
+            }), sideFx: SideFx.Possible),
+
 
             //
             // constant-time vectors
@@ -494,16 +454,17 @@ namespace CSLisp.Core
         /// and parse the second arg as a member that's either a field or a property field.
         /// If the setter flag is set, it also parses out the third element as the new value.
         /// </summary>
-        private static (object instance, Type type, string member, Val third) ParseMemberFromInstance (VarArgs args, bool setter) {
+        private static (object instance, Type type, string member, Val third, Val fourth) ParseSetterArgs (VarArgs args, bool setter) {
             Cons list = args.cons;
             Val first = list?.first ?? Val.NIL;
             Val second = list?.second ?? Val.NIL;
             Val third = (setter && list != null) ? list.third : Val.NIL;
+            Val fourth = (setter && list != null && list.afterThird.IsNotNil) ? list.fourth : Val.NIL;
 
             var instance = first.AsBoxedValue;
             Type type = instance?.GetType();
             string member = GetStringOrSymbolName(second);
-            return (instance, type, member, third);
+            return (instance, type, member, third, fourth);
         }
 
         private static object[] TurnConsIntoBoxedArray (Val? cons) =>

@@ -138,6 +138,54 @@ Built-in primitives are very bare bones (for now):
     -  `for dotimes`
     -  `chain chain-list`
 
+
+### .NET INTEROP
+
+.NET interop is accomplished via several built-in primitive functions: 
+  - the `..` operator which uses reflection to dereference 
+    the methods/properties/fields by name, and then potentially call them 
+    or retrieve their values.
+  - the `.!` operator similar to `set!` which sets fields and properties
+  - the `.net` operator which creates new instances of types
+
+Interop is a work in progress, and you can find more details in the 
+[interop design.txt](interop design.txt) document. Meanwhile, here are some examples:
+
+```lisp
+;; simple lookups and function calls
+(.. 'System)                    ;; => object representing System namespace
+(.. 'System.DateTime)           ;; => object representing type DateTime
+(.. "foobar" 'Length)           ;; => 6
+(.. "foobar" 'ToUpper)          ;; => "FOOBAR"
+(.. 'System.Int32.Parse "123")  ;; => 123
+(.. 'System.DateTime.Now)       ;; => [new DateTime object]
+(.. (.new 'System.DateTime 1999 12 31) 'ToString "yyyy")    ;; => "1999"
+
+;; create an instance of a type
+(.new 'System.DateTime 2021 1 1)        ;; => [new DateTime object]
+(.new (.. 'System.DateTime) 2021 1 1)   ;; => [new DateTime object]
+
+;; set field or property
+(let ((array (.new 'System.Collections.ArrayList 10)))
+  (.! array 'Capacity 100)      ;; call setter on the Capacity property
+  array)                        ;; => array with capacity set to 100
+
+;; indexed getter and setter field or property
+;; uses the special Item property as defined by .Net
+(let ((array (.new 'System.Collections.ArrayList 10)))
+  (.. array 'Add 42)            ;; call array.Add(42)
+  (.! array 'Item 0 43)         ;; call indexed setter, i.e. array[0] = 43
+  (.. array 'Item 0))           ;; => 43, i.e. returns value of array[0]
+
+```
+
+In the near future we'll add an equivalent of `using` statements, 
+as well as some means for limiting which types and namespaces are accessible.
+
+
+
+### Other Scheme-like goodies
+
 ##### VECTORS
 
 *Vectors* are like .Net arrays, except they hold Lisp values and have a specific printed format. But similarly to arrays, they feature constant-time access to indexed members, and they're zero-indexed and non-resizable.
@@ -189,10 +237,9 @@ in terms of fields, field accessors, constructor, and predicate.
 
 - Fix bugs, add documentation (hah!)
 - Build out the standard library
-- Start on .NET interop 
-  - either via an easy FFI or via reflection (but with an eye on security)
+- Flesh out .NET interop 
+  - need to enable blocklisting/permlisting of namespaces and types for security purposes
   - reflection would benefit from type hints to avoid runtime inspection
-  - lots of interop work needed for things like collections etc
 - Peephole optimizer; also optimize execution of built-in primitives.
 - Add better debugging: trace function calls, their args and return values, etc
 
@@ -213,6 +260,8 @@ in terms of fields, field accessors, constructor, and predicate.
 
 Just a few examples of the bytecode produced by the compiler. More can be found 
 by running unit tests and inspecting their outputs - they are _quite_ verbose.
+
+Also, see [bytecode design.txt](bytecode design.txt) for more info.
 
 ```
 Inputs:  (+ 1 2)

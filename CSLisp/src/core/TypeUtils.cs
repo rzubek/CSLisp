@@ -91,16 +91,16 @@ namespace CSLisp.Core
         /// <summary>
         /// If the member is either a variable or a property, sets its value
         /// </summary>
-        public static void SetValue (MemberInfo member, object obj, object value) {
-            if (member is PropertyInfo prop) { prop.SetValue(obj, value, null); }
+        public static void SetValue (MemberInfo member, object obj, object value, object[] index = null) {
+            if (member is PropertyInfo prop) { prop.SetValue(obj, value, index); }
             if (member is FieldInfo field) { field.SetValue(obj, value); }
         }
 
         /// <summary>
         /// If the member is either a variable or a property, returns its value
         /// </summary>
-        public static object GetValue (MemberInfo member, object obj) =>
-            (member is PropertyInfo prop) ? prop.GetValue(obj, null) :
+        public static object GetValue (MemberInfo member, object obj, object[] index = null) =>
+            (member is PropertyInfo prop) ? prop.GetValue(obj, index) :
             (member is FieldInfo field) ? field.GetValue(obj) :
             null;
 

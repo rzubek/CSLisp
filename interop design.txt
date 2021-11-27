@@ -3,8 +3,6 @@
 In current design, interop is done mainly via runtime reflection,
 without any specialization or optimization happening at compile time.
 
-THE FOLLOWING IS NOT YET IMPLEMENTED
-
 
 ## `dotdot` operator
 
@@ -41,13 +39,14 @@ All .net interop functions are also prefixed with `.`, e.g. `.new`
 
 ;; set field or property
 (let ((array (.new 'System.Collections.ArrayList 10)))
-  (.set! array 'Capacity 100)
+  (.! array 'Capacity 100)
   array)                                ;; => array with capacity of 100
 
 ;; indexed getter and setter field or property
+;; uses the special Item property as defined by .Net
 (let ((array (.new 'System.Collections.ArrayList 10)))
-  (.set! array 0 42)
-  (.. array 0))                         ;; => 42
+  (.! array 'Item 0 42)
+  (.. array 'Item 0))                   ;; => 42
 ```
 
 
@@ -73,7 +72,7 @@ so that function calls can be inlined like so:
 
 ```
 (.. "foobar" 'ToUpper 'Substring 0 3)                ;; => FOO
-(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "o")   ;; => 1
+(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "F")   ;; => 0
 ```
 
 #### How this works
@@ -83,14 +82,14 @@ symbols with dots inside them into separate ones. Second, it consumes those symb
 in order, also pulling in non-symbol elements as function call arguments. For example:
 
 ```
-(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "o")   
+(.. "foobar" 'ToUpper 'Substring 0 3 'IndexOf "F")   
  -->
 
-C#:
+C# pseudocode:
 var x1 = "foobar";
 var x2 = x1.ToUpper();
 var x3 = x2.Substring(0, 3);
-var x4 = x3.IndexOf("o");
+var x4 = x3.IndexOf("F");
 return x4;
 ```
 

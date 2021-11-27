@@ -155,17 +155,17 @@ namespace CSLisp.Core
         }
 
 
-        private static object LookupStaticFieldOrProp (MemberInfo fieldOrProp) =>
+        private static object LookupStaticFieldOrProp (MemberInfo fieldOrProp, object[] args = null) =>
             fieldOrProp switch {
                 FieldInfo fi => fi.GetValue(null),
-                PropertyInfo pi => pi.GetValue(null, BindingFlags.Instance, null, null, null),
+                PropertyInfo pi => pi.GetValue(null, BindingFlags.Static, null, args, null),
                 _ => throw new InteropError($"Unknown type of {fieldOrProp}"),
             };
 
-        private static object LookupInstanceFieldOrProp (MemberInfo fieldOrProp, object instance) =>
+        private static object LookupInstanceFieldOrProp (MemberInfo fieldOrProp, object instance, object[] args = null) =>
             fieldOrProp switch {
                 FieldInfo fi => fi.GetValue(instance),
-                PropertyInfo pi => pi.GetValue(instance, BindingFlags.Instance, null, null, null),
+                PropertyInfo pi => pi.GetValue(instance, BindingFlags.Instance, null, args, null),
                 _ => throw new InteropError($"Unknown type of {fieldOrProp}"),
             };
 
@@ -176,17 +176,16 @@ namespace CSLisp.Core
             if (instance == null) { throw new InteropError($"Unexpected null value before {name}"); }
 
             var type = instance.GetType();
+            var args = nonSymbols.Select(v => v.AsBoxedValue).ToArray();
 
             // is this an instance field or property? look up its value
             var fieldOrProp = TypeUtils.GetFieldOrProp(type, name.name, true);
             if (fieldOrProp != null) {
-                if (nonSymbols.Count > 0) { throw new InteropError($"Unexpected non-symbols following {type} {name}"); }
-                object result = LookupInstanceFieldOrProp(fieldOrProp, instance);
+                object result = LookupInstanceFieldOrProp(fieldOrProp, instance, args);
                 return Val.TryUnbox(result);
             }
 
             // is this an instance function? see if we can call it with the args
-            var args = nonSymbols.Select(v => v.AsBoxedValue).ToArray();
             var fn = TypeUtils.GetMethodByArgs(type, name.name, true, args);
             if (fn != null) {
                 object result = fn.Invoke(instance, BindingFlags.Instance, null, args, null);
